@@ -1,0 +1,11 @@
+ChameleonWindow responsibilities
+--------------------------------
+App creation / initialization
+Menu events
+Find/Replace
+Project tree events
+Debug events
+Options initialization
+Editor file management (files, tabs, etc)
+UI updates (status bar, buttons, etc)
+Printing

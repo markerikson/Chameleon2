@@ -1,0 +1,1 @@
+Edit this file and check it back in to verify that your SVN connection is working properly.
