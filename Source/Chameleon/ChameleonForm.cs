@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ScintillaNet;
+using ScintillaNet.Configuration;
+using System.IO;
 
 namespace Chameleon
 {
@@ -15,6 +17,17 @@ namespace Chameleon
 		public ChameleonForm()
 		{
 			InitializeComponent();
+			
+			editor1.SetDefaultEditorStyles();
+
+			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
+			if(File.Exists(testSourcePath))
+			{
+				string source = File.ReadAllText(testSourcePath);
+				editor1.Text = source;
+			}
 		}
+
+		
 	}
 }

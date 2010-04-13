@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScintillaNET>
+	<Language Name="cpp">
+		<AutoComplete FillUpCharacters=".([" SingleLineAccept="True" IsCaseSensitive="False">
+			<List>
+				abstract as base break case catch checked continue default delegate do else event explicit extern
+				false finally fixed for foreach goto if implicit in interface internal is lock namespace new null
+				object operator out override params private protected public readonly ref return sealed sizeof
+				stackalloc switch this throw true try typeof unchecked unsafe using virtual while bool byte char
+				class const decimal double enum float int long sbyte short static string struct uint ulong ushort void
+			</List>
+		</AutoComplete>
+
+		<Indentation TabWidth="4" SmartIndentType="cpp" />
+
+
+		<Lexer LineCommentPrefix="//" StreamCommentPrefix="/* " StreamCommentSuffix=" /*" >
+			<Keywords List="0" Inherit="False">
+				and and_eq asm auto bitand bitor bool break
+				case catch char class compl const const_cast continue
+				default delete do double dynamic_cast else enum explicit export extern false float for
+				friend goto if inline int long mutable namespace new not not_eq
+				operator or or_eq private protected public
+				register reinterpret_cast return short signed sizeof static static_cast struct switch
+				template this throw true try typedef typeid typename union unsigned using
+				virtual void volatile wchar_t while xor xor_eq
+			</Keywords>
+			<Keywords List="1" Inherit="False">
+				bool byte char class const  double enum float int long 
+				short static string struct uint ulong ushort void
+			</Keywords>
+		</Lexer>
+
+		<Snippets>
+
+			<Snippet Shortcut="~">
+				~$classname$()
+				{
+				$end$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="f" IsSurroundsWith="True">
+				for (int $i$ = $0$; $i$ &lt; $max$; $i$++)
+				{
+				$selected$$end$
+				}$DropMarker$
+			</Snippet>
+
+			<Snippet Shortcut="do" IsSurroundsWith="true">
+				do
+				{
+				$end$$selected$
+				} while ($expression$);
+				$DropMarker$
+			</Snippet>
+
+			<Snippet Shortcut="namespace" IsSurroundsWith="true">
+				namespace $name$
+				{
+				$end$$selected$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="struct" IsSurroundsWith="true">
+				struct $name$
+				{
+				$selected$$end$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="switch" IsSurroundsWith="false">
+				switch ($expression$)
+				{
+				$cases$
+				}$end$
+			</Snippet>
+
+			<Snippet Shortcut="w" IsSurroundsWith="true">
+				while ($expression$)
+				{
+				$end$$selected$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="l" IsSurroundsWith="true">
+				else
+				$anchor$$selected$$caret$
+			</Snippet>
+
+			<Snippet Shortcut="lb" IsSurroundsWith="true">
+				else
+				{
+				$anchor$$selected$$caret$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="enum" IsSurroundsWith="false">
+				enum $name$
+				{
+				$end$
+				}
+			</Snippet>
+
+
+			<Snippet Shortcut="if" IsSurroundsWith="true">
+				if ($end$)
+				$DropMarker$$selected$
+			</Snippet>
+			<Snippet Shortcut="ifb" IsSurroundsWith="true">
+				if ($end$)
+				{
+				$DropMarker$$selected$
+				}
+			</Snippet>
+			<Snippet Shortcut="b" IsSurroundsWith="true">
+				{
+				$end$$selected$
+				}
+			</Snippet>
+
+
+
+		</Snippets>
+	</Language>
+</ScintillaNET>
