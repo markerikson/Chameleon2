@@ -17,16 +17,32 @@ namespace Chameleon
 		public ChameleonForm()
 		{
 			InitializeComponent();
-			
-			editor1.SetDefaultEditorStyles();
+
+			btnNewFile.Click += new EventHandler(OnNewFile);
+
 
 			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
 			if(File.Exists(testSourcePath))
 			{
 				string source = File.ReadAllText(testSourcePath);
-				editor1.Text = source;
+				m_editors.CurrentEditor.Text = source;
 			}
+			/*
+			editor1.SetDefaultEditorStyles();
+
+			
+			*/
+			
 		}
+
+		void OnNewFile(object sender, EventArgs e)
+		{
+			m_editors.NewFile();
+		}
+
+
+
+		
 
 		
 	}

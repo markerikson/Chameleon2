@@ -7,18 +7,34 @@ using System.Drawing;
 
 namespace Chameleon.GUI
 {
-	class ChameleonEditor : Scintilla
+	public class ChameleonEditor : Scintilla
 	{
+		private string m_filename;
+
+
+		public string Filename
+		{
+			get { return m_filename; }
+			set { m_filename = value; }
+		}
+
 		public ChameleonEditor()
 		{
 			//SetDefaultEditorStyles();
+			Filename = "";
+			
 		}
 
 		public void SetDefaultEditorStyles()
 		{
 			this.ConfigurationManager.Language = "cpp";
 
+			Styles.ClearAll();
+
 			IsBraceMatching = true;
+
+			Margins.Margin0.Type = MarginType.Number;
+			Margins.Margin0.Width = 40;
 
 
 			Styles.Default.FontName = "Courier New";
