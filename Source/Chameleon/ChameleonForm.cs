@@ -14,6 +14,13 @@ namespace Chameleon
 {
 	public partial class ChameleonForm : Form
 	{
+		private static bool m_appClosing = false;
+
+		public static bool AppClosing
+		{
+			get { return m_appClosing; }
+		}
+
 		public ChameleonForm()
 		{
 			InitializeComponent();

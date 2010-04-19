@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PSTaskDialog">
+      <HintPath>DLLs\PSTaskDialog.dll</HintPath>
+    </Reference>
     <Reference Include="ScintillaNet, Version=2.2.3753.37361, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL">
       <HintPath>DLLs\ScintillaNet.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -51,9 +54,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="TabStrip">
       <HintPath>DLLs\TabStrip.dll</HintPath>
-    </Reference>
-    <Reference Include="TaskDialog">
-      <HintPath>DLLs\TaskDialog.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +104,7 @@
   <ItemGroup>
     <Content Include="ConfigCPP.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="DLLs\SciLexer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

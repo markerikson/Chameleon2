@@ -7,10 +7,24 @@ using System.Drawing;
 
 namespace Chameleon.GUI
 {
+	public enum FileLocation
+	{
+		Local,
+		Remote,
+		Unknown
+	}
+
 	public class ChameleonEditor : Scintilla
 	{
 		private string m_filename;
+		private FileLocation m_location;
+		
 
+		public Chameleon.GUI.FileLocation Location
+		{
+			get { return m_location; }
+			set { m_location = value; }
+		}
 
 		public string Filename
 		{
@@ -22,6 +36,7 @@ namespace Chameleon.GUI
 		{
 			//SetDefaultEditorStyles();
 			Filename = "";
+			Location = FileLocation.Unknown;
 			
 		}
 
@@ -74,6 +89,15 @@ namespace Chameleon.GUI
 
 			// secondary keywords are bright green for now
 			Styles[16].ForeColor = Color.FromArgb(0, 255, 0);
+		}
+
+		public void ResetEditor()
+		{
+			Text = string.Empty;
+			m_filename = string.Empty;
+			m_location = FileLocation.Unknown;
+			this.IsReadOnly = false;
+			this.UndoRedo.EmptyUndoBuffer();
 		}
 	}
 }
