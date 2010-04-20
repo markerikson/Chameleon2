@@ -14,7 +14,7 @@
 		<Indentation TabWidth="4" SmartIndentType="cpp" />
 
 
-		<Lexer LineCommentPrefix="//" StreamCommentPrefix="/* " StreamCommentSuffix=" /*" >
+		<Lexer LexerName="cpp" LineCommentPrefix="//" StreamCommentPrefix="/* " StreamCommentSuffix=" /*" >
 			<Keywords List="0" Inherit="False">
 				and and_eq asm auto bitand bitor bool break
 				case catch char class compl const const_cast continue

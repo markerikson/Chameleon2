@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ScintillaNet;
 using ScintillaNet.Configuration;
 using System.IO;
+using Chameleon.GUI;
 
 namespace Chameleon
 {
@@ -33,18 +34,27 @@ namespace Chameleon
 			{
 				string source = File.ReadAllText(testSourcePath);
 				m_editors.CurrentEditor.Text = source;
-			}
-			/*
-			editor1.SetDefaultEditorStyles();
-
-			
-			*/
-			
+			}		
 		}
 
 		void OnNewFile(object sender, EventArgs e)
 		{
 			m_editors.NewFile();
+		}
+
+		private void menuHelpAbout_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Chameleon 2.0 alpha 0.0001");
+		}
+
+		private void menuFileOpenLocal_Click(object sender, EventArgs e)
+		{
+			m_editors.OpenFile(FileLocation.Local);
+		}
+
+		private void menuFileOpenRemote_Click(object sender, EventArgs e)
+		{
+			m_editors.OpenFile(FileLocation.Remote);
 		}
 
 

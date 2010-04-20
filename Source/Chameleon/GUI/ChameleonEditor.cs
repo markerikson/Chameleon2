@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using ScintillaNet;
 using System.Drawing;
+using System.IO;
+using FarsiLibrary.Win;
 
 namespace Chameleon.GUI
 {
@@ -14,29 +16,58 @@ namespace Chameleon.GUI
 		Unknown
 	}
 
-	public class ChameleonEditor : Scintilla
+	public class FileInformation
 	{
+		private FileLocation m_location;		
 		private string m_filename;
-		private FileLocation m_location;
-		
-
-		public Chameleon.GUI.FileLocation Location
-		{
-			get { return m_location; }
-			set { m_location = value; }
-		}
 
 		public string Filename
 		{
 			get { return m_filename; }
 			set { m_filename = value; }
 		}
+		public Chameleon.GUI.FileLocation Location
+		{
+			get { return m_location; }
+			set { m_location = value; }
+		}
+
+		public FileInformation()
+		{
+			m_location = FileLocation.Unknown;
+			m_filename = "";
+		}
+	}
+
+	public class ChameleonEditor : Scintilla
+	{
+		private FileInformation m_fileInfo;
+		private FATabStripItem m_parentTab;
+
+		public FATabStripItem ParentTab
+		{
+			get { return m_parentTab; }
+			set { m_parentTab = value; }
+		}		
+
+		public Chameleon.GUI.FileLocation FileLocation
+		{
+			get { return m_fileInfo.Location; }
+			set { m_fileInfo.Location = value; }
+		}
+
+		public string Filename
+		{
+			get { return m_fileInfo.Filename; }
+			set { m_fileInfo.Filename = value; }
+		}
 
 		public ChameleonEditor()
 		{
 			//SetDefaultEditorStyles();
+			m_fileInfo = new FileInformation();
 			Filename = "";
-			Location = FileLocation.Unknown;
+			FileLocation = FileLocation.Unknown;
 			
 		}
 
@@ -94,10 +125,39 @@ namespace Chameleon.GUI
 		public void ResetEditor()
 		{
 			Text = string.Empty;
-			m_filename = string.Empty;
-			m_location = FileLocation.Unknown;
+			Filename = string.Empty;
+			FileLocation = FileLocation.Unknown;
 			this.IsReadOnly = false;
 			this.UndoRedo.EmptyUndoBuffer();
+		}
+
+		public void LoadFileText(FileInformation fileInfo, string text)
+		{
+			ResetEditor();
+			this.Text = text;
+			this.Filename = fileInfo.Filename;
+			this.FileLocation = fileInfo.Location;
+
+			string filename = Path.GetFileName(this.Filename);
+
+			string indicator = (this.FileLocation == FileLocation.Local) ? "L" : "R";
+
+			string tabText = string.Format("({0}) {1}", indicator, filename);
+			m_parentTab.Title = tabText;
+
+
+			// do stuff with EOL here?
+
+			UndoRedo.EmptyUndoBuffer();
+
+		}
+
+		public bool HasBeenSaved()
+		{
+			bool realFilename = (m_fileInfo.Filename.IndexOf("<untitled>") == -1);
+			bool realLocation = (m_fileInfo.Location != FileLocation.Unknown);
+
+			return realFilename && realLocation;
 		}
 	}
 }

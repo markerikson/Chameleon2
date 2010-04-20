@@ -31,11 +31,16 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuFileOpenLocal = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuFileOpenRemote = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuFileExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.menuStrip1.SuspendLayout();
@@ -62,21 +67,48 @@
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
-			// toolStrip1
-			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNewFile});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(624, 25);
-			this.toolStrip1.TabIndex = 3;
-			this.toolStrip1.Text = "toolStrip1";
-			// 
 			// menuFile
 			// 
+			this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.menuFileOpenLocal,
+            this.menuFileOpenRemote,
+            this.toolStripMenuItem1,
+            this.menuFileExit});
 			this.menuFile.Name = "menuFile";
 			this.menuFile.Size = new System.Drawing.Size(37, 20);
 			this.menuFile.Text = "File";
+			// 
+			// newToolStripMenuItem
+			// 
+			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+			this.newToolStripMenuItem.Text = "New";
+			// 
+			// menuFileOpenLocal
+			// 
+			this.menuFileOpenLocal.Name = "menuFileOpenLocal";
+			this.menuFileOpenLocal.Size = new System.Drawing.Size(155, 22);
+			this.menuFileOpenLocal.Text = "Open (Local)";
+			this.menuFileOpenLocal.Click += new System.EventHandler(this.menuFileOpenLocal_Click);
+			// 
+			// menuFileOpenRemote
+			// 
+			this.menuFileOpenRemote.Name = "menuFileOpenRemote";
+			this.menuFileOpenRemote.Size = new System.Drawing.Size(155, 22);
+			this.menuFileOpenRemote.Text = "Open (Remote)";
+			this.menuFileOpenRemote.Click += new System.EventHandler(this.menuFileOpenRemote_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
+			// 
+			// menuFileExit
+			// 
+			this.menuFileExit.Name = "menuFileExit";
+			this.menuFileExit.Size = new System.Drawing.Size(155, 22);
+			this.menuFileExit.Text = "Exit";
 			// 
 			// menuEdit
 			// 
@@ -95,8 +127,19 @@
 			// menuHelpAbout
 			// 
 			this.menuHelpAbout.Name = "menuHelpAbout";
-			this.menuHelpAbout.Size = new System.Drawing.Size(152, 22);
+			this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
 			this.menuHelpAbout.Text = "About";
+			this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnNewFile});
+			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.Size = new System.Drawing.Size(624, 25);
+			this.toolStrip1.TabIndex = 3;
+			this.toolStrip1.Text = "toolStrip1";
 			// 
 			// btnNewFile
 			// 
@@ -147,6 +190,11 @@
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton btnNewFile;
 		private GUI.EditorContainer m_editors;
+		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem menuFileOpenLocal;
+		private System.Windows.Forms.ToolStripMenuItem menuFileOpenRemote;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem menuFileExit;
 	}
 }
 

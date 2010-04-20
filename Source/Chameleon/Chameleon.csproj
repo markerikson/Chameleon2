@@ -102,10 +102,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConfigCPP.xml">
+    <EmbeddedResource Include="ConfigCPP.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
     <Content Include="DLLs\SciLexer.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
