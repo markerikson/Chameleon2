@@ -43,6 +43,10 @@
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.m_editors = new Chameleon.GUI.EditorContainer();
+			this.menuFileSave = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuFileSaveAsLocal = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuFileSaveAsRemote = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -74,6 +78,10 @@
             this.menuFileOpenLocal,
             this.menuFileOpenRemote,
             this.toolStripMenuItem1,
+            this.menuFileSave,
+            this.menuFileSaveAsLocal,
+            this.menuFileSaveAsRemote,
+            this.toolStripMenuItem2,
             this.menuFileExit});
 			this.menuFile.Name = "menuFile";
 			this.menuFile.Size = new System.Drawing.Size(37, 20);
@@ -82,32 +90,32 @@
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
 			this.newToolStripMenuItem.Text = "New";
 			// 
 			// menuFileOpenLocal
 			// 
 			this.menuFileOpenLocal.Name = "menuFileOpenLocal";
-			this.menuFileOpenLocal.Size = new System.Drawing.Size(155, 22);
+			this.menuFileOpenLocal.Size = new System.Drawing.Size(166, 22);
 			this.menuFileOpenLocal.Text = "Open (Local)";
 			this.menuFileOpenLocal.Click += new System.EventHandler(this.menuFileOpenLocal_Click);
 			// 
 			// menuFileOpenRemote
 			// 
 			this.menuFileOpenRemote.Name = "menuFileOpenRemote";
-			this.menuFileOpenRemote.Size = new System.Drawing.Size(155, 22);
+			this.menuFileOpenRemote.Size = new System.Drawing.Size(166, 22);
 			this.menuFileOpenRemote.Text = "Open (Remote)";
 			this.menuFileOpenRemote.Click += new System.EventHandler(this.menuFileOpenRemote_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(163, 6);
 			// 
 			// menuFileExit
 			// 
 			this.menuFileExit.Name = "menuFileExit";
-			this.menuFileExit.Size = new System.Drawing.Size(155, 22);
+			this.menuFileExit.Size = new System.Drawing.Size(166, 22);
 			this.menuFileExit.Text = "Exit";
 			// 
 			// menuEdit
@@ -158,6 +166,32 @@
 			this.m_editors.Size = new System.Drawing.Size(624, 371);
 			this.m_editors.TabIndex = 4;
 			// 
+			// menuFileSave
+			// 
+			this.menuFileSave.Name = "menuFileSave";
+			this.menuFileSave.Size = new System.Drawing.Size(166, 22);
+			this.menuFileSave.Text = "Save File";
+			this.menuFileSave.Click += new System.EventHandler(this.menuFileSave_Click);
+			// 
+			// menuFileSaveAsLocal
+			// 
+			this.menuFileSaveAsLocal.Name = "menuFileSaveAsLocal";
+			this.menuFileSaveAsLocal.Size = new System.Drawing.Size(166, 22);
+			this.menuFileSaveAsLocal.Text = "Save As (Local)";
+			this.menuFileSaveAsLocal.Click += new System.EventHandler(this.menuFileSaveAsLocal_Click);
+			// 
+			// menuFileSaveAsRemote
+			// 
+			this.menuFileSaveAsRemote.Name = "menuFileSaveAsRemote";
+			this.menuFileSaveAsRemote.Size = new System.Drawing.Size(166, 22);
+			this.menuFileSaveAsRemote.Text = "Save As (Remote)";
+			this.menuFileSaveAsRemote.Click += new System.EventHandler(this.menuFileSaveAsRemote_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(163, 6);
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -195,6 +229,10 @@
 		private System.Windows.Forms.ToolStripMenuItem menuFileOpenRemote;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem menuFileExit;
+		private System.Windows.Forms.ToolStripMenuItem menuFileSave;
+		private System.Windows.Forms.ToolStripMenuItem menuFileSaveAsLocal;
+		private System.Windows.Forms.ToolStripMenuItem menuFileSaveAsRemote;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 	}
 }
 

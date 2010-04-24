@@ -57,6 +57,24 @@ namespace Chameleon
 			m_editors.OpenFile(FileLocation.Remote);
 		}
 
+		private void menuFileSave_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor editor = m_editors.CurrentEditor;
+			m_editors.SaveFile(editor, editor.FileLocation, false, true);
+		}
+
+		private void menuFileSaveAsLocal_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor editor = m_editors.CurrentEditor;
+			m_editors.SaveFile(editor, FileLocation.Local, true, false);
+		}
+
+		private void menuFileSaveAsRemote_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor editor = m_editors.CurrentEditor;
+			m_editors.SaveFile(editor, FileLocation.Remote, true, false);
+		}
+
 
 
 		

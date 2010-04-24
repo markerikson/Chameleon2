@@ -55,6 +55,9 @@
     <Reference Include="TabStrip">
       <HintPath>DLLs\TabStrip.dll</HintPath>
     </Reference>
+    <Reference Include="wwAppConfiguration">
+      <HintPath>DLLs\wwAppConfiguration.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChameleonForm.cs">

@@ -24,12 +24,16 @@ namespace Chameleon.GUI
 		public string Filename
 		{
 			get { return m_filename; }
-			set { m_filename = value; }
+			set 
+			{ 
+				m_filename = value; 
+			}
 		}
 		public Chameleon.GUI.FileLocation Location
 		{
 			get { return m_location; }
-			set { m_location = value; }
+			set 
+			{ m_location = value; }
 		}
 
 		public FileInformation()
@@ -44,6 +48,16 @@ namespace Chameleon.GUI
 		private FileInformation m_fileInfo;
 		private FATabStripItem m_parentTab;
 
+		private static Dictionary<FileLocation, string> m_titlePrefixes;
+
+		static ChameleonEditor()
+		{
+			m_titlePrefixes = new Dictionary<FileLocation, string>();
+			m_titlePrefixes[FileLocation.Local] = "(L) ";
+			m_titlePrefixes[FileLocation.Remote] = "(R) ";
+			m_titlePrefixes[FileLocation.Unknown] = "(?) ";
+		}
+
 		public FATabStripItem ParentTab
 		{
 			get { return m_parentTab; }
@@ -53,13 +67,22 @@ namespace Chameleon.GUI
 		public Chameleon.GUI.FileLocation FileLocation
 		{
 			get { return m_fileInfo.Location; }
-			set { m_fileInfo.Location = value; }
+			set 
+			{ 
+				m_fileInfo.Location = value;
+
+				UpdateTitleText();
+			}
 		}
 
 		public string Filename
 		{
 			get { return m_fileInfo.Filename; }
-			set { m_fileInfo.Filename = value; }
+			set 
+			{ 
+				m_fileInfo.Filename = value;
+				UpdateTitleText();
+			}
 		}
 
 		public ChameleonEditor()
@@ -68,7 +91,57 @@ namespace Chameleon.GUI
 			m_fileInfo = new FileInformation();
 			Filename = "";
 			FileLocation = FileLocation.Unknown;
+
+			this.ModifiedChanged += new EventHandler(OnEditorModifiedChanged);
+
 			
+		}
+
+		private void UpdateTitleText()
+		{
+			if(m_parentTab != null)
+			{
+				FileInformation fi = m_fileInfo;
+				string prefix = m_titlePrefixes[fi.Location];
+
+				string fileNameOnly = "";
+
+				if(fi.Filename.IndexOf("<untitled>") > -1)
+				{
+					fileNameOnly = fi.Filename;
+				}
+				else
+				{
+					fileNameOnly = Path.GetFileName(fi.Filename);
+				}
+				
+				m_parentTab.Title = prefix + fileNameOnly;
+			}
+		}
+
+		private void OnEditorModifiedChanged(object sender, EventArgs e)
+		{
+			ChameleonEditor editor = sender as ChameleonEditor;
+
+			if(m_parentTab != null)
+			{
+				FATabStripItem tab = m_parentTab;
+
+				string tabText = tab.Title;
+
+				if(editor.Modified)
+				{
+					if(!tabText.EndsWith(" *"))
+						tabText += " *";
+				}
+				else
+				{
+					if(tabText.EndsWith(" *"))
+						tabText = tabText.Substring(0, tabText.Length - 2);
+				}
+
+				tab.Title = tabText;
+			}
 		}
 
 		public void SetDefaultEditorStyles()
@@ -158,6 +231,14 @@ namespace Chameleon.GUI
 			bool realLocation = (m_fileInfo.Location != FileLocation.Unknown);
 
 			return realFilename && realLocation;
+		}
+
+		public void SetFileSaved(string filename, FileLocation location)
+		{
+			UndoRedo.EmptyUndoBuffer();
+			this.FileLocation = location;
+			this.Filename = filename;
+			this.Modified = false;
 		}
 	}
 }
