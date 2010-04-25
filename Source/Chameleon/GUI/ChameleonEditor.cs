@@ -6,6 +6,7 @@ using ScintillaNet;
 using System.Drawing;
 using System.IO;
 using FarsiLibrary.Win;
+using Chameleon.Util;
 
 namespace Chameleon.GUI
 {
@@ -19,9 +20,9 @@ namespace Chameleon.GUI
 	public class FileInformation
 	{
 		private FileLocation m_location;		
-		private string m_filename;
+		private FilePath m_filename;
 
-		public string Filename
+		public FilePath Filename
 		{
 			get { return m_filename; }
 			set 
@@ -39,7 +40,7 @@ namespace Chameleon.GUI
 		public FileInformation()
 		{
 			m_location = FileLocation.Unknown;
-			m_filename = "";
+			m_filename = new FilePath();
 		}
 	}
 
@@ -77,10 +78,20 @@ namespace Chameleon.GUI
 
 		public string Filename
 		{
-			get { return m_fileInfo.Filename; }
+			get { return m_fileInfo.Filename.GetFullPath(); }
 			set 
 			{ 
-				m_fileInfo.Filename = value;
+				PathFormat pathFormat;
+
+				if(m_fileInfo.Location == FileLocation.Local)
+				{
+					pathFormat = PathFormat.Windows;
+				}
+				else
+				{
+					pathFormat = PathFormat.Unix;
+				}
+				m_fileInfo.Filename.Assign(value, pathFormat);
 				UpdateTitleText();
 			}
 		}
@@ -104,18 +115,7 @@ namespace Chameleon.GUI
 				FileInformation fi = m_fileInfo;
 				string prefix = m_titlePrefixes[fi.Location];
 
-				string fileNameOnly = "";
-
-				if(fi.Filename.IndexOf("<untitled>") > -1)
-				{
-					fileNameOnly = fi.Filename;
-				}
-				else
-				{
-					fileNameOnly = Path.GetFileName(fi.Filename);
-				}
-				
-				m_parentTab.Title = prefix + fileNameOnly;
+				m_parentTab.Title = prefix + fi.Filename.FullName;
 			}
 		}
 
@@ -208,7 +208,7 @@ namespace Chameleon.GUI
 		{
 			ResetEditor();
 			this.Text = text;
-			this.Filename = fileInfo.Filename;
+			m_fileInfo.Filename.Assign(fileInfo.Filename);
 			this.FileLocation = fileInfo.Location;
 
 			string filename = Path.GetFileName(this.Filename);
@@ -218,7 +218,6 @@ namespace Chameleon.GUI
 			string tabText = string.Format("({0}) {1}", indicator, filename);
 			m_parentTab.Title = tabText;
 
-
 			// do stuff with EOL here?
 
 			UndoRedo.EmptyUndoBuffer();
@@ -227,7 +226,8 @@ namespace Chameleon.GUI
 
 		public bool HasBeenSaved()
 		{
-			bool realFilename = (m_fileInfo.Filename.IndexOf("<untitled>") == -1);
+			string filename = m_fileInfo.Filename.FullName;
+			bool realFilename = (filename.IndexOf("<untitled>") == -1);
 			bool realLocation = (m_fileInfo.Location != FileLocation.Unknown);
 
 			return realFilename && realLocation;

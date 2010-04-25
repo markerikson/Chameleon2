@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using FarsiLibrary.Win;
 using PSTaskDialog;
 using ScintillaNet.Configuration;
+using Chameleon.Util;
+using System.Drawing;
 
 namespace Chameleon.GUI
 {
@@ -38,6 +40,7 @@ namespace Chameleon.GUI
 		private ChameleonEditor m_currentEditor;
 		private bool m_closingTab;
 
+		private ToolTip m_tooltip;
 		
 		private static string m_fileFilter;
 
@@ -82,10 +85,14 @@ namespace Chameleon.GUI
 
 			m_closingTab = false;
 
+			m_tooltip = new ToolTip();
+			m_tooltip.SetToolTip(m_tabStrip, "Testing");
+			m_tooltip.Popup += new PopupEventHandler(OnTooltipPopup);
+
 			m_fileNum = 0;
 			NewFile();
 		}
-
+		
 		public static string GetResource(string resourceName)
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
@@ -111,6 +118,105 @@ namespace Chameleon.GUI
 			ChameleonEditor editor = m_tabsToEditors[e.Item];
 			CloseFile(editor);
 		}
+
+		void OnTooltipPopup(object sender, PopupEventArgs e)
+		{
+			Point translated = m_tabStrip.PointToClient(Cursor.Position);
+			FATabStripItem tab = m_tabStrip.GetTabItemByPoint(translated);
+
+			if(tab != null)
+			{
+				ChameleonEditor editor = m_tabsToEditors[tab];
+				m_tooltip.SetToolTip(m_tabStrip, editor.Filename);
+			}
+		}
+
+		private void OnSelectedTabChanged(TabStripItemChangedEventArgs e)
+		{
+			m_currentEditor = m_tabsToEditors[e.Item];
+		}
+
+		private void SelectEditor(ChameleonEditor editor)
+		{
+			FATabStripItem tab = m_editorsToTabs[editor];
+			m_tabStrip.SelectedItem = tab;
+			editor.Focus();
+			m_currentEditor = editor;
+		}
+
+		
+			
+
+		public void NewFile()
+		{
+			m_fileNum++;
+
+			string newFileTitle = string.Format("<untitled> {0}", m_fileNum);
+
+			ChameleonEditor editor = new ChameleonEditor();
+
+			// load up our saved CPP config from the embedded resource and
+			// tell the editor to use those settings
+			string cppConfigXML = GetResource("Chameleon.ConfigCPP.xml");
+			TextReader tr = new StringReader(cppConfigXML);
+			Configuration config = new Configuration(tr, "cpp");
+			editor.ConfigurationManager.Configure(config);
+			
+			editor.SetDefaultEditorStyles();
+			editor.Dock = DockStyle.Fill;
+
+			FATabStripItem tabItem = new FATabStripItem("empty tab title", editor);
+			m_editorsToTabs[editor] = tabItem;
+			m_tabsToEditors[tabItem] = editor;
+			editor.ParentTab = tabItem;
+
+			//tabItem.MouseHover += new System.EventHandler(OnTabMouseHover);
+			
+
+			editor.Filename = newFileTitle;
+
+			m_tabStrip.AddTab(tabItem, true);
+		}
+		
+
+		void CloseFile(ChameleonEditor editor)
+		{
+			if(editor == null)
+			{
+				editor = CurrentEditor;
+			}
+
+			ModifiedFileResult fileHandled = HandleModifiedFile(editor, ModifiedFileAction.Close);
+
+			if(fileHandled == ModifiedFileResult.Cancel)
+			{
+				return;
+			}
+
+			FATabStripItem tab = m_editorsToTabs[editor];
+
+			if(m_tabStrip.Items.Count > 1 || ChameleonForm.AppClosing)
+			{
+				
+				m_tabStrip.RemoveTab(tab);
+
+				m_editorsToTabs.Remove(editor);
+				m_tabsToEditors.Remove(tab);
+				tab.Controls.Remove(editor);
+				editor.Dispose();
+			}
+			// closing out the last buffer, reset it to act as a new one
+			else
+			{
+				m_fileNum = 1;
+
+				editor.ResetEditor();
+
+				string newFileTitle = string.Format("<untitled> {0}", m_fileNum);
+				editor.Filename = newFileTitle;				
+			}
+		}
+
 
 		// returns true if things were handled successfully, and the task should continue
 		private ModifiedFileResult HandleModifiedFile(ChameleonEditor editor, ModifiedFileAction fileAction)
@@ -138,11 +244,11 @@ namespace Chameleon.GUI
 					cancelButtonText = "Cancel closing, and leave this file open";
 
 					buttons.Add(saveButtonText);
-					buttons.Add(noSaveButtonText);				
+					buttons.Add(noSaveButtonText);
 
 					buttonActions[0] = ModifiedFileResult.Save;
 					buttonActions[1] = ModifiedFileResult.NoSave;
-	
+
 					break;
 				}
 				case ModifiedFileAction.Reload:
@@ -212,87 +318,6 @@ namespace Chameleon.GUI
 			}
 
 			return returnResult;
-		}
-
-		private void OnSelectedTabChanged(TabStripItemChangedEventArgs e)
-		{
-			m_currentEditor = m_tabsToEditors[e.Item];
-		}
-
-		private void SelectEditor(ChameleonEditor editor)
-		{
-			FATabStripItem tab = m_editorsToTabs[editor];
-			m_tabStrip.SelectedItem = tab;
-			editor.Focus();
-			m_currentEditor = editor;
-		}
-
-		public void NewFile()
-		{
-			m_fileNum++;
-
-			string newFileTitle = string.Format("<untitled> {0}", m_fileNum);
-
-			ChameleonEditor editor = new ChameleonEditor();
-
-			// load up our saved CPP config from the embedded resource and
-			// tell the editor to use those settings
-			string cppConfigXML = GetResource("Chameleon.ConfigCPP.xml");
-			TextReader tr = new StringReader(cppConfigXML);
-			Configuration config = new Configuration(tr, "cpp");
-			editor.ConfigurationManager.Configure(config);
-			
-			editor.SetDefaultEditorStyles();
-			editor.Dock = DockStyle.Fill;
-
-			FATabStripItem tabItem = new FATabStripItem("empty tab title", editor);
-			m_editorsToTabs[editor] = tabItem;
-			m_tabsToEditors[tabItem] = editor;
-			editor.ParentTab = tabItem;
-
-			editor.Filename = newFileTitle;
-
-			m_tabStrip.AddTab(tabItem, true);
-		}
-
-		
-
-		void CloseFile(ChameleonEditor editor)
-		{
-			if(editor == null)
-			{
-				editor = CurrentEditor;
-			}
-
-			ModifiedFileResult fileHandled = HandleModifiedFile(editor, ModifiedFileAction.Close);
-
-			if(fileHandled == ModifiedFileResult.Cancel)
-			{
-				return;
-			}
-
-			FATabStripItem tab = m_editorsToTabs[editor];
-
-			if(m_tabStrip.Items.Count > 1 || ChameleonForm.AppClosing)
-			{
-				
-				m_tabStrip.RemoveTab(tab);
-
-				m_editorsToTabs.Remove(editor);
-				m_tabsToEditors.Remove(tab);
-				tab.Controls.Remove(editor);
-				editor.Dispose();
-			}
-			// closing out the last buffer, reset it to act as a new one
-			else
-			{
-				m_fileNum = 1;
-
-				editor.ResetEditor();
-
-				string newFileTitle = string.Format("<untitled> {0}", m_fileNum);
-				editor.Filename = newFileTitle;				
-			}
 		}
 
 		public bool SaveFile(ChameleonEditor editor, FileLocation suggestedLocation,
@@ -413,7 +438,8 @@ namespace Chameleon.GUI
 				if(ofd.ShowDialog() == DialogResult.OK)
 				{
 					fileInfo.Location = location;
-					fileInfo.Filename = ofd.FileName;
+
+					fileInfo.Filename.Assign(ofd.FileName, PathFormat.Windows);
 				}
 			}
 			else if(location == FileLocation.Remote)
@@ -430,7 +456,7 @@ namespace Chameleon.GUI
 			string fileContents = "";
 			string locationPrefix = (fileInfo.Location == FileLocation.Local) ? "(L)" : "(R)";
 
-			ChameleonEditor alreadyOpenedFile = GetEditorByFilename(fileInfo.Filename);
+			ChameleonEditor alreadyOpenedFile = GetEditorByFilename(fileInfo.Filename.GetFullPath());
 
 			if(alreadyOpenedFile != null)
 			{
@@ -506,9 +532,10 @@ namespace Chameleon.GUI
 				}
 				case FileLocation.Local:
 				{
-					if(File.Exists(fileInfo.Filename))
+					string fullFilename = fileInfo.Filename.GetFullPath();
+					if(File.Exists(fullFilename))
 					{
-						fileContents = File.ReadAllText(fileInfo.Filename);
+						fileContents = File.ReadAllText(fullFilename);
 					}
 					break;
 				}
