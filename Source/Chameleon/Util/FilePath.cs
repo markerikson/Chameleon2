@@ -91,6 +91,30 @@ namespace Chameleon.Util
 			m_dirs.AddRange(otherPath.m_dirs);
 		}
 
+		public void Assign(string fullPath)
+		{
+			Clear();
+
+			if(string.IsNullOrWhiteSpace(fullPath))
+			{
+				return;
+			}
+
+			// see if it appears to be a Unix path
+			char unixPathSep = GetPathSeparator(PathFormat.Unix);
+
+			PathFormat assumedFormat = PathFormat.Windows;
+			
+			// if it starts with a tilde or has a Unix slash in it, we'll assume
+			// it's a Unix path.  Otherwise, assume it's a Windows path.
+			if(fullPath.StartsWith("~") || fullPath.IndexOf(unixPathSep) != -1)
+			{
+				assumedFormat = PathFormat.Unix;
+			}
+
+			Assign(fullPath, assumedFormat);
+		}
+
 		public void Assign(string fullPath, PathFormat format)
 		{
 			Clear();
