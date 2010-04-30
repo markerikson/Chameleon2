@@ -52,7 +52,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TabStrip">
+    <Reference Include="TabStrip, Version=2.0.3767.27279, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>DLLs\TabStrip.dll</HintPath>
     </Reference>
     <Reference Include="wwAppConfiguration">

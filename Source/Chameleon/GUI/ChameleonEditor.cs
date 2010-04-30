@@ -98,14 +98,11 @@ namespace Chameleon.GUI
 
 		public ChameleonEditor()
 		{
-			//SetDefaultEditorStyles();
 			m_fileInfo = new FileInformation();
 			Filename = "";
 			FileLocation = FileLocation.Unknown;
 
 			this.ModifiedChanged += new EventHandler(OnEditorModifiedChanged);
-
-			
 		}
 
 		private void UpdateTitleText()
@@ -202,6 +199,7 @@ namespace Chameleon.GUI
 			FileLocation = FileLocation.Unknown;
 			this.IsReadOnly = false;
 			this.UndoRedo.EmptyUndoBuffer();
+			Modified = false;
 		}
 
 		public void LoadFileText(FileInformation fileInfo, string text)
@@ -221,7 +219,6 @@ namespace Chameleon.GUI
 			// do stuff with EOL here?
 
 			UndoRedo.EmptyUndoBuffer();
-
 		}
 
 		public bool HasBeenSaved()

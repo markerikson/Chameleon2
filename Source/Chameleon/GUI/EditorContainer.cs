@@ -145,8 +145,6 @@ namespace Chameleon.GUI
 		}
 
 		
-			
-
 		public void NewFile()
 		{
 			m_fileNum++;
@@ -170,16 +168,13 @@ namespace Chameleon.GUI
 			m_tabsToEditors[tabItem] = editor;
 			editor.ParentTab = tabItem;
 
-			//tabItem.MouseHover += new System.EventHandler(OnTabMouseHover);
-			
-
 			editor.Filename = newFileTitle;
 
 			m_tabStrip.AddTab(tabItem, true);
 		}
 		
 
-		void CloseFile(ChameleonEditor editor)
+		public bool CloseFile(ChameleonEditor editor)
 		{
 			if(editor == null)
 			{
@@ -190,14 +185,13 @@ namespace Chameleon.GUI
 
 			if(fileHandled == ModifiedFileResult.Cancel)
 			{
-				return;
+				return false;
 			}
 
 			FATabStripItem tab = m_editorsToTabs[editor];
 
 			if(m_tabStrip.Items.Count > 1 || ChameleonForm.AppClosing)
-			{
-				
+			{				
 				m_tabStrip.RemoveTab(tab);
 
 				m_editorsToTabs.Remove(editor);
@@ -215,6 +209,23 @@ namespace Chameleon.GUI
 				string newFileTitle = string.Format("<untitled> {0}", m_fileNum);
 				editor.Filename = newFileTitle;				
 			}
+
+			return true;
+		}
+
+		public bool CloseAllFiles()
+		{
+			int numEditors = m_editorsToTabs.Count;
+
+			for(int i = 0; i < numEditors; i++)
+			{
+				if(!CloseFile(m_currentEditor))
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 
@@ -462,6 +473,7 @@ namespace Chameleon.GUI
 			{
 				ModifiedFileResult mfr = HandleModifiedFile(alreadyOpenedFile, ModifiedFileAction.Reload);
 
+				// should only have these two choices returned for the Reload case
 				if(mfr == ModifiedFileResult.Cancel)
 				{
 					return false;
@@ -469,7 +481,8 @@ namespace Chameleon.GUI
 				else if(mfr == ModifiedFileResult.NoSave)
 				{
 					SelectEditor(alreadyOpenedFile);
-				}
+					return true;
+				}				
 			}
 
 			if(!GetFileContents(fileInfo, ref fileContents))

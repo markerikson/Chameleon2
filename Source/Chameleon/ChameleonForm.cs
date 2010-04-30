@@ -34,7 +34,11 @@ namespace Chameleon
 			{
 				string source = File.ReadAllText(testSourcePath);
 				m_editors.CurrentEditor.Text = source;
-			}		
+			}
+
+			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
+			menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
+			menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
 		}
 
 		void OnNewFile(object sender, EventArgs e)
@@ -47,6 +51,19 @@ namespace Chameleon
 			MessageBox.Show("Chameleon 2.0 alpha 0.0001");
 		}
 
+		private void ChameleonForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			m_appClosing = true;
+			if(!m_editors.CloseAllFiles())
+			{
+				e.Cancel = true;
+			}
+
+			m_appClosing = false;
+		}
+
+
+		#region File Menu handlers
 		private void menuFileOpenLocal_Click(object sender, EventArgs e)
 		{
 			m_editors.OpenFile(FileLocation.Local);
@@ -75,10 +92,49 @@ namespace Chameleon
 			m_editors.SaveFile(editor, FileLocation.Remote, true, false);
 		}
 
+		private void menuFileClose_Click(object sender, EventArgs e)
+		{
+			m_editors.CloseFile(m_editors.CurrentEditor);
+		}
 
+		private void menuFileCloseAll_Click(object sender, EventArgs e)
+		{
+			m_editors.CloseAllFiles();
+		}
+		#endregion
+
+		#region Edit Menu handlers
+		private void menuEditUndo_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.UndoRedo.Undo();
+		}
+
+		private void menuEditRedo_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.UndoRedo.Redo();
+		}
+
+		private void menuEditCut_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.Clipboard.Cut();
+		}
+
+		private void menuEditCopy_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.Clipboard.Copy();
+		}
+
+		private void menuEditPaste_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.Clipboard.Paste();
+		}
+
+
+		#endregion
 
 		
 
 		
+
 	}
 }
