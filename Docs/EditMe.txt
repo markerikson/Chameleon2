@@ -3,3 +3,5 @@ Edit this file and check it back in to verify that your SVN connection is workin
 Mark: testing 1 2 3 4
 
 Keith:  testing 1 2 3 4 5 (and deleting 8 7 6 5 in above line).
+
+Keith:  Checkout, updates, and commits appear to be working fine.
