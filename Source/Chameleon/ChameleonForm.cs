@@ -48,7 +48,7 @@ namespace Chameleon
 
 		private void menuHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Chameleon 2.0 alpha 0.0001");
+			MessageBox.Show("Chameleon 2.0 alpha 0.0002");
 		}
 
 		private void ChameleonForm_FormClosing(object sender, FormClosingEventArgs e)
