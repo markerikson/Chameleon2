@@ -41,7 +41,9 @@ namespace Chameleon
 			}
 
 			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
+			menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
 			menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
+			menuEditCut.ShortcutKeyDisplayString = "Ctrl+X";
 			menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
 		}
 
@@ -133,14 +135,17 @@ namespace Chameleon
 			m_editors.CurrentEditor.Clipboard.Paste();
 		}
 
+		private void menuEditFind_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.FindReplace.ShowFind();
+		}
+
+		private void menuEditReplace_Click(object sender, EventArgs e)
+		{
+			m_editors.CurrentEditor.FindReplace.ShowReplace();
+		}
 
 		#endregion
-
-		
-
-		
-
-		
 
 	}
 }

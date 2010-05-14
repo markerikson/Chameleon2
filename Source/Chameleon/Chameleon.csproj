@@ -38,6 +38,9 @@
     <Reference Include="PSTaskDialog">
       <HintPath>DLLs\PSTaskDialog.dll</HintPath>
     </Reference>
+    <Reference Include="Routrek.Granados">
+      <HintPath>DLLs\Routrek.Granados.dll</HintPath>
+    </Reference>
     <Reference Include="ScintillaNet, Version=2.2.3753.37361, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL">
       <HintPath>DLLs\ScintillaNet.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
