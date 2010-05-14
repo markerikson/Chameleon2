@@ -117,6 +117,8 @@ namespace Chameleon.GUI
 
 			ChameleonEditor editor = m_tabsToEditors[e.Item];
 			CloseFile(editor);
+
+			m_closingTab = false;
 		}
 
 		void OnTooltipPopup(object sender, PopupEventArgs e)

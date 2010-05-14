@@ -79,6 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\FilePath.cs" />
+    <Compile Include="Util\GUIUtility.cs" />
     <EmbeddedResource Include="ChameleonForm.resx">
       <DependentUpon>ChameleonForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,6 +108,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Graphics\connect16.png" />
+    <EmbeddedResource Include="Graphics\disconnect16.png" />
+    <EmbeddedResource Include="Graphics\moz.png" />
+    <EmbeddedResource Include="Graphics\newfile.png" />
+    <EmbeddedResource Include="Graphics\openlocal.png" />
+    <EmbeddedResource Include="Graphics\openremote.png" />
+    <EmbeddedResource Include="Graphics\savefile.png" />
     <EmbeddedResource Include="ConfigCPP.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

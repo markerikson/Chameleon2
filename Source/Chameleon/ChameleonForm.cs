@@ -10,6 +10,7 @@ using ScintillaNet;
 using ScintillaNet.Configuration;
 using System.IO;
 using Chameleon.GUI;
+using Chameleon.Util;
 
 namespace Chameleon
 {
@@ -26,8 +27,11 @@ namespace Chameleon
 		{
 			InitializeComponent();
 
-			btnNewFile.Click += new EventHandler(OnNewFile);
-
+			Icon icon = GUIUtility.GetIconFromBitmap("Graphics.moz.png");
+			if(icon != null)
+			{
+				this.Icon = icon;
+			}
 
 			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
 			if(File.Exists(testSourcePath))
@@ -39,11 +43,6 @@ namespace Chameleon
 			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
 			menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
 			menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
-		}
-
-		void OnNewFile(object sender, EventArgs e)
-		{
-			m_editors.NewFile();
 		}
 
 		private void menuHelpAbout_Click(object sender, EventArgs e)
@@ -64,40 +63,45 @@ namespace Chameleon
 
 
 		#region File Menu handlers
-		private void menuFileOpenLocal_Click(object sender, EventArgs e)
+		private void OnNewFile(object sender, EventArgs e)
+		{
+			m_editors.NewFile();
+		}
+
+		private void OnFileOpenLocal(object sender, EventArgs e)
 		{
 			m_editors.OpenFile(FileLocation.Local);
 		}
 
-		private void menuFileOpenRemote_Click(object sender, EventArgs e)
+		private void OnFileOpenRemote(object sender, EventArgs e)
 		{
 			m_editors.OpenFile(FileLocation.Remote);
 		}
 
-		private void menuFileSave_Click(object sender, EventArgs e)
+		private void OnFileSave(object sender, EventArgs e)
 		{
 			ChameleonEditor editor = m_editors.CurrentEditor;
 			m_editors.SaveFile(editor, editor.FileLocation, false, true);
 		}
 
-		private void menuFileSaveAsLocal_Click(object sender, EventArgs e)
+		private void OnFileSaveAsLocal(object sender, EventArgs e)
 		{
 			ChameleonEditor editor = m_editors.CurrentEditor;
 			m_editors.SaveFile(editor, FileLocation.Local, true, false);
 		}
 
-		private void menuFileSaveAsRemote_Click(object sender, EventArgs e)
+		private void OnFileSaveAsRemote(object sender, EventArgs e)
 		{
 			ChameleonEditor editor = m_editors.CurrentEditor;
 			m_editors.SaveFile(editor, FileLocation.Remote, true, false);
 		}
 
-		private void menuFileClose_Click(object sender, EventArgs e)
+		private void OnFileClose(object sender, EventArgs e)
 		{
 			m_editors.CloseFile(m_editors.CurrentEditor);
 		}
 
-		private void menuFileCloseAll_Click(object sender, EventArgs e)
+		private void OnFileCloseAll(object sender, EventArgs e)
 		{
 			m_editors.CloseAllFiles();
 		}
@@ -131,6 +135,8 @@ namespace Chameleon
 
 
 		#endregion
+
+		
 
 		
 
