@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -62,7 +61,6 @@
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenRemote = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -324,16 +322,6 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
 			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "moz.png");
-			this.imageList1.Images.SetKeyName(1, "newfile.png");
-			this.imageList1.Images.SetKeyName(2, "openlocal.png");
-			this.imageList1.Images.SetKeyName(3, "openremote.png");
-			this.imageList1.Images.SetKeyName(4, "savefile.png");
-			// 
 			// m_editors
 			// 
 			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -351,6 +339,7 @@
 			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "ChameleonForm";
 			this.Text = "Chameleon";
@@ -396,7 +385,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripMenuItem menuEditFind;
 		private System.Windows.Forms.ToolStripMenuItem menuEditReplace;
-		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.ToolStripButton btnOpenLocal;
 		private System.Windows.Forms.ToolStripButton btnOpenRemote;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

@@ -27,12 +27,6 @@ namespace Chameleon
 		{
 			InitializeComponent();
 
-			Icon icon = GUIUtility.GetIconFromBitmap("Graphics.moz.png");
-			if(icon != null)
-			{
-				this.Icon = icon;
-			}
-
 			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
 			if(File.Exists(testSourcePath))
 			{
