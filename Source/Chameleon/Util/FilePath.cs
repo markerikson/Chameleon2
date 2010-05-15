@@ -33,7 +33,7 @@ namespace Chameleon.Util
 		GetSeparator,
 	}
 
-	public class FilePath
+	public class FilePath : IComparable<FilePath>
 	{
 		private List<string> m_dirs;
 		
@@ -505,14 +505,13 @@ namespace Chameleon.Util
 				{
 					results["volume"] = "";
 				}
-
-				results["path"] = fullPath;
 			}
 			else
 			{
 				results["volume"] = "";
-				results["path"] = "";
 			}
+
+			results["path"] = fullPath;
 
 			return results;
 		}
@@ -800,5 +799,14 @@ namespace Chameleon.Util
 		}
 
 
+
+		#region IComparable<FilePath> Members
+
+		public int CompareTo(FilePath other)
+		{
+			return this.GetFullPath().CompareTo(other.GetFullPath());
+		}
+
+		#endregion
 	}
 }

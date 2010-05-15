@@ -82,15 +82,28 @@
     <Compile Include="GUI\EditorContainer.Designer.cs">
       <DependentUpon>EditorContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\RemoteFileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\RemoteFileDialog.Designer.cs">
+      <DependentUpon>RemoteFileDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DataStructures.cs" />
     <Compile Include="Util\FilePath.cs" />
+    <Compile Include="Util\FontFixer.cs" />
     <Compile Include="Util\GUIUtility.cs" />
+    <Compile Include="Util\IconHelper.cs" />
+    <Compile Include="Util\IconListManager.cs" />
     <EmbeddedResource Include="ChameleonForm.resx">
       <DependentUpon>ChameleonForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EditorContainer.resx">
       <DependentUpon>EditorContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\RemoteFileDialog.resx">
+      <DependentUpon>RemoteFileDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -114,6 +127,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphics\refresh.png" />
+    <None Include="Graphics\HomeHS.png" />
+    <None Include="Graphics\upfolder.png" />
     <EmbeddedResource Include="Graphics\connect16.png" />
     <EmbeddedResource Include="Graphics\disconnect16.png" />
     <EmbeddedResource Include="Graphics\moz.png" />

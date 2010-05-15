@@ -26,6 +26,8 @@ namespace Chameleon
 		public ChameleonForm()
 		{
 			InitializeComponent();
+
+			FormFontFixer.Fix(this);
 			/*
 			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
 			if(File.Exists(testSourcePath))
@@ -74,7 +76,11 @@ namespace Chameleon
 
 		private void OnFileOpenRemote(object sender, EventArgs e)
 		{
-			m_editors.OpenFile(FileLocation.Remote);
+			//m_editors.OpenFile(FileLocation.Remote);
+			RemoteFileDialog rfd = new RemoteFileDialog();
+
+			rfd.Prepare(true, "");
+			rfd.ShowDialog();
 		}
 
 		private void OnFileSave(object sender, EventArgs e)

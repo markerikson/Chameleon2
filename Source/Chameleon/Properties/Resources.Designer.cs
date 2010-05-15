@@ -74,6 +74,13 @@ namespace Chameleon.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap HomeHS {
+            get {
+                object obj = ResourceManager.GetObject("HomeHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap newfile {
             get {
                 object obj = ResourceManager.GetObject("newfile", resourceCulture);
@@ -91,6 +98,27 @@ namespace Chameleon.Properties {
         internal static System.Drawing.Bitmap openremote {
             get {
                 object obj = ResourceManager.GetObject("openremote", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh {
+            get {
+                object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap upfolder {
+            get {
+                object obj = ResourceManager.GetObject("upfolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap upfolder1 {
+            get {
+                object obj = ResourceManager.GetObject("upfolder1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
