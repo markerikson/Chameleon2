@@ -26,19 +26,22 @@ namespace Chameleon
 		public ChameleonForm()
 		{
 			InitializeComponent();
-
+			/*
 			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
 			if(File.Exists(testSourcePath))
 			{
 				string source = File.ReadAllText(testSourcePath);
 				m_editors.CurrentEditor.Text = source;
 			}
-
+			*/
 			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
 			menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
 			menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
 			menuEditCut.ShortcutKeyDisplayString = "Ctrl+X";
 			menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
+
+			toolTextPassword.TextBox.UseSystemPasswordChar = true;
+			
 		}
 
 		private void menuHelpAbout_Click(object sender, EventArgs e)

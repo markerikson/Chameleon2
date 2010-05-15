@@ -60,6 +60,20 @@ namespace Chameleon.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap connect16 {
+            get {
+                object obj = ResourceManager.GetObject("connect16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap disconnect16 {
+            get {
+                object obj = ResourceManager.GetObject("disconnect16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap newfile {
             get {
                 object obj = ResourceManager.GetObject("newfile", resourceCulture);
