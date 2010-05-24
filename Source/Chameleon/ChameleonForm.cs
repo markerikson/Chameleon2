@@ -11,12 +11,15 @@ using ScintillaNet.Configuration;
 using System.IO;
 using Chameleon.GUI;
 using Chameleon.Util;
+using Chameleon.Network;
 
 namespace Chameleon
 {
 	public partial class ChameleonForm : Form
 	{
 		private static bool m_appClosing = false;
+
+		private Networking m_networking;
 
 		public static bool AppClosing
 		{
@@ -43,6 +46,14 @@ namespace Chameleon
 			menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
 
 			toolTextPassword.TextBox.UseSystemPasswordChar = true;
+
+			m_networking = Networking.Instance;
+
+			toolStatusConnected.Text = "Disconnected";
+
+			toolTextHost.Text = "192.168.30.128";
+			toolTextUser.Text = "root";
+			toolTextPassword.Text = "hamilton";
 			
 		}
 
@@ -77,10 +88,14 @@ namespace Chameleon
 		private void OnFileOpenRemote(object sender, EventArgs e)
 		{
 			//m_editors.OpenFile(FileLocation.Remote);
-			RemoteFileDialog rfd = new RemoteFileDialog();
+			if(!m_networking.IsConnected)
+			{
+				MessageBox.Show("Can't do anything remote if not connected!");
+				return;
+			}
 
-			rfd.Prepare(true, "");
-			rfd.ShowDialog();
+			m_editors.OpenFile(FileLocation.Remote);
+			
 		}
 
 		private void OnFileSave(object sender, EventArgs e)
@@ -149,6 +164,36 @@ namespace Chameleon
 		}
 
 		#endregion
+
+		private void toolHostConnect_Click(object sender, EventArgs e)
+		{
+			string host = toolTextHost.Text;
+			string user = toolTextUser.Text;
+			string password = toolTextPassword.Text;
+
+			m_networking.Connect(host, user, password);
+
+			toolTextHost.Enabled = false;
+			toolTextUser.Enabled = false;
+			toolTextPassword.Enabled = false;
+			toolHostConnect.Enabled = false;
+			toolHostDisconnect.Enabled = true;
+
+			toolStatusConnected.Text = "Connected";
+		}
+
+		private void toolHostDisconnect_Click(object sender, EventArgs e)
+		{
+			m_networking.Disconnect();
+
+			toolTextHost.Enabled = true;
+			toolTextUser.Enabled = true;
+			toolTextPassword.Enabled = true;
+			toolHostConnect.Enabled = true;
+			toolHostDisconnect.Enabled = false;
+
+			toolStatusConnected.Text = "Disconnected";
+		}
 
 	}
 }

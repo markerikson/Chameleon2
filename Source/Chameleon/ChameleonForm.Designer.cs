@@ -31,6 +31,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
+			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,12 +67,12 @@
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolTextHost = new System.Windows.Forms.ToolStripTextBox();
+			this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+			this.toolTextUser = new System.Windows.Forms.ToolStripTextBox();
 			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -113,12 +115,25 @@
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStatusConnected});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(784, 22);
 			this.statusStrip1.TabIndex = 1;
 			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStatusConnected
+			// 
+			this.toolStatusConnected.Name = "toolStatusConnected";
+			this.toolStatusConnected.Size = new System.Drawing.Size(0, 17);
+			// 
+			// m_editors
+			// 
+			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_editors.Location = new System.Drawing.Point(0, 0);
+			this.m_editors.Name = "m_editors";
+			this.m_editors.Size = new System.Drawing.Size(784, 453);
+			this.m_editors.TabIndex = 4;
 			// 
 			// menuStrip1
 			// 
@@ -379,13 +394,15 @@
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.toolTextHost,
+            this.toolStripLabel3,
+            this.toolTextUser,
             this.toolStripLabel2,
             this.toolTextPassword,
             this.toolHostConnect,
             this.toolHostDisconnect});
 			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(388, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
 			this.toolStrip2.TabIndex = 4;
 			// 
 			// toolStripLabel1
@@ -399,6 +416,18 @@
 			this.toolTextHost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.toolTextHost.Name = "toolTextHost";
 			this.toolTextHost.Size = new System.Drawing.Size(140, 25);
+			// 
+			// toolStripLabel3
+			// 
+			this.toolStripLabel3.Name = "toolStripLabel3";
+			this.toolStripLabel3.Size = new System.Drawing.Size(33, 22);
+			this.toolStripLabel3.Text = "User:";
+			// 
+			// toolTextUser
+			// 
+			this.toolTextUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolTextUser.Name = "toolTextUser";
+			this.toolTextUser.Size = new System.Drawing.Size(100, 25);
 			// 
 			// toolStripLabel2
 			// 
@@ -420,6 +449,7 @@
 			this.toolHostConnect.Name = "toolHostConnect";
 			this.toolHostConnect.Size = new System.Drawing.Size(23, 22);
 			this.toolHostConnect.Text = "Connect";
+			this.toolHostConnect.Click += new System.EventHandler(this.toolHostConnect_Click);
 			// 
 			// toolHostDisconnect
 			// 
@@ -429,20 +459,7 @@
 			this.toolHostDisconnect.Name = "toolHostDisconnect";
 			this.toolHostDisconnect.Size = new System.Drawing.Size(23, 22);
 			this.toolHostDisconnect.Text = "Disconnect";
-			// 
-			// toolStripStatusLabel1
-			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-			this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-			// 
-			// m_editors
-			// 
-			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_editors.Location = new System.Drawing.Point(0, 0);
-			this.m_editors.Name = "m_editors";
-			this.m_editors.Size = new System.Drawing.Size(784, 453);
-			this.m_editors.TabIndex = 4;
+			this.toolHostDisconnect.Click += new System.EventHandler(this.toolHostDisconnect_Click);
 			// 
 			// ChameleonForm
 			// 
@@ -517,7 +534,9 @@
 		private System.Windows.Forms.ToolStripTextBox toolTextPassword;
 		private System.Windows.Forms.ToolStripButton toolHostConnect;
 		private System.Windows.Forms.ToolStripButton toolHostDisconnect;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+		private System.Windows.Forms.ToolStripStatusLabel toolStatusConnected;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+		private System.Windows.Forms.ToolStripTextBox toolTextUser;
 	}
 }
 

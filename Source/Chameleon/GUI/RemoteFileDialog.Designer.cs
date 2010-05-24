@@ -151,7 +151,6 @@
 			this.txtFilename.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtFilename.Location = new System.Drawing.Point(102, 372);
 			this.txtFilename.Name = "txtFilename";
-			this.txtFilename.ReadOnly = true;
 			this.txtFilename.Size = new System.Drawing.Size(427, 25);
 			this.txtFilename.TabIndex = 6;
 			this.txtFilename.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.OnFilenameKeyDown);

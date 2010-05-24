@@ -7,6 +7,7 @@ using FarsiLibrary.Win;
 using PSTaskDialog;
 using ScintillaNet.Configuration;
 using Chameleon.Util;
+using Chameleon.Network;
 using System.Drawing;
 
 namespace Chameleon.GUI
@@ -405,8 +406,31 @@ namespace Chameleon.GUI
 			}
 			else if(location == FileLocation.Remote)
 			{
-				MessageBox.Show("Remote saving not implemented yet!");
-				return false;
+				if(doSaveAs)
+				{
+					RemoteFileDialog rfd = RemoteFileDialog.Instance;
+					rfd.Prepare(false, "");
+
+					DialogResult dr = rfd.ShowDialog();
+
+					if(dr == DialogResult.OK)
+					{
+						filename = rfd.SelectedFile.GetFullPath();
+					}
+					else
+					{
+						filename = m_currentEditor.Filename;
+					}
+
+					if(filename == "")
+					{
+						return false;
+					}
+
+					FilePath fp = new FilePath(filename, PathFormat.Unix);
+
+					Networking.Instance.SendFileContents(fp, fileContents);
+				}
 			}
 			// shouldn't be Unknown by this point
 
@@ -457,10 +481,18 @@ namespace Chameleon.GUI
 			}
 			else if(location == FileLocation.Remote)
 			{
-				MessageBox.Show("Remote opening not implemented yet!");
-				return null;
+				RemoteFileDialog rfd = RemoteFileDialog.Instance;
+
+				rfd.Prepare(true, "");
+				DialogResult dr = rfd.ShowDialog();
+
+				if(dr == DialogResult.OK)
+				{
+					fileInfo.Filename.Assign(rfd.SelectedFile);
+				}
 			}
 
+			fileInfo.Location = location;
 			return fileInfo;
 		}
 
@@ -556,8 +588,10 @@ namespace Chameleon.GUI
 				}
 				case FileLocation.Remote:
 				{
-					MessageBox.Show("Remote file opening not implemented yet!");
-					return false;
+					//MessageBox.Show("Remote file opening not implemented yet!");
+					Networking.Instance.GetFileContents(fileInfo.Filename, ref fileContents);
+					break;
+					//return false;
 				}
 			}
 

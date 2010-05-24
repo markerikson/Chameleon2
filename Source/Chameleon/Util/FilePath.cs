@@ -87,6 +87,7 @@ namespace Chameleon.Util
 			m_ext = otherPath.Extension;
 			m_relative = otherPath.m_relative;
 			m_hasExt = otherPath.m_hasExt;
+			m_format = otherPath.Format;
 
 			m_dirs.AddRange(otherPath.m_dirs);
 		}
@@ -456,7 +457,7 @@ namespace Chameleon.Util
 
 			if(posLastDot == -1)
 			{
-				count = fullPath.Length;
+				count = fullPath.Length - nStart;
 			}
 			else if(posLastSlash == -1)
 			{
@@ -619,6 +620,16 @@ namespace Chameleon.Util
 		{
 			get { return m_format; }
 			set { m_format = value; }
+		}
+
+		public string GetPath()
+		{
+			return GetPath(PathReturnType.GetSeparator, m_format);
+		}
+
+		public string GetPath(PathReturnType pathType)
+		{
+			return GetPath(pathType, m_format);
 		}
 
 		public string GetPath(PathReturnType pathType, PathFormat format)
