@@ -185,9 +185,6 @@
     <Compile Include="StringResource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="strings.resx" />
   </ItemGroup>

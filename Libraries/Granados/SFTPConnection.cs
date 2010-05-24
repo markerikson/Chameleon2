@@ -200,6 +200,18 @@ namespace Granados
 
 		public SFTPConnection()
 		{
+			Initialize();
+		}
+
+		public SFTPConnection(SSH2Connection conn)
+		{
+			Initialize();
+
+			m_conn = conn;
+		}
+
+		private void Initialize()
+		{
 			m_pipe = new PipeStream();
 			buf = new Buffer(32768);
 			m_thread = new Thread(DoSFTPInit);
@@ -217,13 +229,24 @@ namespace Granados
 			parameters.Protocol = SSHProtocol.SSH2;
 			parameters.AuthenticationType = AuthenticationType.Password;
 
+			m_conn = (SSH2Connection)SSHConnection.Connect(parameters, this, s);			
+
+			StartSFTPSession();
+		}
+		
+
+		public void StartSFTPSession()
+		{
+			if(m_conn == null)
+			{
+				throw new SftpException(0, "SSH exception not set");
+			}
+
 			DateTime connectionStartTime = DateTime.Now;
 			DateTime maxWaitTime = connectionStartTime.AddSeconds(10);
 
-			m_conn = (SSH2Connection)SSHConnection.Connect(parameters, this, s);
+			m_thread.Start();
 
-			StartSFTPSession();
-			
 			while(!InitializedSuccessfully)
 			{
 				Thread.Sleep(100);
@@ -231,15 +254,9 @@ namespace Granados
 				if(DateTime.Now.CompareTo(maxWaitTime) > 0)
 				{
 					m_conn.Close();
+					throw new SftpException(1, "SSH connection attempt timed out");
 				}
 			}
-
-		}
-		
-
-		public void StartSFTPSession()
-		{
-			m_thread.Start();
 		}
 
 		private void DoSFTPInit()
@@ -1178,16 +1195,16 @@ namespace Granados
 				throw new SftpException(SSH_FX.FAILURE, "");
 			}
 		}
-		public void get(String src, FileStream dst)
+		public void get(String src, Stream dst)
 		{ 
 			get(src, dst, null, SFTPTransferMode.OVERWRITE, 0);
 		}
-		public void get(String src, FileStream dst,
+		public void get(String src, Stream dst,
 			SftpProgressMonitor monitor)
 		{ 
 			get(src, dst, monitor, SFTPTransferMode.OVERWRITE, 0);
 		}
-		public void get(String src, FileStream dst,
+		public void get(String src, Stream dst,
 			SftpProgressMonitor monitor, SFTPTransferMode mode, long skip)
 		{
 			try
@@ -1219,7 +1236,7 @@ namespace Granados
 		}
 
 
-		private void _get(String src, FileStream dst,
+		private void _get(String src, Stream dst,
 			SftpProgressMonitor monitor, SFTPTransferMode mode, long skip)
 		{ 
 			try
@@ -1341,7 +1358,7 @@ namespace Granados
 
 
 		#region PUT functions
-		private void _put(FileStream src, String dst,
+		private void _put(Stream src, String dst,
 			SftpProgressMonitor monitor, SFTPTransferMode mode)
 		{
 			try
@@ -1532,6 +1549,123 @@ namespace Granados
 		{ //throws SftpException{
 			put(src, dst, monitor, SFTPTransferMode.OVERWRITE);
 		}
+
+		public void put(Stream src, string dst)
+		{
+			put(src, dst, null, SFTPTransferMode.OVERWRITE);
+		}
+
+		public void put(Stream src, string dst, SftpProgressMonitor monitor, SFTPTransferMode mode)
+		{
+			dst = remoteAbsolutePath(dst);
+
+			try
+			{
+				List<String> v = glob_remote(dst);
+				int vsize = v.Count;
+				if(vsize != 1)
+				{
+					if(vsize == 0)
+					{
+						if(isPattern(dst))
+							throw new SftpException(SSH_FX.FAILURE, dst);
+						else
+							dst = Util.Unquote(dst);
+					}
+					throw new SftpException(SSH_FX.FAILURE, v.ToString());
+				}
+				else
+				{
+					dst = v[0];
+				}
+
+				//System.err.println("dst: "+dst);
+
+				bool _isRemoteDir = isRemoteDir(dst);
+
+				String _dst = null;
+
+				/*
+				StringBuilder dstsb = null;
+				if(_isRemoteDir)
+				{
+					if(!dst.EndsWith("/"))
+					{
+						dst += "/";
+					}
+					dstsb = new StringBuilder(dst);
+
+					int i = _src.LastIndexOf(file_separatorc);
+					if(i == -1) dstsb.Append(_src);
+					else dstsb.Append(_src.Substring(i + 1));
+					_dst = dstsb.ToString();
+					dstsb.Remove(dst.Length, _dst.Length);
+				}
+				else
+				{
+					_dst = dst;
+				}
+				*/
+				//System.err.println("_dst "+_dst);
+
+				/*
+				long size_of_dst = 0;
+				if(mode == SFTPTransferMode.RESUME)
+				{
+					try
+					{
+						SftpATTRS attr = _stat(_dst);
+						size_of_dst = attr.getSize();
+					}
+					catch(Exception)
+					{
+						//System.err.println(eee);
+					}
+					long size_of_src = new FileInfo(_src).Length;
+					if(size_of_src < size_of_dst)
+					{
+						throw new SftpException(SSH_FX.FAILURE, "failed to resume for " + _dst);
+					}
+					if(size_of_src == size_of_dst)
+					{
+						return;
+					}
+				}
+				*/
+				if(monitor != null)
+				{
+					monitor.init(SftpProgressMonitor.PUT, "Unknown", dst,
+									src.Length);//(new FileInfo(_src)).Length);
+					/*
+					if(mode == SFTPTransferMode.RESUME)
+					{
+						monitor.count(size_of_dst);
+					}
+					*/
+				}
+
+				try
+				{
+					_put(src, dst, monitor, mode);
+				}
+				finally
+				{
+					if(src != null)
+					{
+						src.Close();
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				if(e is SftpException) throw;// (SftpException)e;
+				throw new SftpException(SSH_FX.FAILURE, e.ToString());
+			}
+
+		}
+
+		
+
 		public void put(String src, String dst,
 			SftpProgressMonitor monitor, SFTPTransferMode mode)
 		{
