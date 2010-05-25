@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Chameleon.Network;
 
 namespace Chameleon
 {
@@ -15,6 +16,9 @@ namespace Chameleon
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			//string featurePermission = Networking.Instance.GetFeaturePermissions();
+
 			Application.Run(new ChameleonForm());
 		}
 	}

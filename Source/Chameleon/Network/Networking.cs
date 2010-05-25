@@ -17,6 +17,7 @@ using DevInstinct.Patterns;
 using Granados;
 using Chameleon.Util;
 using System.IO;
+using Piccolo.Common;
 
 namespace Chameleon.Network
 {
@@ -98,10 +99,6 @@ namespace Chameleon.Network
 
 	class Networking
 	{
-		private string m_host;
-		private string m_username;
-		private string m_password;
-
 		private SSH2Connection m_conn;
 		private SFTPConnection m_sftp;
 
@@ -136,10 +133,6 @@ namespace Chameleon.Network
 
 		private Networking()
 		{
-			m_host = "";
-			m_username = "";
-			m_password = "";
-
 			m_shells = new Dictionary<string, SSHChannel>();
 		}
 
@@ -281,6 +274,24 @@ namespace Chameleon.Network
 		public SSHChannel StartShell(ISSHChannelEventReceiver receiver)
 		{
 			return m_conn.OpenShell(receiver);
+		}
+
+		public string GetFeaturePermissions()
+		{
+			string studentID = App.Configuration.StudentID;
+			string baseURL = App.Configuration.FeaturePermissionsURL;
+
+			string permissionsURL = baseURL + "?student=" + studentID.ToLower();
+
+			HttpHelper http = new HttpHelper();
+			string featureText = http.HttpStringGet(permissionsURL);
+
+			if(featureText.IndexOf("Error") != -1)
+			{
+				return null;
+			}
+
+			return featureText;
 		}
 
 

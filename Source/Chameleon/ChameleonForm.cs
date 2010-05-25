@@ -31,6 +31,9 @@ namespace Chameleon
 			InitializeComponent();
 
 			FormFontFixer.Fix(this);
+
+			Options options = App.Configuration;
+
 			/*
 			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
 			if(File.Exists(testSourcePath))
@@ -53,7 +56,8 @@ namespace Chameleon
 
 			toolTextHost.Text = "192.168.30.128";
 			toolTextUser.Text = "root";
-			toolTextPassword.Text = "hamilton";
+
+			toolHostDisconnect.Enabled = false;
 			
 		}
 
@@ -71,6 +75,8 @@ namespace Chameleon
 			}
 
 			m_appClosing = false;
+
+			App.Configuration.SaveSettings();
 		}
 
 

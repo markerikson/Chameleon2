@@ -52,6 +52,9 @@
   <PropertyGroup>
     <ApplicationIcon>chameleon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Chameleon.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PSTaskDialog">
       <HintPath>DLLs\PSTaskDialog.dll</HintPath>
@@ -110,8 +113,10 @@
     <Compile Include="Util\FilePath.cs" />
     <Compile Include="Util\FontFixer.cs" />
     <Compile Include="Util\GUIUtility.cs" />
+    <Compile Include="Util\HTTPHelper.cs" />
     <Compile Include="Util\IconHelper.cs" />
     <Compile Include="Util\IconListManager.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Util\Singleton.cs" />
     <Compile Include="Util\SingletonException.cs" />
     <EmbeddedResource Include="ChameleonForm.resx">
