@@ -87,7 +87,6 @@ namespace Chameleon
 				menuFeatures.DropDownItems.Add(item);
 			}
 
-
 			ShowPermittedUI();
 		}
 
@@ -299,6 +298,26 @@ namespace Chameleon
 			ShowPermittedUI();
 
 			//Console.WriteLine("Item {0} checked: {1}", item.Text, item.Checked);
+		}
+
+		private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
+		{
+			ListViewItem lvi = (ListViewItem)e.Item;
+
+			string itemName = (string)lvi.Tag;
+
+			if(string.IsNullOrEmpty(itemName))
+			{
+				return;
+			}
+
+			m_editors.StartDrag();
+
+			DataFormats.Format format = DataFormats.GetFormat("ChameleonSnippet");
+			DataObject dobj = new DataObject(format.Name, itemName);
+			DragDropEffects dde = DoDragDrop(dobj, DragDropEffects.Copy);
+
+			m_editors.EndDrag();
 		}
 
 	}

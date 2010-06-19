@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Chameleon.Util
 {
-	class GUIUtility
+	public class GUIUtility
 	{
 		public static Icon GetIconFromBitmap(String name)
 		{

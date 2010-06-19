@@ -28,10 +28,24 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Group 1", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Group 2", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Group 3", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("For loop", 0);
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("While loop", 2);
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("If statement", 1);
+			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("item 4");
+			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("item 5");
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("item 6");
+			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("item 7");
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
+			this.splitSnippetsEditor = new System.Windows.Forms.SplitContainer();
+			this.listView1 = new System.Windows.Forms.ListView();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +73,7 @@
 			this.menuEditReplace = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuFeatures = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
@@ -68,6 +83,9 @@
 			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnDummyFeature1 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnDummyFeature2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolTextHost = new System.Windows.Forms.ToolStripTextBox();
@@ -77,11 +95,6 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.btnDummyFeature1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.btnDummyFeature2 = new System.Windows.Forms.ToolStripButton();
-			this.splitSnippetsEditor = new System.Windows.Forms.SplitContainer();
-			this.menuFeatures = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
@@ -89,6 +102,10 @@
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).BeginInit();
+			this.splitSnippetsEditor.Panel1.SuspendLayout();
+			this.splitSnippetsEditor.Panel2.SuspendLayout();
+			this.splitSnippetsEditor.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).BeginInit();
 			this.splitEditorTerminal.Panel1.SuspendLayout();
 			this.splitEditorTerminal.Panel2.SuspendLayout();
@@ -96,9 +113,6 @@
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).BeginInit();
-			this.splitSnippetsEditor.Panel2.SuspendLayout();
-			this.splitSnippetsEditor.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripContainer1
@@ -145,6 +159,66 @@
 			this.toolStatusConnected.Name = "toolStatusConnected";
 			this.toolStatusConnected.Size = new System.Drawing.Size(0, 17);
 			// 
+			// splitSnippetsEditor
+			// 
+			this.splitSnippetsEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitSnippetsEditor.Location = new System.Drawing.Point(0, 0);
+			this.splitSnippetsEditor.Name = "splitSnippetsEditor";
+			// 
+			// splitSnippetsEditor.Panel1
+			// 
+			this.splitSnippetsEditor.Panel1.Controls.Add(this.listView1);
+			// 
+			// splitSnippetsEditor.Panel2
+			// 
+			this.splitSnippetsEditor.Panel2.Controls.Add(this.splitEditorTerminal);
+			this.splitSnippetsEditor.Size = new System.Drawing.Size(784, 453);
+			this.splitSnippetsEditor.SplitterDistance = 120;
+			this.splitSnippetsEditor.TabIndex = 5;
+			// 
+			// listView1
+			// 
+			this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Default;
+			this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			listViewGroup1.Header = "Group 1";
+			listViewGroup1.Name = "listViewGroup1";
+			listViewGroup2.Header = "Group 2";
+			listViewGroup2.Name = "listViewGroup2";
+			listViewGroup3.Header = "Group 3";
+			listViewGroup3.Name = "listViewGroup3";
+			this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			listViewItem1.Tag = "for";
+			listViewItem2.Tag = "while";
+			listViewItem3.Tag = "if";
+			this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7});
+			this.listView1.LargeImageList = this.imageList1;
+			this.listView1.Location = new System.Drawing.Point(0, 0);
+			this.listView1.Margin = new System.Windows.Forms.Padding(0);
+			this.listView1.Name = "listView1";
+			this.listView1.Size = new System.Drawing.Size(120, 453);
+			this.listView1.TabIndex = 0;
+			this.listView1.UseCompatibleStateImageBehavior = false;
+			this.listView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView1_ItemDrag);
+			// 
+			// imageList1
+			// 
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "for.png");
+			this.imageList1.Images.SetKeyName(1, "if.png");
+			this.imageList1.Images.SetKeyName(2, "while.png");
+			// 
 			// splitEditorTerminal
 			// 
 			this.splitEditorTerminal.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -159,7 +233,7 @@
 			// splitEditorTerminal.Panel2
 			// 
 			this.splitEditorTerminal.Panel2.Controls.Add(this.terminalEmulator1);
-			this.splitEditorTerminal.Size = new System.Drawing.Size(784, 453);
+			this.splitEditorTerminal.Size = new System.Drawing.Size(660, 453);
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
 			// 
@@ -369,6 +443,12 @@
 			this.menuHelpAbout.Text = "About";
 			this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
 			// 
+			// menuFeatures
+			// 
+			this.menuFeatures.Name = "menuFeatures";
+			this.menuFeatures.Size = new System.Drawing.Size(63, 20);
+			this.menuFeatures.Text = "Features";
+			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -459,6 +539,29 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
 			// 
+			// btnDummyFeature1
+			// 
+			this.btnDummyFeature1.Image = ((System.Drawing.Image)(resources.GetObject("btnDummyFeature1.Image")));
+			this.btnDummyFeature1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDummyFeature1.Name = "btnDummyFeature1";
+			this.btnDummyFeature1.Size = new System.Drawing.Size(59, 35);
+			this.btnDummyFeature1.Text = "Feature 1";
+			this.btnDummyFeature1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+			// 
+			// btnDummyFeature2
+			// 
+			this.btnDummyFeature2.Image = ((System.Drawing.Image)(resources.GetObject("btnDummyFeature2.Image")));
+			this.btnDummyFeature2.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDummyFeature2.Name = "btnDummyFeature2";
+			this.btnDummyFeature2.Size = new System.Drawing.Size(59, 35);
+			this.btnDummyFeature2.Text = "Feature 2";
+			this.btnDummyFeature2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
 			// toolStrip2
 			// 
 			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
@@ -533,61 +636,18 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
 			// 
-			// btnDummyFeature1
-			// 
-			this.btnDummyFeature1.Image = ((System.Drawing.Image)(resources.GetObject("btnDummyFeature1.Image")));
-			this.btnDummyFeature1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnDummyFeature1.Name = "btnDummyFeature1";
-			this.btnDummyFeature1.Size = new System.Drawing.Size(59, 35);
-			this.btnDummyFeature1.Text = "Feature 1";
-			this.btnDummyFeature1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
-			// 
-			// btnDummyFeature2
-			// 
-			this.btnDummyFeature2.Image = ((System.Drawing.Image)(resources.GetObject("btnDummyFeature2.Image")));
-			this.btnDummyFeature2.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnDummyFeature2.Name = "btnDummyFeature2";
-			this.btnDummyFeature2.Size = new System.Drawing.Size(59, 35);
-			this.btnDummyFeature2.Text = "Feature 2";
-			this.btnDummyFeature2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			// 
-			// splitSnippetsEditor
-			// 
-			this.splitSnippetsEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitSnippetsEditor.Location = new System.Drawing.Point(0, 0);
-			this.splitSnippetsEditor.Name = "splitSnippetsEditor";
-			this.splitSnippetsEditor.Panel1Collapsed = true;
-			// 
-			// splitSnippetsEditor.Panel2
-			// 
-			this.splitSnippetsEditor.Panel2.Controls.Add(this.splitEditorTerminal);
-			this.splitSnippetsEditor.Size = new System.Drawing.Size(784, 453);
-			this.splitSnippetsEditor.SplitterDistance = 261;
-			this.splitSnippetsEditor.TabIndex = 5;
-			// 
-			// menuFeatures
-			// 
-			this.menuFeatures.Name = "menuFeatures";
-			this.menuFeatures.Size = new System.Drawing.Size(63, 20);
-			this.menuFeatures.Text = "Features";
-			// 
 			// m_editors
 			// 
 			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_editors.Location = new System.Drawing.Point(0, 0);
 			this.m_editors.Name = "m_editors";
-			this.m_editors.Size = new System.Drawing.Size(784, 261);
+			this.m_editors.Size = new System.Drawing.Size(660, 261);
 			this.m_editors.TabIndex = 4;
 			// 
 			// terminalEmulator1
 			// 
 			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 97;
+			this.terminalEmulator1.Columns = 81;
 			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.terminalEmulator1.Enabled = false;
 			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
@@ -595,7 +655,7 @@
 			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
 			this.terminalEmulator1.Name = "terminalEmulator1";
 			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(784, 188);
+			this.terminalEmulator1.Size = new System.Drawing.Size(660, 188);
 			this.terminalEmulator1.TabIndex = 0;
 			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
@@ -619,6 +679,10 @@
 			this.toolStripContainer1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			this.splitSnippetsEditor.Panel1.ResumeLayout(false);
+			this.splitSnippetsEditor.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).EndInit();
+			this.splitSnippetsEditor.ResumeLayout(false);
 			this.splitEditorTerminal.Panel1.ResumeLayout(false);
 			this.splitEditorTerminal.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).EndInit();
@@ -629,9 +693,6 @@
 			this.toolStrip1.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
-			this.splitSnippetsEditor.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).EndInit();
-			this.splitSnippetsEditor.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -693,6 +754,8 @@
 		private System.Windows.Forms.ToolStripButton btnDummyFeature2;
 		private System.Windows.Forms.SplitContainer splitSnippetsEditor;
 		private System.Windows.Forms.ToolStripMenuItem menuFeatures;
+		private System.Windows.Forms.ListView listView1;
+		private System.Windows.Forms.ImageList imageList1;
 	}
 }
 

@@ -96,7 +96,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\EditorContainer.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\EditorContainer.Designer.cs">
       <DependentUpon>EditorContainer.cs</DependentUpon>
@@ -124,6 +124,7 @@
     <Compile Include="Options.cs" />
     <Compile Include="Util\Singleton.cs" />
     <Compile Include="Util\SingletonException.cs" />
+    <Compile Include="Util\Utilities.cs" />
     <EmbeddedResource Include="ChameleonForm.resx">
       <DependentUpon>ChameleonForm.cs</DependentUpon>
     </EmbeddedResource>

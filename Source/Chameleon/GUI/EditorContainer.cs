@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -6,13 +7,15 @@ using System.Windows.Forms;
 using FarsiLibrary.Win;
 using PSTaskDialog;
 using ScintillaNet.Configuration;
+using CU = Chameleon.Util;
 using Chameleon.Util;
 using Chameleon.Network;
 using System.Drawing;
+using ScintillaNet;
 
 namespace Chameleon.GUI
 {
-	
+	#region Enumerations
 	public enum FileType
 	{
 		SourceFiles = 0,
@@ -34,6 +37,25 @@ namespace Chameleon.GUI
 		NoSave,
 		Cancel,
 	}
+	#endregion
+
+	public class TransparentPanel : Panel
+	{
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams createParams = base.CreateParams;
+				createParams.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
+				return createParams;
+			}
+		}
+
+		protected override void OnPaintBackground(PaintEventArgs e)
+		{
+			// Do not paint background.
+		}
+	}
 
 	public partial class EditorContainer : UserControl
 	{
@@ -42,11 +64,18 @@ namespace Chameleon.GUI
 		private bool m_closingTab;
 
 		private ToolTip m_tooltip;
+		private TransparentPanel m_transPanel;
+		private Label label1;
+
+		private bool m_draggingItem;
+		private bool m_dragInitialized;
 		
 		private static string m_fileFilter;
 
 		private Dictionary<ChameleonEditor, FATabStripItem> m_editorsToTabs;
 		private Dictionary<FATabStripItem, ChameleonEditor> m_tabsToEditors;
+
+		private static Dictionary<string, string> m_snippets;
 
 		static EditorContainer()
 		{
@@ -66,6 +95,11 @@ namespace Chameleon.GUI
 			sb.Append(filterAllFiles);
 
 			m_fileFilter = sb.ToString();
+
+			m_snippets = new Dictionary<string, string>();
+			m_snippets["for"] = "f";
+			m_snippets["while"] = "w";
+			m_snippets["if"] = "if";
 		}
 
 		public ChameleonEditor CurrentEditor
@@ -85,25 +119,46 @@ namespace Chameleon.GUI
 			m_tabStrip.TabStripItemClosing += new TabStripItemClosingHandler(OnTabClosing);
 
 			m_closingTab = false;
+			m_draggingItem = false;
+			m_dragInitialized = false;
 
 			m_tooltip = new ToolTip();
 			m_tooltip.SetToolTip(m_tabStrip, "Testing");
 			m_tooltip.Popup += new PopupEventHandler(OnTooltipPopup);
 
+			m_transPanel = new TransparentPanel();
+			label1 = new Label();
+			
+			m_transPanel.Parent = this;
+			m_transPanel.AllowDrop = true;
+			m_transPanel.BackColor = System.Drawing.Color.Maroon;
+			m_transPanel.Controls.Add(this.label1);
+			m_transPanel.Location = new System.Drawing.Point(12, 234);
+			m_transPanel.Name = "panel1";
+			m_transPanel.Size = new System.Drawing.Size(110, 58);
+			m_transPanel.TabIndex = 2;
+			m_transPanel.DragDrop += new System.Windows.Forms.DragEventHandler(transPanel_DragDrop);
+			m_transPanel.DragEnter += new System.Windows.Forms.DragEventHandler(transPanel_DragEnter);
+			m_transPanel.DragOver += new System.Windows.Forms.DragEventHandler(transPanel_DragOver);
+			//m_transPanel.DragLeave += new System.EventHandler(transPanel_DragLeave);
+
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Red;
+			this.label1.Location = new System.Drawing.Point(2, 2);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(34, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Panel";
+			
+
 			m_fileNum = 0;
 			NewFile();
 		}
 		
-		public static string GetResource(string resourceName)
-		{
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			TextReader textReader = new StreamReader(assembly.GetManifestResourceStream(resourceName));
-			string result = textReader.ReadToEnd();
-			textReader.Close();
+		
 
-			return result;
-		}
-
+		#region Tab handlers
 		void OnTabClosing(TabStripItemClosingEventArgs e)
 		{
 			if(m_closingTab)
@@ -138,6 +193,7 @@ namespace Chameleon.GUI
 		{
 			m_currentEditor = m_tabsToEditors[e.Item];
 		}
+		#endregion
 
 		private void SelectEditor(ChameleonEditor editor)
 		{
@@ -158,7 +214,7 @@ namespace Chameleon.GUI
 
 			// load up our saved CPP config from the embedded resource and
 			// tell the editor to use those settings
-			string cppConfigXML = GetResource("Chameleon.ConfigCPP.xml");
+			string cppConfigXML = CU.Utilities.GetResource("Chameleon.ConfigCPP.xml");
 			TextReader tr = new StringReader(cppConfigXML);
 			Configuration config = new Configuration(tr, "cpp");
 			editor.ConfigurationManager.Configure(config);
@@ -601,6 +657,106 @@ namespace Chameleon.GUI
 			}
 
 			return true;
+		}
+
+
+		private void transPanel_DragEnter(object sender, DragEventArgs de)
+		{
+			if(m_draggingItem && m_dragInitialized)
+			{
+				return;
+			}
+
+			DataFormats.Format format = DataFormats.GetFormat("ChameleonSnippet");
+			if(de.Data.GetDataPresent(format.Name))
+			{
+				de.Effect = DragDropEffects.Copy;
+
+				Point clientPoint = CurrentEditor.PointToClient(new Point(de.X, de.Y));
+				int pos = CurrentEditor.PositionFromPoint(clientPoint.X, clientPoint.Y);
+
+				DropMarker dm = CurrentEditor.DropMarkers.Drop(pos);
+			}
+			else
+			{
+				de.Effect = DragDropEffects.None;
+			}
+
+			m_dragInitialized = true;
+		}
+
+		private void transPanel_DragOver(object sender, DragEventArgs de)
+		{
+			if(m_draggingItem)
+			{
+				Point clientPoint = CurrentEditor.PointToClient(new Point(de.X, de.Y));
+				int pos = CurrentEditor.PositionFromPoint(clientPoint.X, clientPoint.Y);
+
+				if(CurrentEditor.DropMarkers.MarkerStack.Count > 0)
+				{
+					DropMarker dm = CurrentEditor.DropMarkers.MarkerStack.Peek();
+
+					dm.Change(pos, pos);
+				}
+			}
+		}
+
+		private void transPanel_DragDrop(object sender, DragEventArgs de)
+		{
+			if(m_draggingItem)
+			{
+				DataFormats.Format format = DataFormats.GetFormat("ChameleonSnippet");
+
+				string snippetName = (string)de.Data.GetData(format.Name);
+
+				Point clientPoint = CurrentEditor.PointToClient(new Point(de.X, de.Y));
+				int pos = CurrentEditor.PositionFromPoint(clientPoint.X, clientPoint.Y);
+
+				DropMarker dm = CurrentEditor.DropMarkers.MarkerStack.Peek();
+				dm.Collect();
+
+				m_transPanel.SendToBack();
+
+				string snippetShortcut = m_snippets[snippetName];
+
+				CurrentEditor.Focus();
+				CurrentEditor.Snippets.InsertSnippet(snippetShortcut);
+			}
+
+		}
+
+		public void StartDrag()
+		{
+			if(m_draggingItem)
+			{
+				return;
+			}
+
+			m_draggingItem = true;
+			m_dragInitialized = false;
+
+			m_transPanel.Bounds = CurrentEditor.Bounds;
+			m_transPanel.BringToFront();
+		}
+
+		public void EndDrag()
+		{
+			m_draggingItem = false;
+			m_transPanel.SendToBack();
+
+			if(CurrentEditor.DropMarkers.MarkerStack.Count > 0)
+			{
+				DropMarker dm = CurrentEditor.DropMarkers.MarkerStack.Pop();
+
+				try
+				{
+					dm.Collect();
+				}
+				catch(NullReferenceException nre)
+				{
+					Console.WriteLine(nre.ToString());
+				}
+			}
 		}
 	}
 }
