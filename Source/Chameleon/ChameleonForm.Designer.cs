@@ -32,7 +32,7 @@
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +64,10 @@
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenRemote = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
+			this.btnSaveNormal = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolTextHost = new System.Windows.Forms.ToolStripTextBox();
@@ -73,10 +77,6 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
-			this.btnSaveNormal = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
@@ -84,10 +84,10 @@
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).BeginInit();
+			this.splitEditorTerminal.Panel1.SuspendLayout();
+			this.splitEditorTerminal.Panel2.SuspendLayout();
+			this.splitEditorTerminal.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -103,7 +103,7 @@
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.AutoScroll = true;
-			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
+			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitEditorTerminal);
 			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 453);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
@@ -137,23 +137,23 @@
 			this.toolStatusConnected.Name = "toolStatusConnected";
 			this.toolStatusConnected.Size = new System.Drawing.Size(0, 17);
 			// 
-			// splitContainer1
+			// splitEditorTerminal
 			// 
-			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer1.Name = "splitContainer1";
-			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.splitEditorTerminal.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitEditorTerminal.Location = new System.Drawing.Point(0, 0);
+			this.splitEditorTerminal.Name = "splitEditorTerminal";
+			this.splitEditorTerminal.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// splitContainer1.Panel1
+			// splitEditorTerminal.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.m_editors);
+			this.splitEditorTerminal.Panel1.Controls.Add(this.m_editors);
 			// 
-			// splitContainer1.Panel2
+			// splitEditorTerminal.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.terminalEmulator1);
-			this.splitContainer1.Size = new System.Drawing.Size(784, 453);
-			this.splitContainer1.SplitterDistance = 261;
-			this.splitContainer1.TabIndex = 5;
+			this.splitEditorTerminal.Panel2.Controls.Add(this.terminalEmulator1);
+			this.splitEditorTerminal.Size = new System.Drawing.Size(784, 453);
+			this.splitEditorTerminal.SplitterDistance = 261;
+			this.splitEditorTerminal.TabIndex = 5;
 			// 
 			// menuStrip1
 			// 
@@ -190,78 +190,82 @@
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
 			this.newToolStripMenuItem.Text = "New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.OnNewFile);
 			// 
 			// menuFileOpenLocal
 			// 
 			this.menuFileOpenLocal.Name = "menuFileOpenLocal";
-			this.menuFileOpenLocal.Size = new System.Drawing.Size(166, 22);
+			this.menuFileOpenLocal.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+			this.menuFileOpenLocal.Size = new System.Drawing.Size(230, 22);
 			this.menuFileOpenLocal.Text = "Open (Local)";
 			this.menuFileOpenLocal.Click += new System.EventHandler(this.OnFileOpenLocal);
 			// 
 			// menuFileOpenRemote
 			// 
 			this.menuFileOpenRemote.Name = "menuFileOpenRemote";
-			this.menuFileOpenRemote.Size = new System.Drawing.Size(166, 22);
+			this.menuFileOpenRemote.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+						| System.Windows.Forms.Keys.O)));
+			this.menuFileOpenRemote.Size = new System.Drawing.Size(230, 22);
 			this.menuFileOpenRemote.Text = "Open (Remote)";
 			this.menuFileOpenRemote.Click += new System.EventHandler(this.OnFileOpenRemote);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(163, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(227, 6);
 			// 
 			// menuFileSave
 			// 
 			this.menuFileSave.Name = "menuFileSave";
-			this.menuFileSave.Size = new System.Drawing.Size(166, 22);
+			this.menuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.menuFileSave.Size = new System.Drawing.Size(230, 22);
 			this.menuFileSave.Text = "Save File";
 			this.menuFileSave.Click += new System.EventHandler(this.OnFileSave);
 			// 
 			// menuFileSaveAsLocal
 			// 
 			this.menuFileSaveAsLocal.Name = "menuFileSaveAsLocal";
-			this.menuFileSaveAsLocal.Size = new System.Drawing.Size(166, 22);
+			this.menuFileSaveAsLocal.Size = new System.Drawing.Size(230, 22);
 			this.menuFileSaveAsLocal.Text = "Save As (Local)";
 			this.menuFileSaveAsLocal.Click += new System.EventHandler(this.OnFileSaveAsLocal);
 			// 
 			// menuFileSaveAsRemote
 			// 
 			this.menuFileSaveAsRemote.Name = "menuFileSaveAsRemote";
-			this.menuFileSaveAsRemote.Size = new System.Drawing.Size(166, 22);
+			this.menuFileSaveAsRemote.Size = new System.Drawing.Size(230, 22);
 			this.menuFileSaveAsRemote.Text = "Save As (Remote)";
 			this.menuFileSaveAsRemote.Click += new System.EventHandler(this.OnFileSaveAsRemote);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(163, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(227, 6);
 			// 
 			// menuFileClose
 			// 
 			this.menuFileClose.Name = "menuFileClose";
-			this.menuFileClose.Size = new System.Drawing.Size(166, 22);
+			this.menuFileClose.Size = new System.Drawing.Size(230, 22);
 			this.menuFileClose.Text = "Close";
 			this.menuFileClose.Click += new System.EventHandler(this.OnFileClose);
 			// 
 			// menuFileCloseAll
 			// 
 			this.menuFileCloseAll.Name = "menuFileCloseAll";
-			this.menuFileCloseAll.Size = new System.Drawing.Size(166, 22);
+			this.menuFileCloseAll.Size = new System.Drawing.Size(230, 22);
 			this.menuFileCloseAll.Text = "Close All";
 			this.menuFileCloseAll.Click += new System.EventHandler(this.OnFileCloseAll);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(163, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(227, 6);
 			// 
 			// menuFileExit
 			// 
 			this.menuFileExit.Name = "menuFileExit";
-			this.menuFileExit.Size = new System.Drawing.Size(166, 22);
+			this.menuFileExit.Size = new System.Drawing.Size(230, 22);
 			this.menuFileExit.Text = "Exit";
 			// 
 			// menuEdit
@@ -364,12 +368,12 @@
             this.btnNewFile,
             this.btnOpenLocal,
             this.btnOpenRemote,
-            this.toolStripSeparator1,
-            this.btnSave});
+            this.btnSave,
+            this.toolStripSeparator1});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.toolStrip1.Location = new System.Drawing.Point(3, 24);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(237, 38);
+			this.toolStrip1.Size = new System.Drawing.Size(206, 38);
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -407,6 +411,41 @@
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+			// 
+			// btnSave
+			// 
+			this.btnSave.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSaveNormal,
+            this.btnSaveAsL,
+            this.btnSaveAsR});
+			this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+			this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(47, 35);
+			this.btnSave.Text = "Save";
+			this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnSave.ButtonClick += new System.EventHandler(this.OnFileSave);
+			// 
+			// btnSaveNormal
+			// 
+			this.btnSaveNormal.Name = "btnSaveNormal";
+			this.btnSaveNormal.Size = new System.Drawing.Size(132, 22);
+			this.btnSaveNormal.Text = "Save";
+			this.btnSaveNormal.Click += new System.EventHandler(this.OnFileSave);
+			// 
+			// btnSaveAsL
+			// 
+			this.btnSaveAsL.Name = "btnSaveAsL";
+			this.btnSaveAsL.Size = new System.Drawing.Size(132, 22);
+			this.btnSaveAsL.Text = "Save As (L)";
+			this.btnSaveAsL.Click += new System.EventHandler(this.OnFileSaveAsLocal);
+			// 
+			// btnSaveAsR
+			// 
+			this.btnSaveAsR.Name = "btnSaveAsR";
+			this.btnSaveAsR.Size = new System.Drawing.Size(132, 22);
+			this.btnSaveAsR.Text = "Save As (R)";
+			this.btnSaveAsR.Click += new System.EventHandler(this.OnFileSaveAsRemote);
 			// 
 			// toolStrip2
 			// 
@@ -482,41 +521,6 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.toolHostDisconnect_Click);
 			// 
-			// btnSave
-			// 
-			this.btnSave.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSaveNormal,
-            this.btnSaveAsL,
-            this.btnSaveAsR});
-			this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
-			this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(47, 35);
-			this.btnSave.Text = "Save";
-			this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnSave.ButtonClick += new System.EventHandler(this.OnFileSave);
-			// 
-			// btnSaveNormal
-			// 
-			this.btnSaveNormal.Name = "btnSaveNormal";
-			this.btnSaveNormal.Size = new System.Drawing.Size(152, 22);
-			this.btnSaveNormal.Text = "Save";
-			this.btnSaveNormal.Click += new System.EventHandler(this.OnFileSave);
-			// 
-			// btnSaveAsL
-			// 
-			this.btnSaveAsL.Name = "btnSaveAsL";
-			this.btnSaveAsL.Size = new System.Drawing.Size(152, 22);
-			this.btnSaveAsL.Text = "Save As (L)";
-			this.btnSaveAsL.Click += new System.EventHandler(this.OnFileSaveAsLocal);
-			// 
-			// btnSaveAsR
-			// 
-			this.btnSaveAsR.Name = "btnSaveAsR";
-			this.btnSaveAsR.Size = new System.Drawing.Size(152, 22);
-			this.btnSaveAsR.Text = "Save As (R)";
-			this.btnSaveAsR.Click += new System.EventHandler(this.OnFileSaveAsRemote);
-			// 
 			// m_editors
 			// 
 			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -530,6 +534,7 @@
 			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
 			this.terminalEmulator1.Columns = 111;
 			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
 			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 8F);
 			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
 			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
@@ -559,10 +564,10 @@
 			this.toolStripContainer1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-			this.splitContainer1.ResumeLayout(false);
+			this.splitEditorTerminal.Panel1.ResumeLayout(false);
+			this.splitEditorTerminal.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).EndInit();
+			this.splitEditorTerminal.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
@@ -619,7 +624,7 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStatusConnected;
 		private System.Windows.Forms.ToolStripLabel toolStripLabel3;
 		private System.Windows.Forms.ToolStripTextBox toolTextUser;
-		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.SplitContainer splitEditorTerminal;
 		private WalburySoftware.TerminalEmulator terminalEmulator1;
 		private System.Windows.Forms.ToolStripSplitButton btnSave;
 		private System.Windows.Forms.ToolStripMenuItem btnSaveNormal;

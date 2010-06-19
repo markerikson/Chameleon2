@@ -103,9 +103,9 @@ namespace WalburySoftware
 		private System.Int32                 _rows;
 		private System.Int32                 TopMargin;
 		private System.Int32                 BottomMargin;
-		private System.String                TypeFace      = FontFamily.GenericMonospace.GetName(0);
+		private System.String				TypeFace = "Courier New";//FontFamily.GenericMonospace.GetName(0);
 		private System.Drawing.FontStyle     TypeStyle     = System.Drawing.FontStyle.Regular;
-		private System.Int32                 TypeSize      = 8;
+		private System.Int32                 TypeSize      = 10;
 		private System.Drawing.Size          CharSize;
 		private System.Int32                 UnderlinePos; 
 		private uc_Caret                     Caret;
@@ -164,7 +164,7 @@ namespace WalburySoftware
 			//this.Font       = new System.Drawing.Font(FontFamily.GenericMonospace, 8.5F);
 
 			//this.FGColor      = System.Drawing.Color.FromArgb (200, 200, 200);
-			this.FGColor      = System.Drawing.Color.GreenYellow;
+			this.FGColor      = System.Drawing.Color.White;
 			this.BackColor    = System.Drawing.Color.FromArgb (0, 0, 160);
 			this.BoldColor    = System.Drawing.Color.FromArgb (255, 255, 255);
 			this.BlinkColor   = System.Drawing.Color.Red;
@@ -643,7 +643,7 @@ namespace WalburySoftware
 					this.TextAtCursor = this.TextAtCursor + Convert.ToString(CurChar);
 				}
 			}
-	
+			
 			switch (se.Type)
 			{
 				case ScrollEventType.SmallIncrement: // down

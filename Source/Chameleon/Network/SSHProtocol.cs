@@ -1,16 +1,9 @@
-/*
- * Created by SharpDevelop.
- * User: CableJ01
- * Date: 18/01/2009
- * Time: 13:57
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
 using System;
 using Routrek.SSHC;
-//using System.Net;
 using System.Net.Sockets;
 using Chameleon.Network;
+using Chameleon.GUI;
+using WalburySoftware;
 
 namespace SSHClient
 {
@@ -88,24 +81,25 @@ namespace SSHClient
 		#endregion
 		#region Public Delegates
 		public delegate void DataIndicate(byte[] data);
-        //public delegate void Disconnect();
         #endregion
 		#region Public Events
 	    public event DataIndicate OnDataIndicated;
         public event Action OnDisconnect;
 		#endregion
+
+		#region private fields
+		TerminalEmulator m_term;
+
+		#endregion
 		#region Public Constructors
-		public SSHProtocol()
+		public SSHProtocol(TerminalEmulator term)
 		{
-			_params = new SSHConnectionParameter();
-            _params.KeyCheck = delegate(SSHConnectionInfo info) {
-                //byte[] h = info.HostKeyMD5FingerPrint();
-                //foreach(byte b in h) Debug.Write(String.Format("{0:x2} ", b));
-                return true;
-            };
+
+			m_term = term;
 		}
 		#endregion
 		#region Public Methods
+		/*
 		public void setTerminalParams(string type, int rows, int cols)
 		{
 			_params = new SSHConnectionParameter();
@@ -127,20 +121,6 @@ namespace SSHClient
                 authMethod = AuthMethod.KeyboardInteractive;
         	Username=userName;
             
-			/*
-            if(authMethod==AuthMethod.PublicKey)
-            {
-                if (key == null || key == "")
-                {
-                    authMethod = AuthMethod.Password;
-                }
-                else
-                {
-            		Key = SSH2UserAuthKey.FromBase64String(key).toSECSHStyle("");
-            	    AuthenticationType=AuthenticationType.PublicKey;
-                }
-            }
-			*/
             if(authMethod==AuthMethod.Password)
             {
                 if(pass==null)
@@ -164,10 +144,12 @@ namespace SSHClient
                 Protocol = Routrek.SSHC.SSHProtocol.SSH2;
             }
 		}
+		*/
 		public void RequestData (byte[] data)
 		{
 			_pf.Transmit(data, 0, data.Length);
 		}
+		/*
 		public void Connect (Socket s)
 		{
 			_params.WindowSize = 0x1000;
@@ -175,16 +157,25 @@ namespace SSHClient
 			_pf = _conn.OpenShell(this);
 			SSHConnectionInfo ci = _conn.ConnectionInfo;
 		}
-
+		*/
 		public void Connect()
 		{
 			_conn = Networking.Instance.Connection;
+
+			this.OnDataIndicated += m_term.IndicateData;
+			m_term.OnDataRequested += this.RequestData;
+
+			m_term.Enabled = true;
 			_pf = _conn.OpenShell(this);
 		}
 
 		public void Disconnect()
 		{
 			_pf.Close();
+
+			m_term.Enabled = false;
+			this.OnDataIndicated -= m_term.IndicateData;
+			m_term.OnDataRequested -= this.RequestData;
 		}
 		
 		public void OnData(byte[] data, int offset, int length)
@@ -223,8 +214,10 @@ namespace SSHClient
 		public void OnChannelClosed()
 		{
 			//Debug.WriteLine("Channel closed");
-			_conn.Disconnect("");
+			//_conn.Disconnect("");
 			//_conn.AsyncReceive(this);
+
+			Disconnect();
 		}
 
 		public void OnChannelEOF()

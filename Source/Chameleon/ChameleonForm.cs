@@ -61,11 +61,11 @@ namespace Chameleon
 
 			toolHostDisconnect.Enabled = false;
 
-			m_sshProtocol = new SSHProtocol();
+			m_sshProtocol = new SSHProtocol(terminalEmulator1);
 
-			m_sshProtocol.OnDataIndicated += terminalEmulator1.IndicateData;
-			//m_sshProtocol.OnDisconnect += this.OnDisconnected;
-			terminalEmulator1.OnDataRequested += m_sshProtocol.RequestData;
+			
+
+			
 			
 		}
 
