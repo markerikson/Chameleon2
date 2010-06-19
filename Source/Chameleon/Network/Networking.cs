@@ -99,7 +99,7 @@ namespace Chameleon.Network
 
 	class Networking
 	{
-		private SSH2Connection m_conn;
+		private SSH2Connection m_conn;		
 		private SFTPConnection m_sftp;
 
 		private static List<string> m_dirsToSkip;
@@ -128,6 +128,12 @@ namespace Chameleon.Network
 			{
 				return Singleton<Networking>.Instance;
 			}
+		}
+
+		public Routrek.SSHCV2.SSH2Connection Connection
+		{
+			get { return m_conn; }
+			set { m_conn = value; }
 		}
 
 

@@ -346,7 +346,7 @@ namespace Chameleon.GUI
 			m_currentDirListing = dl;
 			FillListView();
 
-			return false;
+			return true;
 		}
 		
 		

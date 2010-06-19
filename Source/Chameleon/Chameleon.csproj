@@ -106,7 +106,11 @@
     <Compile Include="GUI\RemoteFileDialog.Designer.cs">
       <DependentUpon>RemoteFileDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\TerminalControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Network\Networking.cs" />
+    <Compile Include="Network\SSHProtocol.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DataStructures.cs" />

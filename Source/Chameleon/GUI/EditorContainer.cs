@@ -419,18 +419,23 @@ namespace Chameleon.GUI
 					}
 					else
 					{
-						filename = m_currentEditor.Filename;
+						return false;
 					}
 
 					if(filename == "")
 					{
 						return false;
 					}
-
-					FilePath fp = new FilePath(filename, PathFormat.Unix);
-
-					Networking.Instance.SendFileContents(fp, fileContents);
 				}
+				else
+				{
+					filename = m_currentEditor.Filename;
+				}
+
+				FilePath fp = new FilePath(filename, PathFormat.Unix);
+
+				Networking.Instance.SendFileContents(fp, fileContents);
+				
 			}
 			// shouldn't be Unknown by this point
 

@@ -32,7 +32,7 @@
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
-			this.m_editors = new Chameleon.GUI.EditorContainer();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,11 +73,21 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
+			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
+			this.btnSaveNormal = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_editors = new Chameleon.GUI.EditorContainer();
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -93,7 +103,7 @@
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.AutoScroll = true;
-			this.toolStripContainer1.ContentPanel.Controls.Add(this.m_editors);
+			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
 			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 453);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
@@ -127,13 +137,23 @@
 			this.toolStatusConnected.Name = "toolStatusConnected";
 			this.toolStatusConnected.Size = new System.Drawing.Size(0, 17);
 			// 
-			// m_editors
+			// splitContainer1
 			// 
-			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_editors.Location = new System.Drawing.Point(0, 0);
-			this.m_editors.Name = "m_editors";
-			this.m_editors.Size = new System.Drawing.Size(784, 453);
-			this.m_editors.TabIndex = 4;
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.m_editors);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.terminalEmulator1);
+			this.splitContainer1.Size = new System.Drawing.Size(784, 453);
+			this.splitContainer1.SplitterDistance = 261;
+			this.splitContainer1.TabIndex = 5;
 			// 
 			// menuStrip1
 			// 
@@ -344,11 +364,12 @@
             this.btnNewFile,
             this.btnOpenLocal,
             this.btnOpenRemote,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.btnSave});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.toolStrip1.Location = new System.Drawing.Point(3, 24);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(159, 38);
+			this.toolStrip1.Size = new System.Drawing.Size(237, 38);
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -461,6 +482,63 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.toolHostDisconnect_Click);
 			// 
+			// btnSave
+			// 
+			this.btnSave.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSaveNormal,
+            this.btnSaveAsL,
+            this.btnSaveAsR});
+			this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+			this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(47, 35);
+			this.btnSave.Text = "Save";
+			this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnSave.ButtonClick += new System.EventHandler(this.OnFileSave);
+			// 
+			// btnSaveNormal
+			// 
+			this.btnSaveNormal.Name = "btnSaveNormal";
+			this.btnSaveNormal.Size = new System.Drawing.Size(152, 22);
+			this.btnSaveNormal.Text = "Save";
+			this.btnSaveNormal.Click += new System.EventHandler(this.OnFileSave);
+			// 
+			// btnSaveAsL
+			// 
+			this.btnSaveAsL.Name = "btnSaveAsL";
+			this.btnSaveAsL.Size = new System.Drawing.Size(152, 22);
+			this.btnSaveAsL.Text = "Save As (L)";
+			this.btnSaveAsL.Click += new System.EventHandler(this.OnFileSaveAsLocal);
+			// 
+			// btnSaveAsR
+			// 
+			this.btnSaveAsR.Name = "btnSaveAsR";
+			this.btnSaveAsR.Size = new System.Drawing.Size(152, 22);
+			this.btnSaveAsR.Text = "Save As (R)";
+			this.btnSaveAsR.Click += new System.EventHandler(this.OnFileSaveAsRemote);
+			// 
+			// m_editors
+			// 
+			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_editors.Location = new System.Drawing.Point(0, 0);
+			this.m_editors.Name = "m_editors";
+			this.m_editors.Size = new System.Drawing.Size(784, 261);
+			this.m_editors.TabIndex = 4;
+			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 111;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 8F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 14;
+			this.terminalEmulator1.Size = new System.Drawing.Size(784, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -481,6 +559,10 @@
 			this.toolStripContainer1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
@@ -537,6 +619,12 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStatusConnected;
 		private System.Windows.Forms.ToolStripLabel toolStripLabel3;
 		private System.Windows.Forms.ToolStripTextBox toolTextUser;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private WalburySoftware.TerminalEmulator terminalEmulator1;
+		private System.Windows.Forms.ToolStripSplitButton btnSave;
+		private System.Windows.Forms.ToolStripMenuItem btnSaveNormal;
+		private System.Windows.Forms.ToolStripMenuItem btnSaveAsL;
+		private System.Windows.Forms.ToolStripMenuItem btnSaveAsR;
 	}
 }
 

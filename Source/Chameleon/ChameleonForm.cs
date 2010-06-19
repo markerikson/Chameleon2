@@ -12,6 +12,7 @@ using System.IO;
 using Chameleon.GUI;
 using Chameleon.Util;
 using Chameleon.Network;
+using SSHClient;
 
 namespace Chameleon
 {
@@ -20,6 +21,7 @@ namespace Chameleon
 		private static bool m_appClosing = false;
 
 		private Networking m_networking;
+		private SSHProtocol m_sshProtocol;
 
 		public static bool AppClosing
 		{
@@ -54,10 +56,16 @@ namespace Chameleon
 
 			toolStatusConnected.Text = "Disconnected";
 
-			toolTextHost.Text = "192.168.30.128";
+			toolTextHost.Text = "192.168.1.103";
 			toolTextUser.Text = "root";
 
 			toolHostDisconnect.Enabled = false;
+
+			m_sshProtocol = new SSHProtocol();
+
+			m_sshProtocol.OnDataIndicated += terminalEmulator1.IndicateData;
+			//m_sshProtocol.OnDisconnect += this.OnDisconnected;
+			terminalEmulator1.OnDataRequested += m_sshProtocol.RequestData;
 			
 		}
 
@@ -177,20 +185,25 @@ namespace Chameleon
 			string user = toolTextUser.Text;
 			string password = toolTextPassword.Text;
 
-			m_networking.Connect(host, user, password);
+			if(m_networking.Connect(host, user, password))
+			{
+				m_sshProtocol.Connect();
 
-			toolTextHost.Enabled = false;
-			toolTextUser.Enabled = false;
-			toolTextPassword.Enabled = false;
-			toolHostConnect.Enabled = false;
-			toolHostDisconnect.Enabled = true;
+				toolTextHost.Enabled = false;
+				toolTextUser.Enabled = false;
+				toolTextPassword.Enabled = false;
+				toolHostConnect.Enabled = false;
+				toolHostDisconnect.Enabled = true;
 
-			toolStatusConnected.Text = "Connected";
+				toolStatusConnected.Text = "Connected";
+			}		
 		}
 
 		private void toolHostDisconnect_Click(object sender, EventArgs e)
 		{
 			m_networking.Disconnect();
+			m_sshProtocol.Disconnect();
+			
 
 			toolTextHost.Enabled = true;
 			toolTextUser.Enabled = true;
