@@ -63,11 +63,11 @@
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenRemote = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
 			this.btnSaveNormal = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolTextHost = new System.Windows.Forms.ToolStripTextBox();
@@ -77,6 +77,11 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
+			this.btnDummyFeature1 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnDummyFeature2 = new System.Windows.Forms.ToolStripButton();
+			this.splitSnippetsEditor = new System.Windows.Forms.SplitContainer();
+			this.menuFeatures = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
@@ -91,6 +96,9 @@
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).BeginInit();
+			this.splitSnippetsEditor.Panel2.SuspendLayout();
+			this.splitSnippetsEditor.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripContainer1
@@ -103,7 +111,7 @@
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.AutoScroll = true;
-			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitEditorTerminal);
+			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitSnippetsEditor);
 			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 453);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
@@ -161,7 +169,8 @@
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuEdit,
-            this.menuHelp});
+            this.menuHelp,
+            this.menuFeatures});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -369,11 +378,14 @@
             this.btnOpenLocal,
             this.btnOpenRemote,
             this.btnSave,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.btnDummyFeature1,
+            this.toolStripSeparator2,
+            this.btnDummyFeature2});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.toolStrip1.Location = new System.Drawing.Point(3, 24);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(206, 38);
+			this.toolStrip1.Size = new System.Drawing.Size(330, 38);
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -406,11 +418,6 @@
 			this.btnOpenRemote.Text = "Open (R)";
 			this.btnOpenRemote.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.btnOpenRemote.Click += new System.EventHandler(this.OnFileOpenRemote);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
 			// 
 			// btnSave
 			// 
@@ -446,6 +453,11 @@
 			this.btnSaveAsR.Size = new System.Drawing.Size(132, 22);
 			this.btnSaveAsR.Text = "Save As (R)";
 			this.btnSaveAsR.Click += new System.EventHandler(this.OnFileSaveAsRemote);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
 			// 
 			// toolStrip2
 			// 
@@ -509,7 +521,7 @@
 			this.toolHostConnect.Name = "toolHostConnect";
 			this.toolHostConnect.Size = new System.Drawing.Size(23, 22);
 			this.toolHostConnect.Text = "Connect";
-			this.toolHostConnect.Click += new System.EventHandler(this.toolHostConnect_Click);
+			this.toolHostConnect.Click += new System.EventHandler(this.OnHostConnect);
 			// 
 			// toolHostDisconnect
 			// 
@@ -519,7 +531,50 @@
 			this.toolHostDisconnect.Name = "toolHostDisconnect";
 			this.toolHostDisconnect.Size = new System.Drawing.Size(23, 22);
 			this.toolHostDisconnect.Text = "Disconnect";
-			this.toolHostDisconnect.Click += new System.EventHandler(this.toolHostDisconnect_Click);
+			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
+			// 
+			// btnDummyFeature1
+			// 
+			this.btnDummyFeature1.Image = ((System.Drawing.Image)(resources.GetObject("btnDummyFeature1.Image")));
+			this.btnDummyFeature1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDummyFeature1.Name = "btnDummyFeature1";
+			this.btnDummyFeature1.Size = new System.Drawing.Size(59, 35);
+			this.btnDummyFeature1.Text = "Feature 1";
+			this.btnDummyFeature1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+			// 
+			// btnDummyFeature2
+			// 
+			this.btnDummyFeature2.Image = ((System.Drawing.Image)(resources.GetObject("btnDummyFeature2.Image")));
+			this.btnDummyFeature2.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDummyFeature2.Name = "btnDummyFeature2";
+			this.btnDummyFeature2.Size = new System.Drawing.Size(59, 35);
+			this.btnDummyFeature2.Text = "Feature 2";
+			this.btnDummyFeature2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			// 
+			// splitSnippetsEditor
+			// 
+			this.splitSnippetsEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitSnippetsEditor.Location = new System.Drawing.Point(0, 0);
+			this.splitSnippetsEditor.Name = "splitSnippetsEditor";
+			this.splitSnippetsEditor.Panel1Collapsed = true;
+			// 
+			// splitSnippetsEditor.Panel2
+			// 
+			this.splitSnippetsEditor.Panel2.Controls.Add(this.splitEditorTerminal);
+			this.splitSnippetsEditor.Size = new System.Drawing.Size(784, 453);
+			this.splitSnippetsEditor.SplitterDistance = 261;
+			this.splitSnippetsEditor.TabIndex = 5;
+			// 
+			// menuFeatures
+			// 
+			this.menuFeatures.Name = "menuFeatures";
+			this.menuFeatures.Size = new System.Drawing.Size(63, 20);
+			this.menuFeatures.Text = "Features";
 			// 
 			// m_editors
 			// 
@@ -532,14 +587,14 @@
 			// terminalEmulator1
 			// 
 			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 111;
+			this.terminalEmulator1.Columns = 97;
 			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 8F);
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
 			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
 			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
 			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 14;
+			this.terminalEmulator1.Rows = 11;
 			this.terminalEmulator1.Size = new System.Drawing.Size(784, 188);
 			this.terminalEmulator1.TabIndex = 0;
 			this.terminalEmulator1.Text = "terminalEmulator1";
@@ -574,6 +629,9 @@
 			this.toolStrip1.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
+			this.splitSnippetsEditor.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).EndInit();
+			this.splitSnippetsEditor.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -630,6 +688,11 @@
 		private System.Windows.Forms.ToolStripMenuItem btnSaveNormal;
 		private System.Windows.Forms.ToolStripMenuItem btnSaveAsL;
 		private System.Windows.Forms.ToolStripMenuItem btnSaveAsR;
+		private System.Windows.Forms.ToolStripButton btnDummyFeature1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripButton btnDummyFeature2;
+		private System.Windows.Forms.SplitContainer splitSnippetsEditor;
+		private System.Windows.Forms.ToolStripMenuItem menuFeatures;
 	}
 }
 

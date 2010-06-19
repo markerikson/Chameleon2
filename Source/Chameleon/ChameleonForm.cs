@@ -12,6 +12,7 @@ using System.IO;
 using Chameleon.GUI;
 using Chameleon.Util;
 using Chameleon.Network;
+using Chameleon.Features;
 using SSHClient;
 
 namespace Chameleon
@@ -63,16 +64,34 @@ namespace Chameleon
 
 			m_sshProtocol = new SSHProtocol(terminalEmulator1);
 
-			
+			string[] featureNames = Enum.GetNames(typeof(ChameleonFeatures));
 
-			
-			
+			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
+
+			for(int i = 1; i < featureNames.Length; i++)
+			{
+				ToolStripMenuItem item = new ToolStripMenuItem();
+				item.Text = featureNames[i];
+
+				ChameleonFeatures feature;
+				Enum.TryParse<ChameleonFeatures>(featureNames[i], out feature);
+
+				if(perms.HasFlag(feature))
+				{
+					item.Checked = true;
+				}
+
+				item.CheckedChanged += new EventHandler(test1ToolStripMenuItem_CheckedChanged);
+				item.CheckOnClick = true;
+
+				menuFeatures.DropDownItems.Add(item);
+			}
+
+
+			ShowPermittedUI();
 		}
 
-		private void menuHelpAbout_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Chameleon 2.0 alpha 0.0002");
-		}
+		
 
 		private void ChameleonForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -179,7 +198,17 @@ namespace Chameleon
 
 		#endregion
 
-		private void toolHostConnect_Click(object sender, EventArgs e)
+		#region Help Menu handlers
+
+		private void menuHelpAbout_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Chameleon 2.0 alpha 0.0002");
+		}
+
+		#endregion
+
+		#region Toolbar handlers
+		private void OnHostConnect(object sender, EventArgs e)
 		{
 			string host = toolTextHost.Text;
 			string user = toolTextUser.Text;
@@ -199,7 +228,7 @@ namespace Chameleon
 			}		
 		}
 
-		private void toolHostDisconnect_Click(object sender, EventArgs e)
+		private void OnHostDisconnect(object sender, EventArgs e)
 		{
 			m_networking.Disconnect();
 			m_sshProtocol.Disconnect();
@@ -212,6 +241,64 @@ namespace Chameleon
 			toolHostDisconnect.Enabled = false;
 
 			toolStatusConnected.Text = "Disconnected";
+		}
+
+		#endregion
+
+		private void ShowPermittedUI()
+		{
+			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
+
+			// clear out toolbar items after the basics
+			int indexAfterSave = toolStrip1.Items.IndexOf(btnSave) + 1;
+			int remainingItems = toolStrip1.Items.Count - (indexAfterSave);
+
+			for(int i = 0; i < remainingItems; i++)
+			{
+				toolStrip1.Items.RemoveAt(indexAfterSave);
+			}
+
+			if(perms.HasFlag(ChameleonFeatures.Feature1))
+			{
+				toolStrip1.Items.Add(new ToolStripSeparator());
+				toolStrip1.Items.Add(btnDummyFeature1);
+			}
+
+			if(perms.HasFlag(ChameleonFeatures.Feature2))
+			{
+				toolStrip1.Items.Add(new ToolStripSeparator());
+				toolStrip1.Items.Add(btnDummyFeature2);
+			}
+
+			splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
+			
+			
+		}
+
+		private void test1ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
+			ToolStripMenuItem item = sender as ToolStripMenuItem;
+
+			ChameleonFeatures feature;
+			Enum.TryParse<ChameleonFeatures>(item.Text, out feature);
+
+			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
+
+			if(item.Checked)
+			{
+				perms |= feature;
+			}
+			else
+			{
+				perms &= ~feature;
+			}
+
+			App.Configuration.PermittedFeatures = perms;
+			App.Configuration.SaveSettings();
+
+			ShowPermittedUI();
+
+			//Console.WriteLine("Item {0} checked: {1}", item.Text, item.Checked);
 		}
 
 	}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Westwind.Tools;
 using System.IO;
+using Chameleon.Features;
 
 namespace Chameleon
 {
@@ -43,7 +44,10 @@ namespace Chameleon
 		}
 
 		public string FeaturePermissionsURL = "http://www.isquaredsoftware.com/iu/chameleonfeatures.php";
+
 		public string StudentID = "s1278644";
+
+		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.NoFeature;
 		
 	}
 }
