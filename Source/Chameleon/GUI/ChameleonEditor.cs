@@ -6,44 +6,11 @@ using ScintillaNet;
 using System.Drawing;
 using System.IO;
 using FarsiLibrary.Win;
+using Chameleon.Features;
 using Chameleon.Util;
 
 namespace Chameleon.GUI
 {
-	public enum FileLocation
-	{
-		Local,
-		Remote,
-		Unknown
-	}
-
-	public class FileInformation
-	{
-		private FileLocation m_location;		
-		private FilePath m_filename;
-
-		public FilePath Filename
-		{
-			get { return m_filename; }
-			set 
-			{ 
-				m_filename = value; 
-			}
-		}
-		public Chameleon.GUI.FileLocation Location
-		{
-			get { return m_location; }
-			set 
-			{ m_location = value; }
-		}
-
-		public FileInformation()
-		{
-			m_location = FileLocation.Unknown;
-			m_filename = new FilePath();
-		}
-	}
-
 	public class ChameleonEditor : Scintilla
 	{
 		private FileInformation m_fileInfo;
@@ -51,21 +18,19 @@ namespace Chameleon.GUI
 
 		private static Dictionary<FileLocation, string> m_titlePrefixes;
 
-		static ChameleonEditor()
-		{
-			m_titlePrefixes = new Dictionary<FileLocation, string>();
-			m_titlePrefixes[FileLocation.Local] = "(L) ";
-			m_titlePrefixes[FileLocation.Remote] = "(R) ";
-			m_titlePrefixes[FileLocation.Unknown] = "(?) ";
-		}
+		private char m_lastCharAdded;
 
+		private CppContext m_context;
+		
+
+		#region Properties
 		public FATabStripItem ParentTab
 		{
 			get { return m_parentTab; }
 			set { m_parentTab = value; }
 		}		
 
-		public Chameleon.GUI.FileLocation FileLocation
+		public Chameleon.Util.FileLocation FileLocation
 		{
 			get { return m_fileInfo.Location; }
 			set 
@@ -95,6 +60,16 @@ namespace Chameleon.GUI
 				UpdateTitleText();
 			}
 		}
+		#endregion
+
+		#region Constructors
+		static ChameleonEditor()
+		{
+			m_titlePrefixes = new Dictionary<FileLocation, string>();
+			m_titlePrefixes[FileLocation.Local] = "(L) ";
+			m_titlePrefixes[FileLocation.Remote] = "(R) ";
+			m_titlePrefixes[FileLocation.Unknown] = "(?) ";
+		}
 
 		public ChameleonEditor()
 		{
@@ -102,8 +77,12 @@ namespace Chameleon.GUI
 			Filename = "";
 			FileLocation = FileLocation.Unknown;
 
+			m_context = new CppContext(this);
+			
+
 			this.ModifiedChanged += new EventHandler(OnEditorModifiedChanged);
 		}
+		#endregion
 
 		private void UpdateTitleText()
 		{
@@ -236,6 +215,290 @@ namespace Chameleon.GUI
 			this.FileLocation = location;
 			this.Filename = filename;
 			this.Modified = false;
+		}
+
+		protected override void OnCharAdded(CharAddedEventArgs e)
+		{
+			int pos = this.CurrentPos;
+
+			char matchChar = char.MinValue;
+
+			switch(e.Ch)
+			{
+				case '(':
+				{
+					if(m_context.IsCommentOrString(CurrentPos) == false)
+					{
+						// TODO implement this
+						//CodeComplete();
+					}
+					matchChar = ')';
+					break;
+				}
+				case '[':
+				{
+					matchChar = ']';
+					break;
+				}
+
+				case '{':
+				{
+					m_context.AutoIndent(e.Ch);
+					matchChar = '}';
+					break;
+				}
+
+				case ':':
+				{
+					m_context.AutoIndent(e.Ch);
+					goto case '.';
+				}
+
+				// fall through...
+				case '.':
+				case '>':
+				{
+					if(m_context.IsCommentOrString(CurrentPos) == false)
+					{
+						//CodeComplete();
+					}
+					break;
+				}
+				case '}':
+				{
+					m_context.AutoIndent(e.Ch);
+					break;
+				}
+				case '\n':
+				{
+					// in case ENTER was hit immediately after we inserted '{' into the code
+					if(m_lastCharAdded == '{' )// && m_autoAddMatchedBrace)
+					{
+						matchChar = '}';
+						InsertText(pos, matchChar.ToString());
+						UndoRedo.BeginUndoAction();
+						NativeInterface.CharRight();
+
+						m_context.AutoIndent('}');
+
+						InsertText(pos, Environment.NewLine);
+						NativeInterface.CharRight();
+						Selection.Start = pos;
+
+						m_context.AutoIndent('\n');
+
+						UndoRedo.EndUndoAction();
+
+					}
+					else
+					{
+						m_context.AutoIndent(e.Ch);						
+					}
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+
+			if(matchChar != char.MinValue ) // && m_autoAddMatchedBrace && !m_ccntext.IsCommentOrString(pos))
+			{
+				if(matchChar == ')')
+				{
+					// avoid adding close brace if the next char is not a whitespace
+					// character
+				}
+			}
+		}
+
+		private char SafeGetChar(int pos)
+		{
+			if(pos < 0 || pos >= TextLength)
+			{
+				return char.MinValue;
+			}
+			return NativeInterface.GetCharAt(pos);
+		}
+
+		public char PreviousChar(int pos, ref int foundPos, bool wantWhitespace)
+		{
+			char ch = char.MinValue;
+			int curpos = NativeInterface.PositionBefore( pos );
+
+			if (curpos == 0) 
+			{
+				foundPos = curpos;
+				return ch;
+			}
+
+			while ( true ) 
+			{
+				ch = NativeInterface.GetCharAt( curpos );
+				if (ch == '\t' || ch == ' ' || ch == '\r' || ch == '\v' || ch == '\n') 
+				{
+					//if the caller is interested in whitespace,
+					//simply return it
+					if (wantWhitespace) 
+					{
+						foundPos = curpos;
+						return ch;
+					}
+
+					long tmpPos = curpos;
+					curpos = NativeInterface.PositionBefore( curpos );
+					if (curpos == 0 && tmpPos == curpos)
+						break;
+				}
+				else 
+				{
+					foundPos = curpos;
+					return ch;
+				}
+			}
+			foundPos = -1;
+			return ch;
+		}
+
+
+		public string PreviousWord(int pos, ref int foundPos)
+		{
+			// Get the partial word that we have
+			char ch = char.MinValue;
+			int curpos = NativeInterface.PositionBefore( pos );
+
+			if (curpos == 0) 
+			{
+				foundPos = -1;
+				return "";
+			}
+
+			while ( true ) 
+			{
+				ch = NativeInterface.GetCharAt(curpos);
+
+				if (ch == '\t' || ch == ' ' || ch == '\r' || ch == '\v' || ch == '\n') 
+				{
+					int tmpPos = curpos;
+					curpos = NativeInterface.PositionBefore(curpos);
+					if (curpos == 0 && tmpPos == curpos)
+						break;
+				}
+				else 
+				{
+					int start = NativeInterface.WordStartPosition(curpos, true);
+					int end = NativeInterface.WordEndPosition(curpos, true);
+					//return NativeInterface.GetTextRange(start, end);
+					return new Range(start, end, this).Text;
+				}
+			}
+			foundPos = -1;
+			return "";
+		}
+
+		public char NextChar(int pos, ref int foundPos )
+		{
+			char ch = char.MinValue;
+			int nextpos = pos;
+
+			while ( true ) 
+			{
+				if ( nextpos >= TextLength )
+					break;
+
+				ch = NativeInterface.GetCharAt(nextpos);
+				if (ch == '\t' || ch == ' ' || ch == '\r' || ch == '\v' || ch == '\n') 
+				{
+					nextpos = NativeInterface.PositionAfter( nextpos );
+					continue;
+				} 
+				else 
+				{
+					foundPos = nextpos;
+					return ch;
+				}
+			}
+
+			foundPos = -1;
+			return ch;
+		}
+
+		public bool MatchBraceBack(char chCloseBrace, int pos, ref int matchedPos)
+		{
+			if (pos <= 0)
+				return false;
+
+			char chOpenBrace;
+
+			switch (chCloseBrace) 
+			{
+				case '}':
+				{
+					chOpenBrace = '{';
+					break;
+				}
+
+				case ')':
+				{
+					chOpenBrace = '(';
+					break;
+				}
+				case ']':
+				{
+					chOpenBrace = '[';
+					break;
+				}
+				case '>':
+				{
+					chOpenBrace = '<';
+					break;
+				}
+				default:
+				{
+					return false;
+				}
+			}
+
+			int nPrevPos = pos;
+			char ch;
+			int depth = 1;
+
+			// We go backward
+			while (true) 
+			{
+				if (nPrevPos == 0)
+					break;
+				nPrevPos = NativeInterface.PositionBefore(nPrevPos);
+
+				// Make sure we are not in a comment
+				if (m_context.IsCommentOrString(nPrevPos))
+					continue;
+
+				ch = NativeInterface.GetCharAt(nPrevPos);
+				if (ch == chOpenBrace) 
+				{
+					// Dec the depth level
+					depth--;
+					if (depth == 0) 
+					{
+						matchedPos = nPrevPos;
+						return true;
+					}
+				} 
+				else if (ch == chCloseBrace) 
+				{
+					// Inc depth level
+					depth++;
+				}
+			}
+			return false;
+		}
+
+		public void SetCaretAt(int pos)
+		{
+			NativeInterface.SetCurrentPos(pos);
+			NativeInterface.SetSelectionStart(pos);
+			NativeInterface.SetSelectionEnd(pos);
 		}
 	}
 }
