@@ -243,7 +243,7 @@ namespace Granados
 			}
 
 			DateTime connectionStartTime = DateTime.Now;
-			DateTime maxWaitTime = connectionStartTime.AddSeconds(10);
+			DateTime maxWaitTime = connectionStartTime.AddSeconds(30);
 
 			m_thread.Start();
 
@@ -1800,6 +1800,7 @@ namespace Granados
 		#region SFTP helper functions
 		private String remoteAbsolutePath(String path)
 		{
+			if(string.IsNullOrEmpty(path)) return "/";
 			if(path[0] == '/') return path;
 			if(cwd.EndsWith("/")) return cwd + path;
 			return cwd + "/" + path;
