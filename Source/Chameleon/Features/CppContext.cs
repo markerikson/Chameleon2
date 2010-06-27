@@ -107,13 +107,14 @@ namespace Chameleon.Features
 				if ( word == "else" ) 
 				{
 					int prevLine = ns.LineFromPosition(prevpos);
-					ns.SetLineIndentation(line, ns.GetIndent() + ns.GetLineIndentation(prevLine));
+					int prevIndent = ns.GetLineIndentation(prevLine);
+					ns.SetLineIndentation(line, prevIndent);
 					m_editor.SetCaretAt(ns.GetLineIndentPosition(line));
 					ns.ChooseCaretX(); // set new column as "current" column
 					return;
 				}
 
-				// User typed 'ENTER' immediatly after closing brace ')'
+				// User typed 'ENTER' immediately after closing brace ')'
 				if ( prevpos != -1 && ch == ')' ) 
 				{
 					int openBracePos = -1;
@@ -177,7 +178,9 @@ namespace Chameleon.Features
 
 				// Open brace? increase indent size
 				int prevLineNum = ns.LineFromPosition(prevpos);
-				ns.SetLineIndentation(line, ns.GetIndent() + ns.GetLineIndentation(prevLineNum));
+				int indent2 = ns.GetIndent();
+				int lineIndent = ns.GetLineIndentation(prevLineNum);
+				ns.SetLineIndentation(line, indent2 + lineIndent);//ns.GetIndent() + ns.GetLineIndentation(prevLineNum));
 				m_editor.SetCaretAt(ns.GetLineIndentPosition(line));
 
 			} 

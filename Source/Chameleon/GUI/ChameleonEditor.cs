@@ -19,6 +19,7 @@ namespace Chameleon.GUI
 		private static Dictionary<FileLocation, string> m_titlePrefixes;
 
 		private char m_lastCharAdded;
+		private bool m_autoAddMatchedBrace;
 
 		private CppContext m_context;
 		
@@ -78,6 +79,8 @@ namespace Chameleon.GUI
 			FileLocation = FileLocation.Unknown;
 
 			m_context = new CppContext(this);
+			m_autoAddMatchedBrace = true;
+			m_lastCharAdded = char.MinValue;
 			
 
 			this.ModifiedChanged += new EventHandler(OnEditorModifiedChanged);
@@ -131,6 +134,7 @@ namespace Chameleon.GUI
 			Margins.Margin0.Type = MarginType.Number;
 			Margins.Margin0.Width = 40;
 
+			Indentation.IndentWidth = 4;
 
 			Styles.Default.FontName = "Courier New";
 			Styles.Default.Size = 10.0f;
@@ -272,7 +276,7 @@ namespace Chameleon.GUI
 				case '\n':
 				{
 					// in case ENTER was hit immediately after we inserted '{' into the code
-					if(m_lastCharAdded == '{' )// && m_autoAddMatchedBrace)
+					if(m_lastCharAdded == '{'  && m_autoAddMatchedBrace)
 					{
 						matchChar = '}';
 						InsertText(pos, matchChar.ToString());
@@ -282,13 +286,13 @@ namespace Chameleon.GUI
 						m_context.AutoIndent('}');
 
 						InsertText(pos, Environment.NewLine);
-						NativeInterface.CharRight();
-						Selection.Start = pos;
 
-						m_context.AutoIndent('\n');
+						NativeInterface.CharRight();
+						SetCaretAt(pos);
+						
+						base.OnCharAdded(e);
 
 						UndoRedo.EndUndoAction();
-
 					}
 					else
 					{
@@ -302,16 +306,46 @@ namespace Chameleon.GUI
 				}
 			}
 
-			if(matchChar != char.MinValue ) // && m_autoAddMatchedBrace && !m_ccntext.IsCommentOrString(pos))
+			if(matchChar != char.MinValue  && m_autoAddMatchedBrace && !m_context.IsCommentOrString(pos))
 			{
 				if(matchChar == ')')
 				{
 					// avoid adding close brace if the next char is not a whitespace
 					// character
+					int nextChar = SafeGetChar(pos);
+					switch(nextChar)
+					{
+						case ' ':
+						case '\t':
+						case '\n':
+						case '\r':
+						InsertText(pos, matchChar.ToString());
+						//SetIndicatorCurrent(MATCH_INDICATOR);
+						// use grey colour rather than black, otherwise this indicator is invisible when using the
+						// black theme
+						//NativeInterface.IndicatorFillRange(pos, 1);
+						break;
+					}
 				}
+				else if(matchChar != '}')
+				{
+					InsertText(pos, matchChar.ToString());
+					//SetIndicatorCurrent(MATCH_INDICATOR);
+					// use grey colour rather than black, otherwise this indicator is invisible when using the
+					// black theme
+					//NativeInterface.IndicatorFillRange(pos, 1);
+
+				}
+				
+			}
+
+			if(e.Ch != '\r')
+			{
+				m_lastCharAdded = e.Ch;
 			}
 		}
 
+		#region Text utility functions
 		private char SafeGetChar(int pos)
 		{
 			if(pos < 0 || pos >= TextLength)
@@ -500,5 +534,7 @@ namespace Chameleon.GUI
 			NativeInterface.SetSelectionStart(pos);
 			NativeInterface.SetSelectionEnd(pos);
 		}
+
+		#endregion
 	}
 }
