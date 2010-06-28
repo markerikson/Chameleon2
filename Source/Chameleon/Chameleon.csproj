@@ -56,6 +56,9 @@
     <StartupObject>Chameleon.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeLiteParser">
+      <HintPath>DLLs\CodeLiteParser.dll</HintPath>
+    </Reference>
     <Reference Include="PSTaskDialog">
       <HintPath>DLLs\PSTaskDialog.dll</HintPath>
     </Reference>
