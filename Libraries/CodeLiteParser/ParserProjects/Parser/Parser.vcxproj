@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\wxsqlite3-1.9.8\sqlite3\lib;..\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)</LibraryPath>
+    <OutDir>..\OutputLibs\</OutDir>
+    <TargetName>$(ProjectName)Debug</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\OutputLibs\</OutDir>
+    <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\wxsqlite3-1.9.8\sqlite3\lib;..\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CODELITEPARSER_EXPORTS;__WXMSW__;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <DisableSpecificWarnings>4996;4102;4530;4390;4018;</DisableSpecificWarnings>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>wxbase29ud.lib;wxmsw29ud_adv.lib;wxmsw29ud_core.lib;wxbase29ud_xml.lib;wxbase29ud_net.lib;wxmsw29ud_xrc.lib;wxcode_msw28ud_wxsqlite3.lib;sqlite3.lib;wxexpatd.lib;comctl32.lib;Rpcrt4.lib;vld.lib;wsock32.lib;wxregexud.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;__WXMSW__;CODELITEPARSER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DisableSpecificWarnings>4996;4102;4530;4390;4018;</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\codelite_indexer\network\clindexerprotocol.cpp" />
+    <ClCompile Include="..\codelite_indexer\network\cl_indexer_reply.cpp" />
+    <ClCompile Include="..\codelite_indexer\network\cl_indexer_request.cpp" />
+    <ClCompile Include="..\codelite_indexer\network\named_pipe.cpp" />
+    <ClCompile Include="..\codelite_indexer\network\named_pipe_client.cpp" />
+    <ClCompile Include="..\codelite_indexer\network\named_pipe_server.cpp" />
+    <ClCompile Include="..\codelite_indexer\network\np_connections_server.cpp" />
+    <ClCompile Include="archive.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="asyncprocess.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cl_calltip.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cl_process.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="comment.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cpp_comment_creator.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cpp_expr_lexer.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cpp_expr_parser.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cpp_func_parser.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cpp_lexer.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="cpp_scanner.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="crawler_lexer.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="ctags_manager.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="dirtraverser.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="entry.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="expression_result.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="fc_fileopener.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="fileentry.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="fileextmanager.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="fileutils.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="function.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="include_finder.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="language.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="lex.yy.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="parse_thread.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="performance.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="processreaderthread.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="procutils.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="progress_dialog.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="readtags.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="scope_optimizer.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="scope_parser.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="setters_getters_data.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="symbol_tree.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="tags_options_data.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="tags_storage_sqlite3.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="tag_tree.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="tokenizer.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="typedef_parser.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="unixprocess_impl.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="variable.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="var_parser.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="winprocess.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="winprocess_impl.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="worker_thread.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="archive.h" />
+    <ClInclude Include="asyncprocess.h" />
+    <ClInclude Include="cl_calltip.h" />
+    <ClInclude Include="cl_process.h" />
+    <ClInclude Include="cl_typedef.h" />
+    <ClInclude Include="codelite_indexer\equeue.h" />
+    <ClInclude Include="codelite_indexer\equeue_unix_impl.h" />
+    <ClInclude Include="codelite_indexer\equeue_win_impl.h" />
+    <ClInclude Include="codelite_indexer\ethread.h" />
+    <ClInclude Include="codelite_indexer\ethread_unix.h" />
+    <ClInclude Include="codelite_indexer\ethread_win.h" />
+    <ClInclude Include="codelite_indexer\libctags\args.h" />
+    <ClInclude Include="codelite_indexer\libctags\clist.h" />
+    <ClInclude Include="codelite_indexer\libctags\config.h" />
+    <ClInclude Include="codelite_indexer\libctags\ctags.h" />
+    <ClInclude Include="codelite_indexer\libctags\debug.h" />
+    <ClInclude Include="codelite_indexer\libctags\entry.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_amiga.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_djgpp.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_mac.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_msoft.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_os2.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_qdos.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_riscos.h" />
+    <ClInclude Include="codelite_indexer\libctags\e_vms.h" />
+    <ClInclude Include="codelite_indexer\libctags\general.h" />
+    <ClInclude Include="codelite_indexer\libctags\get.h" />
+    <ClInclude Include="codelite_indexer\libctags\keyword.h" />
+    <ClInclude Include="codelite_indexer\libctags\libctags.h" />
+    <ClInclude Include="codelite_indexer\libctags\main.h" />
+    <ClInclude Include="codelite_indexer\libctags\options.h" />
+    <ClInclude Include="codelite_indexer\libctags\parse.h" />
+    <ClInclude Include="codelite_indexer\libctags\parsers.h" />
+    <ClInclude Include="codelite_indexer\libctags\read.h" />
+    <ClInclude Include="codelite_indexer\libctags\readtags.h" />
+    <ClInclude Include="codelite_indexer\libctags\routines.h" />
+    <ClInclude Include="codelite_indexer\libctags\sort.h" />
+    <ClInclude Include="codelite_indexer\libctags\string_util.h" />
+    <ClInclude Include="codelite_indexer\libctags\strlist.h" />
+    <ClInclude Include="codelite_indexer\libctags\vstring.h" />
+    <ClInclude Include="codelite_indexer\network\clindexerprotocol.h" />
+    <ClInclude Include="codelite_indexer\network\cl_indexer_macros.h" />
+    <ClInclude Include="codelite_indexer\network\cl_indexer_reply.h" />
+    <ClInclude Include="codelite_indexer\network\cl_indexer_request.h" />
+    <ClInclude Include="codelite_indexer\network\named_pipe.h" />
+    <ClInclude Include="codelite_indexer\network\named_pipe_client.h" />
+    <ClInclude Include="codelite_indexer\network\named_pipe_server.h" />
+    <ClInclude Include="codelite_indexer\network\np_connections_server.h" />
+    <ClInclude Include="codelite_indexer\utils.h" />
+    <ClInclude Include="codelite_indexer\workerthread.h" />
+    <ClInclude Include="code_completion_api.h" />
+    <ClInclude Include="comment.h" />
+    <ClInclude Include="comment_creator.h" />
+    <ClInclude Include="cpp_comment_creator.h" />
+    <ClInclude Include="cpp_lexer.h" />
+    <ClInclude Include="cpp_scanner.h" />
+    <ClInclude Include="crawler_include.h" />
+    <ClInclude Include="CtagsManagerWrapper.h" />
+    <ClInclude Include="ctags_manager.h" />
+    <ClInclude Include="dirsaver.h" />
+    <ClInclude Include="dirtraverser.h" />
+    <ClInclude Include="entry.h" />
+    <ClInclude Include="expression_result.h" />
+    <ClInclude Include="extdbdata.h" />
+    <ClInclude Include="fc_fileopener.h" />
+    <ClInclude Include="fileentry.h" />
+    <ClInclude Include="fileextmanager.h" />
+    <ClInclude Include="fileutils.h" />
+    <ClInclude Include="FlexLexer.h" />
+    <ClInclude Include="function.h" />
+    <ClInclude Include="include_finder.h" />
+    <ClInclude Include="istorage.h" />
+    <ClInclude Include="language.h" />
+    <ClInclude Include="parse_thread.h" />
+    <ClInclude Include="performance.h" />
+    <ClInclude Include="precompiled_header.h" />
+    <ClInclude Include="processreaderthread.h" />
+    <ClInclude Include="procutils.h" />
+    <ClInclude Include="progress_dialog.h" />
+    <ClInclude Include="readtags.h" />
+    <ClInclude Include="scope_optimizer.h" />
+    <ClInclude Include="serialized_object.h" />
+    <ClInclude Include="setters_getters_data.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="smart_ptr.h" />
+    <ClInclude Include="symbol_tree.h" />
+    <ClInclude Include="tags_options_data.h" />
+    <ClInclude Include="tags_storage_sqlite3.h" />
+    <ClInclude Include="tag_tree.h" />
+    <ClInclude Include="tokenizer.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="tree_node.h" />
+    <ClInclude Include="unistd.h" />
+    <ClInclude Include="unixprocess_impl.h" />
+    <ClInclude Include="variable.h" />
+    <ClInclude Include="winprocess.h" />
+    <ClInclude Include="winprocess_impl.h" />
+    <ClInclude Include="worker_thread.h" />
+    <ClInclude Include="y.tab.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

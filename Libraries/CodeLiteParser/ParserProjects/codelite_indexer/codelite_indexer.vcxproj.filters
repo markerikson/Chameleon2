@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="network">
+      <UniqueIdentifier>{787cd062-2299-4c3d-8589-cb12706ac38b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="indexer_client">
+      <UniqueIdentifier>{fcd3b425-738b-455a-9fdc-29528efb64f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libctags">
+      <UniqueIdentifier>{c5f48f9a-da2d-40ea-acc8-94fe82fac1d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{09794c00-80c9-4c68-8bce-ed93c6db471e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{befbd674-f642-4104-88e9-759399c3bdc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\src">
+      <UniqueIdentifier>{cc1ba627-5d0e-4dd8-926a-762c95b62b33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\headers">
+      <UniqueIdentifier>{66af84b5-ced5-4e77-a4d9-c42534e4a87f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libctags\src">
+      <UniqueIdentifier>{74e3c824-bb7a-48d5-8b3b-03e45d75dd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libctags\headers">
+      <UniqueIdentifier>{d1098201-c7b6-497a-bb2b-aceec2b6124a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="indexer_client\main.cpp">
+      <Filter>indexer_client</Filter>
+    </ClCompile>
+    <ClCompile Include="network\cl_indexer_reply.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="network\cl_indexer_request.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="network\clindexerprotocol.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="network\named_pipe.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="network\named_pipe_client.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="network\named_pipe_server.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="network\np_connections_server.cpp">
+      <Filter>network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="codelite_index_main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ethread_unix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ethread_win.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="workerthread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\args.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\yacc.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\asm.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\asp.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\awk.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\beta.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\c.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\clist.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\cobol.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\debug.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\eiffel.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\entry.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\erlang.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\fortran.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\get.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\html.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\jscript.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\keyword.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\lisp.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\lregex.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\lua.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\main.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\make.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\options.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\parse.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\pascal.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\perl.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\php.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\python.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\read.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\readtags.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\rexx.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\routines.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\ruby.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\scheme.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\sh.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\slang.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\sml.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\sort.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\sql.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\string_util.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\strlist.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\tcl.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\verilog.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\vim.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libctags\vstring.c">
+      <Filter>libctags\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="network\cl_indexer_macros.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\cl_indexer_reply.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\cl_indexer_request.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\clindexerprotocol.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\named_pipe.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\named_pipe_client.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\named_pipe_server.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="network\np_connections_server.h">
+      <Filter>network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="equeue.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="equeue_unix_impl.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="equeue_win_impl.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ethread.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ethread_unix.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ethread_win.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="workerthread.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\args.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\vstring.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\clist.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\config.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\ctags.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\debug.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_amiga.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_djgpp.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_mac.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_msoft.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_os2.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_qdos.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_riscos.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\e_vms.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\entry.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\general.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\get.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\keyword.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\libctags.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\main.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\options.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\parse.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\parsers.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\read.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\readtags.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\routines.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\sort.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\string_util.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="libctags\strlist.h">
+      <Filter>libctags\headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

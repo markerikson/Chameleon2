@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <DisableSpecificWarnings>4996;</DisableSpecificWarnings>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <ShowIncludes>true</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="codelite_index_main.cpp" />
+    <ClCompile Include="ethread_unix.cpp" />
+    <ClCompile Include="ethread_win.cpp" />
+    <ClCompile Include="indexer_client\main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libctags\args.c" />
+    <ClCompile Include="libctags\asm.c" />
+    <ClCompile Include="libctags\asp.c" />
+    <ClCompile Include="libctags\awk.c" />
+    <ClCompile Include="libctags\beta.c" />
+    <ClCompile Include="libctags\c.c" />
+    <ClCompile Include="libctags\clist.c" />
+    <ClCompile Include="libctags\cobol.c" />
+    <ClCompile Include="libctags\debug.c" />
+    <ClCompile Include="libctags\eiffel.c" />
+    <ClCompile Include="libctags\entry.c" />
+    <ClCompile Include="libctags\erlang.c" />
+    <ClCompile Include="libctags\fortran.c" />
+    <ClCompile Include="libctags\get.c" />
+    <ClCompile Include="libctags\html.c" />
+    <ClCompile Include="libctags\jscript.c" />
+    <ClCompile Include="libctags\keyword.c" />
+    <ClCompile Include="libctags\lisp.c" />
+    <ClCompile Include="libctags\lregex.c" />
+    <ClCompile Include="libctags\lua.c" />
+    <ClCompile Include="libctags\main.c" />
+    <ClCompile Include="libctags\make.c" />
+    <ClCompile Include="libctags\options.c" />
+    <ClCompile Include="libctags\parse.c" />
+    <ClCompile Include="libctags\pascal.c" />
+    <ClCompile Include="libctags\perl.c" />
+    <ClCompile Include="libctags\php.c" />
+    <ClCompile Include="libctags\python.c" />
+    <ClCompile Include="libctags\read.c" />
+    <ClCompile Include="libctags\readtags.c" />
+    <ClCompile Include="libctags\rexx.c" />
+    <ClCompile Include="libctags\routines.c" />
+    <ClCompile Include="libctags\ruby.c" />
+    <ClCompile Include="libctags\scheme.c" />
+    <ClCompile Include="libctags\sh.c" />
+    <ClCompile Include="libctags\slang.c" />
+    <ClCompile Include="libctags\sml.c" />
+    <ClCompile Include="libctags\sort.c" />
+    <ClCompile Include="libctags\sql.c" />
+    <ClCompile Include="libctags\string_util.c" />
+    <ClCompile Include="libctags\strlist.c" />
+    <ClCompile Include="libctags\tcl.c" />
+    <ClCompile Include="libctags\verilog.c" />
+    <ClCompile Include="libctags\vim.c" />
+    <ClCompile Include="libctags\vstring.c" />
+    <ClCompile Include="libctags\yacc.c" />
+    <ClCompile Include="network\clindexerprotocol.cpp" />
+    <ClCompile Include="network\cl_indexer_reply.cpp" />
+    <ClCompile Include="network\cl_indexer_request.cpp" />
+    <ClCompile Include="network\named_pipe.cpp" />
+    <ClCompile Include="network\named_pipe_client.cpp" />
+    <ClCompile Include="network\named_pipe_server.cpp" />
+    <ClCompile Include="network\np_connections_server.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="workerthread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="equeue.h" />
+    <ClInclude Include="equeue_unix_impl.h" />
+    <ClInclude Include="equeue_win_impl.h" />
+    <ClInclude Include="ethread.h" />
+    <ClInclude Include="ethread_unix.h" />
+    <ClInclude Include="ethread_win.h" />
+    <ClInclude Include="libctags\args.h" />
+    <ClInclude Include="libctags\clist.h" />
+    <ClInclude Include="libctags\config.h" />
+    <ClInclude Include="libctags\ctags.h" />
+    <ClInclude Include="libctags\debug.h" />
+    <ClInclude Include="libctags\entry.h" />
+    <ClInclude Include="libctags\e_amiga.h" />
+    <ClInclude Include="libctags\e_djgpp.h" />
+    <ClInclude Include="libctags\e_mac.h" />
+    <ClInclude Include="libctags\e_msoft.h" />
+    <ClInclude Include="libctags\e_os2.h" />
+    <ClInclude Include="libctags\e_qdos.h" />
+    <ClInclude Include="libctags\e_riscos.h" />
+    <ClInclude Include="libctags\e_vms.h" />
+    <ClInclude Include="libctags\general.h" />
+    <ClInclude Include="libctags\get.h" />
+    <ClInclude Include="libctags\keyword.h" />
+    <ClInclude Include="libctags\libctags.h" />
+    <ClInclude Include="libctags\main.h" />
+    <ClInclude Include="libctags\options.h" />
+    <ClInclude Include="libctags\parse.h" />
+    <ClInclude Include="libctags\parsers.h" />
+    <ClInclude Include="libctags\read.h" />
+    <ClInclude Include="libctags\readtags.h" />
+    <ClInclude Include="libctags\routines.h" />
+    <ClInclude Include="libctags\sort.h" />
+    <ClInclude Include="libctags\string_util.h" />
+    <ClInclude Include="libctags\strlist.h" />
+    <ClInclude Include="libctags\vstring.h" />
+    <ClInclude Include="network\clindexerprotocol.h" />
+    <ClInclude Include="network\cl_indexer_macros.h" />
+    <ClInclude Include="network\cl_indexer_reply.h" />
+    <ClInclude Include="network\cl_indexer_request.h" />
+    <ClInclude Include="network\named_pipe.h" />
+    <ClInclude Include="network\named_pipe_client.h" />
+    <ClInclude Include="network\named_pipe_server.h" />
+    <ClInclude Include="network\np_connections_server.h" />
+    <ClInclude Include="utils.h" />
+    <ClInclude Include="workerthread.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

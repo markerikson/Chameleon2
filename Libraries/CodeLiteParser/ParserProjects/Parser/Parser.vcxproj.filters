@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="codelite_indexer">
+      <UniqueIdentifier>{7139fe19-e562-469d-99f2-f520585aa8cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\network">
+      <UniqueIdentifier>{db407c69-120e-40cd-a70a-716e44992983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\indexer_client">
+      <UniqueIdentifier>{d41685de-fd0d-46fb-a146-0a15de930b60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\libctags">
+      <UniqueIdentifier>{cb1fce0d-75de-4c5f-aa21-55b4d1f371ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\src">
+      <UniqueIdentifier>{17f6c6fe-8bb1-4ff8-a8b7-83e1ed05edb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\headers">
+      <UniqueIdentifier>{dcd40348-8993-46c5-afd8-46d409baa2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\network\src">
+      <UniqueIdentifier>{ad47963a-77b1-45bb-913e-ecf2667bc73e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\network\headers">
+      <UniqueIdentifier>{d150e7a5-1792-4e06-ba05-46a8f961369d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\libctags\src">
+      <UniqueIdentifier>{d31d4816-99f4-4828-9148-0bad683bb0b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codelite_indexer\libctags\headers">
+      <UniqueIdentifier>{57d67c81-c917-4eec-9550-d69f14b01421}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="archive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="asyncprocess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cl_calltip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cl_process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="comment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp_comment_creator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp_expr_lexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp_expr_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp_func_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp_lexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp_scanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crawler_lexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ctags_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dirtraverser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="expression_result.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fc_fileopener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fileentry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fileextmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fileutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="function.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include_finder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="language.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lex.yy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parse_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="performance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="processreaderthread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="procutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="progress_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="readtags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scope_optimizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scope_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="setters_getters_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="symbol_tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tags_options_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tags_storage_sqlite3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tag_tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="typedef_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unixprocess_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="variable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="var_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="winprocess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="winprocess_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="worker_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\cl_indexer_reply.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\cl_indexer_request.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\clindexerprotocol.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\named_pipe.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\named_pipe_client.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\named_pipe_server.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codelite_indexer\network\np_connections_server.cpp">
+      <Filter>codelite_indexer\network\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="archive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="asyncprocess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cl_calltip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cl_process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cl_typedef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code_completion_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="comment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="comment_creator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp_comment_creator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp_lexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp_scanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crawler_include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ctags_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dirsaver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dirtraverser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="expression_result.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="extdbdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fc_fileopener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileentry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileextmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FlexLexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include_finder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="istorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="language.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parse_thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="performance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="precompiled_header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="processreaderthread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="procutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="progress_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="readtags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scope_optimizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="serialized_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="setters_getters_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smart_ptr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="symbol_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tags_options_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tags_storage_sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tag_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tokenizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tree_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unistd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unixprocess_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="variable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="winprocess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="winprocess_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="worker_thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="y.tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\equeue.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\workerthread.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\equeue_unix_impl.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\equeue_win_impl.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\ethread.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\ethread_unix.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\ethread_win.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\utils.h">
+      <Filter>codelite_indexer\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\cl_indexer_macros.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\np_connections_server.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\cl_indexer_reply.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\cl_indexer_request.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\clindexerprotocol.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\named_pipe.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\named_pipe_client.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\network\named_pipe_server.h">
+      <Filter>codelite_indexer\network\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\args.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\get.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\clist.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\config.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\ctags.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\debug.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_amiga.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_djgpp.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_mac.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_msoft.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_os2.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_qdos.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_riscos.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\e_vms.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\entry.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\general.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\keyword.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\routines.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\libctags.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\main.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\options.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\parse.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\parsers.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\read.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\readtags.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\sort.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\vstring.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\string_util.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="codelite_indexer\libctags\strlist.h">
+      <Filter>codelite_indexer\libctags\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CtagsManagerWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
