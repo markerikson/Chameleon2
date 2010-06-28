@@ -1,0 +1,66 @@
+Project setup steps:
+
+1) Create new Visual Studio project
+  a) File > New > Project
+  b) C++ > Win32 Project (name something like "CodeLiteParser")
+  c) click Application Settings.  Application Type = DLL.  Finish.  This will give you an ultra-basic DLL project.
+  
+2) Modify project
+  a) Update directory settings: Project > Properties, then General > VC++ Directories.  
+    i) Edit "Include Dirs" to point to wxWidgets include folder, and another folder inside the wxWidgets lib folder that contains <wx/setup.h>.  Modify the second folder based on whether this is debug or release build settings.  Example:
+      D:\toolkits\wxWidgets-2.9.0\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;$(IncludePath)
+    ii) Edit "Library Dirs" to point to wxWidgets lib folder.  Example: 
+      D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)
+  b) Change code settings: 
+    i) Config Props > General.  Set "Common Language Runtime" support to "/clr".  Set "Character Set" to "Use Unicode".  
+    ii) C++ > General.  Set "Debug Information Format" to "Program Database (/Zi)".
+    iii) C++ > Code Generation.  Set "Enable Minimal Rebuild" to "No (/Gm-)".  Set "Enable C++ Exceptions" to "Yes with SEH Exceptions".  Set "Basic Runtime Checks" to "Default".  Set "Runtime Library" to "Multi-Threaded [Debug] DLL" (depending on debug/release).  
+    iv) C++ > Advanced.  Set "Disable Specific Warnings" to "4996;4102;4530;4390;4018;".  This disables all sorts of annoying stuff that doesn't matter to us.
+  c) Change linker settings
+    i) Linker > General.  Set "Enable Incremental Linking" to "Yes".
+    ii) Linker > Input.  Add the following libraries to "Additional Dependencies" (modify file names as appropriate for release build):
+      wxbase29ud.lib;wxmsw29ud_adv.lib;wxmsw29ud_core.lib;wxbase29ud_xml.lib;wxbase29ud_net.lib;wxmsw29ud_xrc.lib;;wxexpatd.lib;comctl32.lib;Rpcrt4.lib;vld.lib;wsock32.lib;wxregexud.lib;
+      
+      Add other libraries as needed.  You may need to make sure "Inherit from project defaults" is checked in the add libraries dialog.
+  
+  
+  
+3) Test project settings
+  a) Add the following code to your "ProjectName.cpp" file.  If this compiles cleanly, you're good to go:
+  
+#include "stdafx.h"
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+#include <wx/msw/msvcrt.h>
+
+#include <wx/wx.h>
+#include <wx/init.h>
+#include <wx/string.h>
+#include <wx/textfile.h>
+#include <wx/msw/private.h>
+
+using namespace std;
+
+#pragma unmanaged
+
+class CodeLiteParserApp : public wxAppConsole
+{
+	virtual void ProcessPendingEvents()
+	{
+		wxAppConsole::ProcessPendingEvents();
+	}
+
+};
+IMPLEMENT_APP_NO_MAIN(CodeLiteParserApp)
+
+  b) If there are errors, start googling :)
+  c) If you're REALLY stuck, call Mark.
+  
+  
+4) Now that your basic DLL project is working, set up a static library project containing the source you want to wrap.  Make sure that's using all the same settings and compiles cleanly.  
+
+5) Go back to your DLL project.  Add the output from the wrapped library project as another input library for the DLL (Linker > Input > Additional Dependencies).  Add some source in your DLL that uses a class/function that should be in the static library.  Compile.
+
