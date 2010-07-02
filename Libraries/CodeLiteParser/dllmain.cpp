@@ -1,5 +1,20 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include "stdafx.h"
+//#include "stdafx.h"
+
+#include <wx/wx.h>
+#include <wx/init.h>
+#include <wx/msw/private.h>
+
+
+WXDLLIMPEXP_BASE void wxSetInstance(HINSTANCE instance);
+
+static void initWx(HINSTANCE instance)
+{
+	int argc = 0;
+	char ** argv = NULL;
+	wxSetInstance(instance);
+	wxEntryStart(argc, argv);
+}
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -9,10 +24,15 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-	case DLL_THREAD_ATTACH:
-	case DLL_THREAD_DETACH:
+		{
+			//initWx(hModule);
+			break;
+		}
 	case DLL_PROCESS_DETACH:
-		break;
+		{
+			//wxEntryCleanup();
+			break;
+		}
 	}
 	return TRUE;
 }

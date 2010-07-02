@@ -1,18 +1,22 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "ParserProjects/Parser/ctags_manager.h"
 #include "ParserProjects/Parser/parse_thread.h"
 #include "ParserProjects/Parser/fc_fileopener.h"
-#include <vcclr.h>
-#include <msclr\marshal.h>
+
 #include <vector>
-#include <queue>
+
 
 #include <wx/wx.h>
 #include <wx/init.h>
 #include <wx/string.h>
 #include <wx/textfile.h>
 #include <wx/msw/private.h>
+
+#include <vcclr.h>
+#include <msclr\marshal.h>
+#include "Utilities.h"
+#include "ParserMessageReceiver.h"
 
 #using <System.dll>
 #using <mscorlib.dll>
@@ -34,45 +38,13 @@ void AddParserRequestSingleFile(const char* filename, const char* databasePath) 
 */
 
 
-typedef void (__stdcall * ParsingCompleteCallback)(const char* text);
+
 
 extern HINSTANCE g_hModule;
 
 
 
-class ParserMessageReceiver : public wxEvtHandler
-{
-	friend class Singleton<ParserMessageReceiver>;
-public:
-	
-	//bool waitingOnThread;
-	//wxString filename;
-	queue<wxString> filesToParse;
-	ParsingCompleteCallback parsingCallback;
 
-	void OnParsingThreadDone(wxCommandEvent& e)
-	{
-		//cout << "Parsing thread completed" << endl;
-		wxString parsedFile = filesToParse.front();
-		filesToParse.pop();
-
-		if(parsingCallback != NULL)
-		{
-			parsingCallback(parsedFile);
-		}
-	}
-
-protected:
-
-	DECLARE_EVENT_TABLE()
-
-};
-
-BEGIN_EVENT_TABLE(ParserMessageReceiver, wxEvtHandler)
-	EVT_COMMAND(wxID_ANY, wxEVT_PARSE_THREAD_UPDATED_FILE_SYMBOLS, ParserMessageReceiver::OnParsingThreadDone   )
-END_EVENT_TABLE()
-
-typedef Singleton<ParserMessageReceiver> ParserMessageReceiverST;
 
 
 namespace CodeLite
@@ -80,26 +52,7 @@ namespace CodeLite
 [UnmanagedFunctionPointer(CallingConvention::Cdecl)]
 public delegate void FileParsedDelegate(String^ filename);
 
-public ref class Tag
-{
-public:
-	Tag()
-	{
-		extFields = gcnew Dictionary<String^, String^>();
-	}
-	String^                     path;		///< Tag full path
-	String^                     file;		///< File this tag is found
-	int                         lineNumber;	///< Line number
-	String^                     pattern;		///< A pattern that can be used to locate the tag in the file
-	String^                     kind;		///< Member, function, class, typedef etc.
-	String^                     parent;		///< Direct parent
-	String^                     name;		///< Tag name (short name, excluding any scope names)
-	Dictionary<String^, String^>^  extFields; ///< Additional extension fields
-	int                         id;
-	String^                     scope;
-	bool                        differOnlyByLineNumber;
 
-};
 
 
 public ref class VariableInfo
@@ -147,6 +100,9 @@ public:
 	  //: m_tags( TagsManagerST::Get() ) 
 	{
 		fileParsedCallback = gcnew FileParsedDelegate(this, &CtagsManagerWrapper::OnFileParsed);
+		fileParsedEvent = nullptr;
+
+		m_initialized = false;
 
 		m_filesToParse = gcnew List<String^>();
 
@@ -154,7 +110,7 @@ public:
 		m_appLoopTimer->Elapsed += gcnew ElapsedEventHandler(this, &CtagsManagerWrapper::OnTimedEvent);
 
 		m_appLoopTimer->Interval = 50;
-		m_appLoopTimer->Enabled = true;
+		//m_appLoopTimer->Enabled = true;
 
 
 		ParserMessageReceiver* pr = ParserMessageReceiverST::Get();
@@ -172,6 +128,30 @@ public:
 		//delete m_Impl;
 	}
 
+
+	event FileParsedDelegate^ FileParsed
+	{
+		void add(FileParsedDelegate^ fp)
+		{
+			fileParsedEvent += fp;
+		}
+
+		void remove(FileParsedDelegate^ fp)
+		{
+			fileParsedEvent -= fp;
+		}
+
+		void raise(String^ file)
+		{
+			FileParsedDelegate^ tmp = fileParsedEvent;
+
+			if(tmp)
+			{
+				tmp->Invoke(file);
+			}
+		}
+	}
+
 protected:
 	// Deallocate the native object on the finalizer just in case no destructor is called
 	!CtagsManagerWrapper() {
@@ -183,9 +163,11 @@ private:
 	ParserMessageReceiver* pmr;
 	TagsManager * m_tags;
 	FileParsedDelegate^ fileParsedCallback;
+	FileParsedDelegate^ fileParsedEvent;
 	List<String^>^ m_filesToParse;
 	String^ databasePath;
 	System::Timers::Timer^ m_appLoopTimer;
+	bool m_initialized;
 
 	void OnTimedEvent(Object^ source, ElapsedEventArgs^ e)
 	{
@@ -198,13 +180,15 @@ private:
 public:
 	bool CodeLiteParserInit(String^ idxPath, String^ databasePath) 
 	{		
+		
 		wxSetInstance(GetModuleHandle(NULL));
 		int argc = 0;
 		char **argv = NULL;
 		wxEntryStart(argc, argv);
 		if ( !wxTheApp || !wxTheApp->CallOnInit() )
 			return FALSE;
-
+		
+		
 		marshal_context context;
 		wxString indexerPath = context.marshal_as<const wchar_t*>(idxPath);
 
@@ -228,25 +212,36 @@ public:
 		this->databasePath = databasePath;
 		wxString dbPath = context.marshal_as<const wchar_t*>(databasePath);
 		tagmgr->OpenDatabase(dbPath);
+		
+		m_appLoopTimer->Enabled = true;
+		m_initialized = true;
 
 		return true;
 	}
 
 	void CodeLiteParserEnd() 
 	{
+		
 		TagsManagerST::Get()->CloseDatabase();
 		ParseThread* parser = ParseThreadST::Get();
 		parser->Stop();
 
 		ParseThreadST::Free();
+		fcFileOpener::Release();
+
+		
+
+		ProcessParserEvents();
 
 		TagsManagerST::Free();
 		LanguageST::Free();
 
+		//
 		delete indexerProcess;
-
-		fcFileOpener::Release();
-		ProcessParserEvents();
+		//
+		//ProcessParserEvents();
+		
+		m_appLoopTimer->Enabled = false;
 
 		wxEntryCleanup();
 	}
@@ -312,7 +307,7 @@ public:
 
 		m_tags->FindSymbol(name, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ FindByPath(String^ path)
@@ -324,7 +319,7 @@ public:
 
 		m_tags->FindByPath(filePath, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ TagsByScope(String^ scope)
@@ -336,7 +331,7 @@ public:
 
 		m_tags->TagsByScope(sScope, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ TagsByScope(String^ scope, String^ kind, bool includeInherits, bool onlyWorkspace)
@@ -349,7 +344,7 @@ public:
 
 		m_tags->TagsByScope(sScope, sKind, tags, includeInherits, onlyWorkspace);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 
@@ -364,7 +359,7 @@ public:
 
 		m_tags->TagsByScopeAndName(sScope, sName, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ AutoCompletionCandidates(String^ filename, int linenum, String^ expr, String^ text)
@@ -378,7 +373,7 @@ public:
 
 		m_tags->AutoCompleteCandidates(fname, linenum, sExpr, sText, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ WordCompletionCandidates(String^ filename, int linenum, String^ expr, 
@@ -394,7 +389,7 @@ public:
 
 		m_tags->WordCompletionCandidates(fname, linenum, sExpr, sText, sWord, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	void DeleteFilesTags(List<String^>^ files)
@@ -465,7 +460,7 @@ public:
 		vector<TagEntryPtr> tags;
 		m_tags->OpenType(tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 
@@ -482,7 +477,7 @@ public:
 
 		m_tags->FindImplDecl(sFilename, linenum, sExpr, sWord, sText, tags, impl, workspaceOnly);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	String^ GetScopeName(String^ scope)
@@ -526,7 +521,7 @@ public:
 
 		TagEntryPtr pTag = m_tags->FunctionFromFileLine(sFilename, linenum, nextFunction);
 
-		Tag^ tag = TagPointerToTag(pTag);
+		Tag^ tag = ParserUtilities::TagPointerToTag(pTag);
 		return tag;
 	}
 
@@ -537,7 +532,7 @@ public:
 
 		TagEntryPtr pTag = m_tags->FirstFunctionOfFile(sFilename);
 
-		Tag^ tag = TagPointerToTag(pTag);
+		Tag^ tag = ParserUtilities::TagPointerToTag(pTag);
 		return tag;
 	}
 
@@ -548,7 +543,7 @@ public:
 
 		TagEntryPtr pTag = m_tags->FirstScopeOfFile(sFilename);
 
-		Tag^ tag = TagPointerToTag(pTag);
+		Tag^ tag = ParserUtilities::TagPointerToTag(pTag);
 		return tag;
 	}
 
@@ -581,7 +576,7 @@ public:
 		vector<TagEntryPtr> tags;
 		m_tags->TagsFromFileAndScope(sFilename, sScopeName, tags);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 
@@ -595,7 +590,7 @@ public:
 
 		if(m_tags->GetFunctionDetails(sFilename, linenum, pTag, clfunc))
 		{
-			tag = TagPointerToTag(pTag);
+			tag = ParserUtilities::TagPointerToTag(pTag);
 
 			func = gcnew FunctionInfo();
 			func->name = marshal_as<String^>(clfunc.m_name.c_str());
@@ -641,7 +636,7 @@ public:
 
 		m_tags->GetClasses(tags, onlyWorkspace);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ GetFunctions(String^ filename, bool onlyWorkspace)
@@ -653,7 +648,7 @@ public:
 
 		m_tags->GetFunctions(tags, sFilename, onlyWorkspace);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ GetTagsByKind(List<String^>^ kinds)
@@ -670,7 +665,7 @@ public:
 
 		m_tags->GetTagsByKind(tags, sKind);
 
-		return TagVectorToTagList(tags);
+		return ParserUtilities::TagVectorToTagList(tags);
 	}
 
 
@@ -693,8 +688,13 @@ public:
 	}
 
 	
-	static void  ProcessParserEvents() 
+	void  ProcessParserEvents() 
 	{
+		if(!m_initialized)
+		{
+			return;
+		}
+
 		if(wxTheApp->HasPendingEvents())
 		{
 			wxTheApp->ProcessPendingEvents();
@@ -706,58 +706,14 @@ public:
 	{
 		Console::WriteLine("Parsing completed for file: " + filename);
 
+		FileParsed(filename);
+
 
 		m_filesToParse->Remove(filename);
 	}
 
 private:
-	List<Tag^>^ TagVectorToTagList( vector<TagEntryPtr> &tags ) 
-	{
-		List<Tag^>^ returnTags = gcnew List<Tag^>();
-
-		for(int i = 0; i < tags.size(); i++)
-		{
-			TagEntryPtr pTag = tags[i];
-			Tag^ tag = TagPointerToTag(pTag);
-
-			returnTags->Add(tag);
-		}
-
-		return returnTags;
-	}
-
-	Tag^ TagPointerToTag( TagEntryPtr& pTag ) 
-	{
-		Tag^ tag = gcnew Tag();			
-
-		tag->path = marshal_as<String^>(pTag->GetPath().wc_str());
-		tag->file = marshal_as<String^>(pTag->GetFile().wc_str());
-		tag->pattern = marshal_as<String^>(pTag->GetPattern().wc_str());
-		tag->kind = marshal_as<String^>(pTag->GetKind().wc_str());
-		tag->parent = marshal_as<String^>(pTag->GetParent().wc_str());
-		tag->scope = marshal_as<String^>(pTag->GetScopeName().wc_str());
-
-		tag->lineNumber = pTag->GetLine();
-		tag->id = pTag->GetId();
-		tag->differOnlyByLineNumber = pTag->GetDifferOnByLineNumber();
-
-		//array<String^>^ extFields = gcnew array<String^> {"access", "Colin"};
-
-		wxString extFields[5] = {"access", "signature", "inherits", "typeref", "returns"};
-
-		for(int i = 0; i < 5; i++)
-		{
-			wxString extKey = extFields[i];
-			wxString extValue = pTag->GetExtField(extKey);
-
-			String^ sKey = marshal_as<String^>(extKey.wc_str());
-			String^ sValue = marshal_as<String^>(extValue.wc_str());
-
-			tag->extFields->Add(sKey, sValue);
-		}
-
-		return tag;
-	}
+	
 
 
 	

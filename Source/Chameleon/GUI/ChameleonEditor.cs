@@ -8,6 +8,8 @@ using System.IO;
 using FarsiLibrary.Win;
 using Chameleon.Features;
 using Chameleon.Util;
+using CodeLite;
+using System.Reflection;
 
 namespace Chameleon.GUI
 {
@@ -22,6 +24,8 @@ namespace Chameleon.GUI
 		private bool m_autoAddMatchedBrace;
 
 		private CppContext m_context;
+
+		
 		
 
 		#region Properties
@@ -81,6 +85,12 @@ namespace Chameleon.GUI
 			m_context = new CppContext(this);
 			m_autoAddMatchedBrace = true;
 			m_lastCharAdded = char.MinValue;
+
+			
+
+			
+
+			
 			
 
 			this.ModifiedChanged += new EventHandler(OnEditorModifiedChanged);

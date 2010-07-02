@@ -47,6 +47,8 @@
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
+			this.m_editors = new Chameleon.GUI.EditorContainer();
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +76,8 @@
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuFeatures = new System.Windows.Forms.ToolStripMenuItem();
+			this.parserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tagsByScopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
@@ -95,8 +99,7 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.m_editors = new Chameleon.GUI.EditorContainer();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
+			this.localVariablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -237,6 +240,29 @@
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
 			// 
+			// m_editors
+			// 
+			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_editors.Location = new System.Drawing.Point(0, 0);
+			this.m_editors.Name = "m_editors";
+			this.m_editors.Size = new System.Drawing.Size(660, 261);
+			this.m_editors.TabIndex = 4;
+			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 81;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(660, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -244,7 +270,8 @@
             this.menuFile,
             this.menuEdit,
             this.menuHelp,
-            this.menuFeatures});
+            this.menuFeatures,
+            this.parserToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -449,6 +476,22 @@
 			this.menuFeatures.Size = new System.Drawing.Size(63, 20);
 			this.menuFeatures.Text = "Features";
 			// 
+			// parserToolStripMenuItem
+			// 
+			this.parserToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tagsByScopeToolStripMenuItem,
+            this.localVariablesToolStripMenuItem});
+			this.parserToolStripMenuItem.Name = "parserToolStripMenuItem";
+			this.parserToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+			this.parserToolStripMenuItem.Text = "Parser";
+			// 
+			// tagsByScopeToolStripMenuItem
+			// 
+			this.tagsByScopeToolStripMenuItem.Name = "tagsByScopeToolStripMenuItem";
+			this.tagsByScopeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tagsByScopeToolStripMenuItem.Text = "Tags by Scope";
+			this.tagsByScopeToolStripMenuItem.Click += new System.EventHandler(this.tagsByScopeToolStripMenuItem_Click);
+			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -636,28 +679,12 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
 			// 
-			// m_editors
+			// localVariablesToolStripMenuItem
 			// 
-			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_editors.Location = new System.Drawing.Point(0, 0);
-			this.m_editors.Name = "m_editors";
-			this.m_editors.Size = new System.Drawing.Size(660, 261);
-			this.m_editors.TabIndex = 4;
-			// 
-			// terminalEmulator1
-			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 81;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(660, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
+			this.localVariablesToolStripMenuItem.Name = "localVariablesToolStripMenuItem";
+			this.localVariablesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.localVariablesToolStripMenuItem.Text = "Local Variables";
+			this.localVariablesToolStripMenuItem.Click += new System.EventHandler(this.localVariablesToolStripMenuItem_Click);
 			// 
 			// ChameleonForm
 			// 
@@ -756,6 +783,9 @@
 		private System.Windows.Forms.ToolStripMenuItem menuFeatures;
 		private System.Windows.Forms.ListView listView1;
 		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.ToolStripMenuItem parserToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tagsByScopeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem localVariablesToolStripMenuItem;
 	}
 }
 

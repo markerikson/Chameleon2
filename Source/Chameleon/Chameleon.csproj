@@ -160,6 +160,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="codelite_indexer.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScintillaNet.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sqlite3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Graphics\refresh.png" />
     <None Include="Graphics\HomeHS.png" />
     <None Include="Graphics\upfolder.png" />
@@ -175,9 +184,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="chameleon.ico" />
-    <Content Include="DLLs\SciLexer.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

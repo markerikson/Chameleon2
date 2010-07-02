@@ -14,6 +14,8 @@ using Chameleon.Util;
 using Chameleon.Network;
 using Chameleon.Features;
 using SSHClient;
+using CodeLite;
+using System.Reflection;
 
 namespace Chameleon
 {
@@ -23,6 +25,9 @@ namespace Chameleon
 
 		private Networking m_networking;
 		private SSHProtocol m_sshProtocol;
+
+		private CtagsManagerWrapper cmw;
+		private bool parserInitialized;
 
 		public static bool AppClosing
 		{
@@ -87,7 +92,25 @@ namespace Chameleon
 				menuFeatures.DropDownItems.Add(item);
 			}
 
+			cmw = new CtagsManagerWrapper();
+
+			cmw.FileParsed += new FileParsedDelegate(cmw_FileParsed);
+
+			string appPath = Application.ExecutablePath;
+			string indexerPath = Path.GetDirectoryName(appPath);
+			//string indexerPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+			//string indexerPath = Path.Combine(chameleonPath, "codelite_indexer.exe");
+
+			cmw.CodeLiteParserInit(indexerPath, "d:\\temp\\ChameleonTagsDB.db");
+			parserInitialized = true;
+
+
 			ShowPermittedUI();
+		}
+
+		void cmw_FileParsed(string filename)
+		{
+			MessageBox.Show("File parsed: " + filename);
 		}
 
 		
@@ -99,6 +122,8 @@ namespace Chameleon
 			{
 				e.Cancel = true;
 			}
+
+			cmw.CodeLiteParserEnd();
 
 			m_appClosing = false;
 
@@ -115,6 +140,13 @@ namespace Chameleon
 		private void OnFileOpenLocal(object sender, EventArgs e)
 		{
 			m_editors.OpenFile(FileLocation.Local);
+
+			if(!parserInitialized)
+			{
+				return;
+			}
+
+			cmw.AddParserRequestSingleFile(m_editors.CurrentEditor.Filename);
 		}
 
 		private void OnFileOpenRemote(object sender, EventArgs e)
@@ -318,6 +350,80 @@ namespace Chameleon
 			DragDropEffects dde = DoDragDrop(dobj, DragDropEffects.Copy);
 
 			m_editors.EndDrag();
+		}
+
+		private void tagsByScopeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(!parserInitialized)
+			{
+				return;
+			}
+
+			string text = m_editors.CurrentEditor.GetRange(0, m_editors.CurrentEditor.CurrentPos).Text;
+
+			List<string> fileScopes = cmw.GetScopesFromFile(m_editors.CurrentEditor.Filename);
+
+			foreach(String scope in fileScopes)
+			{
+				Console.WriteLine(scope);
+			}
+
+			string scopeName = cmw.GetScopeName(text);
+			List<CodeLite.Tag> tags = cmw.TagsByScope(scopeName);
+
+			if(tags.Count == 0)
+			{
+				MessageBox.Show("No tags!");
+				return;
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			foreach(Tag t in tags)
+			{
+				string line = string.Format("name: {0}, kind: {1}\n", t.name, t.kind);
+				sb.Append(line);
+			}
+
+			string message = sb.ToString();
+
+			MessageBox.Show(message);
+		}
+
+		private void localVariablesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			LanguageWrapper lw = new LanguageWrapper();
+
+			//string text = m_editors.CurrentEditor.GetRange(0, m_editors.CurrentEditor.CurrentPos).Text;
+			string text = m_editors.CurrentEditor.Selection.Text;
+			int lineNum = m_editors.CurrentEditor.Lines.Current.Number;
+
+			Tag fn = cmw.FunctionFromFileLine(m_editors.CurrentEditor.Filename, lineNum, false);
+
+			//string scope = lw.OptimizeScope(text);
+			//string scopeName = lw.GetScopeName(text, null);
+
+			List<Tag> tags = lw.GetLocalVariables(text, "", 0);
+
+			if(tags.Count == 0)
+			{
+				MessageBox.Show("No tags!");
+				return;
+			}
+			
+			StringBuilder sb = new StringBuilder();
+
+			
+			foreach(Tag t in tags)
+			{
+				string line = string.Format("name: {0}, kind: {1}\n", t.name, t.kind);
+				sb.Append(line);
+			}
+
+			string message = sb.ToString();
+
+			MessageBox.Show(message);
+			
 		}
 
 	}
