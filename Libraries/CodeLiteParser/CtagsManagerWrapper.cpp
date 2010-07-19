@@ -1,5 +1,3 @@
-//#include "stdafx.h"
-
 #include "ParserProjects/Parser/ctags_manager.h"
 #include "ParserProjects/Parser/parse_thread.h"
 #include "ParserProjects/Parser/fc_fileopener.h"
@@ -26,32 +24,18 @@ using namespace System::Collections::Generic;
 using namespace msclr::interop;
 using namespace System::Runtime::InteropServices;
 using namespace System::Timers;
-//using namespace stdcli::language;
+using namespace System::Threading;
 
 
 using namespace std;
 
-/*
-void CodeLiteParserInit(const char* idxPath);
-void CodeLiteParserEnd();
-void AddParserRequestSingleFile(const char* filename, const char* databasePath) ;
-*/
-
-
-
 
 extern HINSTANCE g_hModule;
-
-
-
-
-
 
 namespace CodeLite
 {
 [UnmanagedFunctionPointer(CallingConvention::Cdecl)]
 public delegate void FileParsedDelegate(String^ filename);
-
 
 
 
@@ -91,14 +75,31 @@ public:
 
 };
 
+private ref class ShutdownIndexerThread
+{
+public:
+	ShutdownIndexerThread(clProcess* indexerProcess)
+	{
+		 m_process = indexerProcess;
+	}
+
+	clProcess* m_process;
+
+	void ThreadEntryPoint()
+	{
+		Console::WriteLine("Closing indexer process");
+		m_process->Terminate();
+	}
+};
+
+
 
 public ref class CtagsManagerWrapper
 {
-public:
-	// Allocate the native object on the C++ Heap via a constructor
+private:
 	CtagsManagerWrapper()  
-	  //: m_tags( TagsManagerST::Get() ) 
 	{
+		
 		fileParsedCallback = gcnew FileParsedDelegate(this, &CtagsManagerWrapper::OnFileParsed);
 		fileParsedEvent = nullptr;
 
@@ -110,25 +111,19 @@ public:
 		m_appLoopTimer->Elapsed += gcnew ElapsedEventHandler(this, &CtagsManagerWrapper::OnTimedEvent);
 
 		m_appLoopTimer->Interval = 50;
-		//m_appLoopTimer->Enabled = true;
-
 
 		ParserMessageReceiver* pr = ParserMessageReceiverST::Get();
 		pmr = pr;
 		if(pmr != NULL)
-		{
-			
+		{			
 			IntPtr pCallback = Marshal::GetFunctionPointerForDelegate(fileParsedCallback);
 			pmr->parsingCallback =  static_cast<ParsingCompleteCallback>(pCallback.ToPointer());
-		}
+		}		
 	}
 
-	// Deallocate the native object on a destructor
-	~CtagsManagerWrapper() {
-		//delete m_Impl;
-	}
+	~CtagsManagerWrapper() 	{ }
 
-
+public:
 	event FileParsedDelegate^ FileParsed
 	{
 		void add(FileParsedDelegate^ fp)
@@ -153,10 +148,8 @@ public:
 	}
 
 protected:
-	// Deallocate the native object on the finalizer just in case no destructor is called
-	!CtagsManagerWrapper() {
-		//delete m_Impl;
-	}
+	!CtagsManagerWrapper() {}
+	
 
 private:
 	clProcess* indexerProcess;
@@ -168,19 +161,21 @@ private:
 	String^ databasePath;
 	System::Timers::Timer^ m_appLoopTimer;
 	bool m_initialized;
+	CtagsManagerWrapper^ m_wrapper;
 
 	void OnTimedEvent(Object^ source, ElapsedEventArgs^ e)
 	{
-		//Console.WriteLine("The Elapsed event was raised at {0}", e.SignalTime);
-		//ProcessParserEvents();
-
-		CtagsManagerWrapper::ProcessParserEvents();
+		ProcessParserEvents();
 	}
 
 public:
 	bool CodeLiteParserInit(String^ idxPath, String^ databasePath) 
 	{		
-		
+		if(m_initialized)
+		{
+			return false;
+		}
+
 		wxSetInstance(GetModuleHandle(NULL));
 		int argc = 0;
 		char **argv = NULL;
@@ -189,17 +184,18 @@ public:
 			return FALSE;
 		
 		
+		
 		marshal_context context;
 		wxString indexerPath = context.marshal_as<const wchar_t*>(idxPath);
 
 		ParseThread* parser = ParseThreadST::Get();
 		TagsManager* tagmgr = TagsManagerST::Get();
-
+		
 		m_tags = tagmgr;
 
 		LanguageST::Get()->SetTagsManager(tagmgr );
 		TagsManagerST::Get()->SetLanguage( LanguageST::Get() );
-
+		
 		tagmgr->SetCodeLiteIndexerPath(indexerPath);
 		indexerProcess = tagmgr->StartCtagsProcess();
 
@@ -209,7 +205,7 @@ public:
 
 		parser->Start();
 
-		this->databasePath = databasePath;
+		CtagsManagerWrapper::databasePath = databasePath;
 		wxString dbPath = context.marshal_as<const wchar_t*>(databasePath);
 		tagmgr->OpenDatabase(dbPath);
 		
@@ -221,29 +217,29 @@ public:
 
 	void CodeLiteParserEnd() 
 	{
+		if(!m_initialized)
+		{
+			return;
+		}
 		
-		TagsManagerST::Get()->CloseDatabase();
 		ParseThread* parser = ParseThreadST::Get();
 		parser->Stop();
-
-		ParseThreadST::Free();
-		fcFileOpener::Release();
-
 		
-
-		ProcessParserEvents();
-
+		TagsManagerST::Get()->CloseDatabase();
+		
+		ParseThreadST::Free();
 		TagsManagerST::Free();
 		LanguageST::Free();
 
-		//
-		delete indexerProcess;
-		//
-		//ProcessParserEvents();
+		ShutdownIndexerThread^ o1 = gcnew ShutdownIndexerThread(indexerProcess);
+		Thread^ t1 = gcnew Thread(gcnew ThreadStart(o1, &ShutdownIndexerThread::ThreadEntryPoint));
 		
+		fcFileOpener::Release();
+				
+		m_initialized = false;
 		m_appLoopTimer->Enabled = false;
 
-		wxEntryCleanup();
+		wxEntryCleanup();		
 	}
 
 	void AddParserRequestSingleFile(String^ filename) 
@@ -688,7 +684,7 @@ public:
 	}
 
 	
-	void  ProcessParserEvents() 
+	void ProcessParserEvents() 
 	{
 		if(!m_initialized)
 		{
@@ -699,7 +695,6 @@ public:
 		{
 			wxTheApp->ProcessPendingEvents();
 		}
-
 	}
 
 	void OnFileParsed(String^ filename)
@@ -708,15 +703,9 @@ public:
 
 		FileParsed(filename);
 
-
 		m_filesToParse->Remove(filename);
 	}
-
-private:
-	
-
-
-	
+		
 };
 
 }

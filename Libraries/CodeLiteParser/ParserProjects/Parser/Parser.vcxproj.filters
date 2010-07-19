@@ -201,6 +201,12 @@
     <ClCompile Include="..\codelite_indexer\network\np_connections_server.cpp">
       <Filter>codelite_indexer\network\src</Filter>
     </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParserApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="archive.h">

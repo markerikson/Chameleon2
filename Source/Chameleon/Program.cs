@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using Chameleon.Network;
 using Chameleon.Features;
+using CodeLite;
+using DevInstinct.Patterns;
 
 namespace Chameleon
 {
@@ -22,8 +24,10 @@ namespace Chameleon
 
 			//ChameleonFeatures dummyFeatures = ChameleonFeatures.Feature1 | ChameleonFeatures.DragDropSnippets;
 			//App.Configuration.PermittedFeatures = dummyFeatures;
+			Form f = new ChameleonForm();
+			Application.Run(f);
 
-			Application.Run(new ChameleonForm());
+			Singleton<CtagsManagerWrapper>.Instance.CodeLiteParserEnd();
 		}
 	}
 }

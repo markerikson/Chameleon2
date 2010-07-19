@@ -16,6 +16,7 @@ using Chameleon.Features;
 using SSHClient;
 using CodeLite;
 using System.Reflection;
+using DevInstinct.Patterns;
 
 namespace Chameleon
 {
@@ -92,18 +93,15 @@ namespace Chameleon
 				menuFeatures.DropDownItems.Add(item);
 			}
 
-			cmw = new CtagsManagerWrapper();
+			cmw = Singleton<CtagsManagerWrapper>.Instance;
 
 			cmw.FileParsed += new FileParsedDelegate(cmw_FileParsed);
 
 			string appPath = Application.ExecutablePath;
 			string indexerPath = Path.GetDirectoryName(appPath);
-			//string indexerPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-			//string indexerPath = Path.Combine(chameleonPath, "codelite_indexer.exe");
 
 			cmw.CodeLiteParserInit(indexerPath, "d:\\temp\\ChameleonTagsDB.db");
 			parserInitialized = true;
-
 
 			ShowPermittedUI();
 		}
@@ -122,8 +120,6 @@ namespace Chameleon
 			{
 				e.Cancel = true;
 			}
-
-			cmw.CodeLiteParserEnd();
 
 			m_appClosing = false;
 
