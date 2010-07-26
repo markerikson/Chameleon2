@@ -17,6 +17,7 @@ using SSHClient;
 using CodeLite;
 using System.Reflection;
 using DevInstinct.Patterns;
+using Chameleon.Features;
 
 namespace Chameleon
 {
@@ -100,7 +101,7 @@ namespace Chameleon
 			string appPath = Application.ExecutablePath;
 			string indexerPath = Path.GetDirectoryName(appPath);
 
-			cmw.CodeLiteParserInit(indexerPath, "d:\\temp\\ChameleonTagsDB.db");
+			cmw.CodeLiteParserInit(indexerPath, indexerPath + "\\ChameleonTagsDB.db");
 			parserInitialized = true;
 
 			ShowPermittedUI();
@@ -108,7 +109,7 @@ namespace Chameleon
 
 		void cmw_FileParsed(string filename)
 		{
-			MessageBox.Show("File parsed: " + filename);
+			//MessageBox.Show("File parsed: " + filename);
 		}
 
 		
@@ -147,7 +148,6 @@ namespace Chameleon
 
 		private void OnFileOpenRemote(object sender, EventArgs e)
 		{
-			//m_editors.OpenFile(FileLocation.Remote);
 			if(!m_networking.IsConnected)
 			{
 				MessageBox.Show("Can't do anything remote if not connected!");
@@ -162,6 +162,12 @@ namespace Chameleon
 		{
 			ChameleonEditor editor = m_editors.CurrentEditor;
 			m_editors.SaveFile(editor, editor.FileLocation, false, true);
+
+			// TODO Parse files saved remotely as well
+			if(editor.FileLocation == FileLocation.Local)
+			{
+				cmw.AddParserRequestSingleFile(editor.Filename);
+			}
 		}
 
 		private void OnFileSaveAsLocal(object sender, EventArgs e)
@@ -358,14 +364,17 @@ namespace Chameleon
 			string text = m_editors.CurrentEditor.GetRange(0, m_editors.CurrentEditor.CurrentPos).Text;
 
 			List<string> fileScopes = cmw.GetScopesFromFile(m_editors.CurrentEditor.Filename);
+			LanguageWrapper lw = new LanguageWrapper();
 
 			foreach(String scope in fileScopes)
 			{
 				Console.WriteLine(scope);
 			}
 
-			string scopeName = cmw.GetScopeName(text);
-			List<CodeLite.Tag> tags = cmw.TagsByScope(scopeName);
+			string optiScope = lw.OptimizeScope(text);
+			string scopeName = cmw.GetScopeName(optiScope);
+			
+			List<CodeLite.Tag> tags = cmw.TagsFromFileAndScope(m_editors.CurrentEditor.Filename, scopeName);
 
 			if(tags.Count == 0)
 			{
@@ -390,14 +399,11 @@ namespace Chameleon
 		{
 			LanguageWrapper lw = new LanguageWrapper();
 
-			//string text = m_editors.CurrentEditor.GetRange(0, m_editors.CurrentEditor.CurrentPos).Text;
 			string text = m_editors.CurrentEditor.Selection.Text;
 			int lineNum = m_editors.CurrentEditor.Lines.Current.Number;
 
 			Tag fn = cmw.FunctionFromFileLine(m_editors.CurrentEditor.Filename, lineNum, false);
 
-			//string scope = lw.OptimizeScope(text);
-			//string scopeName = lw.GetScopeName(text, null);
 
 			List<Tag> tags = lw.GetLocalVariables(text, "", 0);
 
@@ -419,6 +425,28 @@ namespace Chameleon
 			string message = sb.ToString();
 
 			MessageBox.Show(message);
+			
+		}
+
+
+
+		private void parseExpressionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor ed = m_editors.CurrentEditor;
+
+			string lineText = ed.Lines.Current.Text;
+
+			Line currLine = ed.Lines.Current;
+
+			char chOpenBrace = '(';
+
+			int openPos = lineText.IndexOf(chOpenBrace);
+
+			int startPos = currLine.StartPosition + openPos;
+
+			int matchedPos = 0;
+			bool found = ed.MatchBraceForward(chOpenBrace, startPos, ref matchedPos);
+			
 			
 		}
 

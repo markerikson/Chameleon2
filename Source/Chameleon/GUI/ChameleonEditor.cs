@@ -24,7 +24,7 @@ namespace Chameleon.GUI
 		private bool m_autoAddMatchedBrace;
 
 		private CppContext m_context;
-
+		
 		
 		
 
@@ -64,6 +64,12 @@ namespace Chameleon.GUI
 				m_fileInfo.Filename.Assign(value, pathFormat);
 				UpdateTitleText();
 			}
+		}
+
+		public Chameleon.Features.CppContext Context
+		{
+			get { return m_context; }
+			set { m_context = value; }
 		}
 		#endregion
 
@@ -538,6 +544,77 @@ namespace Chameleon.GUI
 			return false;
 		}
 
+		public bool MatchBraceForward(char chOpenBrace, int pos, ref int matchedPos)
+		{
+			if(pos <= 0)
+				return false;
+
+			char chCloseBrace;
+
+			switch(chOpenBrace)
+			{
+				case '{':
+				{
+					chCloseBrace = '}';
+					break;
+				}
+
+				case '(':
+				{
+					chCloseBrace = ')';
+					break;
+				}
+				case '[':
+				{
+					chCloseBrace = ']';
+					break;
+				}
+				case '<':
+				{
+					chCloseBrace = '>';
+					break;
+				}
+				default:
+				{
+					return false;
+				}
+			}
+
+			int nNextPos = pos;
+			char ch;
+			int depth = 1;
+
+			// We go backward
+			while(true)
+			{
+				if(nNextPos >= this.TextLength)
+					break;
+				nNextPos = NativeInterface.PositionAfter(nNextPos);
+
+				// Make sure we are not in a comment
+				if(m_context.IsCommentOrString(nNextPos))
+					continue;
+
+				ch = NativeInterface.GetCharAt(nNextPos);
+				if(ch == chCloseBrace)
+				{
+					// Dec the depth level
+					depth--;
+					if(depth == 0)
+					{
+						matchedPos = nNextPos;
+						return true;
+					}
+				}
+				else if(ch == chOpenBrace)
+				{
+					// Inc depth level
+					depth++;
+				}
+			}
+			return false;
+		}
+
 		public void SetCaretAt(int pos)
 		{
 			NativeInterface.SetCurrentPos(pos);
@@ -546,5 +623,15 @@ namespace Chameleon.GUI
 		}
 
 		#endregion
+
+		public string GetTextToPos(int pos)
+		{
+			return GetTextChunk(0, pos);
+		}
+
+		public string GetTextChunk(int startPos, int endPos)
+		{
+			return new Range(startPos, endPos, this).Text;
+		}
 	}
 }
