@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0FEFA74A-757A-499A-995D-88C0D85961EA}</ProjectGuid>
+    <RootNamespace>antlr_runtime</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\OutputLibs\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\obj\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\OutputLibs\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\obj\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4996;4018;</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)antlrcppDebug.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4996;4018;</DisableSpecificWarnings>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)antlrcpp.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ANTLRUtil.cpp" />
+    <ClCompile Include="src\ASTFactory.cpp" />
+    <ClCompile Include="src\ASTNULLType.cpp" />
+    <ClCompile Include="src\ASTRefCount.cpp" />
+    <ClCompile Include="src\BaseAST.cpp" />
+    <ClCompile Include="src\BitSet.cpp" />
+    <ClCompile Include="src\CharBuffer.cpp" />
+    <ClCompile Include="src\CharScanner.cpp" />
+    <ClCompile Include="src\CommonAST.cpp" />
+    <ClCompile Include="src\CommonASTWithHiddenTokens.cpp" />
+    <ClCompile Include="src\CommonHiddenStreamToken.cpp" />
+    <ClCompile Include="src\CommonToken.cpp" />
+    <ClCompile Include="src\dll.cpp" />
+    <ClCompile Include="src\InputBuffer.cpp" />
+    <ClCompile Include="src\LLkParser.cpp" />
+    <ClCompile Include="src\MismatchedCharException.cpp" />
+    <ClCompile Include="src\MismatchedTokenException.cpp" />
+    <ClCompile Include="src\NoViableAltException.cpp" />
+    <ClCompile Include="src\NoViableAltForCharException.cpp" />
+    <ClCompile Include="src\Parser.cpp" />
+    <ClCompile Include="src\RecognitionException.cpp" />
+    <ClCompile Include="src\String.cpp" />
+    <ClCompile Include="src\Token.cpp" />
+    <ClCompile Include="src\TokenBuffer.cpp" />
+    <ClCompile Include="src\TokenRefCount.cpp" />
+    <ClCompile Include="src\TokenStreamBasicFilter.cpp" />
+    <ClCompile Include="src\TokenStreamHiddenTokenFilter.cpp" />
+    <ClCompile Include="src\TokenStreamRewriteEngine.cpp" />
+    <ClCompile Include="src\TokenStreamSelector.cpp" />
+    <ClCompile Include="src\TreeParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="antlr\ANTLRException.hpp" />
+    <ClInclude Include="antlr\ANTLRUtil.hpp" />
+    <ClInclude Include="antlr\AST.hpp" />
+    <ClInclude Include="antlr\ASTArray.hpp" />
+    <ClInclude Include="antlr\ASTFactory.hpp" />
+    <ClInclude Include="antlr\ASTNULLType.hpp" />
+    <ClInclude Include="antlr\ASTPair.hpp" />
+    <ClInclude Include="antlr\ASTRefCount.hpp" />
+    <ClInclude Include="antlr\BaseAST.hpp" />
+    <ClInclude Include="antlr\BitSet.hpp" />
+    <ClInclude Include="antlr\CharBuffer.hpp" />
+    <ClInclude Include="antlr\CharInputBuffer.hpp" />
+    <ClInclude Include="antlr\CharScanner.hpp" />
+    <ClInclude Include="antlr\CharStreamException.hpp" />
+    <ClInclude Include="antlr\CharStreamIOException.hpp" />
+    <ClInclude Include="antlr\CircularQueue.hpp" />
+    <ClInclude Include="antlr\CommonAST.hpp" />
+    <ClInclude Include="antlr\CommonASTWithHiddenTokens.hpp" />
+    <ClInclude Include="antlr\CommonHiddenStreamToken.hpp" />
+    <ClInclude Include="antlr\CommonToken.hpp" />
+    <ClInclude Include="antlr\config.hpp" />
+    <ClInclude Include="antlr\InputBuffer.hpp" />
+    <ClInclude Include="antlr\IOException.hpp" />
+    <ClInclude Include="antlr\LexerSharedInputState.hpp" />
+    <ClInclude Include="antlr\LLkParser.hpp" />
+    <ClInclude Include="antlr\MismatchedCharException.hpp" />
+    <ClInclude Include="antlr\MismatchedTokenException.hpp" />
+    <ClInclude Include="antlr\NoViableAltException.hpp" />
+    <ClInclude Include="antlr\NoViableAltForCharException.hpp" />
+    <ClInclude Include="antlr\Parser.hpp" />
+    <ClInclude Include="antlr\ParserSharedInputState.hpp" />
+    <ClInclude Include="antlr\RecognitionException.hpp" />
+    <ClInclude Include="antlr\RefCount.hpp" />
+    <ClInclude Include="antlr\SemanticException.hpp" />
+    <ClInclude Include="antlr\String.hpp" />
+    <ClInclude Include="antlr\Token.hpp" />
+    <ClInclude Include="antlr\TokenBuffer.hpp" />
+    <ClInclude Include="antlr\TokenRefCount.hpp" />
+    <ClInclude Include="antlr\TokenStream.hpp" />
+    <ClInclude Include="antlr\TokenStreamBasicFilter.hpp" />
+    <ClInclude Include="antlr\TokenStreamException.hpp" />
+    <ClInclude Include="antlr\TokenStreamHiddenTokenFilter.hpp" />
+    <ClInclude Include="antlr\TokenStreamIOException.hpp" />
+    <ClInclude Include="antlr\TokenStreamRecognitionException.hpp" />
+    <ClInclude Include="antlr\TokenStreamRetryException.hpp" />
+    <ClInclude Include="antlr\TokenStreamRewriteEngine.hpp" />
+    <ClInclude Include="antlr\TokenStreamSelector.hpp" />
+    <ClInclude Include="antlr\TokenWithIndex.hpp" />
+    <ClInclude Include="antlr\TreeParser.hpp" />
+    <ClInclude Include="antlr\TreeParserSharedInputState.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
