@@ -61,5 +61,27 @@ namespace Chameleon.Util
 
 			return current;
 		}
+
+		public static void TraverseAST(this ASTNode node, bool includeSiblings, Func<ASTNode, bool> func)
+		{
+			if(node != null)
+			{
+				bool result = func(node);
+
+				if(!result)
+				{
+					return;
+				}
+
+				if(node.firstChild != null)
+				{
+					TraverseAST(node.firstChild, true, func);
+				}
+				if(includeSiblings && node.nextSibling != null)
+				{
+					TraverseAST(node.nextSibling, true, func);
+				}
+			}
+		}
 	}
 }

@@ -61,6 +61,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>wxbase29ud.lib;wxmsw29ud_adv.lib;wxmsw29ud_core.lib;wxbase29ud_xml.lib;wxbase29ud_net.lib;wxmsw29ud_xrc.lib;wxexpatd.lib;comctl32.lib;Rpcrt4.lib;wsock32.lib;wxregexud.lib;ParserDebug.lib;wxcode_msw28ud_wxsqlite3.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

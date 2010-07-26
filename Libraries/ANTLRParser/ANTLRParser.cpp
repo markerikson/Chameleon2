@@ -231,6 +231,7 @@ namespace Parsing
 				{
 					node->nextSibling = gcnew ASTNode();
 					node->nextSibling->prevSibling = node;
+					node->nextSibling->parent = node->parent;
 					ConvertAST( top->getNextSibling(), node->nextSibling);
 				}
 			}

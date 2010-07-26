@@ -17,7 +17,6 @@ using SSHClient;
 using CodeLite;
 using System.Reflection;
 using DevInstinct.Patterns;
-using Chameleon.Features;
 
 namespace Chameleon
 {

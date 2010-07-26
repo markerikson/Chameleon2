@@ -237,7 +237,7 @@ namespace Chameleon.GUI
 
 		public void SetFileSaved(string filename, FileLocation location)
 		{
-			UndoRedo.EmptyUndoBuffer();
+			//UndoRedo.EmptyUndoBuffer();
 			this.FileLocation = location;
 			this.Filename = filename;
 			this.Modified = false;

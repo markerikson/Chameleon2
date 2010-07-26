@@ -235,9 +235,10 @@ namespace Chameleon.Features
 			}
 		}
 
+		// this function expects the line number to be 0-based, like Scintilla
 		public bool GetFunctionStartEnd(int lineNum, ref int functionStartPos, ref int functionOpenBracePos, ref int functionEndPos)
 		{
-			Tag fn = m_cmw.FunctionFromFileLine(m_editor.Filename, lineNum, false);
+			Tag fn = m_cmw.FunctionFromFileLine(m_editor.Filename, lineNum + 1, false);
 
 			int pos = m_editor.NativeInterface.PositionFromLine(fn.lineNumber - 1);
 			Range searchRange = new Range(pos, m_editor.TextLength, m_editor);
@@ -248,7 +249,7 @@ namespace Chameleon.Features
 
 			
 			
-			if(m_editor.MatchBraceForward('{', openBracePos, ref matchedPos))
+			if(m_editor.MatchBraceForward('{', openBracePos + 1, ref matchedPos))
 			{				
 				functionStartPos = pos;
 				functionEndPos = matchedPos + 1;
@@ -257,6 +258,20 @@ namespace Chameleon.Features
 			}
 
 			return false;
+		}
+
+		// this function expects the line number to be 0-based, like Scintilla
+		public string GetFunctionText(int lineNum)
+		{
+			int fnStart = 0, fnOpen = 0, fnClose = 0;
+			string text = "";
+
+			if(GetFunctionStartEnd(lineNum, ref fnStart, ref fnOpen, ref fnClose))
+			{
+				text = new Range(fnStart, fnClose, m_editor).Text;
+			}
+
+			return text;
 		}
 
 		public List<Tag> GetLocalVariables(int currPos)
@@ -279,7 +294,7 @@ namespace Chameleon.Features
 			//string textToHere = m_editor.GetTextToPos(funcOpenBrace + 1);
 			LanguageWrapper lw = new LanguageWrapper();
 			//string scope = lw.OptimizeScope(textToHere);
-			string localText = m_editor.GetTextChunk(funcOpenBrace, currPos);
+			string localText = m_editor.GetTextChunk(funcOpenBrace, funcEnd);
 
 			Tag func = cmw.FunctionFromFileLine(m_editor.Filename, lineNum, false);
 			string signature = func.extFields["signature"];
@@ -490,5 +505,7 @@ namespace Chameleon.Features
 
 			return expression;
 		}
+
+		
 	}
 }

@@ -515,7 +515,13 @@ namespace Chameleon.GUI
 			// TODO Parse files saved remotely as well
 			if(editor.FileLocation == FileLocation.Local)
 			{
-				cmw.AddParserRequestSingleFile(editor.Filename);
+				//cmw.AddParserRequestSingleFile(editor.Filename);
+				List<string> files = new List<string>();
+				files.Add(editor.Filename);
+
+				cmw.DeleteFilesTags(files);
+				cmw.AddParserRequestSingleFile(files[0]);
+				//cmw.RetagFiles(files, false);
 
 				RunCodeRules(editor);
 			}
@@ -537,6 +543,11 @@ namespace Chameleon.GUI
 			List<Tag> functions = cmw.GetFunctions(editor.Filename, false);
 			ANTLRParser parser = Singleton<ANTLRParser>.Instance;
 
+			Range wholeFile = editor.GetRange();
+
+			// run all global rules
+			m_ruleManager.ExamineSource(editor, wholeFile, true);
+
 			foreach(Tag fn in functions)
 			//for(int i = 4; i < 5; i++ )
 			{
@@ -548,16 +559,12 @@ namespace Chameleon.GUI
 					continue;
 				}
 
-				if(editor.Context.GetFunctionStartEnd(fn.lineNumber, ref fnStart, ref fnOpen, ref fnClose))
+				if(editor.Context.GetFunctionStartEnd(fn.lineNumber - 1, ref fnStart, ref fnOpen, ref fnClose))
 				{
 					Range r = new Range(fnStart, fnClose, editor);
 
-					parser.SetSource(r.Text, editor.Filename);
-
-					if(parser.Parse())
-					{
-						m_ruleManager.ExamineSource(editor, r);
-					}
+					// run local rules for each function
+					m_ruleManager.ExamineSource(editor, r, false);					
 				}
 			}
 
@@ -604,6 +611,10 @@ namespace Chameleon.GUI
 
 					fileInfo.Filename.Assign(ofd.FileName, PathFormat.Windows);
 				}
+				else
+				{
+					return null;
+				}
 			}
 			else if(location == FileLocation.Remote)
 			{
@@ -615,6 +626,10 @@ namespace Chameleon.GUI
 				if(dr == DialogResult.OK)
 				{
 					fileInfo.Filename.Assign(rfd.SelectedFile);
+				}
+				else
+				{
+					return null;
 				}
 			}
 

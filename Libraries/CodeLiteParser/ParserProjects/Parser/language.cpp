@@ -1218,6 +1218,8 @@ void Language::GetLocalVariables(const wxString &in, std::vector<TagEntryPtr> &t
 		tag->SetKind(wxT("variable"));
 		tag->SetParent(wxT("<local>"));
 
+		tag->SetLine(var.m_lineno);
+
 		wxString scope;
 		if (var.m_typeScope.empty() == false) {
 			scope << wxString(var.m_typeScope.c_str(), wxConvUTF8) << wxT("::");
