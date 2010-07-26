@@ -27,6 +27,13 @@ using namespace System::Runtime::InteropServices;
 using namespace std;
 
 
+
+String^ ConvertString(const wxString& nativeString);
+String^ ConvertString(const string& nativeString);
+wxString ConvertString(String^ managedString);
+
+
+
 namespace CodeLite
 {
 	public ref class Tag
@@ -50,15 +57,20 @@ namespace CodeLite
 
 	};
 
+	/*
 	public ref class ParserUtilities
 	{
 	public:
 		static List<Tag^>^ TagVectorToTagList( vector<TagEntryPtr> &tags );
 		static Tag^ TagPointerToTag( TagEntryPtr& pTag ); 
+		
 	};
+	*/
 }
 
+using namespace CodeLite;
 
-
+List<Tag^>^ TagVectorToTagList( vector<TagEntryPtr> &tags );
+Tag^ TagPointerToTag( TagEntryPtr& pTag ); 
 
 #endif

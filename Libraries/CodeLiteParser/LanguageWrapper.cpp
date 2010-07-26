@@ -13,6 +13,7 @@
 #include <wx/msw/private.h>
 #include "Utilities.h"
 
+
 #using <System.dll>
 #using <mscorlib.dll>
 
@@ -22,8 +23,25 @@ using namespace msclr::interop;
 using namespace System::Runtime::InteropServices;
 
 
+
 namespace CodeLite
 {
+
+	public ref class ExpressionInfo
+	{
+	public:
+
+		bool        m_isFunc;
+		String^ m_name;
+		bool        m_isThis;
+		bool        m_isaType;
+		bool        m_isPtr;
+		String^ m_scope;
+		bool        m_isTemplate;
+		String^ m_templateInitList;
+		bool        m_isGlobalScope;
+
+	};
 
 	public ref class LanguageWrapper
 	{
@@ -44,17 +62,17 @@ namespace CodeLite
 		String^ OptimizeScope(String^ source)
 		{
 			marshal_context context;
-			wxString sSource = context.marshal_as<const wchar_t*>(source);
+			wxString sSource = ConvertString(source);
 
 			wxString scope = m_lang->OptimizeScope(sSource);
 
-			return  marshal_as<String^>(scope.wc_str());
+			return ConvertString(scope);
 		}
 
 		String^ GetScopeName(String^ input, List<String^>^ additionalNamespaces)
 		{
 			marshal_context context;
-			wxString sInput = context.marshal_as<const wchar_t*>(input);
+			wxString sInput = ConvertString(input);
 
 			wxString sScope;
 
@@ -70,12 +88,12 @@ namespace CodeLite
 
 				for(int i = 0; i < additionalNS.size(); i++)
 				{
-					String^ ns = marshal_as<String^>(additionalNS[i].wc_str());
+					String^ ns = ConvertString(additionalNS[i]);
 					additionalNamespaces->Add(ns);
 				}
 			}
 
-			String^ scope = marshal_as<String^>(sScope.wc_str());
+			String^ scope = ConvertString(sScope);
 
 			return scope;
 		}
@@ -85,9 +103,9 @@ namespace CodeLite
 		{
 			marshal_context context;
 
-			wxString sStmt = context.marshal_as<const wchar_t*>(stmt);
-			wxString sText = context.marshal_as<const wchar_t*>(text);
-			wxString sFilename = context.marshal_as<const wchar_t*>(filename);
+			wxString sStmt = ConvertString(stmt);
+			wxString sText = ConvertString(text);
+			wxString sFilename = ConvertString(filename);
 
 			wxFileName fn = sFilename;
 
@@ -95,27 +113,54 @@ namespace CodeLite
 
 			bool result = m_lang->ProcessExpression(sStmt, sText, fn, lineNum, sTypeName, sTypeScope, sOper, sScopeTemplate);
 
-			typeName = marshal_as<String^>(sTypeName.wc_str());
-			typeScope = marshal_as<String^>(sTypeScope.wc_str());
-			oper = marshal_as<String^>(sOper.wc_str());
-			scopeTemplateInitList = marshal_as<String^>(sScopeTemplate.wc_str());
+			typeName = ConvertString(sTypeName);
+			typeScope = ConvertString(sTypeScope);
+			oper = ConvertString(sOper);
+			scopeTemplateInitList = ConvertString(sScopeTemplate);
 
 			return result;
+		}
+
+		ExpressionInfo^ ParseExpression(String^ expr)
+		{
+			wxString sExpr = ConvertString(expr);
+
+			ExpressionResult er = m_lang->ParseExpression(sExpr);
+			ExpressionInfo^ info = ConvertExpressionInfo(er);
+
+			return info;
 		}
 
 
 		List<Tag^>^ GetLocalVariables(String^ scope, String^ name, int flags)
 		{
 			marshal_context context;
-			wxString sScope = context.marshal_as<const wchar_t*>(scope);
-			wxString sName = context.marshal_as<const wchar_t*>(name);
+			wxString sScope = ConvertString(scope);
+			wxString sName = ConvertString(name);
 
 			vector<TagEntryPtr> tags;
 
 
 			m_lang->GetLocalVariables(sScope, tags, sName, flags);
 
-			return ParserUtilities::TagVectorToTagList(tags);
+			return TagVectorToTagList(tags);
+		}
+
+		static ExpressionInfo^ ConvertExpressionInfo(ExpressionResult& er)
+		{
+			ExpressionInfo^ info = gcnew ExpressionInfo();
+
+			info->m_isFunc = er.m_isFunc;
+			info->m_name = ConvertString(er.m_name);
+			info->m_isThis = er.m_isThis;
+			info->m_isaType = er.m_isaType;
+			info->m_isPtr = er.m_isPtr;
+			info->m_scope = ConvertString(er.m_scope);
+			info->m_isTemplate = er.m_isTemplate;
+			info->m_templateInitList = ConvertString(er.m_templateInitList);
+			info->m_isGlobalScope = er.m_isGlobalScope;
+
+			return info;
 		}
 	};
 }

@@ -185,8 +185,8 @@ public:
 		
 		
 		
-		marshal_context context;
-		wxString indexerPath = context.marshal_as<const wchar_t*>(idxPath);
+		
+		wxString indexerPath = ConvertString(idxPath);
 
 		ParseThread* parser = ParseThreadST::Get();
 		TagsManager* tagmgr = TagsManagerST::Get();
@@ -206,7 +206,7 @@ public:
 		parser->Start();
 
 		CtagsManagerWrapper::databasePath = databasePath;
-		wxString dbPath = context.marshal_as<const wchar_t*>(databasePath);
+		wxString dbPath = ConvertString(databasePath);
 		tagmgr->OpenDatabase(dbPath);
 		
 		m_appLoopTimer->Enabled = true;
@@ -248,9 +248,9 @@ public:
 
 		m_filesToParse->Add(filename);
 
-		marshal_context context;
-		wxString fname = context.marshal_as<const wchar_t*>(filename);
-		wxString dbpath = context.marshal_as<const wchar_t*>(databasePath);
+		
+		wxString fname = ConvertString(filename);
+		wxString dbpath = ConvertString(databasePath);
 
 		parsingRequest->setFile(fname);
 		parsingRequest->setDbFile(dbpath);
@@ -275,8 +275,8 @@ public:
 
 	List<String^>^ GetScopesFromFile(String^ fileName)
 	{
-		marshal_context context;
-		wxString name = context.marshal_as<const wchar_t*>(fileName);
+		
+		wxString name = ConvertString(fileName);
 
 		vector<wxString> fileScopes;
 
@@ -287,7 +287,7 @@ public:
 		for(int i = 0; i < fileScopes.size(); i++)
 		{
 			
-			String^ scope = marshal_as<String^>(fileScopes[i].wc_str());
+			String^ scope = ConvertString(fileScopes[i]);
 			returnScopes->Add(scope);
 		}
 
@@ -296,106 +296,106 @@ public:
 
 	List<Tag^>^ FindSymbol(String^ symbolName)
 	{
-		marshal_context context;
-		wxString name = context.marshal_as<const wchar_t*>(symbolName);
+		
+		wxString name = ConvertString(symbolName);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->FindSymbol(name, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ FindByPath(String^ path)
 	{
-		marshal_context context;
-		wxString filePath = context.marshal_as<const wchar_t*>(path);
+		
+		wxString filePath = ConvertString(path);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->FindByPath(filePath, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ TagsByScope(String^ scope)
 	{
-		marshal_context context;
-		wxString sScope = context.marshal_as<const wchar_t*>(scope);
+		
+		wxString sScope = ConvertString(scope);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->TagsByScope(sScope, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ TagsByScope(String^ scope, String^ kind, bool includeInherits, bool onlyWorkspace)
 	{
-		marshal_context context;
-		wxString sScope = context.marshal_as<const wchar_t*>(scope);
-		wxString sKind = context.marshal_as<const wchar_t*>(kind);
+		
+		wxString sScope = ConvertString(scope);
+		wxString sKind = ConvertString(kind);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->TagsByScope(sScope, sKind, tags, includeInherits, onlyWorkspace);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 
 
 	List<Tag^>^ TagsByScopeAndName(String^ scope, String^ name)
 	{
-		marshal_context context;
-		wxString sScope = context.marshal_as<const wchar_t*>(scope);
-		wxString sName = context.marshal_as<const wchar_t*>(name);
+		
+		wxString sScope = ConvertString(scope);
+		wxString sName = ConvertString(name);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->TagsByScopeAndName(sScope, sName, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ AutoCompletionCandidates(String^ filename, int linenum, String^ expr, String^ text)
 	{
-		marshal_context context;
-		wxFileName fname = context.marshal_as<const wchar_t*>(filename);
-		wxString sExpr = context.marshal_as<const wchar_t*>(expr);
-		wxString sText = context.marshal_as<const wchar_t*>(text);
+		
+		wxFileName fname = ConvertString(filename);
+		wxString sExpr = ConvertString(expr);
+		wxString sText = ConvertString(text);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->AutoCompleteCandidates(fname, linenum, sExpr, sText, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ WordCompletionCandidates(String^ filename, int linenum, String^ expr, 
 										String^ text, String^ word)
 	{
-		marshal_context context;
-		wxFileName fname = context.marshal_as<const wchar_t*>(filename);
-		wxString sExpr = context.marshal_as<const wchar_t*>(expr);
-		wxString sText = context.marshal_as<const wchar_t*>(text);
-		wxString sWord = context.marshal_as<const wchar_t*>(word);
+		
+		wxFileName fname = ConvertString(filename);
+		wxString sExpr = ConvertString(expr);
+		wxString sText = ConvertString(text);
+		wxString sWord = ConvertString(word);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->WordCompletionCandidates(fname, linenum, sExpr, sText, sWord, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	void DeleteFilesTags(List<String^>^ files)
 	{
-		marshal_context context;
+		
 		vector<wxFileName> fnames;
 
 		for(int i = 0; i < files->Count; i++)
 		{
-			wxFileName fname = context.marshal_as<const wchar_t*>(files[i]);
+			wxFileName fname = ConvertString(files[i]);
 			fnames.push_back(fname);
 		}
 
@@ -403,22 +403,22 @@ public:
 
 	void DeleteTagsByFilePrefix(String^ dbPath, String^ filePrefix)
 	{
-		marshal_context context;
+		
 
-		wxString sDbPath = context.marshal_as<const wchar_t*>(dbPath);
-		wxString sPrefix = context.marshal_as<const wchar_t*>(filePrefix);
+		wxString sDbPath = ConvertString(dbPath);
+		wxString sPrefix = ConvertString(filePrefix);
 
 		m_tags->DeleteTagsByFilePrefix(sDbPath, sPrefix);
 	}
 
 	void RetagFiles(List<String^>^ files, bool quickRetag)
 	{
-		marshal_context context;
+		
 		vector<wxFileName> fnames;
 
 		for(int i = 0; i < files->Count; i++)
 		{
-			wxFileName fname = context.marshal_as<const wchar_t*>(files[i]);
+			wxFileName fname = ConvertString(files[i]);
 			fnames.push_back(fname);
 		}
 
@@ -429,11 +429,11 @@ public:
 	List<String^>^ GetHoverTip(String^ filename, int linenum, String^ expr, 
 		String^ word, String^ text)
 	{
-		marshal_context context;
-		wxFileName fname = context.marshal_as<const wchar_t*>(filename);
-		wxString sExpr = context.marshal_as<const wchar_t*>(expr);
-		wxString sText = context.marshal_as<const wchar_t*>(text);
-		wxString sWord = context.marshal_as<const wchar_t*>(word);
+		
+		wxFileName fname = ConvertString(filename);
+		wxString sExpr = ConvertString(expr);
+		wxString sText = ConvertString(text);
+		wxString sWord = ConvertString(word);
 
 		vector<wxString> tips;
 
@@ -443,7 +443,7 @@ public:
 
 		for(int i = 0; i < tips.size(); i++)
 		{
-			String^ tip = marshal_as<String^>(tips[i].wc_str());
+			String^ tip = ConvertString(tips[i]);
 			list->Add(tip);
 		}
 
@@ -456,41 +456,41 @@ public:
 		vector<TagEntryPtr> tags;
 		m_tags->OpenType(tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 
 	List<Tag^>^ FindImplDecl(String^ filename, int linenum, String^ expr, String^ word, String^ text, 
 							bool impl, bool workspaceOnly)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
-		wxString sExpr = context.marshal_as<const wchar_t*>(expr);
-		wxString sWord = context.marshal_as<const wchar_t*>(word);
-		wxString sText = context.marshal_as<const wchar_t*>(text);
+		
+		wxString sFilename = ConvertString(filename);
+		wxString sExpr = ConvertString(expr);
+		wxString sWord = ConvertString(word);
+		wxString sText = ConvertString(text);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->FindImplDecl(sFilename, linenum, sExpr, sWord, sText, tags, impl, workspaceOnly);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	String^ GetScopeName(String^ scope)
 	{
-		marshal_context context;
-		wxString sScope = context.marshal_as<const wchar_t*>(scope);
+		
+		wxString sScope = ConvertString(scope);
 
 		wxString result = m_tags->GetScopeName(sScope);
 
-		String^ returnScope = marshal_as<String^>(result.wc_str());
+		String^ returnScope = ConvertString(result);
 		return returnScope;
 	}
 
 	List<String^>^ GetFiles(String^ partialName)
 	{
-		marshal_context context;
-		wxString sName = context.marshal_as<const wchar_t*>(partialName);
+		
+		wxString sName = ConvertString(partialName);
 
 		vector<wxFileName> files;
 
@@ -501,7 +501,7 @@ public:
 		for(int i = 0; i < files.size(); i++)
 		{
 			wxFileName fname = files[i];
-			String^ filename = marshal_as<String^>(fname.GetFullPath().wc_str());
+			String^ filename = ConvertString(fname.GetFullPath());
 
 			list->Add(filename);
 		}
@@ -512,50 +512,50 @@ public:
 
 	Tag^ FunctionFromFileLine(String^ filename, int linenum, bool nextFunction)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
+		
+		wxString sFilename = ConvertString(filename);
 
 		TagEntryPtr pTag = m_tags->FunctionFromFileLine(sFilename, linenum, nextFunction);
 
-		Tag^ tag = ParserUtilities::TagPointerToTag(pTag);
+		Tag^ tag = TagPointerToTag(pTag);
 		return tag;
 	}
 
 	Tag^ FirstFunctionOfFile(String^ filename)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
+		
+		wxString sFilename = ConvertString(filename);
 
 		TagEntryPtr pTag = m_tags->FirstFunctionOfFile(sFilename);
 
-		Tag^ tag = ParserUtilities::TagPointerToTag(pTag);
+		Tag^ tag = TagPointerToTag(pTag);
 		return tag;
 	}
 
 	Tag^ FirstScopeOfFile(String^ filename)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
+		
+		wxString sFilename = ConvertString(filename);
 
 		TagEntryPtr pTag = m_tags->FirstScopeOfFile(sFilename);
 
-		Tag^ tag = ParserUtilities::TagPointerToTag(pTag);
+		Tag^ tag = TagPointerToTag(pTag);
 		return tag;
 	}
 
 	
 	bool GetMemberType(String^ scope, String^ name, [Out]String^% type, [Out]String^% typeScope)
 	{
-		marshal_context context;
-		wxString sScope = context.marshal_as<const wchar_t*>(scope);
-		wxString sName = context.marshal_as<const wchar_t*>(name);
+		
+		wxString sScope = ConvertString(scope);
+		wxString sName = ConvertString(name);
 
 		wxString sType, sTypeScope;
 
 		if(m_tags->GetMemberType(sScope, sName, sType, sTypeScope))
 		{
-			type = marshal_as<String^>(sType.wc_str());
-			typeScope = marshal_as<String^>(sTypeScope.wc_str());
+			type = ConvertString(sType);
+			typeScope = ConvertString(sTypeScope);
 
 			return true;
 		}
@@ -565,34 +565,34 @@ public:
 
 	List<Tag^>^ TagsFromFileAndScope(String^ filename, String^ scopeName)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
-		wxString sScopeName = context.marshal_as<const wchar_t*>(scopeName);
+		
+		wxString sFilename = ConvertString(filename);
+		wxString sScopeName = ConvertString(scopeName);
 
 		vector<TagEntryPtr> tags;
 		m_tags->TagsFromFileAndScope(sFilename, sScopeName, tags);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 
 	bool GetFunctionDetails(String^ filename, int linenum, [Out]Tag^% tag, [Out]FunctionInfo^% func)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
+		
+		wxString sFilename = ConvertString(filename);
 
 		TagEntryPtr pTag;
 		clFunction clfunc;
 
 		if(m_tags->GetFunctionDetails(sFilename, linenum, pTag, clfunc))
 		{
-			tag = ParserUtilities::TagPointerToTag(pTag);
+			tag = TagPointerToTag(pTag);
 
 			func = gcnew FunctionInfo();
-			func->name = marshal_as<String^>(clfunc.m_name.c_str());
-			func->scope = marshal_as<String^>(clfunc.m_scope.c_str());
-			func->returnValueConst = marshal_as<String^>(clfunc.m_retrunValusConst.c_str());
-			func->signature = marshal_as<String^>(clfunc.m_signature.c_str());
+			func->name = ConvertString(clfunc.m_name);
+			func->scope = ConvertString(clfunc.m_scope);
+			func->returnValueConst = ConvertString(clfunc.m_retrunValusConst);
+			func->signature = ConvertString(clfunc.m_signature);
 			func->lineno = clfunc.m_lineno;
 			func->isVirtual = clfunc.m_isVirtual;
 			func->isPureVirtual = clfunc.m_isPureVirtual;
@@ -601,15 +601,15 @@ public:
 			VariableInfo^ vi = gcnew VariableInfo();
 			Variable v = clfunc.m_returnValue;
 			
-			vi->name = marshal_as<String^>(v.m_name.c_str());
-			vi->templateDecl = marshal_as<String^>(v.m_templateDecl.c_str());
-			vi->type = marshal_as<String^>(v.m_type.c_str());
-			vi->typeScope = marshal_as<String^>(v.m_typeScope.c_str());
-			vi->pattern = marshal_as<String^>(v.m_pattern.c_str());
-			vi->starAmp = marshal_as<String^>(v.m_starAmp.c_str());
-			vi->rightSideConst = marshal_as<String^>(v.m_rightSideConst.c_str());
-			vi->defaultValue = marshal_as<String^>(v.m_defaultValue.c_str());
-			vi->arrayBrackets = marshal_as<String^>(v.m_arrayBrackets.c_str());
+			vi->name = ConvertString(v.m_name);
+			vi->templateDecl = ConvertString(v.m_templateDecl);
+			vi->type = ConvertString(v.m_type);
+			vi->typeScope = ConvertString(v.m_typeScope);
+			vi->pattern = ConvertString(v.m_pattern);
+			vi->starAmp = ConvertString(v.m_starAmp);
+			vi->rightSideConst = ConvertString(v.m_rightSideConst);
+			vi->defaultValue = ConvertString(v.m_defaultValue);
+			vi->arrayBrackets = ConvertString(v.m_arrayBrackets);
 
 			vi->isTemplate = v.m_isTemplate;
 			vi->isPtr = v.m_isPtr;
@@ -632,50 +632,50 @@ public:
 
 		m_tags->GetClasses(tags, onlyWorkspace);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ GetFunctions(String^ filename, bool onlyWorkspace)
 	{
-		marshal_context context;
-		wxString sFilename = context.marshal_as<const wchar_t*>(filename);
+		
+		wxString sFilename = ConvertString(filename);
 
 		vector<TagEntryPtr> tags;
 
 		m_tags->GetFunctions(tags, sFilename, onlyWorkspace);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 	List<Tag^>^ GetTagsByKind(List<String^>^ kinds)
 	{
-		marshal_context context;
+		
 		wxArrayString sKind;
 		vector<TagEntryPtr> tags;
 
 		for(int i = 0; i < kinds->Count; i++)
 		{
-			wxString temp = context.marshal_as<const wchar_t*>(kinds[i]);
+			wxString temp = ConvertString(kinds[i]);
 			sKind.Add(temp);
 		}
 
 		m_tags->GetTagsByKind(tags, sKind);
 
-		return ParserUtilities::TagVectorToTagList(tags);
+		return TagVectorToTagList(tags);
 	}
 
 
 	bool ProcessExpression(String^ expr, String^% type, String^% typeScope)
 	{
-		marshal_context context;
-		wxString sExpr = context.marshal_as<const wchar_t*>(expr);
+		
+		wxString sExpr = ConvertString(expr);
 
 		wxString sType, sTypeScope;
 
 		if(m_tags->ProcessExpression(sExpr, sType, sTypeScope))
 		{
-			type = marshal_as<String^>(sType.wc_str());
-			typeScope = marshal_as<String^>(sTypeScope.wc_str());
+			type = ConvertString(sType);
+			typeScope = ConvertString(sTypeScope);
 
 			return true;
 		}
