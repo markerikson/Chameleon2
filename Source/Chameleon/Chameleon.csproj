@@ -100,6 +100,7 @@
     <Compile Include="Features\ASTNodeTreeAdapter.cs" />
     <Compile Include="Features\ASTNodeTreeLINQ.cs" />
     <Compile Include="Features\AStyleInterface.cs" />
+    <Compile Include="Features\CodeRules\BlocksMustHaveBracesRule.cs" />
     <Compile Include="Features\CodeRules\CodeRuleManager.cs" />
     <Compile Include="Features\CodeRules\NoAssignmentsInConditionsRule.cs" />
     <Compile Include="Features\CodeRules\NoGlobalVariablesRule.cs" />

@@ -81,7 +81,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>wxbase29u.lib;wxmsw29u_adv.lib;wxmsw29u_core.lib;wxbase29u_xml.lib;wxbase29u_net.lib;wxmsw29u_xrc.lib;wxregexu.lib;wxexpat.lib;comctl32.lib;Rpcrt4.lib;wsock32.lib;Parser.lib;wxcode_msw28u_wxsqlite3.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <NoEntryPoint>true</NoEntryPoint>
+      <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
