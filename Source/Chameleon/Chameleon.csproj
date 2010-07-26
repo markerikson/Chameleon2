@@ -56,6 +56,9 @@
     <StartupObject>Chameleon.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ANTLRParser">
+      <HintPath>DLLs\ANTLRParser.dll</HintPath>
+    </Reference>
     <Reference Include="CodeLiteParser">
       <HintPath>DLLs\CodeLiteParser.dll</HintPath>
     </Reference>
@@ -94,6 +97,8 @@
     <Compile Include="ChameleonForm.Designer.cs">
       <DependentUpon>ChameleonForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Features\ASTNodeTreeAdapter.cs" />
+    <Compile Include="Features\ASTNodeTreeLINQ.cs" />
     <Compile Include="Features\AStyleInterface.cs" />
     <Compile Include="Features\CppContext.cs" />
     <Compile Include="Features\Permissions.cs" />
