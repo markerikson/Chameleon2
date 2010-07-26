@@ -12,6 +12,11 @@ using Chameleon.Util;
 using Chameleon.Network;
 using System.Drawing;
 using ScintillaNet;
+using Chameleon.Features.CodeRules;
+using DevInstinct.Patterns;
+using CodeLite;
+using System.Threading;
+using Chameleon.Parsing;
 
 namespace Chameleon.GUI
 {
@@ -76,6 +81,9 @@ namespace Chameleon.GUI
 		private Dictionary<FATabStripItem, ChameleonEditor> m_tabsToEditors;
 
 		private static Dictionary<string, string> m_snippets;
+
+		private CodeRuleManager m_ruleManager;
+		private CtagsManagerWrapper cmw;
 
 		static EditorContainer()
 		{
@@ -150,11 +158,18 @@ namespace Chameleon.GUI
 			this.label1.Size = new System.Drawing.Size(34, 13);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Panel";
+
+			m_ruleManager = Singleton<CodeRuleManager>.Instance;
+			cmw = Singleton<CtagsManagerWrapper>.Instance;
+
+			m_ruleManager.AddRules();
 			
 
 			m_fileNum = 0;
 			NewFile();
 		}
+		
+
 		
 		
 
@@ -497,8 +512,58 @@ namespace Chameleon.GUI
 
 			editor.SetFileSaved(filename, location);
 
+			// TODO Parse files saved remotely as well
+			if(editor.FileLocation == FileLocation.Local)
+			{
+				cmw.AddParserRequestSingleFile(editor.Filename);
+
+				RunCodeRules(editor);
+			}
+
 			return true;
 		}
+
+		private void RunCodeRules(ChameleonEditor editor)
+		{
+			if(cmw.Parsing)
+			{
+				// TODO Get rid of this hack
+				Thread.Sleep(50);
+			}
+
+			m_ruleManager.ClearErrors();
+			editor.ClearErrors();
+
+			List<Tag> functions = cmw.GetFunctions(editor.Filename, false);
+			ANTLRParser parser = Singleton<ANTLRParser>.Instance;
+
+			foreach(Tag fn in functions)
+			//for(int i = 4; i < 5; i++ )
+			{
+				//Tag fn = functions[i];
+				int fnStart = 0, fnOpen = 0, fnClose = 0;
+
+				if(fn.kind == "prototype")// || fn.name != "main")
+				{
+					continue;
+				}
+
+				if(editor.Context.GetFunctionStartEnd(fn.lineNumber, ref fnStart, ref fnOpen, ref fnClose))
+				{
+					Range r = new Range(fnStart, fnClose, editor);
+
+					parser.SetSource(r.Text, editor.Filename);
+
+					if(parser.Parse())
+					{
+						m_ruleManager.ExamineSource(editor, r);
+					}
+				}
+			}
+
+
+		}
+		
 
 		public bool OpenFile(FileLocation location)
 		{

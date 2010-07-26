@@ -10,6 +10,7 @@ using Chameleon.Features;
 using Chameleon.Util;
 using CodeLite;
 using System.Reflection;
+using Chameleon.Features.CodeRules;
 
 namespace Chameleon.GUI
 {
@@ -24,7 +25,8 @@ namespace Chameleon.GUI
 		private bool m_autoAddMatchedBrace;
 
 		private CppContext m_context;
-		
+
+		private List<CodeRuleError> m_ruleErrors;
 		
 		
 
@@ -92,11 +94,12 @@ namespace Chameleon.GUI
 			m_autoAddMatchedBrace = true;
 			m_lastCharAdded = char.MinValue;
 
-			
 
-			
+			m_ruleErrors = new List<CodeRuleError>();
 
-			
+
+			NativeInterface.SetMouseDwellTime(500);
+
 			
 
 			this.ModifiedChanged += new EventHandler(OnEditorModifiedChanged);
@@ -189,6 +192,9 @@ namespace Chameleon.GUI
 
 			// secondary keywords are bright green for now
 			Styles[16].ForeColor = Color.FromArgb(0, 255, 0);
+
+			Indicators[0].Style = IndicatorStyle.Squiggle;
+			Indicators[0].Color = Color.Red;
 		}
 
 		public void ResetEditor()
@@ -632,6 +638,66 @@ namespace Chameleon.GUI
 		public string GetTextChunk(int startPos, int endPos)
 		{
 			return new Range(startPos, endPos, this).Text;
+		}
+
+		public void AddError(CodeRuleError error)
+		{
+			m_ruleErrors.Add(error);
+
+			error.range.SetIndicator(0);
+			
+		}
+
+		public void ClearErrors()
+		{
+			foreach(CodeRuleError error in m_ruleErrors)
+			{
+				error.range.ClearIndicator(0);
+			}
+
+			m_ruleErrors.Clear();
+		}
+
+		protected override void OnDwellStart(ScintillaMouseEventArgs mea)
+		{
+			base.OnDwellStart(mea);
+
+			int pos = mea.Position;
+
+			List<CodeRuleError> errors = (from e in m_ruleErrors
+										  where pos >= e.range.Start &&
+											pos < e.range.End
+										  select e).ToList();
+
+			if(errors.Count > 0)
+			{
+				string message = "";
+				bool first = true;
+
+				foreach(CodeRuleError error in errors)
+				{
+					if(!first)
+					{
+						message += "\r\n";
+					}
+
+					first = false;
+					message += error.text;
+				}
+
+				CallTip.Show(message, pos);
+			}
+			
+		}
+
+		protected override void OnDwellEnd(ScintillaMouseEventArgs e)
+		{
+			base.OnDwellEnd(e);
+
+			if(CallTip.IsActive)
+			{
+				CallTip.Cancel();
+			}
 		}
 	}
 }

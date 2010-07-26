@@ -251,7 +251,7 @@ namespace Chameleon.Features
 			if(m_editor.MatchBraceForward('{', openBracePos, ref matchedPos))
 			{				
 				functionStartPos = pos;
-				functionEndPos = matchedPos;
+				functionEndPos = matchedPos + 1;
 				functionOpenBracePos = openBracePos;
 				return true;
 			}

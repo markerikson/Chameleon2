@@ -83,7 +83,7 @@ namespace Parsing
 
 	public ref class ANTLRParser
 	{
-	public:
+	private:
 		ANTLRParser()
 		{
 		}
@@ -92,6 +92,7 @@ namespace Parsing
 			Destroy();
 		}
 
+	public:
 		void SetSource(String^ textToParse, String^ filename)
 		{
 			Destroy();
@@ -105,6 +106,14 @@ namespace Parsing
 			m_lexer = new CPPLexer(*m_cib);
 			m_parser = new CPPParser(*m_lexer);
 			m_nodeFactory = new _PNodeFactory();
+		}
+
+		property bool ParseCompleted
+		{
+			bool get()
+			{			
+				return m_parseCompleted;
+			}
 		}
 
 		bool Parse()

@@ -100,6 +100,8 @@
     <Compile Include="Features\ASTNodeTreeAdapter.cs" />
     <Compile Include="Features\ASTNodeTreeLINQ.cs" />
     <Compile Include="Features\AStyleInterface.cs" />
+    <Compile Include="Features\CodeRules\CodeRuleManager.cs" />
+    <Compile Include="Features\CodeRules\NoAssignmentsInConditionsRule.cs" />
     <Compile Include="Features\CppContext.cs" />
     <Compile Include="Features\Permissions.cs" />
     <Compile Include="GUI\ChameleonEditor.cs">
@@ -125,6 +127,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DataStructures.cs" />
+    <Compile Include="Util\ExtensionMethods.cs" />
     <Compile Include="Util\FilePath.cs" />
     <Compile Include="Util\FontFixer.cs" />
     <Compile Include="Util\GUIUtility.cs" />

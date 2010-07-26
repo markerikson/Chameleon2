@@ -163,11 +163,7 @@ namespace Chameleon
 			ChameleonEditor editor = m_editors.CurrentEditor;
 			m_editors.SaveFile(editor, editor.FileLocation, false, true);
 
-			// TODO Parse files saved remotely as well
-			if(editor.FileLocation == FileLocation.Local)
-			{
-				cmw.AddParserRequestSingleFile(editor.Filename);
-			}
+			
 		}
 
 		private void OnFileSaveAsLocal(object sender, EventArgs e)

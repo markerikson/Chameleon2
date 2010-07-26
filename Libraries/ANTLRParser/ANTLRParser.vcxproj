@@ -81,6 +81,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>antlrcpp.lib;CPP_parser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <NoEntryPoint>true</NoEntryPoint>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
