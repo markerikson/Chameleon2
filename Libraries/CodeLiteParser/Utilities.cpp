@@ -98,6 +98,53 @@ Tag^ TagPointerToTag( TagEntryPtr& pTag )
 
 	return tag;
 }
+//Debugger Utilities-
+//.NET Equivalent of BreakPointInfo in the debugger.h file ("Interfaces" folder)
+
+//what is a 'BPEntryPtr'??
+List<BreakPointInfo^>^ BPVectorToBPList(vector<BPEntryPtr> &bps)
+{
+	List<BreakPointInfo^>^ returnBPs = gcnew List<BreakPointInfo^>();
+
+	for(int i = 0; i < bps.size(); i++)
+	{
+		BPEntryPtr pBP = bps[i];
+		BreakPointInfo^ bp = BPInfoPointerToBP(pBP);
+
+		returnBPs->Add(bp);
+	}
+
+	return returnBPs;
+}
+
+BreakPointInfo^ BPInfoPointerToBP(BPEntryPtr& pBreakPoint)
+{
+	BreakPointInfo^ bp = gcnew BreakPointInfo();
+
+	bp->file = ConvertString(pBreakPoint->GetFile());
+	bp->lineno = pBreakPoint->GetLineNo();	//filetype int
+	bp->watchpt_data = ConvertString(pBreakPoint->GetWatchPt());
+	bp->function_name = ConvertString(pBreakPoint->GetFunctionName());
+	bp->regex = pBreakPoint->GetRegX();		//filetype bool
+	bp->memory_address = ConvertString(pBreakPoint->GetMemAddr());
+	bp->internal_id = pBreakPoint->GetIntID();
+	bp->debugger_id = pBreakPoint->GetDBID();
+	bp->bp_type = pBreakPoint->GetBPType();	//needs a converter function? breakpointtype is a custom type
+	bp->ignore_number = pBreakPoint->GetIgnoreNumber();
+	bp->is_enabled = pBreakPoint->GetEnabled();
+	bp->is_temp = pBreakPoint->GetTmp();
+	bp->watchpoint_type = pBreakPoint->GetWPType(); //needs a converter function? watchpointtype is a custom type
+	bp->commandlist = ConverString(pBreakPoint->GetCMDList());
+	bp->conditions = ConvertString(pBreakPoint->GetConditions());
+	bp->at = ConvertString(pBreakPoint->GetAt());
+	bp->what = ConvertString(pBreakPoint->GetWhat());
+	bp->origin = pBreakPoint->GetOrigin();	//needs a converter function? custom type
+
+	return bp;
+}
+
+//-----------------
+//end DebuggerWrapper items
 
 namespace CodeLite
 {
