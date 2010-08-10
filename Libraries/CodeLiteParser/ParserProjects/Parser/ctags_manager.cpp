@@ -92,7 +92,7 @@ struct tagParseResult {
 	wxString fileName;
 };
 
-static int CtagsMgrTimerId = wxNewId();
+
 
 //------------------------------------------------------------------------------
 // Progress dialog
@@ -115,10 +115,12 @@ public:
 // CTAGS Manager
 //------------------------------------------------------------------------------
 
+/*
 BEGIN_EVENT_TABLE(TagsManager, wxEvtHandler)
 	EVT_TIMER(CtagsMgrTimerId, TagsManager::OnTimer)
 	EVT_COMMAND(wxID_ANY, wxEVT_UPDATE_FILETREE_EVENT, TagsManager::OnUpdateFileTreeEvent)
 END_EVENT_TABLE()
+*/
 
 TagsManager::TagsManager()
 		: wxEvtHandler()
@@ -129,6 +131,10 @@ TagsManager::TagsManager()
 		, m_lang(NULL)
 		, m_evtHandler(NULL)
 {
+	//Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,	wxCommandEventHandler(MyFrame::OnQuit));
+	static int CtagsMgrTimerId = wxNewId();
+	Connect(CtagsMgrTimerId, wxTimerEventHandler(TagsManager::OnTimer));
+
 	// Create databases
 	m_workspaceDatabase = new TagsStorageSQLite( );
 	m_workspaceDatabase->SetSingleSearchLimit( MAX_SEARCH_LIMIT );

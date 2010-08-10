@@ -43,6 +43,7 @@ TagsStorageSQLite::TagsStorageSQLite()
 		: ITagsStorage()
 {
 	m_db    = new wxSQLite3Database();
+	gTagsDatabaseVersion = wxT("CodeLite Version 2.3");
 	SetUseCache(true);
 }
 
@@ -144,7 +145,9 @@ void TagsStorageSQLite::CreateSchema()
 		sql = wxT("create unique index if not exists tags_version_uniq on tags_version(version);");
 		m_db->ExecuteUpdate(sql);
 
-		sql = wxString(wxT("insert into tags_version values ('")) << GetVersion() << wxT("');");
+		wxString version = GetVersion();
+		sql = wxString::Format(wxT("insert into tags_version values ('%s');"), version);
+		//sql = wxString(wxT("insert into tags_version values ('")) << GetVersion() << wxT("');");
 		m_db->ExecuteUpdate(sql);
 
 	} catch (wxSQLite3Exception &e) {

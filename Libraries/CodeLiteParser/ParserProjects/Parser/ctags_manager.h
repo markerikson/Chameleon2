@@ -708,7 +708,7 @@ protected:
 	void OnCtagsEnd    (wxProcessEvent &event);
 	void OnTimer       (wxTimerEvent   &event);
 
-	DECLARE_EVENT_TABLE()
+	//DECLARE_EVENT_TABLE()
 
 private:
 	/**
@@ -720,6 +720,7 @@ private:
 	 * Destructor
 	 */
 	virtual ~TagsManager();
+
 
 	/**
 	 *

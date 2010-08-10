@@ -32,7 +32,7 @@
 #include "istorage.h"
 #include <wx/wxsqlite3.h>
 
-const wxString gTagsDatabaseVersion(wxT("CodeLite Version 2.3"));
+
 
 /**
 TagsDatabase is a wrapper around wxSQLite3 database with tags specific functions.
@@ -79,6 +79,7 @@ Table Name: FILES
 class TagsStorageSQLiteCache
 {
 	std::map<wxString, std::vector<TagEntryPtr> > m_cache;
+
 protected:
 	bool DoGet  (const wxString &key, std::vector<TagEntryPtr> &tags);
 	void DoStore(const wxString &key, const std::vector<TagEntryPtr> &tags);
@@ -98,6 +99,7 @@ class TagsStorageSQLite : public ITagsStorage
 {
 	wxSQLite3Database *    m_db;
 	TagsStorageSQLiteCache m_cache;
+	wxString gTagsDatabaseVersion; 
 
 private:
 	/**
@@ -290,6 +292,8 @@ public:
 	 * @return current version of the database library
 	 */
 	const wxString& GetVersion() const {
+		
+		//return wxT("CodeLite Version 2.3");
 		return gTagsDatabaseVersion;
 	}
 
