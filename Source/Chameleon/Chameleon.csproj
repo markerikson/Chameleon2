@@ -173,15 +173,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="codelite_indexer.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ScintillaNet.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="sqlite3.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Graphics\refresh.png" />
     <None Include="Graphics\HomeHS.png" />
     <None Include="Graphics\upfolder.png" />
@@ -220,7 +211,16 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DLLs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /d "$(ProjectDir)DLLs\sqlite3.dll" "$(TargetDir)"
+xcopy /d "$(ProjectDir)DLLs\ScintillaNet.dll" "$(TargetDir)"
+xcopy /d "$(ProjectDir)DLLs\SciLexer.dll" "$(TargetDir)"
+xcopy /d "$(ProjectDir)DLLs\codelite_indexer.exe" "$(TargetDir)"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
