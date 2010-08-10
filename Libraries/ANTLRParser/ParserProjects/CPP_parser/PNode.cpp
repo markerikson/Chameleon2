@@ -16,6 +16,8 @@ PNode::PNode(RefToken t)
 
 	setLine(t->getLine());
 	setFilename(t->getFilename().c_str());
+	setColumn(t->getColumn());
+	
 }
 
 void PNode::initialize(int t, const std::string& txt)
@@ -24,6 +26,7 @@ void PNode::initialize(int t, const std::string& txt)
 	CommonAST::setText(txt);
 
 	lineNumber = 0; // to be noticed !
+	column = 0;
 }
 
 void PNode::initialize(RefPNode t)
@@ -33,6 +36,7 @@ void PNode::initialize(RefPNode t)
 
 	PNode::setLine(t->getLine());
 	PNode::setFilename(t->getFilename().c_str());
+	PNode::setColumn(t->getColumn());
 }
 
 void PNode::initialize(RefAST t)
@@ -46,6 +50,7 @@ void PNode::initialize(RefToken t)
 
 	PNode::setLine(t->getLine() );
 	setFilename(t->getFilename().c_str());
+	PNode::setColumn(t->getColumn());
 }
 
 void PNode::setText(const std::string& txt)
@@ -85,6 +90,11 @@ void PNode::setLine(int l_)
 	lineNumber = l_;
 }
 
+void PNode::setColumn(int col)
+{
+	column = col;
+}
+
 void PNode::setFilename(const char* fn)
 {
 	filename = fn;
@@ -106,6 +116,26 @@ int PNode::getLine(void) const
 			return ( (static_cast<RefPNode>(BaseAST::getFirstChild()))->getLine() );
 		}
 	}
+}
+
+int PNode::getColumn(void) const
+{
+	return column;
+	/*
+	if(column != 0)
+		return column;
+	else 
+	{
+		if(static_cast<RefPNode>(BaseAST::getFirstChild()) == NULL)
+		{
+			return lineNumber;
+		}
+		else
+		{
+			return ( (static_cast<RefPNode>(BaseAST::getFirstChild()))->getLine() );
+		}
+	}
+	*/
 }
 
 string PNode::getFilename() const

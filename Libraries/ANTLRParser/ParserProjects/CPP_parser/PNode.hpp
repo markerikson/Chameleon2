@@ -30,8 +30,10 @@ public:
 	virtual RefPNode getFirstChild();
 	virtual RefPNode getNextSibling();
 	virtual void setLine(int l_);
+	virtual void setColumn(int col);
 	virtual void setFilename(const char* fn);
 	virtual int getLine(void) const;
+	virtual int getColumn(void) const;
 	virtual string getFilename() const;
 	virtual void xmlSerialize(ofstream& fout);
 
@@ -40,6 +42,7 @@ public:
 
 protected:
 	int		lineNumber;
+	int column;
 	string  filename;
 };
 

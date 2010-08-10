@@ -148,9 +148,13 @@ public:
 
 			// RK: in a sense I don't like this automatic handling.
 			if (c == '\t')
-				tab();
+			{
+				//tab();
+			}
 			else
+			{
 				inputState->column++;
+			}
 		}
 		inputState->getInput().consume();
 	}

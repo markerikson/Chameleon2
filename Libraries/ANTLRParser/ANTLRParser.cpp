@@ -36,6 +36,7 @@ namespace Parsing
 	{
 	public:
 		int lineNumber;
+		int column;
 		String^ filename;
 
 		int type;
@@ -104,6 +105,7 @@ namespace Parsing
 
 			m_cib = new CharInputBuffer((unsigned char*)m_text->c_str(), m_text->size(), false);
 			m_lexer = new CPPLexer(*m_cib);
+			m_lexer->setTabsize(4);
 			m_parser = new CPPParser(*m_lexer);
 			m_nodeFactory = new _PNodeFactory();
 		}
@@ -220,6 +222,7 @@ namespace Parsing
 				node->type = top->getType();
 				node->filename = ConvertString(top->getFilename());
 				node->lineNumber = top->getLine();
+				node->column = top->getColumn();
 
 				if (top->getFirstChild() != NULL) 
 				{
