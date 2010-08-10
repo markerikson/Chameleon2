@@ -19,7 +19,7 @@ namespace Chameleon.Features.CodeRules
 
 		public override bool ExamineSource(ChameleonEditor ed, ScintillaNet.Range searchRange)
 		{
-			bool ruleResult = true;
+			bool m_checkSucceeded = true;
 
 			CtagsManagerWrapper cmw = Singleton<CtagsManagerWrapper>.Instance;
 			ANTLRParser parser = Singleton<ANTLRParser>.Instance;
@@ -30,14 +30,20 @@ namespace Chameleon.Features.CodeRules
 
 			List<Tag> locals = ed.Context.GetLocalVariables(searchRange.Start);
 
+			if(locals == null)
+			{
+				m_checkSucceeded = false;
+				return false;
+			}
+
 			List<Tag> singleCharVars = locals.Where(t => t.name.Length == 1).ToList();
 
 			if(singleCharVars.Count > 0)
 			{
-				string functionText = ed.Context.GetFunctionText(lineNum);
-				parser.SetSource(functionText, ed.Filename);
+				//string functionText = ed.Context.GetFunctionText(lineNum);
+				//parser.SetSource(functionText, ed.Filename);
 
-				if(!parser.Parse())
+				if(!parser.ParseCompleted)
 				{
 					// act like nothing's wrong
 					return true;
@@ -100,8 +106,8 @@ namespace Chameleon.Features.CodeRules
 					AddError(ed, errorLine, errorText);
 				}
 			}
-			
-			return ruleResult;
+
+			return m_checkSucceeded;
 		}
 	}
 }

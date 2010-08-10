@@ -21,7 +21,7 @@ namespace Chameleon.Util
 		{			
 			if (node != null) 
 			{
-				sb.Append(node.lineNumber + " ");
+				sb.AppendFormat("{0}:{1} ", node.lineNumber, node.column);
 
 				string indentText = new string(' ', indent);
 				
@@ -82,6 +82,32 @@ namespace Chameleon.Util
 					TraverseAST(node.nextSibling, true, func);
 				}
 			}
+		}
+
+		public static ASTNode GetBlock(this ASTNode node)
+		{
+			string[] blockKeywords = new string[] { "if" };//, "for", "while", "case" };
+
+			ASTNode blockNode = null;
+
+			switch(node.text)
+			{
+				case "if":
+				case "for":
+				case "while":
+				case "case":
+				{
+					blockNode = node;
+					break;
+				}
+				case "switch":
+				{
+					blockNode = node.nextSibling;
+					break;
+				}
+			}
+
+			return blockNode;
 		}
 	}
 }

@@ -531,7 +531,7 @@ namespace Chameleon.GUI
 
 		private void RunCodeRules(ChameleonEditor editor)
 		{
-			if(cmw.Parsing)
+			while(cmw.Parsing)
 			{
 				// TODO Get rid of this hack
 				Thread.Sleep(50);
@@ -541,12 +541,16 @@ namespace Chameleon.GUI
 			editor.ClearErrors();
 
 			List<Tag> functions = cmw.GetFunctions(editor.Filename, false);
-			ANTLRParser parser = Singleton<ANTLRParser>.Instance;
+			
 
 			Range wholeFile = editor.GetRange();
 
 			// run all global rules
 			m_ruleManager.ExamineSource(editor, wholeFile, true);
+
+
+			ANTLRParser parser = Singleton<ANTLRParser>.Instance;
+			
 
 			foreach(Tag fn in functions)
 			//for(int i = 4; i < 5; i++ )
@@ -562,6 +566,11 @@ namespace Chameleon.GUI
 				if(editor.Context.GetFunctionStartEnd(fn.lineNumber - 1, ref fnStart, ref fnOpen, ref fnClose))
 				{
 					Range r = new Range(fnStart, fnClose, editor);
+
+					// do this once out here, but each rule is responsible for checking
+					// if it worked right
+					parser.SetSource(r.Text, editor.Filename);
+					parser.Parse();
 
 					// run local rules for each function
 					m_ruleManager.ExamineSource(editor, r, false);					

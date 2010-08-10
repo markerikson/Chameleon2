@@ -18,18 +18,17 @@ namespace Chameleon.Features.CodeRules
 
 		public override bool ExamineSource(ChameleonEditor ed, ScintillaNet.Range searchRange)
 		{
+			m_checkSucceeded = false;
+
 			ANTLRParser parser = Singleton<ANTLRParser>.Instance;
 
-			parser.SetSource(searchRange.Text, ed.Filename);
-
-			if(!parser.Parse())
+			if(!parser.ParseCompleted)
 			{
 				return false;
 			}
 
 
 			ASTNode root = parser.GetAST();
-			bool ruleResult = true;
 
 			List<ASTNode> conditions = (from n in root.Descendants()
 										where n.text == "condition"
@@ -52,8 +51,6 @@ namespace Chameleon.Features.CodeRules
 
 						AddError(ed, actualLine, errorText);
 					}
-
-					ruleResult = false;
 				}
 			}
 
@@ -96,14 +93,12 @@ namespace Chameleon.Features.CodeRules
 
 							AddError(ed, actualLine, errorText);
 						}
-						
-
-						ruleResult = false;
 					}
 				}
 			}
 
-			return ruleResult;
+			m_checkSucceeded = true;
+			return m_checkSucceeded;
 		}
 	}
 }

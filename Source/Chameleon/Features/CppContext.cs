@@ -6,6 +6,7 @@ using Chameleon.GUI;
 using ScintillaNet;
 using CodeLite;
 using DevInstinct.Patterns;
+using System.Text.RegularExpressions;
 
 namespace Chameleon.Features
 {
@@ -243,7 +244,7 @@ namespace Chameleon.Features
 			int pos = m_editor.NativeInterface.PositionFromLine(fn.lineNumber - 1);
 			Range searchRange = new Range(pos, m_editor.TextLength, m_editor);
 			//m_editor.FindReplace.FindNext("(", false, SearchFlags.Empty, searchRange).Start;
-			int openBracePos = FindNextString(pos, "{");//m_editor.FindReplace.FindNext("{", false, SearchFlags.Empty, searchRange).Start;
+			int openBracePos = FindNextString(pos, "{", false);//m_editor.FindReplace.FindNext("{", false, SearchFlags.Empty, searchRange).Start;
 			//int openBracePos = m_editor.NativeInterface.SearchNext(0, "{");
 			int matchedPos = 0;
 
@@ -283,7 +284,7 @@ namespace Chameleon.Features
 
 			if(GetFunctionStartEnd(lineNum, ref funcStart, ref funcOpenBrace, ref funcEnd))
 			{
-				int openParenPos = FindNextString(funcStart, "(");
+				int openParenPos = FindNextString(funcStart, "(", false);
 			}
 			else
 			{
@@ -297,6 +298,12 @@ namespace Chameleon.Features
 			string localText = m_editor.GetTextChunk(funcOpenBrace, funcEnd);
 
 			Tag func = cmw.FunctionFromFileLine(m_editor.Filename, lineNum, false);
+
+			if(func == null)
+			{
+				return null;
+			}
+
 			string signature = func.extFields["signature"];
 
 			List<Tag> localVars = lw.GetLocalVariables(localText, "", 0);
@@ -308,11 +315,21 @@ namespace Chameleon.Features
 			return tags;
 		}
 
-		public int FindNextString(int startPos, string searchString)
+		public int FindNextString(int startPos, string searchString, bool isRegex)
 		{
 			Range searchRange = new Range(startPos, m_editor.TextLength, m_editor);
 
-			Range resultRange = m_editor.FindReplace.Find(searchRange, searchString, SearchFlags.Empty);
+			Range resultRange = null;
+
+			if(isRegex)
+			{
+				Regex reSearch = new Regex(searchString);
+				resultRange = m_editor.FindReplace.Find(searchRange, reSearch, false);
+			}
+			else
+			{
+				resultRange = m_editor.FindReplace.Find(searchRange, searchString, SearchFlags.Empty);
+			}
 
 			if(resultRange == null)
 			{

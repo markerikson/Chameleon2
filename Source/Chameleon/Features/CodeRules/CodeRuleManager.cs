@@ -9,64 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Chameleon.Features.CodeRules
 {
-	public class CodeRuleBase
-	{
-		protected List<CodeRuleError> m_errors;
-		protected string m_name;
-		protected bool m_isGlobal;
-
-		public bool IsGlobal
-		{
-			get { return m_isGlobal; }
-		}
-		public List<CodeRuleError> Errors
-		{
-			get { return m_errors; }
-		}
-		
-
-		public CodeRuleBase()
-		{
-			m_errors = new List<CodeRuleError>();
-			m_isGlobal = false;
-		}
-
-		public virtual bool ExamineSource(ChameleonEditor ed, Range searchRange) { return true; }
-
-		public void ClearErrors()
-		{
-			m_errors.Clear();
-		}
-
-		protected void AddError(ChameleonEditor ed, int lineNum, string errorMessage)
-		{
-			Line l = ed.Lines[lineNum];
-			int pos = l.StartPosition;
-
-			Regex reNotWhitespace = new Regex("[^\\s]");
-			Range startRange = ed.FindReplace.Find(l.Range, reNotWhitespace);
-
-			int startPos = l.StartPosition;
-			int endPos = l.EndPosition;
-
-			if(startRange != null)
-			{
-				startPos = startRange.Start;
-			}
-
-			CodeRuleError error = new CodeRuleError();
-			error.range = new Range(startPos, endPos, ed);
-			error.text = errorMessage;
-
-			ed.AddError(error);
-		}
-	}
-
-	public class CodeRuleError
-	{
-		public string text;
-		public Range range;
-	}
+	
 
 	public class CodeRuleManager
 	{
@@ -107,6 +50,7 @@ namespace Chameleon.Features.CodeRules
 			AddRule(Singleton<NoGlobalVariablesRule>.Instance);
 			AddRule(Singleton<NoAssignmentsInConditionsRule>.Instance);
 			AddRule(Singleton<SingleCharVarsOnlyInLoopsRule>.Instance);
+			AddRule(Singleton<BlocksMustHaveBracesRule>.Instance);
 		}
 
 		public virtual bool ExamineSource(ChameleonEditor ed, Range searchRange, bool global)

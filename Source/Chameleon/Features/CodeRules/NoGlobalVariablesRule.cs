@@ -21,7 +21,7 @@ namespace Chameleon.Features.CodeRules
 
 		public override bool ExamineSource(ChameleonEditor ed, ScintillaNet.Range searchRange)
 		{
-			bool ruleResult = true;
+			m_checkSucceeded = false;
 
 			CtagsManagerWrapper cmw = Singleton<CtagsManagerWrapper>.Instance;
 
@@ -38,8 +38,9 @@ namespace Chameleon.Features.CodeRules
 					AddError(ed, actualLine, errorText);
 				}
 			}
-			
-			return ruleResult;
+
+			m_checkSucceeded = true;
+			return m_checkSucceeded;
 		}
 	}
 }

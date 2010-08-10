@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Chameleon.Util
 {
-	public class Utilities
+	public static class Utilities
 	{
 		public static string GetResource(string resourceName)
 		{
@@ -18,5 +18,27 @@ namespace Chameleon.Util
 
 			return result;
 		}
+
+		/*
+		public static int ColumnToIndex(int column, string text)
+		{
+			int index = 1;
+
+			for(int i = 0; i < text.Length; i++)
+			{
+				char c = text[i];
+				if(c == '\t')
+				{
+					index += 4;
+				}
+				else
+				{
+					index++;
+				}
+			}
+
+			if()
+		}
+		*/
 	}
 }
