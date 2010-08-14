@@ -575,10 +575,70 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib Static|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib Static|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib Static|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL ANSI Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DLL Unicode Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Monolithic Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Debug Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Monolithic DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib DLL|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Static Unicode Release Multilib Static|Win32'">D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static ANSI Release Multilib Static|Win32'">
     <Midl>
@@ -925,7 +985,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswu;$(WXWIN)\include;..\include;..\sqlite3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_USRDLL;DLL_EXPORTS;_UNICODE;__WXMSW__;WXMAKINGDLL_WXSQLITE3;wxUSE_DYNAMIC_SQLITE3_LOAD=0;WXSQLITE3_HAVE_METADATA=0;WXSQLITE3_HAVE_CODEC=0;WXSQLITE3_HAVE_LOAD_EXTENSION=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_USRDLL;DLL_EXPORTS;_UNICODE;__WXMSW__;WXMAKINGDLL_WXSQLITE3;wxUSE_DYNAMIC_SQLITE3_LOAD=0;WXSQLITE3_HAVE_METADATA=0;WXSQLITE3_HAVE_CODEC=0;WXSQLITE3_HAVE_LOAD_EXTENSION=0;WXUSINGDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -943,7 +1003,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>sqlite3.lib;wxbase28u.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxregexu.lib;wxexpat.lib;kernel32.lib;user32.lib;gdi32.lib;comdlg32.lib;winspool.lib;winmm.lib;shell32.lib;comctl32.lib;ole32.lib;oleaut32.lib;uuid.lib;rpcrt4.lib;advapi32.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sqlite3.lib;wxbase29u.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxregexu.lib;wxexpat.lib;kernel32.lib;user32.lib;gdi32.lib;comdlg32.lib;winspool.lib;winmm.lib;shell32.lib;comctl32.lib;ole32.lib;oleaut32.lib;uuid.lib;rpcrt4.lib;advapi32.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\lib\vc_lib\wxcode_msw28u_wxsqlite3.dll</OutputFile>
       <ImportLibrary>..\lib\vc_lib\wxcode_msw28u_wxsqlite3.lib</ImportLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
