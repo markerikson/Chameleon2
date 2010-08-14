@@ -30,6 +30,7 @@
 #include <wx/string.h>
 #include <map>
 #include "smart_ptr.h"
+#include <wx/dlimpexp.h>
 
 /**
  * TagEntry is a persistent object which is capable of storing and loading itself from
@@ -45,7 +46,16 @@
  * \date 11-11-2006
  * \author Eran
  */
-class TagEntry
+
+#ifdef WXMAKINGDLL_CODELITE
+#    define WXDLLIMPEXP_CL WXEXPORT
+#elif defined(WXUSINGDLL_CODELITE)
+#    define WXDLLIMPEXP_CL WXIMPORT
+#else /* not making nor using FNB as DLL */
+#    define WXDLLIMPEXP_CL
+#endif // WXMAKINGDLL_CODELITE
+
+class WXDLLIMPEXP_CL TagEntry
 {
 	wxString                     m_path;		///< Tag full path
 	wxString                     m_file;		///< File this tag is found

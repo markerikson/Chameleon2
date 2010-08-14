@@ -41,8 +41,18 @@
  * \date 09-17-2006
  * \author Eran
  */
+
+#ifdef WXMAKINGDLL_CODELITE
+#    define WXDLLIMPEXP_CL WXEXPORT
+#elif defined(WXUSINGDLL_CODELITE)
+#    define WXDLLIMPEXP_CL WXIMPORT
+#else /* not making nor using FNB as DLL */
+#    define WXDLLIMPEXP_CL
+#endif // WXMAKINGDLL_CODELITE
+
+
 template <class T>
-class SmartPtr
+class WXDLLIMPEXP_CL SmartPtr
 {
 	/**
      * The reference counting class

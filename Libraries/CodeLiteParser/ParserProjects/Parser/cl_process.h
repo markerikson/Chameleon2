@@ -47,7 +47,7 @@
  *
  * \author Eran
  */
-class clProcess : public wxProcess
+class WXDLLIMPEXP_CL clProcess : public wxProcess
 {
 	long m_pid;
 	int m_uid;

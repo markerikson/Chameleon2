@@ -34,7 +34,7 @@
  * \author Eran
  * \date 07/20/07
  */
-class SerializedObject
+class WXDLLIMPEXP_CL SerializedObject
 {
 	wxString m_version;
 

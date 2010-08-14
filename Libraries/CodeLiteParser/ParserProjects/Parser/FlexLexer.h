@@ -71,6 +71,14 @@
 #include <wx/string.h>
 #include <iostream>
 
+#ifdef WXMAKINGDLL_CODELITE
+#    define WXDLLIMPEXP_CL WXEXPORT
+#elif defined(WXUSINGDLL_CODELITE)
+#    define WXDLLIMPEXP_CL WXIMPORT
+#else /* not making nor using FNB as DLL */
+#    define WXDLLIMPEXP_CL
+#endif // WXMAKINGDLL_CODELITE
+
 //extern "C++" {
     
 namespace flex
@@ -79,7 +87,7 @@ namespace flex
 struct yy_buffer_state;
 typedef int yy_state_type;
 
-class FlexLexer {
+class WXDLLIMPEXP_CL FlexLexer {
 public:
 	virtual ~FlexLexer()	{ }
 
@@ -134,7 +142,7 @@ protected:
 // yyFlexLexer, as discussed in the flex man page.
 #define yyFlexLexerOnce
 
-class yyFlexLexer : public FlexLexer {
+class WXDLLIMPEXP_CL yyFlexLexer : public FlexLexer {
 public:
 	/// arg_yyin and arg_yyout default to the cin and cout, but we
 	/// only make that assignment when initializing in yylex().

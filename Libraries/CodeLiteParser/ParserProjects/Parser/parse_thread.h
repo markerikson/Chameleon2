@@ -34,6 +34,16 @@
 #include "worker_thread.h"
 #include "procutils.h"
 #include "tag_tree.h"
+#include <wx/wx.h>
+#include <wx/dlimpexp.h>
+
+#ifdef WXMAKINGDLL_CODELITE
+#    define WXDLLIMPEXP_CL WXEXPORT
+#elif defined(WXUSINGDLL_CODELITE)
+#    define WXDLLIMPEXP_CL WXIMPORT
+#else /* not making nor using FNB as DLL */
+#    define WXDLLIMPEXP_CL
+#endif // WXMAKINGDLL_CODELITE
 
 class TagsStorageSQLite;
 
@@ -73,7 +83,7 @@ public:
  * @file parse_thread.h
  * @brief a class representing a parsing request
  */
-class ParseRequest : public ThreadRequest
+class WXDLLIMPEXP_CL ParseRequest : public ThreadRequest
 {
 	wxString      _file;
 	wxString      _dbfile;
@@ -287,6 +297,12 @@ public:
 	}
 };
 
+/*
+extern const wxEventType wxEVT_PARSE_THREAD_UPDATED_FILE_SYMBOLS;
+extern const wxEventType wxEVT_PARSE_THREAD_MESSAGE;
+extern const wxEventType wxEVT_PARSE_THREAD_SCAN_INCLUDES_DONE;
+extern const wxEventType wxEVT_PARSE_THREAD_CLEAR_TAGS_CACHE;
+*/
 
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_COMMAND_SYMBOL_TREE_UPDATE_ITEM, 50300)
@@ -294,12 +310,15 @@ DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_COMMAND_SYMBOL_TREE_DELETE_ITE
 DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_COMMAND_SYMBOL_TREE_ADD_ITEM, 50302)
 DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_COMMAND_SYMBOL_TREE_DELETE_PROJECT, 50303)
 
+DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_PARSE_THREAD_UPDATED_FILE_SYMBOLS, 50304);
+DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_PARSE_THREAD_MESSAGE             , 50305);
+DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_PARSE_THREAD_SCAN_INCLUDES_DONE  , 50306);
+DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_CL, wxEVT_PARSE_THREAD_CLEAR_TAGS_CACHE    , 50307);
+
+
 END_DECLARE_EVENT_TYPES()
 
-extern const wxEventType wxEVT_PARSE_THREAD_UPDATED_FILE_SYMBOLS;
-extern const wxEventType wxEVT_PARSE_THREAD_MESSAGE;
-extern const wxEventType wxEVT_PARSE_THREAD_SCAN_INCLUDES_DONE;
-extern const wxEventType wxEVT_PARSE_THREAD_CLEAR_TAGS_CACHE;
+
 
 typedef void (wxEvtHandler::*SymbolTreeEventFunction)(SymbolTreeEvent&);
 

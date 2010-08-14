@@ -15,13 +15,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
@@ -39,20 +39,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\wxsqlite3-1.9.8\sqlite3\lib;..\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\wxsqlite3-1.9.8\sqlite3\lib;..\OutputLibs;..\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
     <OutDir>..\OutputLibs\</OutDir>
-    <TargetName>$(ProjectName)Debug</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <TargetName>CodeLiteParserNative</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\OutputLibs\</OutDir>
-    <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Chameleon2\Libraries\CodeLiteParser\ParserProjects\OutputLibs;..\wxsqlite3-1.9.8\sqlite3\lib;..\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswu;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;..\OutputLibs;..\..\wxsqlite3-1.9.8\sqlite3\lib;..\wxsqlite3-1.9.8\lib\vc_dll;$(LibraryPath)</LibraryPath>
+    <TargetName>CodeLiteParserNative</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CODELITEPARSER_EXPORTS;__WXMSW__;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CODELITEPARSER_EXPORTS;__WXMSW__;_CRTDBG_MAP_ALLOC;WXUSINGDLL;WXMAKINGDLL_CODELITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -67,6 +69,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>wxbase29ud.lib;wxmsw29ud_adv.lib;wxmsw29ud_core.lib;wxbase29ud_xml.lib;wxbase29ud_net.lib;wxmsw29ud_xrc.lib;wxcode_msw28ud_wxsqlite3.lib;sqlite3.lib;wxexpatd.lib;comctl32.lib;Rpcrt4.lib;wsock32.lib;wxregexud.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)_d$(TargetExt)</OutputFile>
+      <ImportLibrary>$(OutDir)$(TargetName)_d.lib</ImportLibrary>
     </Link>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -74,7 +78,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;__WXMSW__;CODELITEPARSER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;__WXMSW__;CODELITEPARSER_EXPORTS;WXUSINGDLL;WXMAKINGDLL_CODELITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -88,6 +92,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>wxbase29u.lib;wxmsw29u_adv.lib;wxmsw29u_core.lib;wxbase29u_xml.lib;wxbase29u_net.lib;wxmsw29u_xrc.lib;wxcode_msw28u_wxsqlite3.lib;sqlite3.lib;wxexpat.lib;comctl32.lib;Rpcrt4.lib;wsock32.lib;wxregexu.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -134,15 +140,14 @@
     <ClCompile Include="crawler_lexer.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="CTagsManagerAPI.cpp" />
     <ClCompile Include="ctags_manager.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="dirtraverser.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="entry.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
@@ -170,12 +175,11 @@
     <ClCompile Include="language.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="LanguageAPI.cpp" />
     <ClCompile Include="lex.yy.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="ParserApp.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="ParserApp.cpp" />
     <ClCompile Include="parse_thread.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
@@ -298,7 +302,7 @@
     <ClInclude Include="cpp_lexer.h" />
     <ClInclude Include="cpp_scanner.h" />
     <ClInclude Include="crawler_include.h" />
-    <ClInclude Include="CtagsManagerWrapper.h" />
+    <ClInclude Include="CTagsManagerAPI.h" />
     <ClInclude Include="ctags_manager.h" />
     <ClInclude Include="dirsaver.h" />
     <ClInclude Include="dirtraverser.h" />
@@ -314,6 +318,7 @@
     <ClInclude Include="include_finder.h" />
     <ClInclude Include="istorage.h" />
     <ClInclude Include="language.h" />
+    <ClInclude Include="LanguageAPI.h" />
     <ClInclude Include="parse_thread.h" />
     <ClInclude Include="performance.h" />
     <ClInclude Include="precompiled_header.h" />

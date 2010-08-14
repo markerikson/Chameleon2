@@ -204,7 +204,13 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CTagsManagerAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ParserApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguageAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -503,7 +509,10 @@
     <ClInclude Include="codelite_indexer\libctags\strlist.h">
       <Filter>codelite_indexer\libctags\headers</Filter>
     </ClInclude>
-    <ClInclude Include="CtagsManagerWrapper.h">
+    <ClInclude Include="CTagsManagerAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguageAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
