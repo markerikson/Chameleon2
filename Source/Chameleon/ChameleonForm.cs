@@ -104,6 +104,9 @@ namespace Chameleon
 			parserInitialized = true;
 
 			ShowPermittedUI();
+
+			toolTextHost.Text = App.Configuration.LastHostname;
+			toolTextUser.Text = App.Configuration.LastUsername;
 		}
 
 		void cmw_FileParsed(string filename)
@@ -121,7 +124,15 @@ namespace Chameleon
 				e.Cancel = true;
 			}
 
+			if(m_networking.IsConnected)
+			{
+				m_networking.Disconnect();
+			}
+
 			m_appClosing = false;
+
+			App.Configuration.LastHostname = toolTextHost.Text;
+			App.Configuration.LastUsername = toolTextUser.Text;
 
 			App.Configuration.SaveSettings();
 		}

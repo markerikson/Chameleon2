@@ -48,6 +48,9 @@ namespace Chameleon
 		public string StudentID = "s1278644";
 
 		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.NoFeature;
+
+		public string LastHostname = "";
+		public string LastUsername = "";
 		
 	}
 }
