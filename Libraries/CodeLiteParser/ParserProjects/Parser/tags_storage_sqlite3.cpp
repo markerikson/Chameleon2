@@ -117,7 +117,7 @@ void TagsStorageSQLite::CreateSchema()
 		m_db->ExecuteUpdate(sql);
 
 		// Create unique index on tags table
-		sql = wxT("CREATE UNIQUE INDEX IF NOT EXISTS TAGS_UNIQ on tags(kind, path, signature);");
+		sql = wxT("CREATE UNIQUE INDEX IF NOT EXISTS TAGS_UNIQ on tags(file, kind, path, signature);");
 		m_db->ExecuteUpdate(sql);
 
 		sql = wxT("CREATE INDEX IF NOT EXISTS KIND_IDX on tags(kind);");
