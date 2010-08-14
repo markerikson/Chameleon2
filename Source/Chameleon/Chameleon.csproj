@@ -217,9 +217,10 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>xcopy /d "$(ProjectDir)DLLs\sqlite3.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\ScintillaNet.dll" "$(TargetDir)"
 xcopy /d "$(ProjectDir)DLLs\SciLexer.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\codelite_indexer.exe" "$(TargetDir)"</PreBuildEvent>
+xcopy /d "$(ProjectDir)DLLs\codelite_indexer.exe" "$(TargetDir)"
+xcopy /d "$(ProjectDir)DLLs\CodeLiteParserNative.dll" "$(TargetDir)"
+xcopy /d "$(ProjectDir)DLLs\wx*.dll" "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
