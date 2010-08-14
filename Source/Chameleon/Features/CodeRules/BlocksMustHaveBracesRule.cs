@@ -25,7 +25,6 @@ namespace Chameleon.Features.CodeRules
 			keyword = kw;
 			nextNodeAfterBrace = node;
 			nextNodeIsChild = nnode;
-
 		}
 	}
 
@@ -37,12 +36,10 @@ namespace Chameleon.Features.CodeRules
 		{
 			m_blocks = new Dictionary<string, BlockInfo>();
 			m_blocks["if"] = new BlockInfo("if", true, "right", true);
-			
-
+			m_blocks["for"] = new BlockInfo("for", true, "body", true);
+			m_blocks["while"] = new BlockInfo("while", true, "body", true);
+			m_blocks["switch"] = new BlockInfo("switch", true, "body", false);
 		}
-
-
-
 
 		public override bool ExamineSource(ChameleonEditor ed, Range searchRange)
 		{
@@ -55,23 +52,13 @@ namespace Chameleon.Features.CodeRules
 				return false;
 			}
 
-			string[] blockKeywords = new string[] { "if" };//, "for", "while", "case" };
-			/*
-			Dictionary<string, string> firstNodeAfterBrace = new Dictionary<string, string>();
-			firstNodeAfterBrace["if"] = "left";
-			firstNodeAfterBrace["for"] = "body";
-			firstNodeAfterBrace["while"] = "body";
-			*/
-			
 			int startingLine = searchRange.StartingLine.Number;
 
 			ASTNode root = parser.GetAST();
+			//string astText = root.ASTToString();
 
-			string astText = root.ASTToString();
 
-			CPPScannerWrapper scanner = new CPPScannerWrapper();
-
-			foreach(string keyword in blockKeywords)
+			foreach(string keyword in m_blocks.Keys)
 			{
 				List<ASTNode> nodes = (from n in root.Descendants()
 										where n.text == keyword
@@ -82,65 +69,40 @@ namespace Chameleon.Features.CodeRules
 				foreach(ASTNode keywordNode in nodes)
 				{
 					Line l = ed.Lines[startingLine + keywordNode.lineNumber - 1];
+					int pos = 0;
 
-					int col = 1;
-
+					// we want to find the char position right after this keyword
 					if(keywordNode.column > 0)
 					{
-						col = keywordNode.column;
+						pos = ed.FindColumn(l.Number, keywordNode.column + keywordNode.text.Length - 1);
 					}
 					else
 					{
 						int index = l.Text.IndexOf(keywordNode.text);
-						col = index + keywordNode.text.Length + 1;
-						/*
-						if(index != -1)
-						{
-							
-						}
-						else
-						{
-
-						}
-						col =  + keywordNode.text
-						*/
+						pos = l.StartPosition + index + keywordNode.text.Length;
 					}
-					
-					int pos = l.StartPosition + col;//ed.FindColumn(l.Number, col);
-
-					//pos += keywordNode.text.Length;
 
 					if(bi.hasCondition)
 					{
-						//int openBracePos = ed.Context.FindNextString(pos, "{", false);
 						int endPos = 0;
 						ed.MatchBraceForward('(', pos, ref endPos);
 						pos = endPos;
 					}
+					
+					// probably something wrong, but we'll just bail out
+					if(pos == 0)
+					{
+						continue;
+					}
 
-					
-					
-
-					
+YesItsAGotoLabel:
+					// find the next non-whitespace character
 					int nextCharPos = ed.Context.FindNextString(pos + 1, "[^\\s]", true);
-					char c = ed.NativeInterface.GetCharAt(nextCharPos);//GetRange(nextCharPos, nextCharPos).Text[0];
-					bool foundBraces = false;
-					
+					char c = ed.NativeInterface.GetCharAt(nextCharPos);
+					bool foundBraces = false;					
 
 					if(c == '{')
 					{
-						/*
-						ASTNode blockNode = keywordNode.GetBlock();
-
-						if(blockNode == null)
-						{
-							continue;
-						}
-
-						ASTNode lastChildNode = (from n in blockNode.Descendants()
-													orderby n.lineNumber, n.column descending
-													select n).First();
-						*/
 						ASTNode nextNode = null;
 
 						if(bi.nextNodeIsChild)
@@ -160,9 +122,14 @@ namespace Chameleon.Features.CodeRules
 						if(ed.MatchBraceForward('{', pos + 1, ref closeBracePos))
 						{
 							foundBraces = true;
-							//Line braceLine = ed.Lines.FromPosition(closeBracePos);
 						}
 
+					}
+					else if(c == ':' && keywordNode.text == "switch")
+					{
+						// switches have a ':' after the condition, try the next char
+						pos++;
+						goto YesItsAGotoLabel;
 					}
 					
 					
@@ -170,12 +137,8 @@ namespace Chameleon.Features.CodeRules
 					{
 						AddError(ed, l.Number, "Must have '{ }' around a block");
 					}
-					
-					int q = 42;
 				}
-
 			}
-
 
 			m_checkSucceeded = true;
 			return m_checkSucceeded;
