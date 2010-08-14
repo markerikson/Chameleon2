@@ -1,9 +1,3 @@
-// CodeLiteParser.cpp : Defines the exported functions for the DLL application.
-//
-
-//#include "stdafx.h"
-
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,9 +12,7 @@
 
 using namespace std;
 
-#pragma unmanaged
-
-
+// TODO not sure if this file is needed any more, but I'll look into it later
 
 class CodeLiteParserApp : public wxAppConsole
 {

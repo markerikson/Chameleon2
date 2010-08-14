@@ -1,18 +1,20 @@
-//#include "stdafx.h"
-
 #include "ParserProjects/Parser/language.h"
-#include <vcclr.h>
-#include <msclr\marshal.h>
+#include "ParserProjects/Parser/LanguageAPI.h"
+
 #include <vector>
 #include <queue>
+#include "Utilities.h"
 
 #include <wx/wx.h>
 #include <wx/init.h>
 #include <wx/string.h>
 #include <wx/textfile.h>
 #include <wx/msw/private.h>
-#include "Utilities.h"
 
+#pragma managed
+
+#include <vcclr.h>
+#include <msclr\marshal.h>
 
 #using <System.dll>
 #using <mscorlib.dll>
@@ -49,13 +51,9 @@ namespace CodeLite
 
 		LanguageWrapper()
 		{
-			m_lang = LanguageST::Get();
 		}
-
-
-
+		
 	private:
-		Language* m_lang;
 
 
 	public:
@@ -64,7 +62,7 @@ namespace CodeLite
 			marshal_context context;
 			wxString sSource = ConvertString(source);
 
-			wxString scope = m_lang->OptimizeScope(sSource);
+			wxString scope = CLP_L_OptimizeScope(sSource);
 
 			return ConvertString(scope);
 		}
@@ -78,13 +76,13 @@ namespace CodeLite
 
 			if(additionalNamespaces == nullptr)
 			{
-				sScope = m_lang->GetScopeName(sInput, NULL);				
+				sScope = CLP_L_GetScopeName(sInput, NULL);				
 			}
 			else
 			{
 				vector<wxString> additionalNS;
 
-				sScope = m_lang->GetScopeName(sInput, &additionalNS);
+				sScope = CLP_L_GetScopeName(sInput, &additionalNS);
 
 				for(int i = 0; i < additionalNS.size(); i++)
 				{
@@ -111,7 +109,7 @@ namespace CodeLite
 
 			wxString sTypeName, sTypeScope, sOper, sScopeTemplate;
 
-			bool result = m_lang->ProcessExpression(sStmt, sText, fn, lineNum, sTypeName, sTypeScope, sOper, sScopeTemplate);
+			bool result = CLP_L_ProcessExpression(sStmt, sText, fn, lineNum, sTypeName, sTypeScope, sOper, sScopeTemplate);
 
 			typeName = ConvertString(sTypeName);
 			typeScope = ConvertString(sTypeScope);
@@ -125,8 +123,8 @@ namespace CodeLite
 		{
 			wxString sExpr = ConvertString(expr);
 
-			ExpressionResult er = m_lang->ParseExpression(sExpr);
-			ExpressionInfo^ info = ConvertExpressionInfo(er);
+			ExpressionResult* er = CLP_L_ParseExpression(sExpr);
+			ExpressionInfo^ info = ConvertExpressionInfo(*er);
 
 			return info;
 		}
@@ -141,7 +139,7 @@ namespace CodeLite
 			vector<TagEntryPtr> tags;
 
 
-			m_lang->GetLocalVariables(sScope, tags, sName, flags);
+			CLP_L_GetLocalVariables(sScope, tags, sName, flags);
 
 			return TagVectorToTagList(tags);
 		}

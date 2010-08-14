@@ -1,9 +1,14 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 //#include "stdafx.h"
-
+/*
 #include <wx/wx.h>
 #include <wx/init.h>
 #include <wx/msw/private.h>
+*/
+
+#include <windows.h>
+
+
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,

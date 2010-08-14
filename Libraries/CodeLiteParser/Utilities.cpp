@@ -3,8 +3,7 @@
 #include "ParserProjects/Parser/ctags_manager.h"
 #include "ParserProjects/Parser/parse_thread.h"
 #include "ParserProjects/Parser/fc_fileopener.h"
-#include <vcclr.h>
-#include <msclr\marshal.h>
+
 #include <vector>
 #include <queue>
 
@@ -14,6 +13,11 @@
 #include <wx/textfile.h>
 #include <wx/msw/private.h>
 #include "Utilities.h"
+
+#pragma managed
+
+#include <vcclr.h>
+#include <msclr\marshal.h>
 
 #using <System.dll>
 #using <mscorlib.dll>
@@ -81,7 +85,6 @@ Tag^ TagPointerToTag( TagEntryPtr& pTag )
 	tag->id = pTag->GetId();
 	tag->differOnlyByLineNumber = pTag->GetDifferOnByLineNumber();
 
-	//array<String^>^ extFields = gcnew array<String^> {"access", "Colin"};
 
 	wxString extFields[5] = {"access", "signature", "inherits", "typeref", "returns"};
 
@@ -98,6 +101,8 @@ Tag^ TagPointerToTag( TagEntryPtr& pTag )
 
 	return tag;
 }
+
+/*
 //Debugger Utilities-
 //.NET Equivalent of BreakPointInfo in the debugger.h file ("Interfaces" folder)
 
@@ -145,7 +150,7 @@ BreakPointInfo^ BPInfoPointerToBP(BPEntryPtr& pBreakPoint)
 
 //-----------------
 //end DebuggerWrapper items
-
+*/
 namespace CodeLite
 {
 	

@@ -1,9 +1,9 @@
 #include "ParserProjects/Parser/ctags_manager.h"
 #include "ParserProjects/Parser/parse_thread.h"
 #include "ParserProjects/Parser/fc_fileopener.h"
+#include "ParserProjects/Parser/CTagsManagerAPI.h"
 
 #include <vector>
-
 
 #include <wx/wx.h>
 #include <wx/init.h>
@@ -11,10 +11,12 @@
 #include <wx/textfile.h>
 #include <wx/msw/private.h>
 
-#include <vcclr.h>
-#include <msclr\marshal.h>
 #include "Utilities.h"
 #include "ParserMessageReceiver.h"
+
+
+#include <vcclr.h>
+#include <msclr\marshal.h>
 
 #using <System.dll>
 #using <mscorlib.dll>
@@ -154,7 +156,6 @@ protected:
 private:
 	clProcess* indexerProcess;
 	ParserMessageReceiver* pmr;
-	TagsManager * m_tags;
 	FileParsedDelegate^ fileParsedCallback;
 	FileParsedDelegate^ fileParsedEvent;
 	List<String^>^ m_filesToParse;
@@ -175,43 +176,18 @@ public:
 		{
 			return false;
 		}
-
-		wxSetInstance(GetModuleHandle(NULL));
-		int argc = 0;
-		char **argv = NULL;
-		wxEntryStart(argc, argv);
-		if ( !wxTheApp || !wxTheApp->CallOnInit() )
-			return FALSE;
-		
-		
-		
 		
 		wxString indexerPath = ConvertString(idxPath);
 
-		ParseThread* parser = ParseThreadST::Get();
-		TagsManager* tagmgr = TagsManagerST::Get();
 		
-		m_tags = tagmgr;
-
-		LanguageST::Get()->SetTagsManager(tagmgr );
-		TagsManagerST::Get()->SetLanguage( LanguageST::Get() );
-		
-		tagmgr->SetCodeLiteIndexerPath(indexerPath);
-		indexerProcess = tagmgr->StartCtagsProcess();
-
-		
-		//pmr = pr;
-		parser->SetNotifyWindow(pmr);
-
-		parser->Start();
-
-		CtagsManagerWrapper::databasePath = databasePath;
 		wxString dbPath = ConvertString(databasePath);
-		tagmgr->OpenDatabase(dbPath);
+		CtagsManagerWrapper::databasePath = databasePath;
+
+		CLP_NativeInit(pmr, indexerPath, dbPath);
 		
 		m_appLoopTimer->Enabled = true;
 		m_initialized = true;
-
+		
 		return true;
 	}
 
@@ -221,25 +197,11 @@ public:
 		{
 			return;
 		}
-		
-		ParseThread* parser = ParseThreadST::Get();
-		parser->Stop();
-		
-		TagsManagerST::Get()->CloseDatabase();
-		
-		ParseThreadST::Free();
-		TagsManagerST::Free();
-		LanguageST::Free();
+
+		CLP_NativeEnd();
 
 		ShutdownIndexerThread^ o1 = gcnew ShutdownIndexerThread(indexerProcess);
 		Thread^ t1 = gcnew Thread(gcnew ThreadStart(o1, &ShutdownIndexerThread::ThreadEntryPoint));
-		
-		fcFileOpener::Release();
-				
-		m_initialized = false;
-		m_appLoopTimer->Enabled = false;
-
-		wxEntryCleanup();		
 	}
 
 	void AddParserRequestSingleFile(String^ filename) 
@@ -260,8 +222,7 @@ public:
 
 		pmr->filesToParse.push(fname);
 
-		ParseThread* parser = ParseThreadST::Get();
-		parser->Add(parsingRequest);	
+		CLP_CTM_AddParserRequestSingleFile(parsingRequest);
 	}
 
 	property bool Parsing
@@ -280,7 +241,7 @@ public:
 
 		vector<wxString> fileScopes;
 
-		m_tags->GetScopesFromFile(name, fileScopes);
+		CLP_CTM_GetScopesFromFile(name, fileScopes);
 
 		List<String^>^ returnScopes = gcnew List<String^>();
 
@@ -301,7 +262,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->FindSymbol(name, tags);
+		CLP_CTM_FindSymbol(name, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -313,7 +274,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->FindByPath(filePath, tags);
+		CLP_CTM_FindByPath(filePath, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -325,7 +286,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->TagsByScope(sScope, tags);
+		CLP_CTM_TagsByScope1(sScope, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -338,7 +299,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->TagsByScope(sScope, sKind, tags, includeInherits, onlyWorkspace);
+		CLP_CTM_TagsByScope2(sScope, sKind, tags, includeInherits, onlyWorkspace);
 
 		return TagVectorToTagList(tags);
 	}
@@ -353,7 +314,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->TagsByScopeAndName(sScope, sName, tags);
+		CLP_CTM_TagsByScopeAndName(sScope, sName, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -367,7 +328,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->AutoCompleteCandidates(fname, linenum, sExpr, sText, tags);
+		CLP_CTM_AutoCompleteCandidates(fname, linenum, sExpr, sText, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -383,7 +344,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->WordCompletionCandidates(fname, linenum, sExpr, sText, sWord, tags);
+		CLP_CTM_WordCompletionCandidates(fname, linenum, sExpr, sText, sWord, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -408,7 +369,7 @@ public:
 		wxString sDbPath = ConvertString(dbPath);
 		wxString sPrefix = ConvertString(filePrefix);
 
-		m_tags->DeleteTagsByFilePrefix(sDbPath, sPrefix);
+		CLP_CTM_DeleteTagsByFilePrefix(sDbPath, sPrefix);
 	}
 
 	void RetagFiles(List<String^>^ files, bool quickRetag)
@@ -422,7 +383,7 @@ public:
 			fnames.push_back(fname);
 		}
 
-		m_tags->RetagFiles(fnames, quickRetag);
+		CLP_CTM_RetagFiles(fnames, quickRetag);
 
 	}
 
@@ -437,7 +398,7 @@ public:
 
 		vector<wxString> tips;
 
-		m_tags->GetHoverTip(fname, linenum, sExpr, sWord, sText, tips);
+		CLP_CTM_GetHoverTip(fname, linenum, sExpr, sWord, sText, tips);
 
 		List<String^>^ list = gcnew List<String^>();
 
@@ -454,7 +415,7 @@ public:
 	List<Tag^>^ OpenType()
 	{
 		vector<TagEntryPtr> tags;
-		m_tags->OpenType(tags);
+		CLP_CTM_OpenType(tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -471,7 +432,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->FindImplDecl(sFilename, linenum, sExpr, sWord, sText, tags, impl, workspaceOnly);
+		CLP_CTM_FindImplDecl(sFilename, linenum, sExpr, sWord, sText, tags, impl, workspaceOnly);
 
 		return TagVectorToTagList(tags);
 	}
@@ -481,7 +442,7 @@ public:
 		
 		wxString sScope = ConvertString(scope);
 
-		wxString result = m_tags->GetScopeName(sScope);
+		wxString result = CLP_CTM_GetScopeName(sScope);
 
 		String^ returnScope = ConvertString(result);
 		return returnScope;
@@ -494,7 +455,7 @@ public:
 
 		vector<wxFileName> files;
 
-		m_tags->GetFiles(sName, files);
+		CLP_CTM_GetFiles(sName, files);
 
 		List<String^>^ list = gcnew List<String^>();
 
@@ -515,7 +476,8 @@ public:
 		
 		wxString sFilename = ConvertString(filename);
 
-		TagEntryPtr pTag = m_tags->FunctionFromFileLine(sFilename, linenum, nextFunction);
+		TagEntryPtr pTag;
+		CLP_CTM_FunctionFromFileLine(pTag, sFilename, linenum, nextFunction);
 
 		Tag^ tag = TagPointerToTag(pTag);
 		return tag;
@@ -526,7 +488,8 @@ public:
 		
 		wxString sFilename = ConvertString(filename);
 
-		TagEntryPtr pTag = m_tags->FirstFunctionOfFile(sFilename);
+		TagEntryPtr pTag;
+		CLP_CTM_FirstFunctionOfFile(pTag, sFilename);
 
 		Tag^ tag = TagPointerToTag(pTag);
 		return tag;
@@ -537,7 +500,8 @@ public:
 		
 		wxString sFilename = ConvertString(filename);
 
-		TagEntryPtr pTag = m_tags->FirstScopeOfFile(sFilename);
+		TagEntryPtr pTag;
+		CLP_CTM_FirstScopeOfFile(pTag, sFilename);
 
 		Tag^ tag = TagPointerToTag(pTag);
 		return tag;
@@ -552,7 +516,7 @@ public:
 
 		wxString sType, sTypeScope;
 
-		if(m_tags->GetMemberType(sScope, sName, sType, sTypeScope))
+		if(CLP_CTM_GetMemberType(sScope, sName, sType, sTypeScope))
 		{
 			type = ConvertString(sType);
 			typeScope = ConvertString(sTypeScope);
@@ -570,7 +534,7 @@ public:
 		wxString sScopeName = ConvertString(scopeName);
 
 		vector<TagEntryPtr> tags;
-		m_tags->TagsFromFileAndScope(sFilename, sScopeName, tags);
+		CLP_CTM_TagsFromFileAndScope(sFilename, sScopeName, tags);
 
 		return TagVectorToTagList(tags);
 	}
@@ -584,7 +548,7 @@ public:
 		TagEntryPtr pTag;
 		clFunction clfunc;
 
-		if(m_tags->GetFunctionDetails(sFilename, linenum, pTag, clfunc))
+		if(CLP_CTM_GetFunctionDetails(sFilename, linenum, pTag, clfunc))
 		{
 			tag = TagPointerToTag(pTag);
 
@@ -630,7 +594,7 @@ public:
 	{
 		vector<TagEntryPtr> tags;
 
-		m_tags->GetClasses(tags, onlyWorkspace);
+		CLP_CTM_GetClasses(tags, onlyWorkspace);
 
 		return TagVectorToTagList(tags);
 	}
@@ -642,7 +606,7 @@ public:
 
 		vector<TagEntryPtr> tags;
 
-		m_tags->GetFunctions(tags, sFilename, onlyWorkspace);
+		CLP_CTM_GetFunctions(tags, sFilename, onlyWorkspace);
 
 		return TagVectorToTagList(tags);
 	}
@@ -659,7 +623,7 @@ public:
 			sKind.Add(temp);
 		}
 
-		m_tags->GetTagsByKind(tags, sKind);
+		CLP_CTM_GetTagsByKind(tags, sKind);
 
 		return TagVectorToTagList(tags);
 	}
@@ -672,7 +636,7 @@ public:
 
 		wxString sType, sTypeScope;
 
-		if(m_tags->ProcessExpression(sExpr, sType, sTypeScope))
+		if(CLP_CTM_ProcessExpression(sExpr, sType, sTypeScope))
 		{
 			type = ConvertString(sType);
 			typeScope = ConvertString(sTypeScope);

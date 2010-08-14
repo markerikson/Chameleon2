@@ -56,7 +56,7 @@ namespace CodeLite
 		bool                        differOnlyByLineNumber;
 
 	};
-
+	/*
 	//for the DebuggerWrapper
 	//entered by Benjamin Carhart  8/4/2010
 	enum WatchpointType {
@@ -134,7 +134,7 @@ namespace CodeLite
 		}
 	};
 	//---->END DebuggerWrapper items
-
+	*/
 	/*
 	public ref class ParserUtilities
 	{
