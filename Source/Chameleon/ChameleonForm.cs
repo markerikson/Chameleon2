@@ -17,11 +17,13 @@ using SSHClient;
 using CodeLite;
 using System.Reflection;
 using DevInstinct.Patterns;
+using System.Net.Sockets;
 
 namespace Chameleon
 {
 	public partial class ChameleonForm : Form
 	{
+		#region Private fields
 		private static bool m_appClosing = false;
 
 		private Networking m_networking;
@@ -29,7 +31,9 @@ namespace Chameleon
 
 		private CtagsManagerWrapper cmw;
 		private bool parserInitialized;
+		#endregion
 
+		#region Constructor
 		public static bool AppClosing
 		{
 			get { return m_appClosing; }
@@ -39,18 +43,18 @@ namespace Chameleon
 		{
 			InitializeComponent();
 
+			this.m_editors = new Chameleon.GUI.EditorContainer();
+			this.splitEditorTerminal.Panel1.Controls.Add(this.m_editors);
+			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_editors.Location = new System.Drawing.Point(0, 0);
+			this.m_editors.Name = "m_editors";
+			this.m_editors.Size = new System.Drawing.Size(660, 261);
+			this.m_editors.TabIndex = 4;
+
 			FormFontFixer.Fix(this);
 
 			Options options = App.Configuration;
 
-			/*
-			string testSourcePath = "d:\\projects\\temp\\fizzbuzz.cpp";
-			if(File.Exists(testSourcePath))
-			{
-				string source = File.ReadAllText(testSourcePath);
-				m_editors.CurrentEditor.Text = source;
-			}
-			*/
 			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
 			menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
 			menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
@@ -108,13 +112,14 @@ namespace Chameleon
 			toolTextHost.Text = App.Configuration.LastHostname;
 			toolTextUser.Text = App.Configuration.LastUsername;
 		}
+		#endregion
 
 		void cmw_FileParsed(string filename)
 		{
 			//MessageBox.Show("File parsed: " + filename);
 		}
 
-		
+		#region Closing handler
 
 		private void ChameleonForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -136,7 +141,7 @@ namespace Chameleon
 
 			App.Configuration.SaveSettings();
 		}
-
+		#endregion
 
 		#region File Menu handlers
 		private void OnNewFile(object sender, EventArgs e)
@@ -249,9 +254,42 @@ namespace Chameleon
 		#region Toolbar handlers
 		private void OnHostConnect(object sender, EventArgs e)
 		{
+			DoConnect();		
+		}
+
+		private void DoConnect()
+		{
 			string host = toolTextHost.Text;
 			string user = toolTextUser.Text;
 			string password = toolTextPassword.Text;
+
+			string errorMessage = "";
+
+
+			if(host == "")
+			{
+				errorMessage = "Please enter a server address";
+				goto OnConnectError;
+			}
+
+			if(user == "")
+			{
+				errorMessage = "Please enter a username";
+				goto OnConnectError;
+			}
+
+			if(password == "")
+			{
+				errorMessage = "Please enter a password";
+			}
+
+
+		OnConnectError:
+			if(errorMessage != "")
+			{
+				MessageBox.Show(errorMessage, "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
 			if(m_networking.Connect(host, user, password))
 			{
@@ -264,22 +302,36 @@ namespace Chameleon
 				toolHostDisconnect.Enabled = true;
 
 				toolStatusConnected.Text = "Connected";
-			}		
+			}
 		}
 
 		private void OnHostDisconnect(object sender, EventArgs e)
 		{
-			m_networking.Disconnect();
-			m_sshProtocol.Disconnect();
+			if(m_networking.IsConnected)
+			{
+				m_networking.Disconnect();
+				m_sshProtocol.Disconnect();
+
+				toolTextHost.Enabled = true;
+				toolTextUser.Enabled = true;
+				toolTextPassword.Enabled = true;
+				toolHostConnect.Enabled = true;
+				toolHostDisconnect.Enabled = false;
+
+				toolStatusConnected.Text = "Disconnected";
+			}
 			
+		}
+		
+		private void toolTextPassword_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if(e.KeyChar == '\r')
+			{
+				e.Handled = true;
+				DoConnect();
+			}
 
-			toolTextHost.Enabled = true;
-			toolTextUser.Enabled = true;
-			toolTextPassword.Enabled = true;
-			toolHostConnect.Enabled = true;
-			toolHostDisconnect.Enabled = false;
-
-			toolStatusConnected.Text = "Disconnected";
+				
 		}
 
 		#endregion
@@ -314,6 +366,7 @@ namespace Chameleon
 			
 		}
 
+		#region Debug/test handlers
 		private void test1ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
 		{
 			ToolStripMenuItem item = sender as ToolStripMenuItem;
@@ -452,9 +505,30 @@ namespace Chameleon
 
 			int matchedPos = 0;
 			bool found = ed.MatchBraceForward(chOpenBrace, startPos, ref matchedPos);
-			
-			
+
+
 		}
 
+		private void TestStringFunc(string text)
+		{
+			MessageBox.Show(text);
+			//Console.WriteLine(text);
+		}
+
+		private void executeRemoteCommandToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(m_networking.IsConnected)
+			{
+				string command = "g++ fizzBuzzTest.cpp -o fizzBuzzTest.exe && echo C_O_M_P_I_L_E_SUCCESS || echo C_O_M_P_I_L_E_FAILED";
+				m_networking.ExecuteRemoteCommand(command, TestStringFunc);
+			}
+		}
+		#endregion
+
+		
+
+		
+
+		
 	}
 }

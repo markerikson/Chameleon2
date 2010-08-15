@@ -18,89 +18,21 @@ using Granados;
 using Chameleon.Util;
 using System.IO;
 using Piccolo.Common;
+using System.Threading;
 
 namespace Chameleon.Network
 {
-	class Reader : ISSHConnectionEventReceiver, ISSHChannelEventReceiver
-	{
-		public SSHConnection _conn;
-		public bool _ready;
+	
 
-		public void OnData(byte[] data, int offset, int length)
-		{
-			System.Console.Write(Encoding.ASCII.GetString(data, offset, length));
-		}
-		public void OnDebugMessage(bool always_display, byte[] data)
-		{
-			Debug.WriteLine("DEBUG: " + Encoding.ASCII.GetString(data));
-		}
-		public void OnIgnoreMessage(byte[] data)
-		{
-			Debug.WriteLine("Ignore: " + Encoding.ASCII.GetString(data));
-		}
-		public void OnAuthenticationPrompt(string[] msg)
-		{
-			Debug.WriteLine("Auth Prompt " + msg[0]);
-		}
-
-		public void OnError(Exception error, string msg)
-		{
-			Debug.WriteLine("ERROR: " + msg);
-		}
-		public void OnChannelClosed()
-		{
-			Debug.WriteLine("Channel closed");
-			_conn.Disconnect("");
-			//_conn.AsyncReceive(this);
-		}
-		public void OnChannelEOF()
-		{
-			_pf.Close();
-			Debug.WriteLine("Channel EOF");
-		}
-		public void OnExtendedData(int type, byte[] data)
-		{
-			Debug.WriteLine("EXTENDED DATA");
-		}
-		public void OnConnectionClosed()
-		{
-			Debug.WriteLine("Connection closed");
-		}
-		public void OnUnknownMessage(byte type, byte[] data)
-		{
-			Debug.WriteLine("Unknown Message " + type);
-		}
-		public void OnChannelReady()
-		{
-			_ready = true;
-		}
-		public void OnChannelError(Exception error, string msg)
-		{
-			Debug.WriteLine("Channel ERROR: " + msg);
-		}
-		public void OnMiscPacket(byte type, byte[] data, int offset, int length)
-		{
-		}
-
-		public PortForwardingCheckResult CheckPortForwardingRequest(string host, int port, string originator_host, int originator_port)
-		{
-			PortForwardingCheckResult r = new PortForwardingCheckResult();
-			r.allowed = true;
-			r.channel = this;
-			return r;
-		}
-		public void EstablishPortforwarding(ISSHChannelEventReceiver rec, SSHChannel channel)
-		{
-			_pf = channel;
-		}
-
-		public SSHChannel _pf;
-	}
-
-	class Networking
+	public class Networking
 	{
 		private SSH2Connection m_conn;		
 		private SFTPConnection m_sftp;
+
+		private OutputParser m_outputParser;
+
+		public static readonly string StartToken = "St_Ar_Tt_oK_eN";
+		public static readonly string EndToken = "En_Dt_oK_eN";
 
 		private static List<string> m_dirsToSkip;
 
@@ -140,6 +72,8 @@ namespace Chameleon.Network
 		private Networking()
 		{
 			m_shells = new Dictionary<string, SSHChannel>();
+
+			m_outputParser = Singleton<OutputParser>.Instance;
 		}
 
 
@@ -165,9 +99,10 @@ namespace Chameleon.Network
 				f.AuthenticationType = AuthenticationType.Password;
 				f.WindowSize = 0x1000;
 
-				Reader r = new Reader();
+				NullReader r = new NullReader();
 
-				m_conn = (SSH2Connection)SSHConnection.Connect(f, r, s);				
+				m_conn = (SSH2Connection)SSHConnection.Connect(f, r, s);
+	
 			}
 			catch(Exception e)
 			{
@@ -185,7 +120,14 @@ namespace Chameleon.Network
 				return;
 			}
 
-			m_conn.Disconnect("");
+			try
+			{
+				m_conn.Disconnect("");
+			}
+			// ignore these
+			catch(SocketException) { }
+			catch(ObjectDisposedException) { }
+			
 			m_conn = null;
 
 			m_sftp = null;
@@ -280,6 +222,29 @@ namespace Chameleon.Network
 		public SSHChannel StartShell(ISSHChannelEventReceiver receiver)
 		{
 			return m_conn.OpenShell(receiver);
+		}
+
+		public void ExecuteRemoteCommand(string command, Action<string> callback)
+		{
+			OutputCollectingReader r = new OutputCollectingReader();
+			r.callback = callback;
+
+			m_outputParser.AddReader(r);
+
+			SSHChannel chan = StartShell(r);
+			r.chan = chan;
+
+			// TODO This whole function probably ought to spin off a new thread or something
+			while(!r._ready)
+			{
+				Thread.Sleep(50);
+			}
+
+			//chan.Transmit("bash");
+
+			string formattedCommand = string.Format("echo {0}; {1}; echo {2};exit;\r", StartToken, command, EndToken);
+			chan.Transmit(formattedCommand);
+
 		}
 
 		public string GetFeaturePermissions()

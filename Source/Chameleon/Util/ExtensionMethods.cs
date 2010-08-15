@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Chameleon.Parsing;
+using Routrek.SSHC;
 
 namespace Chameleon.Util
 {
-	public static class ExtensionMethods
+	public static class ASTNodeExtensions
 	{
 		public static string ASTToString(this ASTNode node)
 		{
@@ -108,6 +109,15 @@ namespace Chameleon.Util
 			}
 
 			return blockNode;
+		}
+	}
+
+	public static class SSHChannelExtensions
+	{
+		public static void Transmit(this SSHChannel chan, string text)
+		{
+			byte[] data = Encoding.Default.GetBytes(text);
+			chan.Transmit(data, 0, data.Length);
 		}
 	}
 }

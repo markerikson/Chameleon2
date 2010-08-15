@@ -119,50 +119,55 @@ namespace Chameleon.GUI
 		public EditorContainer()
 		{
 			InitializeComponent();
+			if(!Chameleon.Util.Utilities.IsDesignmode)
+			{
+				m_editorsToTabs = new Dictionary<ChameleonEditor, FATabStripItem>();
+				m_tabsToEditors = new Dictionary<FATabStripItem, ChameleonEditor>();
 
-			m_editorsToTabs = new Dictionary<ChameleonEditor, FATabStripItem>();
-			m_tabsToEditors = new Dictionary<FATabStripItem, ChameleonEditor>();
+				m_tabStrip.TabStripItemSelectionChanged += new TabStripItemChangedHandler(OnSelectedTabChanged);
+				m_tabStrip.TabStripItemClosing += new TabStripItemClosingHandler(OnTabClosing);
 
-			m_tabStrip.TabStripItemSelectionChanged += new TabStripItemChangedHandler(OnSelectedTabChanged);
-			m_tabStrip.TabStripItemClosing += new TabStripItemClosingHandler(OnTabClosing);
+				m_closingTab = false;
+				m_draggingItem = false;
+				m_dragInitialized = false;
 
-			m_closingTab = false;
-			m_draggingItem = false;
-			m_dragInitialized = false;
+				m_tooltip = new ToolTip();
+				m_tooltip.SetToolTip(m_tabStrip, "Testing");
+				m_tooltip.Popup += new PopupEventHandler(OnTooltipPopup);
 
-			m_tooltip = new ToolTip();
-			m_tooltip.SetToolTip(m_tabStrip, "Testing");
-			m_tooltip.Popup += new PopupEventHandler(OnTooltipPopup);
-
-			m_transPanel = new TransparentPanel();
-			label1 = new Label();
+				m_transPanel = new TransparentPanel();
+				label1 = new Label();
 			
-			m_transPanel.Parent = this;
-			m_transPanel.AllowDrop = true;
-			m_transPanel.BackColor = System.Drawing.Color.Maroon;
-			m_transPanel.Controls.Add(this.label1);
-			m_transPanel.Location = new System.Drawing.Point(12, 234);
-			m_transPanel.Name = "panel1";
-			m_transPanel.Size = new System.Drawing.Size(110, 58);
-			m_transPanel.TabIndex = 2;
-			m_transPanel.DragDrop += new System.Windows.Forms.DragEventHandler(transPanel_DragDrop);
-			m_transPanel.DragEnter += new System.Windows.Forms.DragEventHandler(transPanel_DragEnter);
-			m_transPanel.DragOver += new System.Windows.Forms.DragEventHandler(transPanel_DragOver);
-			//m_transPanel.DragLeave += new System.EventHandler(transPanel_DragLeave);
+				m_transPanel.Parent = this;
+				m_transPanel.AllowDrop = true;
+				m_transPanel.BackColor = System.Drawing.Color.Maroon;
+				m_transPanel.Controls.Add(this.label1);
+				m_transPanel.Location = new System.Drawing.Point(12, 234);
+				m_transPanel.Name = "panel1";
+				m_transPanel.Size = new System.Drawing.Size(110, 58);
+				m_transPanel.TabIndex = 2;
+				m_transPanel.DragDrop += new System.Windows.Forms.DragEventHandler(transPanel_DragDrop);
+				m_transPanel.DragEnter += new System.Windows.Forms.DragEventHandler(transPanel_DragEnter);
+				m_transPanel.DragOver += new System.Windows.Forms.DragEventHandler(transPanel_DragOver);
+				//m_transPanel.DragLeave += new System.EventHandler(transPanel_DragLeave);
 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize = true;
-			this.label1.BackColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(2, 2);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(34, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Panel";
+				// TODO Remove this before release
+				this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+				this.label1.AutoSize = true;
+				this.label1.BackColor = System.Drawing.Color.Red;
+				this.label1.Location = new System.Drawing.Point(2, 2);
+				this.label1.Name = "label1";
+				this.label1.Size = new System.Drawing.Size(34, 13);
+				this.label1.TabIndex = 0;
+				this.label1.Text = "Panel";
 
-			m_ruleManager = Singleton<CodeRuleManager>.Instance;
-			cmw = Singleton<CtagsManagerWrapper>.Instance;
+			
+				m_ruleManager = Singleton<CodeRuleManager>.Instance;
+				cmw = Singleton<CtagsManagerWrapper>.Instance;
 
-			m_ruleManager.AddRules();
+				m_ruleManager.AddRules();
+			}
+			
 			
 
 			m_fileNum = 0;

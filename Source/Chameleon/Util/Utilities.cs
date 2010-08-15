@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Chameleon.Util
 {
@@ -17,6 +18,16 @@ namespace Chameleon.Util
 			textReader.Close();
 
 			return result;
+		}
+
+		public static bool IsDesignmode
+		{
+			get
+			{
+				// HACK Crude, ugly, and nasty hack, but it seems there's not many
+				// good ways to do this
+				return Application.ExecutablePath.ToLower().IndexOf("devenv.exe") > -1;
+			}
 		}
 
 		/*

@@ -47,8 +47,6 @@
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
-			this.m_editors = new Chameleon.GUI.EditorContainer();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,9 +74,11 @@
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuFeatures = new System.Windows.Forms.ToolStripMenuItem();
+			this.executeRemoteCommandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.parserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tagsByScopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.localVariablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.parseExpressionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
@@ -100,7 +100,7 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.parseExpressionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -111,7 +111,6 @@
 			this.splitSnippetsEditor.Panel2.SuspendLayout();
 			this.splitSnippetsEditor.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).BeginInit();
-			this.splitEditorTerminal.Panel1.SuspendLayout();
 			this.splitEditorTerminal.Panel2.SuspendLayout();
 			this.splitEditorTerminal.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -230,39 +229,12 @@
 			this.splitEditorTerminal.Name = "splitEditorTerminal";
 			this.splitEditorTerminal.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// splitEditorTerminal.Panel1
-			// 
-			this.splitEditorTerminal.Panel1.Controls.Add(this.m_editors);
-			// 
 			// splitEditorTerminal.Panel2
 			// 
 			this.splitEditorTerminal.Panel2.Controls.Add(this.terminalEmulator1);
 			this.splitEditorTerminal.Size = new System.Drawing.Size(660, 453);
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
-			// 
-			// m_editors
-			// 
-			this.m_editors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_editors.Location = new System.Drawing.Point(0, 0);
-			this.m_editors.Name = "m_editors";
-			this.m_editors.Size = new System.Drawing.Size(660, 261);
-			this.m_editors.TabIndex = 4;
-			// 
-			// terminalEmulator1
-			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 81;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(660, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
 			// menuStrip1
 			// 
@@ -473,9 +445,18 @@
 			// 
 			// menuFeatures
 			// 
+			this.menuFeatures.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.executeRemoteCommandToolStripMenuItem});
 			this.menuFeatures.Name = "menuFeatures";
 			this.menuFeatures.Size = new System.Drawing.Size(63, 20);
 			this.menuFeatures.Text = "Features";
+			// 
+			// executeRemoteCommandToolStripMenuItem
+			// 
+			this.executeRemoteCommandToolStripMenuItem.Name = "executeRemoteCommandToolStripMenuItem";
+			this.executeRemoteCommandToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+			this.executeRemoteCommandToolStripMenuItem.Text = "Execute Remote Command";
+			this.executeRemoteCommandToolStripMenuItem.Click += new System.EventHandler(this.executeRemoteCommandToolStripMenuItem_Click);
 			// 
 			// parserToolStripMenuItem
 			// 
@@ -500,6 +481,13 @@
 			this.localVariablesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.localVariablesToolStripMenuItem.Text = "Local Variables";
 			this.localVariablesToolStripMenuItem.Click += new System.EventHandler(this.localVariablesToolStripMenuItem_Click);
+			// 
+			// parseExpressionToolStripMenuItem
+			// 
+			this.parseExpressionToolStripMenuItem.Name = "parseExpressionToolStripMenuItem";
+			this.parseExpressionToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.parseExpressionToolStripMenuItem.Text = "Parse Expression";
+			this.parseExpressionToolStripMenuItem.Click += new System.EventHandler(this.parseExpressionToolStripMenuItem_Click);
 			// 
 			// toolStrip1
 			// 
@@ -629,7 +617,7 @@
             this.toolHostDisconnect});
 			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(554, 25);
 			this.toolStrip2.TabIndex = 4;
 			// 
 			// toolStripLabel1
@@ -667,6 +655,7 @@
 			this.toolTextPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.toolTextPassword.Name = "toolTextPassword";
 			this.toolTextPassword.Size = new System.Drawing.Size(100, 25);
+			this.toolTextPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolTextPassword_KeyPress);
 			// 
 			// toolHostConnect
 			// 
@@ -688,12 +677,20 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
 			// 
-			// parseExpressionToolStripMenuItem
+			// terminalEmulator1
 			// 
-			this.parseExpressionToolStripMenuItem.Name = "parseExpressionToolStripMenuItem";
-			this.parseExpressionToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.parseExpressionToolStripMenuItem.Text = "Parse Expression";
-			this.parseExpressionToolStripMenuItem.Click += new System.EventHandler(this.parseExpressionToolStripMenuItem_Click);
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 81;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(660, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
 			// ChameleonForm
 			// 
@@ -719,7 +716,6 @@
 			this.splitSnippetsEditor.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).EndInit();
 			this.splitSnippetsEditor.ResumeLayout(false);
-			this.splitEditorTerminal.Panel1.ResumeLayout(false);
 			this.splitEditorTerminal.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).EndInit();
 			this.splitEditorTerminal.ResumeLayout(false);
@@ -796,6 +792,7 @@
 		private System.Windows.Forms.ToolStripMenuItem tagsByScopeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem localVariablesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem parseExpressionToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem executeRemoteCommandToolStripMenuItem;
 	}
 }
 
