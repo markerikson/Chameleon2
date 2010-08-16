@@ -33,21 +33,42 @@
 
 		<Snippets>
 
-			<Snippet Shortcut="~">
-				~$classname$()
+			<Snippet Shortcut="if" IsSurroundsWith="true" longName="If statement" category="Control Flow">
+				if ($end$)
 				{
-				$end$
+				$DropMarker$$selected$
 				}
 			</Snippet>
 
-			<Snippet Shortcut="f" IsSurroundsWith="True">
+			<Snippet Shortcut="lb" IsSurroundsWith="true" longName="Else clause" category="Control Flow">
+				else
+				{
+				$anchor$$selected$$caret$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="switch" IsSurroundsWith="false" longName ="Switch statement" category="Control Flow">
+				switch ($expression$)
+				{
+				$cases$
+				}$end$
+			</Snippet>
+
+			<Snippet Shortcut="f" longName="For loop" IsSurroundsWith="True" iconName="for.png" category="Control Flow">
 				for (int $i$ = $0$; $i$ &lt; $max$; $i$++)
 				{
 				$selected$$end$
 				}$DropMarker$
 			</Snippet>
 
-			<Snippet Shortcut="do" IsSurroundsWith="true">
+			<Snippet Shortcut="w" IsSurroundsWith="true" longName="While loop" iconName="while.png" category="Control Flow">
+				while ($expression$)
+				{
+				$end$$selected$
+				}
+			</Snippet>
+
+			<Snippet Shortcut="do" longName="Do-while loop" IsSurroundsWith="true" category="Control Flow">
 				do
 				{
 				$end$$selected$
@@ -55,70 +76,33 @@
 				$DropMarker$
 			</Snippet>
 
-			<Snippet Shortcut="namespace" IsSurroundsWith="true">
+			<Snippet Shortcut="namespace" longName="Namespace" IsSurroundsWith="true" category="Other">
 				namespace $name$
 				{
 				$end$$selected$
 				}
 			</Snippet>
 
-			<Snippet Shortcut="struct" IsSurroundsWith="true">
+			<Snippet Shortcut="struct" longName="Struct" IsSurroundsWith="true" category="Other">
 				struct $name$
 				{
 				$selected$$end$
 				}
-			</Snippet>
+			</Snippet>			
 
-			<Snippet Shortcut="switch" IsSurroundsWith="false">
-				switch ($expression$)
-				{
-				$cases$
-				}$end$
-			</Snippet>
-
-			<Snippet Shortcut="w" IsSurroundsWith="true">
-				while ($expression$)
-				{
-				$end$$selected$
-				}
-			</Snippet>
-
-			<Snippet Shortcut="l" IsSurroundsWith="true">
-				else
-				$anchor$$selected$$caret$
-			</Snippet>
-
-			<Snippet Shortcut="lb" IsSurroundsWith="true">
-				else
-				{
-				$anchor$$selected$$caret$
-				}
-			</Snippet>
-
-			<Snippet Shortcut="enum" IsSurroundsWith="false">
+			<Snippet Shortcut="enum" IsSurroundsWith="false" longName="Enumeration" category="Other">
 				enum $name$
 				{
 				$end$
 				}
-			</Snippet>
+			</Snippet>			
 
-
-			<Snippet Shortcut="if" IsSurroundsWith="true">
-				if ($end$)
-				$DropMarker$$selected$
-			</Snippet>
-			<Snippet Shortcut="ifb" IsSurroundsWith="true">
-				if ($end$)
+			<Snippet Shortcut="~" longName="Finalizer" category="Other">
+				~$classname$()
 				{
-				$DropMarker$$selected$
+				$end$
 				}
 			</Snippet>
-			<Snippet Shortcut="b" IsSurroundsWith="true">
-				{
-				$end$$selected$
-				}
-			</Snippet>
-
 
 
 		</Snippets>

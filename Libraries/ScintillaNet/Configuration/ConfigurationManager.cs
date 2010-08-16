@@ -1570,6 +1570,8 @@ namespace ScintillaNet.Configuration
 						snips.Remove(sc.Shortcut);
 
 					Snippet snip;
+					
+
 					if (sc.Delimeter.HasValue)
 						snip = snips.Add(sc.Shortcut, sc.Code, sc.Delimeter.Value);
 					else
@@ -1585,14 +1587,18 @@ namespace ScintillaNet.Configuration
 			}
 
 			SnippetList sl = Scintilla.Snippets.List;
+			
 			foreach (Snippet sc in snips)
 			{
 				if (sl.Contains(sc.Shortcut))
 					sl.Remove(sc.Shortcut);
 
-				sl.Add(sc.Shortcut, sc.Code, Scintilla.Snippets.DefaultDelimeter, sc.IsSurroundsWith);
+				Snippet snip = sl.Add(sc.Shortcut, sc.Code, Scintilla.Snippets.DefaultDelimeter, sc.IsSurroundsWith);
+				snip.LongName = sc.LongName;
+				snip.IconName = sc.IconName;
+				snip.Category = sc.Category;
 			}
-
+			
 			sl.Sort();
 
 			co = Color.Empty;

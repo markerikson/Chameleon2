@@ -26,6 +26,7 @@ namespace ScintillaNet
 			return item.Shortcut;
 		}
 
+		
 		public Snippet Add(string shortcut, string code)
 		{
 			return Add(shortcut, code, _manager.DefaultDelimeter);

@@ -17,7 +17,11 @@ namespace ScintillaNet
 			_isSurroundsWith	= isSurroundsWith;
 			_shortcut			= shortcut;
 			_delimeter			= delimeter;
-			Code				= code;			
+			Code				= code;
+
+			_iconName = "default.png";
+			_category = "Default";
+			_longName = "";
 		}
 
 

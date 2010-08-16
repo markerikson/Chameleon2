@@ -18,6 +18,7 @@ using CodeLite;
 using System.Reflection;
 using DevInstinct.Patterns;
 using System.Net.Sockets;
+using Guifreaks.NavigationBar;
 
 namespace Chameleon
 {
@@ -31,6 +32,18 @@ namespace Chameleon
 
 		private CtagsManagerWrapper cmw;
 		private bool parserInitialized;
+		private bool m_clickedSnippet;
+
+		private static string m_dataFolder;
+		
+		#endregion
+
+		#region properties
+		public static string DataFolder
+		{
+			get { return m_dataFolder; }
+			set { m_dataFolder = value; }
+		}
 		#endregion
 
 		#region Constructor
@@ -66,10 +79,6 @@ namespace Chameleon
 			m_networking = Networking.Instance;
 
 			toolStatusConnected.Text = "Disconnected";
-
-			toolTextHost.Text = "192.168.1.103";
-			toolTextUser.Text = "root";
-
 			toolHostDisconnect.Enabled = false;
 
 			m_sshProtocol = new SSHProtocol(terminalEmulator1);
@@ -101,18 +110,162 @@ namespace Chameleon
 
 			cmw.FileParsed += new FileParsedDelegate(cmw_FileParsed);
 
-			string appPath = Application.ExecutablePath;
-			string indexerPath = Path.GetDirectoryName(appPath);
+			string indexerPath = Path.GetDirectoryName(Application.ExecutablePath);
+			string tagsDBPath = Path.Combine(DataFolder, "ChameleonTags.db");
 
-			cmw.CodeLiteParserInit(indexerPath, indexerPath + "\\ChameleonTagsDB.db");
+			cmw.CodeLiteParserInit(indexerPath, tagsDBPath);
 			parserInitialized = true;
 
 			ShowPermittedUI();
 
 			toolTextHost.Text = App.Configuration.LastHostname;
 			toolTextUser.Text = App.Configuration.LastUsername;
+
+			m_clickedSnippet = false;
+
+			
+			AddNaviGroups();
 		}
 		#endregion
+
+		private List<string> GetSnippetCategories()
+		{
+			SnippetList sl = m_editors.CurrentEditor.Snippets.List;
+
+			List<string> categories = (from sn in sl
+									   select sn.Category).Distinct().ToList();
+
+			return categories;
+		}
+
+		private Dictionary<string, List<Snippet>> GetSnippets()
+		{
+			Dictionary<string, List<Snippet>> snippets = new Dictionary<string, List<Snippet>>();
+
+			SnippetList sl = m_editors.CurrentEditor.Snippets.List;
+
+			List<string> categories = GetSnippetCategories();
+
+			foreach(string s in categories)
+			{
+				List<Snippet> categorySnippets = (from sn in sl
+												  where sn.Category == s
+												  select sn).ToList();
+				snippets[s] = categorySnippets;
+			}
+
+			return snippets;
+		}
+
+		private void AddNaviGroups()
+		{
+			/*
+			string[] headerNames = { "Control Flow", "Expressions", "Basic Types" };
+
+			string[] controlFlow = {"If statement", "Switch statement", "While loop", "For loop"};
+			string[] expressions = { "Assignment", "Increment"};
+			string[] types = { "Integer", "Rational", "Boolean"};
+			
+			string[][] labels = {controlFlow, expressions, types};
+			*/
+
+			List<string> categories = GetSnippetCategories();
+			Dictionary<string, List<Snippet>> categorizedSnippets = GetSnippets();
+
+
+
+			//for(int i = 0; i < categories.Count; i++)
+			foreach(String category in categories)
+			{
+				//string categoryName = categories[i];
+				List<Snippet> snippets = categorizedSnippets[category];
+
+				NaviGroup group = new NaviGroup(this.components);
+				group.Caption = category;				
+				group.Dock = DockStyle.Top;
+				group.Location = new Point(0, 0);
+				group.LayoutStyle = NaviLayoutStyle.Office2007Black;
+				group.Size = new Size(100, 150);
+
+				naviBand1.ClientArea.Controls.Add(group);
+
+
+				//for(int j = 0; j < labels[i].Length; j++)
+				foreach(Snippet sn in snippets)
+				{
+					Label l1 = new Label();
+
+					if(sn.LongName == "")
+					{
+						l1.Text = sn.Shortcut;
+					}
+					else
+					{
+						l1.Text = sn.LongName;
+					}
+					
+					group.Controls.Add(l1);
+					l1.Dock = DockStyle.Top;
+
+					l1.ImageList = imageList1;
+
+					if(sn.IconName == "")
+					{
+						l1.ImageIndex = imageList1.Images.IndexOfKey("default.png");
+					}
+					else
+					{
+						l1.ImageIndex = imageList1.Images.IndexOfKey(sn.IconName);
+					}
+					
+					l1.ImageAlign = ContentAlignment.TopCenter;
+					l1.TextAlign = ContentAlignment.BottomCenter;
+					l1.Height = 50;
+					l1.BackColor = Color.Transparent;
+
+					l1.MouseDown += new MouseEventHandler(l1_MouseDown);
+					l1.MouseMove += new MouseEventHandler(l1_MouseMove);
+					l1.MouseUp += new MouseEventHandler(l1_MouseUp);
+
+					l1.Margin = new System.Windows.Forms.Padding(4);
+				}
+
+				int height = snippets.Count * 60;
+				group.ExpandedHeight = height;
+				group.Expand();
+			}
+		}
+
+		void l1_MouseDown(object sender, MouseEventArgs e)
+		{
+			m_clickedSnippet = true;
+			
+		}
+
+		void l1_MouseUp(object sender, MouseEventArgs e)
+		{
+			m_clickedSnippet = false;
+		}
+
+		void l1_MouseMove(object sender, MouseEventArgs e)
+		{
+			if(m_clickedSnippet)
+			{
+				Label l = (Label)sender;
+
+				string itemName = "for";
+
+				m_editors.StartDrag();
+
+				DataFormats.Format format = DataFormats.GetFormat("ChameleonSnippet");
+				DataObject dobj = new DataObject(format.Name, itemName);
+				DragDropEffects dde = DoDragDrop(dobj, DragDropEffects.Copy);
+
+				m_editors.EndDrag();
+			}
+		}
+
+		
 
 		void cmw_FileParsed(string filename)
 		{
@@ -389,8 +542,6 @@ namespace Chameleon
 			App.Configuration.SaveSettings();
 
 			ShowPermittedUI();
-
-			//Console.WriteLine("Item {0} checked: {1}", item.Text, item.Checked);
 		}
 
 		private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
@@ -520,7 +671,8 @@ namespace Chameleon
 			if(m_networking.IsConnected)
 			{
 				string command = "g++ fizzBuzzTest.cpp -o fizzBuzzTest.exe && echo C_O_M_P_I_L_E_SUCCESS || echo C_O_M_P_I_L_E_FAILED";
-				m_networking.ExecuteRemoteCommand(command, TestStringFunc);
+				string lsCommand = "ls";
+				m_networking.ExecuteRemoteCommand(lsCommand, TestStringFunc);
 			}
 		}
 		#endregion

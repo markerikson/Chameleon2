@@ -534,7 +534,7 @@ namespace Chameleon.GUI
 			return true;
 		}
 
-		private void RunCodeRules(ChameleonEditor editor)
+		public void RunCodeRules(ChameleonEditor editor)
 		{
 			while(cmw.Parsing)
 			{
@@ -743,17 +743,15 @@ namespace Chameleon.GUI
 				}
 				case FileLocation.Remote:
 				{
-					//MessageBox.Show("Remote file opening not implemented yet!");
 					Networking.Instance.GetFileContents(fileInfo.Filename, ref fileContents);
 					break;
-					//return false;
 				}
 			}
 
 			return true;
 		}
 
-
+		#region Drag and drop handlers
 		private void transPanel_DragEnter(object sender, DragEventArgs de)
 		{
 			if(m_draggingItem && m_dragInitialized)
@@ -852,5 +850,6 @@ namespace Chameleon.GUI
 				}
 			}
 		}
+		#endregion
 	}
 }

@@ -6,6 +6,7 @@ using Chameleon.Network;
 using Chameleon.Features;
 using CodeLite;
 using DevInstinct.Patterns;
+using System.IO;
 
 namespace Chameleon
 {
@@ -19,6 +20,14 @@ namespace Chameleon
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			ChameleonForm.DataFolder = Path.Combine(appDataFolder, "Chameleon");
+
+			if(!Directory.Exists(ChameleonForm.DataFolder))
+			{
+				Directory.CreateDirectory(ChameleonForm.DataFolder);
+			}
 
 			//string featurePermission = Networking.Instance.GetFeaturePermissions();			
 

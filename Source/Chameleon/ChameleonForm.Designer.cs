@@ -29,24 +29,15 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Group 1", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Group 2", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Group 3", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("For loop", 0);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("While loop", 2);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("If statement", 1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("item 4");
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("item 5");
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("item 6");
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("item 7");
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
 			this.splitSnippetsEditor = new System.Windows.Forms.SplitContainer();
-			this.listView1 = new System.Windows.Forms.ListView();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.naviBar1 = new Guifreaks.NavigationBar.NaviBar(this.components);
+			this.naviBand1 = new Guifreaks.NavigationBar.NaviBand(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,7 +91,7 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -110,6 +101,9 @@
 			this.splitSnippetsEditor.Panel1.SuspendLayout();
 			this.splitSnippetsEditor.Panel2.SuspendLayout();
 			this.splitSnippetsEditor.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.naviBar1)).BeginInit();
+			this.naviBar1.SuspendLayout();
+			this.naviBand1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).BeginInit();
 			this.splitEditorTerminal.Panel2.SuspendLayout();
 			this.splitEditorTerminal.SuspendLayout();
@@ -170,57 +164,49 @@
 			// 
 			// splitSnippetsEditor.Panel1
 			// 
-			this.splitSnippetsEditor.Panel1.Controls.Add(this.listView1);
+			this.splitSnippetsEditor.Panel1.Controls.Add(this.naviBar1);
 			// 
 			// splitSnippetsEditor.Panel2
 			// 
 			this.splitSnippetsEditor.Panel2.Controls.Add(this.splitEditorTerminal);
 			this.splitSnippetsEditor.Size = new System.Drawing.Size(784, 453);
-			this.splitSnippetsEditor.SplitterDistance = 120;
+			this.splitSnippetsEditor.SplitterDistance = 132;
 			this.splitSnippetsEditor.TabIndex = 5;
 			// 
-			// listView1
+			// naviBar1
 			// 
-			this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Default;
-			this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			listViewGroup1.Header = "Group 1";
-			listViewGroup1.Name = "listViewGroup1";
-			listViewGroup2.Header = "Group 2";
-			listViewGroup2.Name = "listViewGroup2";
-			listViewGroup3.Header = "Group 3";
-			listViewGroup3.Name = "listViewGroup3";
-			this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
-			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			listViewItem1.Tag = "for";
-			listViewItem2.Tag = "while";
-			listViewItem3.Tag = "if";
-			this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6,
-            listViewItem7});
-			this.listView1.LargeImageList = this.imageList1;
-			this.listView1.Location = new System.Drawing.Point(0, 0);
-			this.listView1.Margin = new System.Windows.Forms.Padding(0);
-			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(120, 453);
-			this.listView1.TabIndex = 0;
-			this.listView1.UseCompatibleStateImageBehavior = false;
-			this.listView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView1_ItemDrag);
+			this.naviBar1.ActiveBand = this.naviBand1;
+			this.naviBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.naviBar1.Controls.Add(this.naviBand1);
+			this.naviBar1.HeaderHeight = 20;
+			this.naviBar1.LayoutStyle = Guifreaks.NavigationBar.NaviLayoutStyle.Office2007Black;
+			this.naviBar1.Location = new System.Drawing.Point(3, 0);
+			this.naviBar1.Name = "naviBar1";
+			this.naviBar1.ShowCollapseButton = false;
+			this.naviBar1.ShowMinimizeButton = false;
+			this.naviBar1.ShowMoreOptionsButton = false;
+			this.naviBar1.Size = new System.Drawing.Size(130, 453);
+			this.naviBar1.TabIndex = 1;
+			this.naviBar1.Text = "naviBar1";
 			// 
-			// imageList1
+			// naviBand1
 			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "for.png");
-			this.imageList1.Images.SetKeyName(1, "if.png");
-			this.imageList1.Images.SetKeyName(2, "while.png");
+			// 
+			// naviBand1.ClientArea
+			// 
+			this.naviBand1.ClientArea.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.naviBand1.ClientArea.Location = new System.Drawing.Point(0, 0);
+			this.naviBand1.ClientArea.Name = "ClientArea";
+			this.naviBand1.ClientArea.Size = new System.Drawing.Size(128, 393);
+			this.naviBand1.ClientArea.TabIndex = 0;
+			this.naviBand1.LayoutStyle = Guifreaks.NavigationBar.NaviLayoutStyle.Office2007Black;
+			this.naviBand1.Location = new System.Drawing.Point(1, 20);
+			this.naviBand1.Name = "naviBand1";
+			this.naviBand1.Size = new System.Drawing.Size(128, 393);
+			this.naviBand1.TabIndex = 0;
+			this.naviBand1.Text = "Code Snippets";
 			// 
 			// splitEditorTerminal
 			// 
@@ -232,9 +218,24 @@
 			// splitEditorTerminal.Panel2
 			// 
 			this.splitEditorTerminal.Panel2.Controls.Add(this.terminalEmulator1);
-			this.splitEditorTerminal.Size = new System.Drawing.Size(660, 453);
+			this.splitEditorTerminal.Size = new System.Drawing.Size(648, 453);
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
+			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 80;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
 			// menuStrip1
 			// 
@@ -617,7 +618,7 @@
             this.toolHostDisconnect});
 			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(554, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
 			this.toolStrip2.TabIndex = 4;
 			// 
 			// toolStripLabel1
@@ -677,20 +678,14 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
 			// 
-			// terminalEmulator1
+			// imageList1
 			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 81;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(660, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "for.png");
+			this.imageList1.Images.SetKeyName(1, "if.png");
+			this.imageList1.Images.SetKeyName(2, "while.png");
+			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
 			// ChameleonForm
 			// 
@@ -716,6 +711,9 @@
 			this.splitSnippetsEditor.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitSnippetsEditor)).EndInit();
 			this.splitSnippetsEditor.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.naviBar1)).EndInit();
+			this.naviBar1.ResumeLayout(false);
+			this.naviBand1.ResumeLayout(false);
 			this.splitEditorTerminal.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).EndInit();
 			this.splitEditorTerminal.ResumeLayout(false);
@@ -786,13 +784,14 @@
 		private System.Windows.Forms.ToolStripButton btnDummyFeature2;
 		private System.Windows.Forms.SplitContainer splitSnippetsEditor;
 		private System.Windows.Forms.ToolStripMenuItem menuFeatures;
-		private System.Windows.Forms.ListView listView1;
 		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.ToolStripMenuItem parserToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tagsByScopeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem localVariablesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem parseExpressionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem executeRemoteCommandToolStripMenuItem;
+		private Guifreaks.NavigationBar.NaviBar naviBar1;
+		private Guifreaks.NavigationBar.NaviBand naviBand1;
 	}
 }
 

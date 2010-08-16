@@ -1759,6 +1759,7 @@ namespace ScintillaNet.Configuration
 					sc.IsSurroundsWith = getBool(el.GetAttribute("IsSurroundsWith"));
 					sc.LongName = el.GetAttribute("longName");
 					sc.IconName = el.GetAttribute("iconName");
+					sc.Category = el.GetAttribute("category");
 
 					List<string> lines = new List<string>();
 					lines.AddRange(Regex.Split(sc.Code, "\r\n"));
