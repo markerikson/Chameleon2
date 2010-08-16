@@ -327,11 +327,31 @@ namespace ScintillaNet.Configuration
 										case "issurroundswith":
 											sc.IsSurroundsWith = getBool(reader.Value);
 											break;
+										case "iconname":
+											sc.IconName = reader.Value;
+											break;
+										case "category":
+											sc.Category = reader.Value;
+											break;
+										case "longname":
+											sc.LongName = reader.Value;
+											break;
 									}
 								}
 							}
 							reader.MoveToElement();
 							sc.Code = reader.ReadString();
+
+							string[] lines = Regex.Split(sc.Code, "\r\n");
+							string trimmedLine = lines[0].TrimStart();
+							int lengthDiff = lines[0].Length - trimmedLine.Length;
+
+							for(int i = 0; i < lines.Length; i++)
+							{
+								lines[i] = lines[i].Substring(lengthDiff);
+							}
+
+							sc.Code = String.Join("\r\n", lines);
 							_snippetsConfigList.Add(sc);
 						}
 					}
@@ -1737,6 +1757,38 @@ namespace ScintillaNet.Configuration
 					sc.Code = el.InnerText;
 					sc.Delimeter = getChar(el.GetAttribute("Delimeter"));
 					sc.IsSurroundsWith = getBool(el.GetAttribute("IsSurroundsWith"));
+					sc.LongName = el.GetAttribute("longName");
+					sc.IconName = el.GetAttribute("iconName");
+
+					List<string> lines = new List<string>();
+					lines.AddRange(Regex.Split(sc.Code, "\r\n"));
+
+				YesItsYetAnotherGotoLabel:
+					string trimmedLine = lines[0].TrimStart();
+				
+					if(trimmedLine.Length == 0)
+					{
+						lines.RemoveAt(0);
+						goto YesItsYetAnotherGotoLabel;
+					}
+
+					int lengthDiff = lines[0].Length - trimmedLine.Length;
+
+					for(int i = 0; i < lines.Count; i++)
+					{
+						if(i == lines.Count - 1)
+						{
+							if(lines[i].TrimStart().Length == 0)
+							{
+								break;
+							}
+						}
+
+						lines[i] = lines[i].Substring(lengthDiff);
+					}
+
+					sc.Code = String.Join("\r\n", lines);
+
 					_snippetsConfigList.Add(sc);
 				}
 			}

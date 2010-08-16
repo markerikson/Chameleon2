@@ -1577,6 +1577,10 @@ namespace ScintillaNet.Configuration
 
 					if (sc.IsSurroundsWith.HasValue)
 						snip.IsSurroundsWith = sc.IsSurroundsWith.Value;
+
+					snip.Category = sc.Category;
+					snip.IconName = sc.IconName;
+					snip.LongName = sc.LongName;
 				}
 			}
 

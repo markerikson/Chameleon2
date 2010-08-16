@@ -142,6 +142,14 @@ namespace ScintillaNet.Configuration
 
 	public class SnippetsConfig
 	{
+		public SnippetsConfig()
+		{
+			_iconName = "default.png";
+			_category = "Default";
+			_longName = "";
+		}
+
+
 		private string _shortcut;
 		public string Shortcut
 		{
@@ -194,6 +202,45 @@ namespace ScintillaNet.Configuration
 			set
 			{
 				_isSurroundsWith = value;
+			}
+		}
+
+		private string _iconName;
+		public string IconName
+		{
+			get
+			{
+				return _iconName;
+			}
+			set
+			{
+				_iconName = value;
+			}
+		}
+
+		private string _category;
+		public string Category
+		{
+			get
+			{
+				return _category;
+			}
+			set
+			{
+				_category = value;
+			}
+		}
+
+		private string _longName;
+		public string LongName
+		{
+			get
+			{
+				return _longName;
+			}
+			set
+			{
+				_longName = value;
 			}
 		}
 	}

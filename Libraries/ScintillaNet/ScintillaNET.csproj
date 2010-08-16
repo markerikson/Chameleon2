@@ -185,7 +185,7 @@
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\hypertext.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\mssql.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\mssql.txt" />
-    <EmbeddedResource Include="Configuration\Builtin\mssql.xml" />
+    <None Include="Configuration\Builtin\mssql.xml" />
     <EmbeddedResource Include="Configuration\Builtin\default.xml" />
     <EmbeddedResource Include="FindReplace\FindReplaceDialog.resx">
       <SubType>Designer</SubType>
@@ -214,7 +214,7 @@
     <None Include="Resources\LineColorHS.png" />
     <None Include="Resources\DeleteHS.png" />
     <None Include="ScintillaNet.snk" />
-    <EmbeddedResource Include="Configuration\Builtin\html.xml" />
+    <None Include="Configuration\Builtin\html.xml" />
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\cpp.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\hypertext.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\ada.txt" />
@@ -345,15 +345,15 @@
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\verilog.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\vhdl.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\xml.txt" />
-    <EmbeddedResource Include="Configuration\Builtin\vbscript.xml" />
-    <EmbeddedResource Include="Configuration\Builtin\xml.xml" />
-    <EmbeddedResource Include="Configuration\Builtin\python.xml" />
+    <None Include="Configuration\Builtin\vbscript.xml" />
+    <None Include="Configuration\Builtin\xml.xml" />
+    <None Include="Configuration\Builtin\python.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configuration\Builtin\pgsql.xml" />
+    <None Include="Configuration\Builtin\pgsql.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configuration\Builtin\js.xml" />
+    <None Include="Configuration\Builtin\js.xml" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\null.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\null.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\latext.txt" />

@@ -100,6 +100,45 @@ namespace ScintillaNet
 			}
 		}
 
+		private string _iconName;
+		public string IconName
+		{
+			get
+			{
+				return _iconName;
+			}
+			set
+			{
+				_iconName = value;
+			}
+		}
+
+		private string _category;
+		public string Category
+		{
+			get
+			{
+				return _category;
+			}
+			set
+			{
+				_category = value;
+			}
+		}
+
+		private string _longName;
+		public string LongName
+		{
+			get
+			{
+				return _longName;
+			}
+			set
+			{
+				_longName = value;
+			}
+		}
+
 		#region IComparable<Snippet> Members
 
 		public int CompareTo(Snippet other)
