@@ -46,7 +46,7 @@ namespace Chameleon
 		}
 		#endregion
 
-		#region Constructor
+		#region Form construction
 		public static bool AppClosing
 		{
 			get { return m_appClosing; }
@@ -124,9 +124,9 @@ namespace Chameleon
 			m_clickedSnippet = false;
 
 			
-			AddNaviGroups();
+			AddSnippetGroups();
 		}
-		#endregion
+		
 
 		private List<string> GetSnippetCategories()
 		{
@@ -157,41 +157,30 @@ namespace Chameleon
 			return snippets;
 		}
 
-		private void AddNaviGroups()
+		private void AddSnippetGroups()
 		{
-			/*
-			string[] headerNames = { "Control Flow", "Expressions", "Basic Types" };
-
-			string[] controlFlow = {"If statement", "Switch statement", "While loop", "For loop"};
-			string[] expressions = { "Assignment", "Increment"};
-			string[] types = { "Integer", "Rational", "Boolean"};
-			
-			string[][] labels = {controlFlow, expressions, types};
-			*/
-
 			List<string> categories = GetSnippetCategories();
 			Dictionary<string, List<Snippet>> categorizedSnippets = GetSnippets();
 
+			categories.Sort();
+			categories.Reverse();
 
-
-			//for(int i = 0; i < categories.Count; i++)
 			foreach(String category in categories)
 			{
-				//string categoryName = categories[i];
 				List<Snippet> snippets = categorizedSnippets[category];
 
 				NaviGroup group = new NaviGroup(this.components);
 				group.Caption = category;				
 				group.Dock = DockStyle.Top;
-				group.Location = new Point(0, 0);
+				//group.Location = new Point(0, 0);
 				group.LayoutStyle = NaviLayoutStyle.Office2007Black;
 				group.Size = new Size(100, 150);
 
 				naviBand1.ClientArea.Controls.Add(group);
 
+				List<Snippet> orderedSnippets = snippets.OrderByDescending(s => s.LongName).ToList();
 
-				//for(int j = 0; j < labels[i].Length; j++)
-				foreach(Snippet sn in snippets)
+				foreach(Snippet sn in orderedSnippets)
 				{
 					Label l1 = new Label();
 
@@ -222,12 +211,13 @@ namespace Chameleon
 					l1.TextAlign = ContentAlignment.BottomCenter;
 					l1.Height = 50;
 					l1.BackColor = Color.Transparent;
+					l1.Margin = new System.Windows.Forms.Padding(4);
 
 					l1.MouseDown += new MouseEventHandler(l1_MouseDown);
 					l1.MouseMove += new MouseEventHandler(l1_MouseMove);
 					l1.MouseUp += new MouseEventHandler(l1_MouseUp);
 
-					l1.Margin = new System.Windows.Forms.Padding(4);
+					l1.Tag = sn;
 				}
 
 				int height = snippets.Count * 60;
@@ -236,10 +226,12 @@ namespace Chameleon
 			}
 		}
 
+		#endregion
+
+		#region Child control event handlers
 		void l1_MouseDown(object sender, MouseEventArgs e)
 		{
-			m_clickedSnippet = true;
-			
+			m_clickedSnippet = true;			
 		}
 
 		void l1_MouseUp(object sender, MouseEventArgs e)
@@ -252,8 +244,9 @@ namespace Chameleon
 			if(m_clickedSnippet)
 			{
 				Label l = (Label)sender;
+				Snippet sn = (Snippet)l.Tag;
 
-				string itemName = "for";
+				string itemName = sn.Shortcut;
 
 				m_editors.StartDrag();
 
@@ -264,13 +257,13 @@ namespace Chameleon
 				m_editors.EndDrag();
 			}
 		}
-
 		
-
 		void cmw_FileParsed(string filename)
 		{
 			//MessageBox.Show("File parsed: " + filename);
 		}
+
+		#endregion
 
 		#region Closing handler
 

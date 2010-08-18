@@ -70,7 +70,6 @@ namespace Chameleon.GUI
 
 		private ToolTip m_tooltip;
 		private TransparentPanel m_transPanel;
-		private Label label1;
 
 		private bool m_draggingItem;
 		private bool m_dragInitialized;
@@ -136,12 +135,10 @@ namespace Chameleon.GUI
 				m_tooltip.Popup += new PopupEventHandler(OnTooltipPopup);
 
 				m_transPanel = new TransparentPanel();
-				label1 = new Label();
 			
 				m_transPanel.Parent = this;
 				m_transPanel.AllowDrop = true;
 				m_transPanel.BackColor = System.Drawing.Color.Maroon;
-				m_transPanel.Controls.Add(this.label1);
 				m_transPanel.Location = new System.Drawing.Point(12, 234);
 				m_transPanel.Name = "panel1";
 				m_transPanel.Size = new System.Drawing.Size(110, 58);
@@ -149,19 +146,7 @@ namespace Chameleon.GUI
 				m_transPanel.DragDrop += new System.Windows.Forms.DragEventHandler(transPanel_DragDrop);
 				m_transPanel.DragEnter += new System.Windows.Forms.DragEventHandler(transPanel_DragEnter);
 				m_transPanel.DragOver += new System.Windows.Forms.DragEventHandler(transPanel_DragOver);
-				//m_transPanel.DragLeave += new System.EventHandler(transPanel_DragLeave);
-
-				// TODO Remove this before release
-				this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-				this.label1.AutoSize = true;
-				this.label1.BackColor = System.Drawing.Color.Red;
-				this.label1.Location = new System.Drawing.Point(2, 2);
-				this.label1.Name = "label1";
-				this.label1.Size = new System.Drawing.Size(34, 13);
-				this.label1.TabIndex = 0;
-				this.label1.Text = "Panel";
-
-			
+							
 				m_ruleManager = Singleton<CodeRuleManager>.Instance;
 				cmw = Singleton<CtagsManagerWrapper>.Instance;
 
@@ -809,10 +794,8 @@ namespace Chameleon.GUI
 
 				m_transPanel.SendToBack();
 
-				string snippetShortcut = m_snippets[snippetName];
-
 				CurrentEditor.Focus();
-				CurrentEditor.Snippets.InsertSnippet(snippetShortcut);
+				CurrentEditor.Snippets.InsertSnippet(snippetName);
 			}
 
 		}

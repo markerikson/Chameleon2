@@ -1781,6 +1781,7 @@ namespace ScintillaNet.Configuration
 						{
 							if(lines[i].TrimStart().Length == 0)
 							{
+								lines[i] = "";
 								break;
 							}
 						}
