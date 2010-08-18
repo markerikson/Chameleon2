@@ -22,11 +22,11 @@ namespace Chameleon
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			ChameleonForm.DataFolder = Path.Combine(appDataFolder, "Chameleon");
+			Options.DataFolder = Path.Combine(appDataFolder, "Chameleon");
 
-			if(!Directory.Exists(ChameleonForm.DataFolder))
+			if(!Directory.Exists(Options.DataFolder))
 			{
-				Directory.CreateDirectory(ChameleonForm.DataFolder);
+				Directory.CreateDirectory(Options.DataFolder);
 			}
 
 			//string featurePermission = Networking.Instance.GetFeaturePermissions();			

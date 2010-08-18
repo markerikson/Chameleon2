@@ -20,14 +20,32 @@ namespace Chameleon
 
 	public class Options : wwAppConfiguration
 	{
+		private static string m_dataFolder;
+
+		public static string DataFolder
+		{
+			get
+			{
+				if(string.IsNullOrWhiteSpace(m_dataFolder))
+				{
+					return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				}
+
+				return m_dataFolder;
+			}
+			set
+			{
+				m_dataFolder = value;
+			}
+		}
 
 		public static string OptionsPath
 		{
 			get
 			{
-				string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				//string appDataFolder = ChameleonForm.DataFolder;
 				string optionsFile = "Chameleon.xml";
-				string optionsPath = Path.Combine(appDataFolder, optionsFile);
+				string optionsPath = Path.Combine(DataFolder, optionsFile);
 
 				return optionsPath;
 			}

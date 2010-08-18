@@ -33,17 +33,10 @@ namespace Chameleon
 		private CtagsManagerWrapper cmw;
 		private bool parserInitialized;
 		private bool m_clickedSnippet;
-
-		private static string m_dataFolder;
 		
 		#endregion
 
 		#region properties
-		public static string DataFolder
-		{
-			get { return m_dataFolder; }
-			set { m_dataFolder = value; }
-		}
 		#endregion
 
 		#region Form construction
@@ -83,6 +76,7 @@ namespace Chameleon
 
 			m_sshProtocol = new SSHProtocol(terminalEmulator1);
 
+			/*
 			string[] featureNames = Enum.GetNames(typeof(ChameleonFeatures));
 
 			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
@@ -105,13 +99,13 @@ namespace Chameleon
 
 				menuFeatures.DropDownItems.Add(item);
 			}
-
+			*/
 			cmw = Singleton<CtagsManagerWrapper>.Instance;
 
 			cmw.FileParsed += new FileParsedDelegate(cmw_FileParsed);
 
 			string indexerPath = Path.GetDirectoryName(Application.ExecutablePath);
-			string tagsDBPath = Path.Combine(DataFolder, "ChameleonTags.db");
+			string tagsDBPath = Path.Combine(Options.DataFolder, "ChameleonTags.db");
 
 			cmw.CodeLiteParserInit(indexerPath, tagsDBPath);
 			parserInitialized = true;
@@ -669,6 +663,22 @@ namespace Chameleon
 			}
 		}
 		#endregion
+
+		private void menuToolsRunCodeRules_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor ed = m_editors.CurrentEditor;
+
+			if(ed.FileLocation == FileLocation.Unknown)
+			{
+				MessageBox.Show("Cannot run code rules check until the file has been saved at least once",
+								"Code Rules", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+
+
+
+		}
 
 		
 

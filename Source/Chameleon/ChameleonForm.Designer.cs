@@ -37,7 +37,6 @@
 			this.naviBar1 = new Guifreaks.NavigationBar.NaviBar(this.components);
 			this.naviBand1 = new Guifreaks.NavigationBar.NaviBand(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,12 +63,6 @@
 			this.menuEditReplace = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuFeatures = new System.Windows.Forms.ToolStripMenuItem();
-			this.executeRemoteCommandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.parserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tagsByScopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.localVariablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.parseExpressionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
@@ -92,6 +85,10 @@
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuToolsRunCodeRules = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuToolsReformatSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -222,30 +219,14 @@
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
 			// 
-			// terminalEmulator1
-			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 80;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
-			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuEdit,
-            this.menuHelp,
-            this.menuFeatures,
-            this.parserToolStripMenuItem});
+            this.toolsToolStripMenuItem,
+            this.menuHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -440,55 +421,9 @@
 			// menuHelpAbout
 			// 
 			this.menuHelpAbout.Name = "menuHelpAbout";
-			this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
+			this.menuHelpAbout.Size = new System.Drawing.Size(152, 22);
 			this.menuHelpAbout.Text = "About";
 			this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
-			// 
-			// menuFeatures
-			// 
-			this.menuFeatures.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.executeRemoteCommandToolStripMenuItem});
-			this.menuFeatures.Name = "menuFeatures";
-			this.menuFeatures.Size = new System.Drawing.Size(63, 20);
-			this.menuFeatures.Text = "Features";
-			// 
-			// executeRemoteCommandToolStripMenuItem
-			// 
-			this.executeRemoteCommandToolStripMenuItem.Name = "executeRemoteCommandToolStripMenuItem";
-			this.executeRemoteCommandToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-			this.executeRemoteCommandToolStripMenuItem.Text = "Execute Remote Command";
-			this.executeRemoteCommandToolStripMenuItem.Click += new System.EventHandler(this.executeRemoteCommandToolStripMenuItem_Click);
-			// 
-			// parserToolStripMenuItem
-			// 
-			this.parserToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tagsByScopeToolStripMenuItem,
-            this.localVariablesToolStripMenuItem,
-            this.parseExpressionToolStripMenuItem});
-			this.parserToolStripMenuItem.Name = "parserToolStripMenuItem";
-			this.parserToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-			this.parserToolStripMenuItem.Text = "Parser";
-			// 
-			// tagsByScopeToolStripMenuItem
-			// 
-			this.tagsByScopeToolStripMenuItem.Name = "tagsByScopeToolStripMenuItem";
-			this.tagsByScopeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.tagsByScopeToolStripMenuItem.Text = "Tags by Scope";
-			this.tagsByScopeToolStripMenuItem.Click += new System.EventHandler(this.tagsByScopeToolStripMenuItem_Click);
-			// 
-			// localVariablesToolStripMenuItem
-			// 
-			this.localVariablesToolStripMenuItem.Name = "localVariablesToolStripMenuItem";
-			this.localVariablesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.localVariablesToolStripMenuItem.Text = "Local Variables";
-			this.localVariablesToolStripMenuItem.Click += new System.EventHandler(this.localVariablesToolStripMenuItem_Click);
-			// 
-			// parseExpressionToolStripMenuItem
-			// 
-			this.parseExpressionToolStripMenuItem.Name = "parseExpressionToolStripMenuItem";
-			this.parseExpressionToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.parseExpressionToolStripMenuItem.Text = "Parse Expression";
-			this.parseExpressionToolStripMenuItem.Click += new System.EventHandler(this.parseExpressionToolStripMenuItem_Click);
 			// 
 			// toolStrip1
 			// 
@@ -687,6 +622,43 @@
 			this.imageList1.Images.SetKeyName(2, "while.png");
 			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
+			// toolsToolStripMenuItem
+			// 
+			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolsRunCodeRules,
+            this.menuToolsReformatSource});
+			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// menuToolsRunCodeRules
+			// 
+			this.menuToolsRunCodeRules.Name = "menuToolsRunCodeRules";
+			this.menuToolsRunCodeRules.Size = new System.Drawing.Size(193, 22);
+			this.menuToolsRunCodeRules.Text = "Run Code Rules Check";
+			this.menuToolsRunCodeRules.Click += new System.EventHandler(this.menuToolsRunCodeRules_Click);
+			// 
+			// menuToolsReformatSource
+			// 
+			this.menuToolsReformatSource.Name = "menuToolsReformatSource";
+			this.menuToolsReformatSource.Size = new System.Drawing.Size(193, 22);
+			this.menuToolsReformatSource.Text = "Reformat Source Code";
+			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 80;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -783,15 +755,12 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton btnDummyFeature2;
 		private System.Windows.Forms.SplitContainer splitSnippetsEditor;
-		private System.Windows.Forms.ToolStripMenuItem menuFeatures;
 		private System.Windows.Forms.ImageList imageList1;
-		private System.Windows.Forms.ToolStripMenuItem parserToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem tagsByScopeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem localVariablesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem parseExpressionToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem executeRemoteCommandToolStripMenuItem;
 		private Guifreaks.NavigationBar.NaviBar naviBar1;
 		private Guifreaks.NavigationBar.NaviBand naviBand1;
+		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem menuToolsRunCodeRules;
+		private System.Windows.Forms.ToolStripMenuItem menuToolsReformatSource;
 	}
 }
 

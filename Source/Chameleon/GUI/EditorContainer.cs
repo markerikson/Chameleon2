@@ -437,6 +437,7 @@ namespace Chameleon.GUI
 
 			string fileContents = m_currentEditor.Text;
 
+		LocationSelected:
 			if(location == FileLocation.Local)
 			{
 				if(doSaveAs)
@@ -467,6 +468,27 @@ namespace Chameleon.GUI
 			}
 			else if(location == FileLocation.Remote)
 			{
+				if(!Networking.Instance.IsConnected)
+				{
+					string message = "This is a remote file, but Chameleon is not currently connected to a remote server.  You can: ";
+
+					List<string> buttons = new List<string>();
+					buttons.Add("Save the file locally (on the computer you're using)");
+					buttons.Add("Cancel saving");
+
+					int button = cTaskDialog.ShowCommandBox("Save File Location", message, "",
+						string.Join("|", buttons), false);
+					location = (FileLocation)button;
+					
+					if(location == FileLocation.Local)
+					{
+						doSaveAs = true;
+						goto LocationSelected;
+					}
+
+					return false;
+				}
+
 				if(doSaveAs)
 				{
 					RemoteFileDialog rfd = RemoteFileDialog.Instance;
@@ -506,11 +528,7 @@ namespace Chameleon.GUI
 			if(editor.FileLocation == FileLocation.Local)
 			{
 				//cmw.AddParserRequestSingleFile(editor.Filename);
-				List<string> files = new List<string>();
-				files.Add(editor.Filename);
-
-				cmw.DeleteFilesTags(files);
-				cmw.AddParserRequestSingleFile(files[0]);
+				
 				//cmw.RetagFiles(files, false);
 
 				RunCodeRules(editor);
@@ -521,6 +539,12 @@ namespace Chameleon.GUI
 
 		public void RunCodeRules(ChameleonEditor editor)
 		{
+			List<string> files = new List<string>();
+			files.Add(editor.Filename);
+
+			cmw.DeleteFilesTags(files);
+			cmw.AddParserRequestSingleFile(files[0]);
+
 			while(cmw.Parsing)
 			{
 				// TODO Get rid of this hack
