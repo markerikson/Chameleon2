@@ -596,7 +596,7 @@ void TagsManager::TagsByScope(const wxString& scope, std::vector<TagEntryPtr> &t
 
 }
 
-bool TagsManager::WordCompletionCandidates(const wxFileName &fileName, int lineno, const wxString& expr, const wxString& text, const wxString &word, std::vector<TagEntryPtr> &candidates)
+bool TagsManager::WordCompletionCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, const wxString &word, std::vector<TagEntryPtr> &candidates)
 {
 	PERF_START("WordCompletionCandidates");
 
@@ -624,7 +624,7 @@ bool TagsManager::WordCompletionCandidates(const wxFileName &fileName, int linen
 
 	if( GetCtagsOptions().GetFlags() &  CC_DEEP_SCAN_USING_NAMESPACE_RESOLVING ) {
 		// Do a deep scan for 'using namespace'
-		GetLanguage()->SetAdditionalScopes(additionlScopes, fileName.GetFullPath());
+		GetLanguage()->SetAdditionalScopes(additionlScopes, fileName);
 		additionlScopes = GetLanguage()->GetAdditionalScopes();
 	}
 
@@ -685,7 +685,7 @@ bool TagsManager::WordCompletionCandidates(const wxFileName &fileName, int linen
 	return true;
 }
 
-bool TagsManager::AutoCompleteCandidates(const wxFileName &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr>& candidates)
+bool TagsManager::AutoCompleteCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr>& candidates)
 {
 	PERF_START("AutoCompleteCandidates");
 
@@ -837,7 +837,7 @@ void TagsManager::GetLocalTags(const wxString &name, const wxString &scope, std:
 	GetLanguage()->GetLocalVariables(scope, tags, name, flags);
 }
 
-void TagsManager::GetHoverTip(const wxFileName &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<wxString> & tips)
+void TagsManager::GetHoverTip(const wxString &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<wxString> & tips)
 {
 	wxString path;
 	wxString typeName, typeScope, tmp;
@@ -893,7 +893,7 @@ void TagsManager::GetHoverTip(const wxFileName &fileName, int lineno, const wxSt
 	}
 }
 
-void TagsManager::FindImplDecl(const wxFileName &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<TagEntryPtr> &tags, bool imp, bool workspaceOnly)
+void TagsManager::FindImplDecl(const wxString &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<TagEntryPtr> &tags, bool imp, bool workspaceOnly)
 {
 	wxString path;
 	wxString typeName, typeScope, tmp;
@@ -992,7 +992,7 @@ void TagsManager::FilterDeclarations(const std::vector<TagEntryPtr> &src, std::v
 	}
 }
 
-clCallTipPtr TagsManager::GetFunctionTip(const wxFileName &fileName, int lineno, const wxString &expr, const wxString &text, const wxString &word)
+clCallTipPtr TagsManager::GetFunctionTip(const wxString &fileName, int lineno, const wxString &expr, const wxString &text, const wxString &word)
 {
 	wxString path;
 	wxString typeName, typeScope, tmp;
@@ -1117,6 +1117,13 @@ void TagsManager::DeleteFilesTags(const std::vector<wxFileName> &projectFiles)
 	m_workspaceDatabase->DeleteFromFiles(file_array);
 	m_workspaceDatabase->Commit();
 	UpdateFileTree(projectFiles, false);
+}
+
+void TagsManager::RenameTaggedFile(const wxString& oldFile, const wxString& newFile)
+{
+	//m_workspaceDatabase->Begin();
+	m_workspaceDatabase->RenameTaggedFile(wxFileName(), oldFile, newFile, true);
+	//m_workspaceDatabase->Commit();
 }
 
 void TagsManager::RetagFiles(const std::vector<wxFileName> &files, bool quickRetag)
@@ -1577,7 +1584,7 @@ wxString TagsManager::GetScopeName(const wxString &scope)
 	return lang->GetScopeName(scope, NULL);
 }
 
-bool TagsManager::ProcessExpression(const wxFileName &filename, int lineno, const wxString &expr, const wxString &scopeText, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTempalteInitiList)
+bool TagsManager::ProcessExpression(const wxString &filename, int lineno, const wxString &expr, const wxString &scopeText, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTempalteInitiList)
 {
 	bool res = GetLanguage()->ProcessExpression(expr, scopeText, filename, lineno, typeName, typeScope, oper, scopeTempalteInitiList);
 	if (res && IsTypeAndScopeExists(typeName, typeScope) == false && scopeTempalteInitiList.empty() == false) {
@@ -1592,7 +1599,7 @@ bool TagsManager::GetMemberType(const wxString &scope, const wxString &name, wxS
 	wxString expression(scope);
 	expression << wxT("::") << name << wxT(".");
 	wxString dummy;
-	return GetLanguage()->ProcessExpression(expression, wxEmptyString, wxFileName(), wxNOT_FOUND, type, typeScope, dummy, dummy);
+	return GetLanguage()->ProcessExpression(expression, wxEmptyString, "", wxNOT_FOUND, type, typeScope, dummy, dummy);
 }
 
 void TagsManager::GetFiles(const wxString &partialName, std::vector<FileEntryPtr> &files)
@@ -1612,14 +1619,14 @@ void TagsManager::GetFiles(const wxString &partialName, std::vector<wxFileName> 
 	}
 }
 
-TagEntryPtr TagsManager::FunctionFromFileLine(const wxFileName &fileName, int lineno, bool nextFunction /*false*/)
+TagEntryPtr TagsManager::FunctionFromFileLine(const wxString &fileName, int lineno, bool nextFunction /*false*/)
 {
 	if (!m_workspaceDatabase) {
 		return NULL;
 	}
 
-	if (!IsFileCached(fileName.GetFullPath())) {
-		CacheFile(fileName.GetFullPath());
+	if (!IsFileCached(fileName)) {
+		CacheFile(fileName);
 	}
 
 	TagEntryPtr foo = NULL;
@@ -1649,7 +1656,7 @@ void TagsManager::GetScopesFromFile(const wxFileName &fileName, std::vector< wxS
 	m_workspaceDatabase->GetScopesFromFileAsc(fileName, scopes);
 }
 
-void TagsManager::TagsFromFileAndScope(const wxFileName& fileName, const wxString &scopeName, std::vector< TagEntryPtr > &tags)
+void TagsManager::TagsFromFileAndScope(const wxString& fileName, const wxString &scopeName, std::vector< TagEntryPtr > &tags)
 {
 	if (!m_workspaceDatabase) {
 		return;
@@ -1663,8 +1670,7 @@ void TagsManager::TagsFromFileAndScope(const wxFileName& fileName, const wxStrin
 	m_workspaceDatabase->GetTagsByFileScopeAndKind(fileName, scopeName, kind, tags);
 	std::sort(tags.begin(), tags.end(), SAscendingSort());
 }
-
-bool TagsManager::GetFunctionDetails(const wxFileName &fileName, int lineno, TagEntryPtr &tag, clFunction &func)
+bool TagsManager::GetFunctionDetails(const wxString &fileName, int lineno, TagEntryPtr &tag, clFunction &func)
 {
 	tag = FunctionFromFileLine(fileName, lineno);
 	if (tag) {
@@ -1674,7 +1680,7 @@ bool TagsManager::GetFunctionDetails(const wxFileName &fileName, int lineno, Tag
 	return false;
 }
 
-TagEntryPtr TagsManager::FirstFunctionOfFile(const wxFileName &fileName)
+TagEntryPtr TagsManager::FirstFunctionOfFile(const wxString &fileName)
 {
 	if (!m_workspaceDatabase) {
 		return NULL;
@@ -1683,13 +1689,13 @@ TagEntryPtr TagsManager::FirstFunctionOfFile(const wxFileName &fileName)
 	std::vector<TagEntryPtr> tags;
 	wxArrayString            kind;
 	kind.Add(wxT("function"));
-	m_workspaceDatabase->GetTagsByKindAndFile(kind, fileName.GetFullPath(), wxT("line"), ITagsStorage::OrderAsc, tags);
+	m_workspaceDatabase->GetTagsByKindAndFile(kind, fileName, wxT("line"), ITagsStorage::OrderAsc, tags);
 
 	if ( tags.empty() ) return NULL;
 	return tags.at(0);
 }
 
-TagEntryPtr TagsManager::FirstScopeOfFile(const wxFileName &fileName)
+TagEntryPtr TagsManager::FirstScopeOfFile(const wxString &fileName)
 {
 	if (!m_workspaceDatabase) {
 		return NULL;
@@ -1699,7 +1705,7 @@ TagEntryPtr TagsManager::FirstScopeOfFile(const wxFileName &fileName)
 	kind.Add(wxT("struct"));
 	kind.Add(wxT("class"));
 	kind.Add(wxT("namespace"));
-	m_workspaceDatabase->GetTagsByKindAndFile(kind, fileName.GetFullPath(), wxT("line"), ITagsStorage::OrderAsc, tags);
+	m_workspaceDatabase->GetTagsByKindAndFile(kind, fileName, wxT("line"), ITagsStorage::OrderAsc, tags);
 
 	if ( tags.empty() ) return NULL;
 	return tags.at(0);
@@ -1785,7 +1791,7 @@ Language* TagsManager::GetLanguage()
 bool TagsManager::ProcessExpression(const wxString &expression, wxString &type, wxString &typeScope)
 {
 	wxString oper, dummy;
-	return ProcessExpression(wxFileName(), wxNOT_FOUND, expression, wxEmptyString, type, typeScope, oper, dummy);
+	return ProcessExpression("", wxNOT_FOUND, expression, wxEmptyString, type, typeScope, oper, dummy);
 }
 
 void TagsManager::GetClasses(std::vector< TagEntryPtr > &tags, bool onlyWorkspace)

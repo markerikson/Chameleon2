@@ -25,7 +25,7 @@ ExpressionResult* CLP_L_ParseExpression(const wxString &in)
 	return &tempResult;
 }
 
-bool CLP_L_ProcessExpression(const wxString& stmt, const wxString& text, const wxFileName &fn, int lineno, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTemplateInitList)
+bool CLP_L_ProcessExpression(const wxString& stmt, const wxString& text, const wxString &fn, int lineno, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTemplateInitList)
 {
 	return false;
 }

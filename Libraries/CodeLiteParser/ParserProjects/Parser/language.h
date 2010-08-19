@@ -192,7 +192,7 @@ public:
 	 * \return true on success, false otherwise. The output fields are only to be checked with the return
 	 * valus is 'true'
 	 */
-	bool ProcessExpression(const wxString& stmt, const wxString& text, const wxFileName &fn, int lineno, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTemplateInitList);
+	bool ProcessExpression(const wxString& stmt, const wxString& text, const wxString &fn, int lineno, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTemplateInitList);
 
 	/**
 	 * return scope name from given input string

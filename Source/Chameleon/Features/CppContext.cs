@@ -241,6 +241,11 @@ namespace Chameleon.Features
 		{
 			Tag fn = m_cmw.FunctionFromFileLine(m_editor.Filename, lineNum + 1, false);
 
+			if(fn == null)
+			{
+				return false;
+			}
+
 			int pos = m_editor.NativeInterface.PositionFromLine(fn.lineNumber - 1);
 			Range searchRange = new Range(pos, m_editor.TextLength, m_editor);
 			//m_editor.FindReplace.FindNext("(", false, SearchFlags.Empty, searchRange).Start;

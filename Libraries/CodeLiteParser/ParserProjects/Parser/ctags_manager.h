@@ -126,7 +126,7 @@ public:
 	wxCriticalSection      m_crawlerLocker;
 	
 private:
-	ITagsStorage *                m_workspaceDatabase;
+	TagsStorageSQLite*                m_workspaceDatabase;
 	wxCriticalSection             m_cs;
 	wxFileName                    m_codeliteIndexerPath;
 	clProcess*                    m_codeliteIndexerProcess;
@@ -333,7 +333,7 @@ public:
 	 * @param candidates [output] list of TagEntries that can be displayed in Autucompletion box
 	 * @return true if candidates.size() is greater than 0
 	 */
-	bool AutoCompleteCandidates(const wxFileName &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr> &candidates);
+	bool AutoCompleteCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr> &candidates);
 
 	/**
 	 * Return a word completion candidates. this function is used when user hit Ctrl+Space.
@@ -343,7 +343,7 @@ public:
 	 * @param &candidates [output] list of TagEntries that can be displayed in Autucompletion box
 	 * @return true if candidates.size() is greater than 0
 	 */
-	bool WordCompletionCandidates(const wxFileName &fileName, int lineno, const wxString& expr, const wxString& text, const wxString &word, std::vector<TagEntryPtr> &candidates);
+	bool WordCompletionCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, const wxString &word, std::vector<TagEntryPtr> &candidates);
 
 	/**
 	 * Delete all tags related to these files
@@ -351,6 +351,8 @@ public:
 	 */
 	void DeleteFilesTags(const std::vector<wxFileName> &files);
 	void DeleteFilesTags(const wxArrayString &files);
+
+	void RenameTaggedFile(const wxString& oldFile, const wxString& newFile);
 
 	/**
 	 * @brief delete all entries from tags database which starts with. If the dbFileName is also an active one,
@@ -383,7 +385,7 @@ public:
 	 * @param isFunc is token is a function
 	 * @param tips array of tip strings
 	 */
-	void GetHoverTip(const wxFileName &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<wxString> & tips);
+	void GetHoverTip(const wxString &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<wxString> & tips);
 
 	/**
 	 * Return a function call tip object
@@ -392,7 +394,7 @@ public:
 	 * @param word function name
 	 * @return call tip object
 	 */
-	clCallTipPtr GetFunctionTip(const wxFileName &fileName, int lineno, const wxString &expression, const wxString &text, const wxString &word);
+	clCallTipPtr GetFunctionTip(const wxString &fileName, int lineno, const wxString &expression, const wxString &text, const wxString &word);
 
 	/**
 	 * Return true if comment parsing is enabled, false otherwise
@@ -457,7 +459,7 @@ public:
 	 * @param gotoImpl set to true, if you wish that CodeLite will find the implementation, false to declaration
 	 * @param tags the output
 	 */
-	void FindImplDecl(const wxFileName &fileName, int lineno, const wxString & expr, const wxString &word,  const wxString &text, std::vector<TagEntryPtr> &tags, bool impl = true, bool workspaceOnly = false);
+	void FindImplDecl(const wxString &fileName, int lineno, const wxString & expr, const wxString &word,  const wxString &text, std::vector<TagEntryPtr> &tags, bool impl = true, bool workspaceOnly = false);
 
 	/**
 	 * @brief get the scope name. CodeLite assumes that the caret is placed at the end of the 'scope'
@@ -489,21 +491,21 @@ public:
 	 * @param lineno the line number
 	 * @return pointer to the tage which matches the line number & files
 	 */
-	TagEntryPtr FunctionFromFileLine(const wxFileName &fileName, int lineno, bool nextFunction = false);
+	TagEntryPtr FunctionFromFileLine(const wxString &fileName, int lineno, bool nextFunction = false);
 
 	/**
 	 * @brief return the first function of 'fileName'
 	 * @param fileName file to scan
 	 * @return NULL or valid tag
 	 */
-	TagEntryPtr FirstFunctionOfFile(const wxFileName &fileName);
+	TagEntryPtr FirstFunctionOfFile(const wxString &fileName);
 
 	/**
 	 * @brief return the first scope of 'fileName'
 	 * @param fileName file to scan
 	 * @return NULL or valid tag
 	 */
-	TagEntryPtr FirstScopeOfFile(const wxFileName &fileName);
+	TagEntryPtr FirstScopeOfFile(const wxString &fileName);
 
 	/**
 	 * @brief return list of scopes from a given file. This function is used by the navigation bar
@@ -531,7 +533,7 @@ public:
 	 * @param scopeName
 	 * @param tags
 	 */
-	void TagsFromFileAndScope(const wxFileName &fileName, const wxString &scopeName, std::vector<TagEntryPtr> &tags);
+	void TagsFromFileAndScope(const wxString &fileName, const wxString &scopeName, std::vector<TagEntryPtr> &tags);
 
 	/**
 	 * @brief return information about the current function based on file & line
@@ -541,7 +543,7 @@ public:
 	 * @param func [output]
 	 * @return true on success, false otherwise
 	 */
-	bool GetFunctionDetails(const wxFileName &fileName, int lineno, TagEntryPtr &tag, clFunction &func);
+	bool GetFunctionDetails(const wxString &fileName, int lineno, TagEntryPtr &tag, clFunction &func);
 
 	/**
 	 * @brief return list of all classes.
@@ -744,7 +746,7 @@ protected:
 	void           GetFunctionTipFromTags(const std::vector<TagEntryPtr> &tags, const wxString &word, std::vector<TagEntryPtr> &tips);
 	DoxygenComment DoCreateDoxygenComment(TagEntryPtr tag, wxChar keyPrefix);
 	bool           DoBuildDatabase(const wxArrayString &files, ITagsStorage &db, const wxString *rootPath = NULL);
-	bool           ProcessExpression(const wxFileName &filename, int lineno, const wxString &expr, const wxString &scopeText, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTempalteInitiList);
+	bool           ProcessExpression(const wxString &filename, int lineno, const wxString &expr, const wxString &scopeText, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTempalteInitiList);
 	void           FilterImplementation(const std::vector<TagEntryPtr> &src, std::vector<TagEntryPtr> &tags);
 	void           FilterDeclarations(const std::vector<TagEntryPtr> &src, std::vector<TagEntryPtr> &tags);
 	wxString       DoReplaceMacros(wxString name);

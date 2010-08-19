@@ -186,6 +186,8 @@ public:
 	 */
 	void DeleteByFileName(const wxFileName& path, const wxString& fileName, bool autoCommit = true);
 
+	void RenameTaggedFile(const wxFileName& dbPath, const wxString& oldFilename, const wxString& newFilename, bool autoCommit = true);
+
 	/**
 	 * @brief delete all tags from database which their file's path begins with a given prefix
 	 * @param dbpath database file name
@@ -495,7 +497,7 @@ public:
 	 * @param scopeName
 	 * @param tags
 	 */
-	virtual void GetTagsByFileScopeAndKind(const wxFileName& fileName, const wxString &scopeName, const wxArrayString& kind, std::vector< TagEntryPtr > &tags);
+	virtual void GetTagsByFileScopeAndKind(const wxString& fileName, const wxString &scopeName, const wxArrayString& kind, std::vector< TagEntryPtr > &tags);
 
 	virtual void GetAllTagsNames(wxArrayString& names);
 

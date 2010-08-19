@@ -39,6 +39,7 @@ namespace Chameleon.Features.CodeRules
 			m_blocks["for"] = new BlockInfo("for", true, "body", true);
 			m_blocks["while"] = new BlockInfo("while", true, "body", true);
 			m_blocks["switch"] = new BlockInfo("switch", true, "body", false);
+			m_blocks["right"] = new BlockInfo("right", false, "expression", true);
 		}
 
 		public override bool ExamineSource(ChameleonEditor ed, Range searchRange)
@@ -55,7 +56,7 @@ namespace Chameleon.Features.CodeRules
 			int startingLine = searchRange.StartingLine.Number;
 
 			ASTNode root = parser.GetAST();
-			//string astText = root.ASTToString();
+			string astText = root.ASTToString();
 
 
 			foreach(string keyword in m_blocks.Keys)
@@ -78,8 +79,16 @@ namespace Chameleon.Features.CodeRules
 					}
 					else
 					{
-						int index = l.Text.IndexOf(keywordNode.text);
-						pos = l.StartPosition + index + keywordNode.text.Length;
+						if(keywordNode.text == "right")
+						{
+							pos = l.StartPosition;
+						}
+						else
+						{
+							int index = l.Text.IndexOf(keywordNode.text);
+							pos = l.StartPosition + index + keywordNode.text.Length;
+						}
+						
 					}
 
 					if(bi.hasCondition)

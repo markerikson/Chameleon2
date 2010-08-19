@@ -154,7 +154,7 @@ void Language::SetAutoCompDeliemters(const std::vector<wxString> &delimArr)
 
 bool Language::ProcessExpression(const wxString& stmt,
                                  const wxString& text,
-                                 const wxFileName &fn, int lineno,
+                                 const wxString &fn, int lineno,
                                  wxString &typeName, 				//output
                                  wxString &typeScope,				//output
                                  wxString &oper,					//output
@@ -203,7 +203,7 @@ bool Language::ProcessExpression(const wxString& stmt,
 
 		SetLastFunctionSignature(lastFuncSig     );
 		SetVisibleScope         (visibleScope    );
-		SetAdditionalScopes     (additionalScopes, fn.GetFullPath());
+		SetAdditionalScopes     (additionalScopes, fn);
 
 		//get next token using the tokenscanner object
 		m_tokenScanner->SetText(_C(statement));

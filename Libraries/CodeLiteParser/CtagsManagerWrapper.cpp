@@ -225,6 +225,14 @@ public:
 		CLP_CTM_AddParserRequestSingleFile(parsingRequest);
 	}
 
+	void RenameTaggedFile(String^ oldFile, String^ newFile)
+	{
+		wxString sOldFile = ConvertString(oldFile);
+		wxString sNewFile = ConvertString(newFile);
+
+		CLP_CTM_RenameTaggedFile(sOldFile, sNewFile);
+	}
+
 	property bool Parsing
 	{
 		bool get()
@@ -322,7 +330,7 @@ public:
 	List<Tag^>^ AutoCompletionCandidates(String^ filename, int linenum, String^ expr, String^ text)
 	{
 		
-		wxFileName fname = ConvertString(filename);
+		wxString fname = ConvertString(filename);
 		wxString sExpr = ConvertString(expr);
 		wxString sText = ConvertString(text);
 
@@ -337,7 +345,7 @@ public:
 										String^ text, String^ word)
 	{
 		
-		wxFileName fname = ConvertString(filename);
+		wxString fname = ConvertString(filename);
 		wxString sExpr = ConvertString(expr);
 		wxString sText = ConvertString(text);
 		wxString sWord = ConvertString(word);
@@ -391,7 +399,7 @@ public:
 		String^ word, String^ text)
 	{
 		
-		wxFileName fname = ConvertString(filename);
+		wxString fname = ConvertString(filename);
 		wxString sExpr = ConvertString(expr);
 		wxString sText = ConvertString(text);
 		wxString sWord = ConvertString(word);

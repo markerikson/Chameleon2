@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>.\ParserProjects\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>.\ParserProjects\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>.\ParserProjects\wxsqlite3-1.9.8\sqlite3\lib;.\ParserProjects\OutputLibs;.\ParserProjects\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -81,6 +81,8 @@ namespace Chameleon.GUI
 
 		private static Dictionary<string, string> m_snippets;
 
+		private List<string> m_tempFiles;
+
 		private CodeRuleManager m_ruleManager;
 		private CtagsManagerWrapper cmw;
 
@@ -152,8 +154,8 @@ namespace Chameleon.GUI
 
 				m_ruleManager.AddRules();
 			}
-			
-			
+
+			m_tempFiles = new List<string>();
 
 			m_fileNum = 0;
 			NewFile();
@@ -524,26 +526,35 @@ namespace Chameleon.GUI
 
 			editor.SetFileSaved(filename, location);
 
-			// TODO Parse files saved remotely as well
-			if(editor.FileLocation == FileLocation.Local)
-			{
-				//cmw.AddParserRequestSingleFile(editor.Filename);
-				
-				//cmw.RetagFiles(files, false);
-
-				RunCodeRules(editor);
-			}
-
+			RunCodeRules(editor);
+			
 			return true;
 		}
 
 		public void RunCodeRules(ChameleonEditor editor)
 		{
+			m_ruleManager.ClearErrors();
+			editor.ClearErrors();
+
+			string filename = editor.Filename;
+			string originalFilename = filename;
+			string tempFile = "";
+
+			bool isRemote = (editor.FileLocation == FileLocation.Remote);
+
+			if(isRemote)
+			{
+				tempFile = Path.GetTempFileName();
+				File.WriteAllText(tempFile, editor.Text);
+
+				filename = tempFile;
+			}
+
 			List<string> files = new List<string>();
-			files.Add(editor.Filename);
+			files.Add(originalFilename);
 
 			cmw.DeleteFilesTags(files);
-			cmw.AddParserRequestSingleFile(files[0]);
+			cmw.AddParserRequestSingleFile(filename);
 
 			while(cmw.Parsing)
 			{
@@ -551,10 +562,13 @@ namespace Chameleon.GUI
 				Thread.Sleep(50);
 			}
 
-			m_ruleManager.ClearErrors();
-			editor.ClearErrors();
+			if(isRemote)
+			{
+				cmw.RenameTaggedFile(tempFile, originalFilename);
+			}
+			
 
-			List<Tag> functions = cmw.GetFunctions(editor.Filename, false);
+			List<Tag> functions = cmw.GetFunctions(originalFilename, false);
 			
 
 			Range wholeFile = editor.GetRange();
@@ -567,12 +581,10 @@ namespace Chameleon.GUI
 			
 
 			foreach(Tag fn in functions)
-			//for(int i = 4; i < 5; i++ )
 			{
-				//Tag fn = functions[i];
 				int fnStart = 0, fnOpen = 0, fnClose = 0;
 
-				if(fn.kind == "prototype")// || fn.name != "main")
+				if(fn.kind == "prototype")
 				{
 					continue;
 				}

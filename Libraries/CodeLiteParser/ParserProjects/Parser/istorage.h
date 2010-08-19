@@ -272,7 +272,7 @@ public:
 	 * @param scopeName
 	 * @param tags
 	 */
-	virtual void GetTagsByFileScopeAndKind(const wxFileName& fileName, const wxString &scopeName, const wxArrayString& kind, std::vector< TagEntryPtr > &tags) = 0;
+	virtual void GetTagsByFileScopeAndKind(const wxString& fileName, const wxString &scopeName, const wxArrayString& kind, std::vector< TagEntryPtr > &tags) = 0;
 
 	/**
 	 * @brief return a unique list of names

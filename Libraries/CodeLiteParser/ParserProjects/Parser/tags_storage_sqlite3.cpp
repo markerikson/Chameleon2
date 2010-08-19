@@ -315,6 +315,31 @@ void TagsStorageSQLite::DeleteByFileName(const wxFileName& path, const wxString&
 	}
 }
 
+void TagsStorageSQLite::RenameTaggedFile(const wxFileName& dbPath, const wxString& oldFilename, const wxString& newFilename, bool autoCommit)
+{
+	// make sure database is open
+
+	try {
+		OpenDatabase(dbPath);
+
+		if ( autoCommit )
+			m_db->Begin();
+
+		wxString sql = wxString::Format("UPDATE files SET file='%s' where file='%s'", newFilename.GetData(), oldFilename.GetData());
+		m_db->ExecuteUpdate(sql);
+
+		sql = wxString::Format("UPDATE tags SET file='%s' where file='%s'", newFilename.GetData(), oldFilename.GetData());
+		m_db->ExecuteUpdate(sql);
+
+		if ( autoCommit )
+			m_db->Commit();
+	} catch (wxSQLite3Exception& e) {
+		wxUnusedVar(e);
+		if ( autoCommit )
+			m_db->Rollback();
+	}
+}
+
 wxSQLite3ResultSet TagsStorageSQLite::Query(const wxString& sql, const wxFileName& path)
 {
 	// make sure database is open
@@ -1028,11 +1053,11 @@ void TagsStorageSQLite::GetScopesFromFileAsc(const wxFileName& fileName, std::ve
 	}
 }
 
-void TagsStorageSQLite::GetTagsByFileScopeAndKind(const wxFileName& fileName, const wxString& scopeName, const wxArrayString& kind, std::vector<TagEntryPtr>& tags)
+void TagsStorageSQLite::GetTagsByFileScopeAndKind(const wxString& fileName, const wxString& scopeName, const wxArrayString& kind, std::vector<TagEntryPtr>& tags)
 {
 	wxString sql;
 	sql << wxT("select * from tags where file = '")
-	<< fileName.GetFullPath() << wxT("' ")
+	<< fileName << wxT("' ")
 	<< wxT(" and scope='") << scopeName << wxT("' ");
 
 	if ( kind.IsEmpty() == false ) {

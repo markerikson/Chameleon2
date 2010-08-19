@@ -38,7 +38,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_lib\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\wxsqlite3-1.9.8\include;D:\toolkits\wxWidgets-2.9.0\lib\vc_dll\mswud;D:\toolkits\wxWidgets-2.9.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\wxsqlite3-1.9.8\sqlite3\lib;..\OutputLibs;..\wxsqlite3-1.9.8\lib\vc_lib;D:\toolkits\wxWidgets-2.9.0\lib\vc_dll;$(LibraryPath)</LibraryPath>
     <OutDir>..\OutputLibs\</OutDir>
     <TargetName>CodeLiteParserNative</TargetName>

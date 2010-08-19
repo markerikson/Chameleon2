@@ -19,7 +19,7 @@ extern "C"
 	WXDLLIMPEXP_CL const wchar_t* CLP_L_GetScopeName(const wxString &in, std::vector<wxString> *additionlNS);
 
 	WXDLLIMPEXP_CL ExpressionResult* CLP_L_ParseExpression(const wxString &in);
-	WXDLLIMPEXP_CL bool CLP_L_ProcessExpression(const wxString& stmt, const wxString& text, const wxFileName &fn, int lineno, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTemplateInitList);
+	WXDLLIMPEXP_CL bool CLP_L_ProcessExpression(const wxString& stmt, const wxString& text, const wxString &fn, int lineno, wxString &typeName, wxString &typeScope, wxString &oper, wxString &scopeTemplateInitList);
 	WXDLLIMPEXP_CL void CLP_L_GetLocalVariables(const wxString &in, std::vector<TagEntryPtr> &tags, const wxString &name = wxEmptyString, size_t flag = PartialMatch);
 }
 

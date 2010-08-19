@@ -112,10 +112,15 @@ void CLP_CTM_AddParserRequestSingleFile(ParseRequest* request)
 	parser->Add(request);	
 }
 
+void CLP_CTM_RenameTaggedFile(const wxString& oldFile, const wxString& newFile)
+{
+	m_tags->RenameTaggedFile(oldFile, newFile);
+}
 
 
 
-bool CLP_CTM_AutoCompleteCandidates(const wxFileName &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr> &candidates)
+
+bool CLP_CTM_AutoCompleteCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr> &candidates)
 {
 	return m_tags->AutoCompleteCandidates(fileName, lineno, expr, text, candidates);
 }
@@ -127,7 +132,7 @@ void CLP_CTM_FindByPath(const wxString &path, std::vector<TagEntryPtr> &tags)
 {
 	m_tags->FindByPath(path, tags);
 }
-void CLP_CTM_FindImplDecl(const wxFileName &fileName, int lineno, const wxString & expr, const wxString &word,  const wxString &text, std::vector<TagEntryPtr> &tags, bool impl, bool workspaceOnly)
+void CLP_CTM_FindImplDecl(const wxString &fileName, int lineno, const wxString & expr, const wxString &word,  const wxString &text, std::vector<TagEntryPtr> &tags, bool impl, bool workspaceOnly)
 {
 	m_tags->FindImplDecl(fileName, lineno, expr, word, text, tags, impl, workspaceOnly);
 }
@@ -135,17 +140,17 @@ void CLP_CTM_FindSymbol(const wxString& name, std::vector<TagEntryPtr> &tags)
 {
 	m_tags->FindSymbol(name, tags);
 }
-void CLP_CTM_FirstFunctionOfFile(TagEntryPtr& returnTag, const wxFileName &fileName)
+void CLP_CTM_FirstFunctionOfFile(TagEntryPtr& returnTag, const wxString &fileName)
 {
 	returnTag = m_tags->FirstFunctionOfFile(fileName);
 	//return tempTagPtr.Get();
 }
-void CLP_CTM_FirstScopeOfFile(TagEntryPtr& returnTag, const wxFileName &fileName)
+void CLP_CTM_FirstScopeOfFile(TagEntryPtr& returnTag, const wxString &fileName)
 {
 	returnTag = m_tags->FirstScopeOfFile(fileName);
 	//return tempTagPtr.Get();
 }
-void CLP_CTM_FunctionFromFileLine(TagEntryPtr& returnTag, const wxFileName &fileName, int lineno, bool nextFunction)
+void CLP_CTM_FunctionFromFileLine(TagEntryPtr& returnTag, const wxString &fileName, int lineno, bool nextFunction)
 {
 	returnTag = m_tags->FunctionFromFileLine(fileName, lineno, nextFunction);
 	//return tempTagPtr.Get();
@@ -158,7 +163,7 @@ void CLP_CTM_GetFunctions(std::vector< TagEntryPtr > &tags, const wxString &file
 {
 	m_tags->GetFunctions(tags, fileName, onlyWorkspace);
 }
-bool CLP_CTM_GetFunctionDetails(const wxFileName &fileName, int lineno, TagEntryPtr &tag, clFunction &func)
+bool CLP_CTM_GetFunctionDetails(const wxString &fileName, int lineno, TagEntryPtr &tag, clFunction &func)
 {
 	return m_tags->GetFunctionDetails(fileName, lineno, tag, func);
 }
@@ -166,7 +171,7 @@ void CLP_CTM_GetFiles(const wxString &partialName, std::vector<wxFileName> &file
 {
 	m_tags->GetFiles(partialName, files);
 }
-void CLP_CTM_GetHoverTip(const wxFileName &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<wxString> & tips)
+void CLP_CTM_GetHoverTip(const wxString &fileName, int lineno, const wxString & expr, const wxString &word, const wxString & text, std::vector<wxString> & tips)
 {
 	m_tags->GetHoverTip(fileName, lineno, expr, word, text, tips);
 }
@@ -211,11 +216,11 @@ void CLP_CTM_TagsByScopeAndName(const wxString& scope, const wxString &name, std
 {
 	m_tags->TagsByScopeAndName(scope, name, tags, flags);
 }
-void CLP_CTM_TagsFromFileAndScope(const wxFileName &fileName, const wxString &scopeName, std::vector<TagEntryPtr> &tags)
+void CLP_CTM_TagsFromFileAndScope(const wxString &fileName, const wxString &scopeName, std::vector<TagEntryPtr> &tags)
 {
 	m_tags->TagsFromFileAndScope(fileName, scopeName, tags);
 }
-bool CLP_CTM_WordCompletionCandidates(const wxFileName &fileName, int lineno, const wxString& expr, const wxString& text, const wxString &word, std::vector<TagEntryPtr> &candidates)
+bool CLP_CTM_WordCompletionCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, const wxString &word, std::vector<TagEntryPtr> &candidates)
 {
 	return m_tags->WordCompletionCandidates(fileName, lineno, expr, text, word, candidates);
 }

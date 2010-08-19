@@ -105,11 +105,10 @@ namespace CodeLite
 			wxString sText = ConvertString(text);
 			wxString sFilename = ConvertString(filename);
 
-			wxFileName fn = sFilename;
 
 			wxString sTypeName, sTypeScope, sOper, sScopeTemplate;
 
-			bool result = CLP_L_ProcessExpression(sStmt, sText, fn, lineNum, sTypeName, sTypeScope, sOper, sScopeTemplate);
+			bool result = CLP_L_ProcessExpression(sStmt, sText, sFilename, lineNum, sTypeName, sTypeScope, sOper, sScopeTemplate);
 
 			typeName = ConvertString(sTypeName);
 			typeScope = ConvertString(sTypeScope);
