@@ -62,9 +62,9 @@
 			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuEditFind = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuEditReplace = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuToolsRunCodeRules = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuToolsReformatSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuEditReformatFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuEditReformatSelectedCode = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -240,7 +240,6 @@
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuEdit,
-            this.toolsToolStripMenuItem,
             this.menuHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
@@ -359,7 +358,10 @@
             this.menuEditPaste,
             this.toolStripMenuItem5,
             this.menuEditFind,
-            this.menuEditReplace});
+            this.menuEditReplace,
+            this.toolStripMenuItem6,
+            this.menuEditReformatFile,
+            this.menuEditReformatSelectedCode});
 			this.menuEdit.Name = "menuEdit";
 			this.menuEdit.Size = new System.Drawing.Size(39, 20);
 			this.menuEdit.Text = "Edit";
@@ -367,53 +369,53 @@
 			// menuEditUndo
 			// 
 			this.menuEditUndo.Name = "menuEditUndo";
-			this.menuEditUndo.Size = new System.Drawing.Size(158, 22);
+			this.menuEditUndo.Size = new System.Drawing.Size(201, 22);
 			this.menuEditUndo.Text = "Undo";
 			this.menuEditUndo.Click += new System.EventHandler(this.menuEditUndo_Click);
 			// 
 			// menuEditRedo
 			// 
 			this.menuEditRedo.Name = "menuEditRedo";
-			this.menuEditRedo.Size = new System.Drawing.Size(158, 22);
+			this.menuEditRedo.Size = new System.Drawing.Size(201, 22);
 			this.menuEditRedo.Text = "Redo";
 			this.menuEditRedo.Click += new System.EventHandler(this.menuEditRedo_Click);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(155, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(198, 6);
 			// 
 			// menuEditCut
 			// 
 			this.menuEditCut.Name = "menuEditCut";
-			this.menuEditCut.Size = new System.Drawing.Size(158, 22);
+			this.menuEditCut.Size = new System.Drawing.Size(201, 22);
 			this.menuEditCut.Text = "Cut";
 			this.menuEditCut.Click += new System.EventHandler(this.menuEditCut_Click);
 			// 
 			// menuEditCopy
 			// 
 			this.menuEditCopy.Name = "menuEditCopy";
-			this.menuEditCopy.Size = new System.Drawing.Size(158, 22);
+			this.menuEditCopy.Size = new System.Drawing.Size(201, 22);
 			this.menuEditCopy.Text = "Copy";
 			this.menuEditCopy.Click += new System.EventHandler(this.menuEditCopy_Click);
 			// 
 			// menuEditPaste
 			// 
 			this.menuEditPaste.Name = "menuEditPaste";
-			this.menuEditPaste.Size = new System.Drawing.Size(158, 22);
+			this.menuEditPaste.Size = new System.Drawing.Size(201, 22);
 			this.menuEditPaste.Text = "Paste";
 			this.menuEditPaste.Click += new System.EventHandler(this.menuEditPaste_Click);
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(155, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(198, 6);
 			// 
 			// menuEditFind
 			// 
 			this.menuEditFind.Name = "menuEditFind";
 			this.menuEditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-			this.menuEditFind.Size = new System.Drawing.Size(158, 22);
+			this.menuEditFind.Size = new System.Drawing.Size(201, 22);
 			this.menuEditFind.Text = "Find";
 			this.menuEditFind.Click += new System.EventHandler(this.menuEditFind_Click);
 			// 
@@ -421,31 +423,28 @@
 			// 
 			this.menuEditReplace.Name = "menuEditReplace";
 			this.menuEditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-			this.menuEditReplace.Size = new System.Drawing.Size(158, 22);
+			this.menuEditReplace.Size = new System.Drawing.Size(201, 22);
 			this.menuEditReplace.Text = "Replace";
 			this.menuEditReplace.Click += new System.EventHandler(this.menuEditReplace_Click);
 			// 
-			// toolsToolStripMenuItem
+			// toolStripMenuItem6
 			// 
-			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolsRunCodeRules,
-            this.menuToolsReformatSource});
-			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-			this.toolsToolStripMenuItem.Text = "Tools";
+			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(198, 6);
 			// 
-			// menuToolsRunCodeRules
+			// menuEditReformatFile
 			// 
-			this.menuToolsRunCodeRules.Name = "menuToolsRunCodeRules";
-			this.menuToolsRunCodeRules.Size = new System.Drawing.Size(193, 22);
-			this.menuToolsRunCodeRules.Text = "Run Code Rules Check";
-			this.menuToolsRunCodeRules.Click += new System.EventHandler(this.menuToolsRunCodeRules_Click);
+			this.menuEditReformatFile.Name = "menuEditReformatFile";
+			this.menuEditReformatFile.Size = new System.Drawing.Size(201, 22);
+			this.menuEditReformatFile.Text = "Reformat Current File";
+			this.menuEditReformatFile.Click += new System.EventHandler(this.menuEditReformatFile_Click);
 			// 
-			// menuToolsReformatSource
+			// menuEditReformatSelectedCode
 			// 
-			this.menuToolsReformatSource.Name = "menuToolsReformatSource";
-			this.menuToolsReformatSource.Size = new System.Drawing.Size(193, 22);
-			this.menuToolsReformatSource.Text = "Reformat Source Code";
+			this.menuEditReformatSelectedCode.Name = "menuEditReformatSelectedCode";
+			this.menuEditReformatSelectedCode.Size = new System.Drawing.Size(201, 22);
+			this.menuEditReformatSelectedCode.Text = "Reformat Selected Code";
+			this.menuEditReformatSelectedCode.Click += new System.EventHandler(this.menuEditReformatSelectedCode_Click);
 			// 
 			// menuHelp
 			// 
@@ -758,9 +757,9 @@
 		private System.Windows.Forms.ImageList imageList1;
 		private Guifreaks.NavigationBar.NaviBar naviBar1;
 		private Guifreaks.NavigationBar.NaviBand naviBand1;
-		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem menuToolsRunCodeRules;
-		private System.Windows.Forms.ToolStripMenuItem menuToolsReformatSource;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
+		private System.Windows.Forms.ToolStripMenuItem menuEditReformatFile;
+		private System.Windows.Forms.ToolStripMenuItem menuEditReformatSelectedCode;
 	}
 }
 

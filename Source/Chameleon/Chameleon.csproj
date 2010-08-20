@@ -234,7 +234,8 @@
 xcopy /d "$(ProjectDir)DLLs\SciLexer.dll" "$(TargetDir)"
 xcopy /d "$(ProjectDir)DLLs\codelite_indexer.exe" "$(TargetDir)"
 xcopy /d "$(ProjectDir)DLLs\CodeLiteParserNative.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\wx*.dll" "$(TargetDir)"</PreBuildEvent>
+xcopy /d "$(ProjectDir)DLLs\wx*.dll" "$(TargetDir)"
+xcopy /d "$(ProjectDir)DLLs\AStyle.dll" "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

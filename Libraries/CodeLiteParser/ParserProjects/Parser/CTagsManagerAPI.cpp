@@ -148,7 +148,6 @@ void CLP_CTM_FirstFunctionOfFile(TagEntryPtr& returnTag, const wxString &fileNam
 void CLP_CTM_FirstScopeOfFile(TagEntryPtr& returnTag, const wxString &fileName)
 {
 	returnTag = m_tags->FirstScopeOfFile(fileName);
-	//return tempTagPtr.Get();
 }
 void CLP_CTM_FunctionFromFileLine(TagEntryPtr& returnTag, const wxString &fileName, int lineno, bool nextFunction)
 {

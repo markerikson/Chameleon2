@@ -20,6 +20,7 @@ using DevInstinct.Patterns;
 using System.Net.Sockets;
 using Guifreaks.NavigationBar;
 using System.Threading;
+using ArtisticStyle;
 
 namespace Chameleon
 {
@@ -32,19 +33,22 @@ namespace Chameleon
 		private SSHProtocol m_sshProtocol;
 
 		private CtagsManagerWrapper cmw;
+		private AStyleInterface m_astyle;
+
 		private bool parserInitialized;
 		private bool m_clickedSnippet;
 		
 		#endregion
 
 		#region properties
-		#endregion
-
-		#region Form construction
 		public static bool AppClosing
 		{
 			get { return m_appClosing; }
 		}
+		#endregion
+
+		#region Form construction
+		
 
 		public ChameleonForm()
 		{
@@ -76,6 +80,9 @@ namespace Chameleon
 			toolHostDisconnect.Enabled = false;
 
 			m_sshProtocol = new SSHProtocol(terminalEmulator1);
+
+			m_astyle = new AStyleInterface();
+			m_astyle.SetDefaultChameleonStyleOptions();
 
 			/*
 			string[] featureNames = Enum.GetNames(typeof(ChameleonFeatures));
@@ -381,24 +388,18 @@ namespace Chameleon
 			m_editors.CurrentEditor.FindReplace.ShowReplace();
 		}
 
-		#endregion
-
-		#region Tools menu handlers
-
-		private void menuToolsRunCodeRules_Click(object sender, EventArgs e)
+		private void menuEditReformatFile_Click(object sender, EventArgs e)
 		{
 			ChameleonEditor ed = m_editors.CurrentEditor;
 
-			if(ed.FileLocation == FileLocation.Unknown)
-			{
-				MessageBox.Show("Cannot run code rules check until the file has been saved at least once",
-								"Code Rules", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+			ed.Text = m_astyle.FormatSource(ed.Text);
+		}
 
+		private void menuEditReformatSelectedCode_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor ed = m_editors.CurrentEditor;
 
-
-
+			ed.Selection.Text = m_astyle.FormatSource(ed.Selection.Text);
 		}
 
 		#endregion
@@ -686,6 +687,10 @@ namespace Chameleon
 			}
 		}
 		#endregion
+
+		
+
+		
 
 		
 
