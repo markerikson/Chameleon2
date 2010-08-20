@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ScintillaNet;
-using ScintillaNet.Configuration;
-using System.IO;
-using Chameleon.GUI;
-using Chameleon.Util;
-using Chameleon.Network;
-using Chameleon.Features;
-using SSHClient;
-using CodeLite;
-using System.Reflection;
-using DevInstinct.Patterns;
-using System.Net.Sockets;
-using Guifreaks.NavigationBar;
-using System.Threading;
 using ArtisticStyle;
+using Chameleon.Features;
+using Chameleon.GUI;
+using Chameleon.Network;
+using Chameleon.Util;
+using CodeLite;
+using DevInstinct.Patterns;
+using Guifreaks.NavigationBar;
+using ScintillaNet;
+using SSHClient;
 
 namespace Chameleon
 {
@@ -169,6 +163,11 @@ namespace Chameleon
 
 			foreach(String category in categories)
 			{
+				if(category == "Templates")
+				{
+					continue;
+				}
+
 				List<Snippet> snippets = categorizedSnippets[category];
 
 				NaviGroup group = new NaviGroup(this.components);
@@ -292,9 +291,14 @@ namespace Chameleon
 		#endregion
 
 		#region File Menu handlers
-		private void OnNewFile(object sender, EventArgs e)
+		private void OnFileNewBlank(object sender, EventArgs e)
 		{
 			m_editors.NewFile();
+		}
+
+		private void OnFileNewSimpleTemplate(object sender, EventArgs e)
+		{
+			m_editors.NewFile("simpleTemplate");
 		}
 
 		private void OnFileOpenLocal(object sender, EventArgs e)
@@ -687,6 +691,8 @@ namespace Chameleon
 			}
 		}
 		#endregion
+
+		
 
 		
 

@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ScintillaNet;
 using System.Drawing;
 using System.IO;
-using FarsiLibrary.Win;
+using System.Linq;
 using Chameleon.Features;
-using Chameleon.Util;
-using CodeLite;
-using System.Reflection;
 using Chameleon.Features.CodeRules;
+using Chameleon.Util;
+using FarsiLibrary.Win;
+using ScintillaNet;
 
 namespace Chameleon.GUI
 {
 	public class ChameleonEditor : Scintilla
 	{
+		#region Private fields
 		private FileInformation m_fileInfo;
 		private FATabStripItem m_parentTab;
 
@@ -27,8 +25,9 @@ namespace Chameleon.GUI
 		private CppContext m_context;
 
 		private List<CodeRuleError> m_ruleErrors;
-		
-		
+
+		#endregion
+
 
 		#region Properties
 		public FATabStripItem ParentTab
@@ -246,6 +245,12 @@ namespace Chameleon.GUI
 		protected override void OnCharAdded(CharAddedEventArgs e)
 		{
 			int pos = this.CurrentPos;
+
+			if(Context.IsCloseBracket(e.Ch) && e.Ch == this.NativeInterface.GetCharAt(pos)) 
+			{
+				this.NativeInterface.CharRight();
+				this.NativeInterface.DeleteBack();
+			}
 
 			char matchChar = char.MinValue;
 
@@ -590,7 +595,6 @@ namespace Chameleon.GUI
 			char ch;
 			int depth = 1;
 
-			// We go backward
 			while(true)
 			{
 				if(nNextPos >= this.TextLength)
@@ -640,6 +644,7 @@ namespace Chameleon.GUI
 			return new Range(startPos, endPos, this).Text;
 		}
 
+		#region Code rule error functions
 		public void AddError(CodeRuleError error)
 		{
 			m_ruleErrors.Add(error);
@@ -699,5 +704,7 @@ namespace Chameleon.GUI
 				CallTip.Cancel();
 			}
 		}
+
+		#endregion
 	}
 }

@@ -104,6 +104,19 @@
 				}
 			</Snippet>
 
+			<Snippet Shortcut="simpleTemplate" longName="Simple C++ Template" category="Templates">
+			#include &lt;iostream&gt;
+			#include &lt;string&gt;
+
+			using namespace std;
+
+			int main()
+			{
+	
+				return 0;
+			}
+			</Snippet>
+
 
 		</Snippets>
 	</Language>

@@ -37,7 +37,6 @@
 			this.naviBar1 = new Guifreaks.NavigationBar.NaviBar(this.components);
 			this.naviBand1 = new Guifreaks.NavigationBar.NaviBand(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +88,9 @@
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
+			this.blankFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.simpleCTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -219,21 +221,6 @@
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
 			// 
-			// terminalEmulator1
-			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 80;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
-			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -268,10 +255,12 @@
 			// 
 			// newToolStripMenuItem
 			// 
+			this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blankFileToolStripMenuItem,
+            this.simpleCTemplateToolStripMenuItem});
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
 			this.newToolStripMenuItem.Text = "New";
-			this.newToolStripMenuItem.Click += new System.EventHandler(this.OnNewFile);
 			// 
 			// menuFileOpenLocal
 			// 
@@ -457,7 +446,7 @@
 			// menuHelpAbout
 			// 
 			this.menuHelpAbout.Name = "menuHelpAbout";
-			this.menuHelpAbout.Size = new System.Drawing.Size(152, 22);
+			this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
 			this.menuHelpAbout.Text = "About";
 			this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
 			// 
@@ -489,7 +478,7 @@
 			this.btnNewFile.Size = new System.Drawing.Size(35, 35);
 			this.btnNewFile.Text = "New";
 			this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnNewFile.Click += new System.EventHandler(this.OnNewFile);
+			this.btnNewFile.Click += new System.EventHandler(this.OnFileNewBlank);
 			// 
 			// btnOpenLocal
 			// 
@@ -658,6 +647,35 @@
 			this.imageList1.Images.SetKeyName(2, "while.png");
 			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 80;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
+			// 
+			// blankFileToolStripMenuItem
+			// 
+			this.blankFileToolStripMenuItem.Name = "blankFileToolStripMenuItem";
+			this.blankFileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.blankFileToolStripMenuItem.Text = "Blank File";
+			this.blankFileToolStripMenuItem.Click += new System.EventHandler(this.OnFileNewBlank);
+			// 
+			// simpleCTemplateToolStripMenuItem
+			// 
+			this.simpleCTemplateToolStripMenuItem.Name = "simpleCTemplateToolStripMenuItem";
+			this.simpleCTemplateToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.simpleCTemplateToolStripMenuItem.Text = "Simple C++ Template";
+			this.simpleCTemplateToolStripMenuItem.Click += new System.EventHandler(this.OnFileNewSimpleTemplate);
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -760,6 +778,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
 		private System.Windows.Forms.ToolStripMenuItem menuEditReformatFile;
 		private System.Windows.Forms.ToolStripMenuItem menuEditReformatSelectedCode;
+		private System.Windows.Forms.ToolStripMenuItem blankFileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem simpleCTemplateToolStripMenuItem;
 	}
 }
 

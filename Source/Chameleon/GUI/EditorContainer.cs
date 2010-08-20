@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using Chameleon.Features.CodeRules;
+using Chameleon.Network;
+using Chameleon.Parsing;
+using Chameleon.Util;
+using CodeLite;
+using DevInstinct.Patterns;
 using FarsiLibrary.Win;
 using PSTaskDialog;
+using ScintillaNet;
 using ScintillaNet.Configuration;
 using CU = Chameleon.Util;
-using Chameleon.Util;
-using Chameleon.Network;
-using System.Drawing;
-using ScintillaNet;
-using Chameleon.Features.CodeRules;
-using DevInstinct.Patterns;
-using CodeLite;
-using System.Threading;
-using Chameleon.Parsing;
 
 namespace Chameleon.GUI
 {
-	#region Enumerations
+	#region Enumerations and helper classes
 	public enum FileType
 	{
 		SourceFiles = 0,
@@ -42,7 +41,7 @@ namespace Chameleon.GUI
 		NoSave,
 		Cancel,
 	}
-	#endregion
+	
 
 	public class TransparentPanel : Panel
 	{
@@ -62,8 +61,11 @@ namespace Chameleon.GUI
 		}
 	}
 
+	#endregion
+
 	public partial class EditorContainer : UserControl
 	{
+		#region Private fields
 		private int m_fileNum;
 		private ChameleonEditor m_currentEditor;
 		private bool m_closingTab;
@@ -85,6 +87,19 @@ namespace Chameleon.GUI
 
 		private CodeRuleManager m_ruleManager;
 		private CtagsManagerWrapper cmw;
+
+		#endregion
+
+		#region Properties
+
+		public ChameleonEditor CurrentEditor
+		{
+			get { return m_currentEditor; }
+		}
+
+		#endregion
+
+		#region Constructors
 
 		static EditorContainer()
 		{
@@ -111,10 +126,7 @@ namespace Chameleon.GUI
 			m_snippets["if"] = "if";
 		}
 
-		public ChameleonEditor CurrentEditor
-		{
-			get { return m_currentEditor; }
-		}
+		
 
 
 		public EditorContainer()
@@ -160,10 +172,8 @@ namespace Chameleon.GUI
 			m_fileNum = 0;
 			NewFile();
 		}
-		
 
-		
-		
+		#endregion
 
 		#region Tab handlers
 		void OnTabClosing(TabStripItemClosingEventArgs e)
@@ -201,17 +211,15 @@ namespace Chameleon.GUI
 			m_currentEditor = m_tabsToEditors[e.Item];
 		}
 		#endregion
+		
+		#region File new/close functions
 
-		private void SelectEditor(ChameleonEditor editor)
+		public void NewFile()
 		{
-			FATabStripItem tab = m_editorsToTabs[editor];
-			m_tabStrip.SelectedItem = tab;
-			editor.Focus();
-			m_currentEditor = editor;
+			NewFile("");
 		}
 
-		
-		public void NewFile()
+		public void NewFile(string templateName)
 		{
 			m_fileNum++;
 
@@ -225,7 +233,7 @@ namespace Chameleon.GUI
 			TextReader tr = new StringReader(cppConfigXML);
 			Configuration config = new Configuration(tr, "cpp");
 			editor.ConfigurationManager.Configure(config);
-			
+
 			editor.SetDefaultEditorStyles();
 			editor.Dock = DockStyle.Fill;
 
@@ -237,6 +245,11 @@ namespace Chameleon.GUI
 			editor.Filename = newFileTitle;
 
 			m_tabStrip.AddTab(tabItem, true);
+
+			if(templateName != "")
+			{
+				editor.Snippets.InsertSnippet(templateName);
+			}
 		}
 		
 
@@ -294,6 +307,9 @@ namespace Chameleon.GUI
 			return true;
 		}
 
+		#endregion
+
+		#region File save functions
 
 		// returns true if things were handled successfully, and the task should continue
 		private ModifiedFileResult HandleModifiedFile(ChameleonEditor editor, ModifiedFileAction fileAction)
@@ -605,7 +621,10 @@ namespace Chameleon.GUI
 
 
 		}
-		
+
+		#endregion
+
+		#region File open functions
 
 		public bool OpenFile(FileLocation location)
 		{
@@ -731,21 +750,7 @@ namespace Chameleon.GUI
 			return true;
 		}
 
-
-		public ChameleonEditor GetEditorByFilename(string filename)
-		{
-			foreach(ChameleonEditor editor in m_editorsToTabs.Keys)
-			{
-				if(editor.Filename == filename)
-				{
-					return editor;
-				}
-			}
-
-			return null;
-		}
-
-		private bool GetFileContents( FileInformation fileInfo,  ref string fileContents )
+		private bool GetFileContents(FileInformation fileInfo, ref string fileContents)
 		{
 			switch(fileInfo.Location)
 			{
@@ -771,6 +776,33 @@ namespace Chameleon.GUI
 
 			return true;
 		}
+
+		#endregion
+
+		#region Editor selection functions
+
+		public ChameleonEditor GetEditorByFilename(string filename)
+		{
+			foreach(ChameleonEditor editor in m_editorsToTabs.Keys)
+			{
+				if(editor.Filename == filename)
+				{
+					return editor;
+				}
+			}
+
+			return null;
+		}
+
+		private void SelectEditor(ChameleonEditor editor)
+		{
+			FATabStripItem tab = m_editorsToTabs[editor];
+			m_tabStrip.SelectedItem = tab;
+			editor.Focus();
+			m_currentEditor = editor;
+		}
+
+		#endregion
 
 		#region Drag and drop handlers
 		private void transPanel_DragEnter(object sender, DragEventArgs de)

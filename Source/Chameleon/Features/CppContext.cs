@@ -46,6 +46,37 @@ namespace Chameleon.Features
 			m_cmw = Singleton<CtagsManagerWrapper>.Instance;
 		}
 
+		public bool IsBracket(char ch)
+		{
+			switch(ch)
+			{
+				case '{':
+				case '[':
+				case '(':
+				case '}':
+				case ']':
+				case ')':
+					return true;
+					break;
+				default:
+					return false;
+			}
+		}
+
+		public bool IsCloseBracket(char ch)
+		{
+			switch(ch)
+			{
+				case '}':
+				case ']':
+				case ')':
+					return true;
+					break;
+				default:
+				return false;
+			}
+		}
+
 		public bool IsCommentOrString(int pos)
 		{
 			CPPLexerStyles style = (CPPLexerStyles)m_editor.Styles.GetStyleAt(pos);

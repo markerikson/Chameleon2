@@ -1786,7 +1786,11 @@ namespace ScintillaNet.Configuration
 							}
 						}
 
-						lines[i] = lines[i].Substring(lengthDiff);
+						if(lines[i].Length > 0 && lengthDiff < lines[i].Length)
+						{
+							lines[i] = lines[i].Substring(lengthDiff);
+						}
+						
 					}
 
 					sc.Code = String.Join("\r\n", lines);
