@@ -19,6 +19,7 @@ using System.Reflection;
 using DevInstinct.Patterns;
 using System.Net.Sockets;
 using Guifreaks.NavigationBar;
+using System.Threading;
 
 namespace Chameleon
 {
@@ -382,6 +383,26 @@ namespace Chameleon
 
 		#endregion
 
+		#region Tools menu handlers
+
+		private void menuToolsRunCodeRules_Click(object sender, EventArgs e)
+		{
+			ChameleonEditor ed = m_editors.CurrentEditor;
+
+			if(ed.FileLocation == FileLocation.Unknown)
+			{
+				MessageBox.Show("Cannot run code rules check until the file has been saved at least once",
+								"Code Rules", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+
+
+
+		}
+
+		#endregion
+
 		#region Help Menu handlers
 
 		private void menuHelpAbout_Click(object sender, EventArgs e)
@@ -476,6 +497,8 @@ namespace Chameleon
 
 		#endregion
 
+		#region Permissions/UI functions
+
 		private void ShowPermittedUI()
 		{
 			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
@@ -502,9 +525,9 @@ namespace Chameleon
 			}
 
 			splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
-			
-			
 		}
+
+		#endregion
 
 		#region Debug/test handlers
 		private void test1ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -664,26 +687,7 @@ namespace Chameleon
 		}
 		#endregion
 
-		private void menuToolsRunCodeRules_Click(object sender, EventArgs e)
-		{
-			ChameleonEditor ed = m_editors.CurrentEditor;
-
-			if(ed.FileLocation == FileLocation.Unknown)
-			{
-				MessageBox.Show("Cannot run code rules check until the file has been saved at least once",
-								"Code Rules", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-
-
-
-		}
-
 		
 
-		
-
-		
 	}
 }

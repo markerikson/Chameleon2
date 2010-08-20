@@ -62,6 +62,9 @@
     <Reference Include="CodeLiteParser">
       <HintPath>DLLs\CodeLiteParser.dll</HintPath>
     </Reference>
+    <Reference Include="ExceptionReporter.WinForms">
+      <HintPath>DLLs\ExceptionReporter.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="Guifreaks.Common">
       <HintPath>DLLs\Guifreaks.Common.dll</HintPath>
     </Reference>
