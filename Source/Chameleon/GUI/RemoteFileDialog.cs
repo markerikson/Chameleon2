@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define CHAMELEON
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,13 +14,17 @@ using Etier.IconHelper;
 using DevInstinct.Patterns;
 
 
+
 namespace Chameleon.GUI
 {
 	public partial class RemoteFileDialog : Form
 	{
+		#region Private fields
 		private IconListManager m_iconManager;
 
 		private bool m_openMode;
+		private bool m_folderMode;
+		
 		private int m_filterAllFilesIndex;
 		private int m_currentFilterIndex;
 
@@ -42,6 +48,9 @@ namespace Chameleon.GUI
 			"All files (*.*)"
 		};
 
+		#endregion
+
+		#region Properties
 		public static RemoteFileDialog Instance
 		{
 			get
@@ -50,14 +59,36 @@ namespace Chameleon.GUI
 			}
 		}
 
+
+		public Chameleon.Network.Networking Networking
+		{
+			get { return m_networking; }
+			set { m_networking = value; }
+		}
+
 		public Chameleon.Util.FilePath SelectedFile
 		{
 			get { return m_selectedFile; }
 		}
 
+		public bool FolderMode
+		{
+			get { return m_folderMode; }
+			set { m_folderMode = value; }
+		}
+
+		#endregion
+
+		#region Constructor
+
 		private RemoteFileDialog()
 		{
 			InitializeComponent();
+
+			toolStrip1.ImageList = m_toolbarImages;
+			toolUpFolder.ImageIndex = 0;
+			toolHomeFolder.ImageIndex = 1;
+			toolRefresh.ImageIndex = 2;
 
 			FormFontFixer.Fix(this);
 
@@ -76,7 +107,8 @@ namespace Chameleon.GUI
 			m_iconManager = new IconListManager(m_images, IconReader.IconSize.Small);
 			listView1.SmallImageList = m_images;
 
-			m_networking = Networking.Instance;
+
+			m_folderMode = false;
 
 			/*
 			string[] extensions = new string[] { ".cpp", ".c", ".h", "default", ".exe", ".zip", ".docx", ".ini", ".txt" };
@@ -95,6 +127,8 @@ namespace Chameleon.GUI
 			 */ 
 
 		}
+
+		#endregion
 
 		private void OnItemSelected(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
@@ -162,7 +196,14 @@ namespace Chameleon.GUI
 
 		private void OnButtonAcceptClick(object sender, EventArgs e)
 		{
-			ItemActivated();
+			if(AcceptSelectedFolder())
+			{
+				SaveSelectedFilename(txtFilename.Text);
+			}
+			else
+			{
+				ItemActivated();
+			}
 		}
 
 		private void OnButtonCancelClick(object sender, EventArgs e)
@@ -177,10 +218,10 @@ namespace Chameleon.GUI
 
 			FilePath fp = new FilePath();
 
-			int dirResult = m_currentDirListing.dirNames.IndexOf(userFilename);
+			bool isFile = (m_currentDirListing.dirNames.IndexOf(userFilename) == -1);
 
 			// the item name isn't a directory
-			if(dirResult == -1)
+			if(isFile)
 			{
 				// if we're trying to save a file and the filter isn't "All files (*.*)
 				if(!m_openMode && (m_currentFilterIndex != m_filterAllFilesIndex))
@@ -302,9 +343,7 @@ namespace Chameleon.GUI
 			}
 
 			txtFilename.ReadOnly = m_openMode;
-
-
-			// TODO get user home path
+			
 			m_userHomeDir = m_networking.GetUserHomeDirectory();
 			m_selectedFile = new FilePath("", PathFormat.Unix);
 
@@ -322,19 +361,6 @@ namespace Chameleon.GUI
 
 		public bool ShowDirectory(string path, bool refresh, bool showHidden)
 		{
-			/*
-			DirectoryListing dl = new DirectoryListing();
-
-			string[] tempDirs = new string[] { "dir4", "dir1", "dir3", "dir2"};
-			string[] tempFiles = new string[] { "code3.cpp", "code1.cpp", "code2.c",
-												"other2.cpp", "header1.h", "header3.h", "header2.hpp",
-												"text1.txt", "other1.zip", "test1.doc"};
-
-			dl.dirNames.AddRange(tempDirs);
-			dl.fileNames.AddRange(tempFiles);
-			*/
-			// TODO Get actual directory contents from network
-
 			FilePath fp = new FilePath(path, PathFormat.Unix);
 
 			DirectoryListing dl = m_networking.GetDirectoryListing(fp, showHidden);
@@ -371,10 +397,12 @@ namespace Chameleon.GUI
 				m_dirs.Add(dirName);
 			}
 
-			List<string> currentFilterExtensions = m_fileExtensionList[m_currentFilterIndex];//new List<string>();
+			if(m_openMode && m_folderMode)
+			{
+				return;
+			}
 
-			
-			
+			List<string> currentFilterExtensions = m_fileExtensionList[m_currentFilterIndex];			
 
 			int currentFileIconIndex = 0;
 
@@ -397,6 +425,17 @@ namespace Chameleon.GUI
 				}
 			}
 
+		}
+
+		private bool AcceptSelectedFolder()
+		{
+			string filename = txtFilename.Text;
+
+			bool isFolder = (m_currentDirListing.dirNames.IndexOf(filename) > -1);
+
+			// If it's a folder, we're in open mode, and we're in select folders mode,
+			// then the user just selected this and we want to return it
+			return isFolder && m_openMode && m_folderMode;
 		}
 
 		private void SaveSelectedFilename(string filename)

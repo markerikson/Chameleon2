@@ -7,6 +7,7 @@ using DevInstinct.Patterns;
 using ScintillaNet;
 using Chameleon.GUI;
 using Chameleon.Util;
+using Chameleon.Extensions.ANTLRParser;
 
 namespace Chameleon.Features.CodeRules
 {

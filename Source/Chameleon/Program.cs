@@ -54,24 +54,33 @@ namespace Chameleon
 
 			ExceptionReporting.Core.ExceptionReportInfo conf = er.Config;
 
-			conf.AppName = "Chameleon";
-			conf.CompanyName = "ISquared Software";
+			conf.AppName = Options.AppName;
+			conf.CompanyName = Options.CompanyName;
 
 			conf.MailMethod = ExceptionReportInfo.EmailMethod.SMTP;
-			conf.ContactEmail = "mark@isquaredsoftware.com";
-			conf.EmailReportAddress = "mark.erikson@gmail.com";
-			conf.SmtpFromAddress = "crashreport@chameleon.isquaredsoftware.com";
-			conf.ContactMessageTop = "Contact message top";
-			conf.SmtpServer = "mail.chameleon.isquaredsoftware.com";
-			conf.SmtpUsername = "crashreport@chameleon.isquaredsoftware.com";
-			conf.SmtpPassword = "DUMMYPASS";
+			conf.ContactEmail = Options.ContactEmail;
+			conf.SmtpFromAddress = Options.ReportFromAddress;
+			conf.SmtpServer = Options.ReportSmtpServer;
+			conf.SmtpUsername = Options.ReportSmtpUsername;
+			conf.SmtpPassword = Options.ReportSmtpPassword;
 			
 			conf.ShowLessMoreDetailButton = true;
 			conf.ShowFullDetail = false;
 
 			er.Show(e.Exception);
 
-			Application.Exit();
+			if(Options.CloseOnException)
+			{
+				Application.Exit();
+			}
+			else
+			{
+				// we presumably set this to false because it was something
+				// we threw ourselves - set it back to true for future
+				// unexpected exceptions
+				Options.CloseOnException = true;
+			}
+			
 		}
 
 	}

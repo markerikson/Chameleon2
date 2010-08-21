@@ -23,7 +23,7 @@ namespace Chameleon
 		#region Private fields
 		private static bool m_appClosing = false;
 
-		private Networking m_networking;
+		private ChameleonNetworking m_networking;
 		private SSHProtocol m_sshProtocol;
 
 		private CtagsManagerWrapper cmw;
@@ -68,7 +68,7 @@ namespace Chameleon
 
 			toolTextPassword.TextBox.UseSystemPasswordChar = true;
 
-			m_networking = Networking.Instance;
+			m_networking = ChameleonNetworking.Instance;
 
 			toolStatusConnected.Text = "Disconnected";
 			toolHostDisconnect.Enabled = false;
@@ -77,6 +77,8 @@ namespace Chameleon
 
 			m_astyle = new AStyleInterface();
 			m_astyle.SetDefaultChameleonStyleOptions();
+
+			Singleton<RemoteFileDialog>.Instance.Networking = ChameleonNetworking.Instance;
 
 			/*
 			string[] featureNames = Enum.GetNames(typeof(ChameleonFeatures));

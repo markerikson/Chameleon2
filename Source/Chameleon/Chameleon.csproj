@@ -138,7 +138,10 @@
     <Compile Include="GUI\TerminalControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Network\ChameleonNetworking.cs" />
+    <Compile Include="Network\NetworkExtensionMethods.cs" />
     <Compile Include="Network\Networking.cs" />
+    <Compile Include="Network\OutputCollectingReader.cs" />
     <Compile Include="Network\OutputParser.cs" />
     <Compile Include="Network\Readers.cs" />
     <Compile Include="Network\SSHProtocol.cs" />

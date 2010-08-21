@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Chameleon.Extensions.ANTLRParser;
+using Chameleon.GUI;
 using Chameleon.Parsing;
 using DevInstinct.Patterns;
 using ScintillaNet;
-using Chameleon.GUI;
-using Chameleon.Util;
-using CodeLite;
 
 namespace Chameleon.Features.CodeRules
 {

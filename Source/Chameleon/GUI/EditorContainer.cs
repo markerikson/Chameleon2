@@ -486,7 +486,7 @@ namespace Chameleon.GUI
 			}
 			else if(location == FileLocation.Remote)
 			{
-				if(!Networking.Instance.IsConnected)
+				if(!ChameleonNetworking.Instance.IsConnected)
 				{
 					string message = "This is a remote file, but Chameleon is not currently connected to a remote server.  You can: ";
 
@@ -535,7 +535,7 @@ namespace Chameleon.GUI
 
 				FilePath fp = new FilePath(filename, PathFormat.Unix);
 
-				Networking.Instance.SendFileContents(fp, fileContents);
+				ChameleonNetworking.Instance.SendFileContents(fp, fileContents);
 				
 			}
 			// shouldn't be Unknown by this point
@@ -769,7 +769,7 @@ namespace Chameleon.GUI
 				}
 				case FileLocation.Remote:
 				{
-					Networking.Instance.GetFileContents(fileInfo.Filename, ref fileContents);
+					ChameleonNetworking.Instance.GetFileContents(fileInfo.Filename, ref fileContents);
 					break;
 				}
 			}

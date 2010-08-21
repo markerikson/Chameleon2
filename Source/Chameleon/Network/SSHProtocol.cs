@@ -160,7 +160,7 @@ namespace SSHClient
 		*/
 		public void Connect()
 		{
-			_conn = Networking.Instance.Connection;
+			_conn = ChameleonNetworking.Instance.Connection;
 
 			this.OnDataIndicated += m_term.IndicateData;
 			m_term.OnDataRequested += this.RequestData;

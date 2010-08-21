@@ -44,6 +44,7 @@
 			this.btnAccept = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.m_images = new System.Windows.Forms.ImageList(this.components);
+			this.m_toolbarImages = new System.Windows.Forms.ImageList(this.components);
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -78,40 +79,37 @@
             this.toolHomeFolder,
             this.toolRefresh});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-			this.toolStrip1.Location = new System.Drawing.Point(543, 9);
+			this.toolStrip1.Location = new System.Drawing.Point(512, 9);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(72, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(103, 25);
 			this.toolStrip1.TabIndex = 2;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
 			// toolUpFolder
 			// 
 			this.toolUpFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolUpFolder.Image = global::Chameleon.Properties.Resources.upfolder1;
 			this.toolUpFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolUpFolder.Name = "toolUpFolder";
 			this.toolUpFolder.Size = new System.Drawing.Size(23, 22);
-			this.toolUpFolder.Text = "toolStripButton1";
+			this.toolUpFolder.Text = "Parent Folder";
 			this.toolUpFolder.Click += new System.EventHandler(this.OnButtonUpFolderClick);
 			// 
 			// toolHomeFolder
 			// 
 			this.toolHomeFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolHomeFolder.Image = global::Chameleon.Properties.Resources.HomeHS;
 			this.toolHomeFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolHomeFolder.Name = "toolHomeFolder";
 			this.toolHomeFolder.Size = new System.Drawing.Size(23, 22);
-			this.toolHomeFolder.Text = "toolStripButton2";
+			this.toolHomeFolder.Text = "Home Folder";
 			this.toolHomeFolder.Click += new System.EventHandler(this.OnButtonHomeFolderClick);
 			// 
 			// toolRefresh
 			// 
 			this.toolRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolRefresh.Image = global::Chameleon.Properties.Resources.refresh;
 			this.toolRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolRefresh.Name = "toolRefresh";
 			this.toolRefresh.Size = new System.Drawing.Size(23, 22);
-			this.toolRefresh.Text = "toolStripButton3";
+			this.toolRefresh.Text = "Refresh Folder";
 			this.toolRefresh.Click += new System.EventHandler(this.OnButtonRefreshFolderClick);
 			// 
 			// listView1
@@ -194,6 +192,14 @@
 			this.m_images.TransparentColor = System.Drawing.Color.Transparent;
 			this.m_images.Images.SetKeyName(0, "XPfolder_closed.png");
 			// 
+			// m_toolbarImages
+			// 
+			this.m_toolbarImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("m_toolbarImages.ImageStream")));
+			this.m_toolbarImages.TransparentColor = System.Drawing.Color.Transparent;
+			this.m_toolbarImages.Images.SetKeyName(0, "upfolder.png");
+			this.m_toolbarImages.Images.SetKeyName(1, "HomeHS.png");
+			this.m_toolbarImages.Images.SetKeyName(2, "refresh.png");
+			// 
 			// RemoteFileDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,5 +244,6 @@
 		private System.Windows.Forms.Button btnAccept;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.ImageList m_images;
+		private System.Windows.Forms.ImageList m_toolbarImages;
 	}
 }
