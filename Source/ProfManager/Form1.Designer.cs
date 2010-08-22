@@ -28,16 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("group1");
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("group2");
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("group3");
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "group2",
             "student1"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "group2",
             "student2"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "group3",
             "student3"}, -1);
 			this.btnConnect = new System.Windows.Forms.Button();
@@ -63,12 +60,12 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
+			this.btnAddFromFile = new System.Windows.Forms.Button();
 			this.lvGroups = new ListViewEx.ListViewEx();
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lvStudents = new ListViewEx.ListViewEx();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.btnAddFromFile = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -187,6 +184,7 @@
 			// 
 			// btnFolderRemote
 			// 
+			this.btnFolderRemote.Enabled = false;
 			this.btnFolderRemote.Location = new System.Drawing.Point(442, 44);
 			this.btnFolderRemote.Name = "btnFolderRemote";
 			this.btnFolderRemote.Size = new System.Drawing.Size(60, 20);
@@ -202,6 +200,7 @@
 			this.btnAddStudent.TabIndex = 14;
 			this.btnAddStudent.Text = "Add Student";
 			this.btnAddStudent.UseVisualStyleBackColor = true;
+			this.btnAddStudent.Click += new System.EventHandler(this.btnAddStudent_Click);
 			// 
 			// btnRemoveStudent
 			// 
@@ -211,6 +210,7 @@
 			this.btnRemoveStudent.TabIndex = 15;
 			this.btnRemoveStudent.Text = "Remove Student";
 			this.btnRemoveStudent.UseVisualStyleBackColor = true;
+			this.btnRemoveStudent.Click += new System.EventHandler(this.btnRemoveStudent_Click);
 			// 
 			// lbFeatures
 			// 
@@ -283,6 +283,16 @@
 			this.label7.TabIndex = 23;
 			this.label7.Text = "Features:";
 			// 
+			// btnAddFromFile
+			// 
+			this.btnAddFromFile.Location = new System.Drawing.Point(102, 387);
+			this.btnAddFromFile.Name = "btnAddFromFile";
+			this.btnAddFromFile.Size = new System.Drawing.Size(84, 23);
+			this.btnAddFromFile.TabIndex = 25;
+			this.btnAddFromFile.Text = "Add From File";
+			this.btnAddFromFile.UseVisualStyleBackColor = true;
+			this.btnAddFromFile.Click += new System.EventHandler(this.btnAddFromFile_Click);
+			// 
 			// lvGroups
 			// 
 			this.lvGroups.AllowColumnReorder = true;
@@ -292,10 +302,6 @@
 			this.lvGroups.FullRowSelect = true;
 			this.lvGroups.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lvGroups.HideSelection = false;
-			this.lvGroups.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8,
-            listViewItem9});
 			this.lvGroups.Location = new System.Drawing.Point(326, 104);
 			this.lvGroups.MultiSelect = false;
 			this.lvGroups.Name = "lvGroups";
@@ -322,9 +328,9 @@
 			this.lvStudents.DoubleClickActivation = false;
 			this.lvStudents.FullRowSelect = true;
 			this.lvStudents.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem10,
-            listViewItem11,
-            listViewItem12});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
 			this.lvStudents.Location = new System.Drawing.Point(15, 104);
 			this.lvStudents.Name = "lvStudents";
 			this.lvStudents.Size = new System.Drawing.Size(274, 277);
@@ -342,16 +348,6 @@
 			// 
 			this.columnHeader2.Text = "Student";
 			this.columnHeader2.Width = 116;
-			// 
-			// btnAddFromFile
-			// 
-			this.btnAddFromFile.Location = new System.Drawing.Point(102, 387);
-			this.btnAddFromFile.Name = "btnAddFromFile";
-			this.btnAddFromFile.Size = new System.Drawing.Size(84, 23);
-			this.btnAddFromFile.TabIndex = 25;
-			this.btnAddFromFile.Text = "Add From File";
-			this.btnAddFromFile.UseVisualStyleBackColor = true;
-			this.btnAddFromFile.Click += new System.EventHandler(this.btnAddFromFile_Click);
 			// 
 			// Form1
 			// 

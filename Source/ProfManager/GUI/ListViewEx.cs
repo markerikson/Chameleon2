@@ -392,6 +392,12 @@ namespace ListViewEx
 
 			_editItem = Item;
 			_editSubItem = SubItem;
+
+			if(c is ComboBox)
+			{
+				ComboBox cb = (ComboBox) c;
+				cb.DroppedDown = true;
+			}
 		}
 
 
