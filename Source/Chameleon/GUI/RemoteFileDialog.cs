@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -41,12 +42,18 @@ namespace Chameleon.GUI
 
 		private Networking m_networking;
 
+		private List<string> m_fileFilterDescriptions;
+		private Dictionary<string, List<string>> m_fileFilterExtensions;
+
+		private static string m_allFilesFilter = "All files (*.*)";
+		/*
 		string[] m_fileTypeStrings = new string[] 
 		{
 			"C++ source files (*.c, *.cpp)",
 			"C++ header files (*.h, *.hpp)",
 			"All files (*.*)"
 		};
+		*/
 
 		#endregion
 
@@ -100,35 +107,29 @@ namespace Chameleon.GUI
 			m_files = new List<string>();
 
 			m_fileExtensionList = new List<List<string>>();
-				
-			cbFileType.Items.AddRange(m_fileTypeStrings);
-			cbFileType.SelectedItem = m_fileTypeStrings[0];			
+
+			m_fileFilterDescriptions = new List<string>();
+			m_fileFilterExtensions	= new Dictionary<string, List<string>>();						
 
 			m_iconManager = new IconListManager(m_images, IconReader.IconSize.Small);
 			listView1.SmallImageList = m_images;
 
-
 			m_folderMode = false;
-
-			/*
-			string[] extensions = new string[] { ".cpp", ".c", ".h", "default", ".exe", ".zip", ".docx", ".ini", ".txt" };
-
-			ListViewItem lvi;
-			foreach(string s in extensions)
-			{
-				int index = m_iconManager.GetFileIcon(s);
-				lvi = new ListViewItem(s, index);
-
-				listView1.Items.Add(lvi);
-			}
-
-			lvi = new ListViewItem("folder", 0);
-			listView1.Items.Add(lvi);
-			 */ 
-
 		}
 
 		#endregion
+
+		public void AddFileType(string filterDescription, List<string> extensions)
+		{
+			m_fileFilterDescriptions.Add(filterDescription);
+
+			for(int i = 0; i < extensions.Count; i++)
+			{
+				extensions[i] = extensions[i].ToLower();
+			}
+
+			m_fileFilterExtensions[filterDescription] = extensions;
+		}
 
 		private void OnItemSelected(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
@@ -283,7 +284,6 @@ namespace Chameleon.GUI
 			else
 			{
 				// call ShowDirectory with the new directory
-
 				// m_currentPath gets overwritten in ShowDirectory iff the call succeeds
 
 				FilePath tempDirName = new FilePath(m_currentPath);
@@ -300,36 +300,58 @@ namespace Chameleon.GUI
 			txtFilename.Text = "";
 		}
 
+		// takes a standard Windows file filter string ("Description1|type1;type2|Description2|type3");
 		public bool Prepare(bool open, string filterString)
 		{
 			m_openMode = open;
-			cbFileType.Items.Clear();
 
-
-			// TODO take in a real filter string and parse it?
-			// TODO make this code generic again, instead of hardcoded
+			cbFileType.Items.Clear();			
 			m_fileExtensionList.Clear();
 
-			List<string> sourceExtensions = new List<string>();
-			sourceExtensions.Add("cpp");
-			sourceExtensions.Add("c");
+			string[] filterItems = filterString.Split('|');
 
-			List<string> headerExtensions = new List<string>();
-			headerExtensions.Add("h");
-			headerExtensions.Add("hpp");
+			for(int i = 0; i < filterItems.Length; i += 2)
+			{
+				string filterDescription = filterItems[i];
+				string extensionList = filterItems[i + 1];
 
-			List<string> allFilesExtensions = new List<string>();
-			allFilesExtensions.Add("*.*");
+				string[] extensions = extensionList.Split(';');
 
-			m_fileExtensionList.Add(sourceExtensions);
-			m_fileExtensionList.Add(headerExtensions);
-			m_fileExtensionList.Add(allFilesExtensions);
+				List<string> justExtensions = new List<string>();
 
+				foreach(string starExt in extensions)
+				{
+					string ext = "";
+					if(starExt == "*.*")
+					{
+						ext = starExt;
+					}
+					else
+					{
+						ext = starExt.Substring(2);
+					}
+					
+					justExtensions.Add(ext);
+				}
 
-			cbFileType.Items.AddRange(m_fileTypeStrings);
+				cbFileType.Items.Add(filterDescription);
+				m_fileExtensionList.Add(justExtensions);
+			}
+
+			if(!cbFileType.Items.Contains(m_allFilesFilter))
+			{
+				cbFileType.Items.Add(m_allFilesFilter);
+
+				List<string> allFilesExtension = new List<string>();
+				allFilesExtension.Add("*.*");
+
+				m_fileExtensionList.Add(allFilesExtension);
+
+			}
+
+			m_filterAllFilesIndex = cbFileType.Items.IndexOf(m_allFilesFilter);
+
 			cbFileType.SelectedIndex = 0;
-
-			m_filterAllFilesIndex = cbFileType.Items.IndexOf(m_fileTypeStrings[2]);
 
 			if(m_openMode)
 			{
@@ -402,7 +424,12 @@ namespace Chameleon.GUI
 				return;
 			}
 
-			List<string> currentFilterExtensions = m_fileExtensionList[m_currentFilterIndex];			
+			List<string> currentFilterExtensions = m_fileExtensionList[m_currentFilterIndex];		
+	
+			if(currentFilterExtensions.Count == 0)
+			{
+				return;
+			}
 
 			int currentFileIconIndex = 0;
 

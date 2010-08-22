@@ -26,6 +26,8 @@ namespace Chameleon.GUI
 
 		private List<CodeRuleError> m_ruleErrors;
 
+		private List<string> m_cppExtensions;
+
 		#endregion
 
 
@@ -93,9 +95,10 @@ namespace Chameleon.GUI
 			m_autoAddMatchedBrace = true;
 			m_lastCharAdded = char.MinValue;
 
+			m_cppExtensions = new List<string>(){"c", "cpp", "h", "hpp"};
+
 
 			m_ruleErrors = new List<CodeRuleError>();
-
 
 			NativeInterface.SetMouseDwellTime(500);
 
@@ -141,7 +144,7 @@ namespace Chameleon.GUI
 			}
 		}
 
-		public void SetDefaultEditorStyles()
+		public void SetCPPEditorStyles()
 		{
 			this.ConfigurationManager.Language = "cpp";
 
@@ -196,6 +199,23 @@ namespace Chameleon.GUI
 			Indicators[0].Color = Color.Red;
 		}
 
+		public void SetPlainTextEditorStyles()
+		{
+			this.ConfigurationManager.Language = "";
+
+			Styles.ClearAll();
+
+			IsBraceMatching = false;
+
+			Margins.Margin0.Type = MarginType.Number;
+			Margins.Margin0.Width = 40;
+
+			Indentation.IndentWidth = 4;
+
+			Styles.Default.FontName = "Courier New";
+			Styles.Default.Size = 10.0f;
+		}
+
 		public void ResetEditor()
 		{
 			Text = string.Empty;
@@ -213,6 +233,9 @@ namespace Chameleon.GUI
 			m_fileInfo.Filename.Assign(fileInfo.Filename);
 			this.FileLocation = fileInfo.Location;
 
+			UpdateSyntaxHighlighting();
+
+
 			string filename = Path.GetFileName(this.Filename);
 
 			string indicator = (this.FileLocation == FileLocation.Local) ? "L" : "R";
@@ -225,6 +248,19 @@ namespace Chameleon.GUI
 			UndoRedo.EmptyUndoBuffer();
 		}
 
+		private void UpdateSyntaxHighlighting()
+		{
+			string ext = m_fileInfo.Filename.Extension;
+
+			if(m_cppExtensions.Contains(ext))
+			{
+				SetCPPEditorStyles();
+			}
+			else
+			{
+				SetPlainTextEditorStyles();
+			}
+		}
 		public bool HasBeenSaved()
 		{
 			string filename = m_fileInfo.Filename.FullName;
@@ -236,10 +272,11 @@ namespace Chameleon.GUI
 
 		public void SetFileSaved(string filename, FileLocation location)
 		{
-			//UndoRedo.EmptyUndoBuffer();
 			this.FileLocation = location;
 			this.Filename = filename;
 			this.Modified = false;
+
+			UpdateSyntaxHighlighting();
 		}
 
 		protected override void OnCharAdded(CharAddedEventArgs e)

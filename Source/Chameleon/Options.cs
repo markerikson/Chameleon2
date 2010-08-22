@@ -148,7 +148,7 @@ namespace Chameleon
 
 		public string StudentID = "s1278644";
 
-		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.NoFeature;
+		public ChameleonFeatures PermittedFeatures = (ChameleonFeatures)0;
 
 		public string LastHostname = "";
 		public string LastUsername = "";

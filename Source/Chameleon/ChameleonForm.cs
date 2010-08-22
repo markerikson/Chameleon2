@@ -78,8 +78,24 @@ namespace Chameleon
 			m_astyle = new AStyleInterface();
 			m_astyle.SetDefaultChameleonStyleOptions();
 
-			Singleton<RemoteFileDialog>.Instance.Networking = ChameleonNetworking.Instance;
+			RemoteFileDialog rfd = Singleton<RemoteFileDialog>.Instance;
+			rfd.Networking = ChameleonNetworking.Instance;
 
+			/*
+			string cppSourceFilter = "C++ source files (*.c, *.cpp)";
+			string cppHeaderFilter = "C++ header files (*.h, *.hpp)";
+
+			List<string> sourceExtensions = new List<string>();
+			sourceExtensions.Add("cpp");
+			sourceExtensions.Add("c");
+
+			List<string> headerExtensions = new List<string>();
+			headerExtensions.Add("h");
+			headerExtensions.Add("hpp");
+
+			rfd.AddFileType(cppSourceFilter, sourceExtensions);
+			rfd.AddFileType(cppHeaderFilter, headerExtensions);
+			*/
 			/*
 			string[] featureNames = Enum.GetNames(typeof(ChameleonFeatures));
 

@@ -81,8 +81,6 @@ namespace Chameleon.GUI
 		private Dictionary<ChameleonEditor, FATabStripItem> m_editorsToTabs;
 		private Dictionary<FATabStripItem, ChameleonEditor> m_tabsToEditors;
 
-		private static Dictionary<string, string> m_snippets;
-
 		private List<string> m_tempFiles;
 
 		private CodeRuleManager m_ruleManager;
@@ -119,11 +117,6 @@ namespace Chameleon.GUI
 			sb.Append(filterAllFiles);
 
 			m_fileFilter = sb.ToString();
-
-			m_snippets = new Dictionary<string, string>();
-			m_snippets["for"] = "f";
-			m_snippets["while"] = "w";
-			m_snippets["if"] = "if";
 		}
 
 		
@@ -234,7 +227,7 @@ namespace Chameleon.GUI
 			Configuration config = new Configuration(tr, "cpp");
 			editor.ConfigurationManager.Configure(config);
 
-			editor.SetDefaultEditorStyles();
+			editor.SetCPPEditorStyles();
 			editor.Dock = DockStyle.Fill;
 
 			FATabStripItem tabItem = new FATabStripItem("empty tab title", editor);
@@ -510,7 +503,7 @@ namespace Chameleon.GUI
 				if(doSaveAs)
 				{
 					RemoteFileDialog rfd = RemoteFileDialog.Instance;
-					rfd.Prepare(false, "");
+					rfd.Prepare(false, m_fileFilter);//, "");
 
 					DialogResult dr = rfd.ShowDialog();
 
@@ -674,7 +667,7 @@ namespace Chameleon.GUI
 			{
 				RemoteFileDialog rfd = RemoteFileDialog.Instance;
 
-				rfd.Prepare(true, "");
+				rfd.Prepare(true, m_fileFilter);//, "");
 				DialogResult dr = rfd.ShowDialog();
 
 				if(dr == DialogResult.OK)
