@@ -16,23 +16,20 @@ namespace Chameleon.Network
 
 	public class Networking
 	{
-		private SSH2Connection m_conn;		
-		private SFTPConnection m_sftp;
+		#region Private fields
+		private SSH2Connection m_conn;
+		private SFTPConnection m_sftp;		
 		
 		public static readonly string StartToken = "St_Ar_Tt_oK_eN";
 		public static readonly string EndToken = "En_Dt_oK_eN";
 
 		private static List<string> m_dirsToSkip;
 
-		static Networking()
-		{
-			m_dirsToSkip = new List<string>();
-
-			m_dirsToSkip.Add(".");
-			m_dirsToSkip.Add("..");
-		}
-
 		private Dictionary<string, SSHChannel> m_shells;
+
+		#endregion
+
+		#region Properties
 
 		public bool IsConnected
 		{
@@ -56,11 +53,29 @@ namespace Chameleon.Network
 			set { m_conn = value; }
 		}
 
+		public SFTPConnection Sftp
+		{
+			get { return m_sftp; }
+			set { m_sftp = value; }
+		}
+
+		#endregion
+
+		#region Constructors
+		static Networking()
+		{
+			m_dirsToSkip = new List<string>();
+
+			m_dirsToSkip.Add(".");
+			m_dirsToSkip.Add("..");
+		}
 
 		protected Networking()
 		{
 			m_shells = new Dictionary<string, SSHChannel>();
 		}
+
+		#endregion
 
 
 		public bool Connect(string host, string username, string password)
@@ -116,7 +131,7 @@ namespace Chameleon.Network
 			
 			m_conn = null;
 
-			m_sftp = null;
+			Sftp = null;
 
 			m_shells.Clear();
 		}
@@ -129,7 +144,7 @@ namespace Chameleon.Network
 
 			MemoryStream ms = new MemoryStream();
 
-			m_sftp.get(filename, ms);
+			Sftp.get(filename, ms);
 
 			contents = Encoding.ASCII.GetString(ms.ToArray());
 		}
@@ -145,7 +160,7 @@ namespace Chameleon.Network
 			ms.Write(bytes, 0, bytes.Length);
 			ms.Position = 0;
 
-			m_sftp.put(ms, destString);
+			Sftp.put(ms, destString);
 		}
 
 		public FilePath GetUserHomeDirectory()
@@ -153,7 +168,7 @@ namespace Chameleon.Network
 			EnsureSFTPConnection();
 
 			FilePath home = new FilePath();
-			home.AssignDir(m_sftp.Home, PathFormat.Unix);
+			home.AssignDir(Sftp.Home, PathFormat.Unix);
 
 			return home;
 		}
@@ -164,9 +179,11 @@ namespace Chameleon.Network
 			EnsureSFTPConnection();
 
 			string path = folderToList.GetFullPath();
-			List<LsEntry> files = m_sftp.ls(path);
+			List<LsEntry> files = Sftp.ls(path);
 
 			DirectoryListing dl = new DirectoryListing();
+
+			dl.directoryName = folderToList;
 
 			foreach(LsEntry lse in files)
 			{
@@ -187,8 +204,15 @@ namespace Chameleon.Network
 				}
 			}
 
-
 			return dl;
+		}
+
+		public void DeleteFile(FilePath fileToDelete)
+		{
+			EnsureSFTPConnection();
+
+			string filename = fileToDelete.GetFullPath();
+			m_sftp.rm(filename);
 		}
 
 		private void EnsureSFTPConnection()
@@ -198,10 +222,10 @@ namespace Chameleon.Network
 				throw new Exception("Can't use SFTP if not connected");
 			}
 
-			if(m_sftp == null || !m_sftp.IsConnected)
+			if(Sftp == null || !Sftp.IsConnected)
 			{
-				m_sftp = new SFTPConnection(m_conn);
-				m_sftp.StartSFTPSession();
+				Sftp = new SFTPConnection(m_conn);
+				Sftp.StartSFTPSession();
 			}
 		}
 

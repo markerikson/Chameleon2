@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PSTaskDialog">
+      <HintPath>..\Chameleon\DLLs\PSTaskDialog.dll</HintPath>
+    </Reference>
     <Reference Include="Routrek.Granados">
       <HintPath>..\Chameleon\DLLs\Routrek.Granados.dll</HintPath>
     </Reference>

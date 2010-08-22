@@ -16,6 +16,7 @@ namespace Chameleon.Util
 	{
 		public List<string> dirNames;
 		public List<string> fileNames;
+		public FilePath directoryName;
 
 		public DirectoryListing()
 		{

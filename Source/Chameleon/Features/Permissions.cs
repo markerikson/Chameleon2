@@ -13,6 +13,7 @@ namespace Chameleon.Features
 		Feature1				= 1 << 0,
 		Feature2				= 1 << 1,
 		DragDropSnippets		= 1 << 2,
+		Feature3				= 1 << 3,
 	}
 
 	public class Permissions

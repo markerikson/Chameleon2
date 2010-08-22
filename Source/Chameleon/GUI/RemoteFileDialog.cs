@@ -168,7 +168,7 @@ namespace Chameleon.GUI
 				}
 			}
 
-			string path = m_currentPath.GetPath(PathReturnType.NoSeparator, PathFormat.Unix);
+			string path = m_currentPath.GetPath(PathReturnType.GetSeparator, PathFormat.Unix);
 			ShowDirectory(path, false, false);
 
 		}
@@ -310,33 +310,38 @@ namespace Chameleon.GUI
 
 			string[] filterItems = filterString.Split('|');
 
-			for(int i = 0; i < filterItems.Length; i += 2)
+			if(filterItems.Length % 2 == 0)
 			{
-				string filterDescription = filterItems[i];
-				string extensionList = filterItems[i + 1];
-
-				string[] extensions = extensionList.Split(';');
-
-				List<string> justExtensions = new List<string>();
-
-				foreach(string starExt in extensions)
+				for(int i = 0; i < filterItems.Length; i += 2)
 				{
-					string ext = "";
-					if(starExt == "*.*")
-					{
-						ext = starExt;
-					}
-					else
-					{
-						ext = starExt.Substring(2);
-					}
-					
-					justExtensions.Add(ext);
-				}
+					string filterDescription = filterItems[i];
+					string extensionList = filterItems[i + 1];
 
-				cbFileType.Items.Add(filterDescription);
-				m_fileExtensionList.Add(justExtensions);
+					string[] extensions = extensionList.Split(';');
+
+					List<string> justExtensions = new List<string>();
+
+					foreach(string starExt in extensions)
+					{
+						string ext = "";
+						if(starExt == "*.*")
+						{
+							ext = starExt;
+						}
+						else
+						{
+							ext = starExt.Substring(2);
+						}
+
+						justExtensions.Add(ext);
+					}
+
+					cbFileType.Items.Add(filterDescription);
+					m_fileExtensionList.Add(justExtensions);
+				}
 			}
+
+			
 
 			if(!cbFileType.Items.Contains(m_allFilesFilter))
 			{
@@ -467,7 +472,16 @@ namespace Chameleon.GUI
 
 		private void SaveSelectedFilename(string filename)
 		{
-			m_selectedFile.Assign(m_currentPath.GetPath(), filename, PathFormat.Unix);
+			if(m_openMode && m_folderMode)
+			{
+				m_selectedFile.Assign(m_currentPath);
+				m_selectedFile.AppendDir(filename);
+			}
+			else
+			{
+				m_selectedFile.Assign(m_currentPath.GetPath(), filename, PathFormat.Unix);
+			}
+			
 
 			this.DialogResult = DialogResult.OK;
 		}

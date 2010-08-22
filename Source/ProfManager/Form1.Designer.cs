@@ -47,7 +47,7 @@
 			this.btnDisconnect = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.txtSelectedFolder = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.btnFolderLocal = new System.Windows.Forms.Button();
 			this.btnFolderRemote = new System.Windows.Forms.Button();
@@ -77,6 +77,7 @@
 			this.btnConnect.Size = new System.Drawing.Size(24, 24);
 			this.btnConnect.TabIndex = 0;
 			this.btnConnect.UseVisualStyleBackColor = true;
+			this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
 			// 
 			// label1
 			// 
@@ -114,10 +115,13 @@
 			// 
 			// txtPassword
 			// 
+			this.txtPassword.AcceptsReturn = true;
 			this.txtPassword.Location = new System.Drawing.Point(435, 5);
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.Size = new System.Drawing.Size(100, 20);
 			this.txtPassword.TabIndex = 6;
+			this.txtPassword.UseSystemPasswordChar = true;
+			this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
 			// 
 			// label3
 			// 
@@ -138,6 +142,7 @@
 			this.btnDisconnect.Size = new System.Drawing.Size(24, 24);
 			this.btnDisconnect.TabIndex = 7;
 			this.btnDisconnect.UseVisualStyleBackColor = true;
+			this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
 			// 
 			// statusStrip1
 			// 
@@ -155,13 +160,13 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
 			this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
 			// 
-			// textBox1
+			// txtSelectedFolder
 			// 
-			this.textBox1.Location = new System.Drawing.Point(125, 45);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(245, 20);
-			this.textBox1.TabIndex = 9;
+			this.txtSelectedFolder.Location = new System.Drawing.Point(125, 45);
+			this.txtSelectedFolder.Name = "txtSelectedFolder";
+			this.txtSelectedFolder.ReadOnly = true;
+			this.txtSelectedFolder.Size = new System.Drawing.Size(245, 20);
+			this.txtSelectedFolder.TabIndex = 9;
 			// 
 			// label4
 			// 
@@ -181,6 +186,7 @@
 			this.btnFolderLocal.TabIndex = 12;
 			this.btnFolderLocal.Text = "Local";
 			this.btnFolderLocal.UseVisualStyleBackColor = true;
+			this.btnFolderLocal.Click += new System.EventHandler(this.btnFolderLocal_Click);
 			// 
 			// btnFolderRemote
 			// 
@@ -191,6 +197,7 @@
 			this.btnFolderRemote.TabIndex = 13;
 			this.btnFolderRemote.Text = "Remote";
 			this.btnFolderRemote.UseVisualStyleBackColor = true;
+			this.btnFolderRemote.Click += new System.EventHandler(this.btnFolderRemote_Click);
 			// 
 			// btnAddStudent
 			// 
@@ -221,6 +228,7 @@
 			this.lbFeatures.Name = "lbFeatures";
 			this.lbFeatures.Size = new System.Drawing.Size(286, 157);
 			this.lbFeatures.TabIndex = 16;
+			this.lbFeatures.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lbFeatures_ItemCheck);
 			// 
 			// btnRemoveGroup
 			// 
@@ -370,7 +378,7 @@
 			this.Controls.Add(this.btnFolderLocal);
 			this.Controls.Add(this.lvStudents);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.txtSelectedFolder);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.btnDisconnect);
 			this.Controls.Add(this.txtPassword);
@@ -402,7 +410,7 @@
 		private System.Windows.Forms.Button btnDisconnect;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox txtSelectedFolder;
 		private System.Windows.Forms.Label label4;
 		private ListViewEx.ListViewEx lvStudents;
 		private System.Windows.Forms.Button btnFolderLocal;
