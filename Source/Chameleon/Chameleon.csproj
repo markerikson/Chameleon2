@@ -120,6 +120,12 @@
     <Compile Include="Features\CodeRules\SingleCharVarsOnlyInLoopsRule.cs" />
     <Compile Include="Features\CppContext.cs" />
     <Compile Include="Features\Permissions.cs" />
+    <Compile Include="GUI\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\ChameleonEditor.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -162,6 +168,9 @@
     <EmbeddedResource Include="ChameleonForm.resx">
       <DependentUpon>ChameleonForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\EditorContainer.resx">
       <DependentUpon>EditorContainer.cs</DependentUpon>
     </EmbeddedResource>
@@ -201,7 +210,6 @@
     <EmbeddedResource Include="Graphics\openremote.png" />
     <EmbeddedResource Include="Graphics\savefile.png" />
     <EmbeddedResource Include="ConfigCPP.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="chameleon.ico" />

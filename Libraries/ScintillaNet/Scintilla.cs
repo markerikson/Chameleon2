@@ -25,7 +25,7 @@ namespace ScintillaNet
 	/// <summary>
 	/// Represents a Scintilla text editor control.
 	/// </summary>
-	[Designer(typeof(ScintillaDesigner)), Docking(DockingBehavior.Ask)]
+	//[Designer(typeof(ScintillaDesigner)), Docking(DockingBehavior.Ask)]
 	[DefaultBindingProperty("Text"), DefaultProperty("Text"), DefaultEvent("DocumentChanged")]
 	public partial class Scintilla : System.Windows.Forms.Control, INativeScintilla, ISupportInitialize
 	{

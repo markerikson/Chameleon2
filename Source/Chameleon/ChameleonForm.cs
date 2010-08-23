@@ -430,7 +430,8 @@ namespace Chameleon
 
 		private void menuHelpAbout_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Chameleon 2.0 alpha 0.0002");
+			AboutDialog ad = new AboutDialog();
+			ad.ShowDialog();
 		}
 
 		#endregion
@@ -485,6 +486,10 @@ namespace Chameleon
 				toolHostConnect.Enabled = false;
 				toolHostDisconnect.Enabled = true;
 
+				btnOpenRemote.Enabled = true;
+				menuFileOpenRemote.Enabled = true;
+				menuFileSaveAsRemote.Enabled = true;
+
 				toolStatusConnected.Text = "Connected";
 			}
 		}
@@ -501,6 +506,10 @@ namespace Chameleon
 				toolTextPassword.Enabled = true;
 				toolHostConnect.Enabled = true;
 				toolHostDisconnect.Enabled = false;
+
+				btnOpenRemote.Enabled = false;
+				menuFileOpenRemote.Enabled = false;
+				menuFileSaveAsRemote.Enabled = false;
 
 				toolStatusConnected.Text = "Disconnected";
 			}
@@ -535,19 +544,8 @@ namespace Chameleon
 				toolStrip1.Items.RemoveAt(indexAfterSave);
 			}
 
-			if(perms.HasFlag(ChameleonFeatures.Feature1))
-			{
-				toolStrip1.Items.Add(new ToolStripSeparator());
-				toolStrip1.Items.Add(btnDummyFeature1);
-			}
-
-			if(perms.HasFlag(ChameleonFeatures.Feature2))
-			{
-				toolStrip1.Items.Add(new ToolStripSeparator());
-				toolStrip1.Items.Add(btnDummyFeature2);
-			}
-
-			splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
+			// TODO We'll just assume this is permitted for now
+			//splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
 		}
 
 		#endregion
