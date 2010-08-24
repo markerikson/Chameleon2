@@ -21,6 +21,8 @@ namespace Chameleon.Network
 		Finished,
 	}
 
+
+
 	public class ConsoleReader : ISSHConnectionEventReceiver, ISSHChannelEventReceiver
 	{
 		public SSHConnection _conn;

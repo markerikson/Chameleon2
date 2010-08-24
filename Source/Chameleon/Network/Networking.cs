@@ -87,6 +87,7 @@ namespace Chameleon.Network
 
 			Socket s;
 
+
 			try
 			{
 				s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

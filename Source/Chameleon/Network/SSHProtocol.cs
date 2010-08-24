@@ -89,6 +89,7 @@ namespace SSHClient
 
 		#region private fields
 		TerminalEmulator m_term;
+		private bool m_firstTime;
 
 		#endregion
 		#region Public Constructors
@@ -96,74 +97,28 @@ namespace SSHClient
 		{
 
 			m_term = term;
+			m_firstTime = true;
 		}
 		#endregion
 		#region Public Methods
-		/*
-		public void setTerminalParams(string type, int rows, int cols)
-		{
-			_params = new SSHConnectionParameter();
-			TerminalName = type;
-            TerminalHeight = rows;
-            TerminalWidth = cols;
-		}
-
-		public void setProtocolParams(
-			AuthMethod authMethod,
-			string userName,
-			string pass,
-			string key,
-			bool SSH1)
-		{
-            if(userName==null)
-            	userName="";
-            if (userName == "") // can't do auto login without username
-                authMethod = AuthMethod.KeyboardInteractive;
-        	Username=userName;
-            
-            if(authMethod==AuthMethod.Password)
-            {
-                if(pass==null)
-            	    pass="";
-                if(pass=="")
-                {
-            	    AuthenticationType=AuthenticationType.KeyboardInteractive;
-                }
-                else
-                {
-            	    AuthenticationType=AuthenticationType.Password;
-            	    Password=pass;
-                }
-            }
-            if (SSH1)
-            {
-                Protocol = Routrek.SSHC.SSHProtocol.SSH1;
-            }
-            else
-            {
-                Protocol = Routrek.SSHC.SSHProtocol.SSH2;
-            }
-		}
-		*/
+		
 		public void RequestData (byte[] data)
 		{
 			_pf.Transmit(data, 0, data.Length);
 		}
-		/*
-		public void Connect (Socket s)
-		{
-			_params.WindowSize = 0x1000;
-			_conn = SSHConnection.Connect(_params, this, s);
-			_pf = _conn.OpenShell(this);
-			SSHConnectionInfo ci = _conn.ConnectionInfo;
-		}
-		*/
+
 		public void Connect()
 		{
 			_conn = ChameleonNetworking.Instance.Connection;
 
-			this.OnDataIndicated += m_term.IndicateData;
-			m_term.OnDataRequested += this.RequestData;
+			if(m_firstTime)
+			{
+				this.OnDataIndicated += m_term.IndicateData;
+				m_term.OnDataRequested += this.RequestData;
+
+				m_firstTime = false;
+			}
+			
 
 			m_term.Enabled = true;
 			_pf = _conn.OpenShell(this);
@@ -171,11 +126,9 @@ namespace SSHClient
 
 		public void Disconnect()
 		{
-			_pf.Close();
-
 			m_term.Enabled = false;
-			this.OnDataIndicated -= m_term.IndicateData;
-			m_term.OnDataRequested -= this.RequestData;
+
+			_pf.Close();			
 		}
 		
 		public void OnData(byte[] data, int offset, int length)
@@ -213,11 +166,9 @@ namespace SSHClient
 		}
 		public void OnChannelClosed()
 		{
-			//Debug.WriteLine("Channel closed");
-			//_conn.Disconnect("");
-			//_conn.AsyncReceive(this);
-
+			if(OnDisconnect != null) OnDisconnect();
 			Disconnect();
+			
 		}
 
 		public void OnChannelEOF()
@@ -231,7 +182,6 @@ namespace SSHClient
 		}
 		public void OnConnectionClosed() 
 		{
-			//Debug.WriteLine("Connection closed");.
             if (OnDisconnect != null) OnDisconnect();
 		}
 		public void OnUnknownMessage(byte type, byte[] data) 

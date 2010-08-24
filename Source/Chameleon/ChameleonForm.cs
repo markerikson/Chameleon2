@@ -74,6 +74,7 @@ namespace Chameleon
 			toolHostDisconnect.Enabled = false;
 
 			m_sshProtocol = new SSHProtocol(terminalEmulator1);
+			m_sshProtocol.OnDisconnect += new Action(SetDisconnectedUI);
 
 			m_astyle = new AStyleInterface();
 			m_astyle.SetDefaultChameleonStyleOptions();
@@ -81,45 +82,6 @@ namespace Chameleon
 			RemoteFileDialog rfd = Singleton<RemoteFileDialog>.Instance;
 			rfd.Networking = ChameleonNetworking.Instance;
 
-			/*
-			string cppSourceFilter = "C++ source files (*.c, *.cpp)";
-			string cppHeaderFilter = "C++ header files (*.h, *.hpp)";
-
-			List<string> sourceExtensions = new List<string>();
-			sourceExtensions.Add("cpp");
-			sourceExtensions.Add("c");
-
-			List<string> headerExtensions = new List<string>();
-			headerExtensions.Add("h");
-			headerExtensions.Add("hpp");
-
-			rfd.AddFileType(cppSourceFilter, sourceExtensions);
-			rfd.AddFileType(cppHeaderFilter, headerExtensions);
-			*/
-			/*
-			string[] featureNames = Enum.GetNames(typeof(ChameleonFeatures));
-
-			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
-
-			for(int i = 1; i < featureNames.Length; i++)
-			{
-				ToolStripMenuItem item = new ToolStripMenuItem();
-				item.Text = featureNames[i];
-
-				ChameleonFeatures feature;
-				Enum.TryParse<ChameleonFeatures>(featureNames[i], out feature);
-
-				if(perms.HasFlag(feature))
-				{
-					item.Checked = true;
-				}
-
-				item.CheckedChanged += new EventHandler(test1ToolStripMenuItem_CheckedChanged);
-				item.CheckOnClick = true;
-
-				menuFeatures.DropDownItems.Add(item);
-			}
-			*/
 			cmw = Singleton<CtagsManagerWrapper>.Instance;
 
 			cmw.FileParsed += new FileParsedDelegate(cmw_FileParsed);
@@ -139,6 +101,11 @@ namespace Chameleon
 
 			
 			AddSnippetGroups();
+		}
+
+		void m_sshProtocol_OnDisconnect()
+		{
+			DoDisconnect();
 		}
 		
 
@@ -498,9 +465,24 @@ namespace Chameleon
 		{
 			if(m_networking.IsConnected)
 			{
-				m_networking.Disconnect();
-				m_sshProtocol.Disconnect();
+				DoDisconnect();
 
+			}
+			
+		}
+
+		private void DoDisconnect()
+		{
+			m_networking.Disconnect();
+			m_sshProtocol.Disconnect();
+
+			SetDisconnectedUI();
+		}
+
+		private void SetDisconnectedUI()
+		{
+			Action updateUI = () =>
+			{
 				toolTextHost.Enabled = true;
 				toolTextUser.Enabled = true;
 				toolTextPassword.Enabled = true;
@@ -512,7 +494,9 @@ namespace Chameleon
 				menuFileSaveAsRemote.Enabled = false;
 
 				toolStatusConnected.Text = "Disconnected";
-			}
+			};
+
+			this.Invoke(updateUI);
 			
 		}
 		
@@ -574,123 +558,7 @@ namespace Chameleon
 
 			ShowPermittedUI();
 		}
-
-		private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
-		{
-			ListViewItem lvi = (ListViewItem)e.Item;
-
-			string itemName = (string)lvi.Tag;
-
-			if(string.IsNullOrEmpty(itemName))
-			{
-				return;
-			}
-
-			m_editors.StartDrag();
-
-			DataFormats.Format format = DataFormats.GetFormat("ChameleonSnippet");
-			DataObject dobj = new DataObject(format.Name, itemName);
-			DragDropEffects dde = DoDragDrop(dobj, DragDropEffects.Copy);
-
-			m_editors.EndDrag();
-		}
-
-		private void tagsByScopeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if(!parserInitialized)
-			{
-				return;
-			}
-
-			string text = m_editors.CurrentEditor.GetRange(0, m_editors.CurrentEditor.CurrentPos).Text;
-
-			List<string> fileScopes = cmw.GetScopesFromFile(m_editors.CurrentEditor.Filename);
-			LanguageWrapper lw = new LanguageWrapper();
-
-			foreach(String scope in fileScopes)
-			{
-				Console.WriteLine(scope);
-			}
-
-			string optiScope = lw.OptimizeScope(text);
-			string scopeName = cmw.GetScopeName(optiScope);
-			
-			List<CodeLite.Tag> tags = cmw.TagsFromFileAndScope(m_editors.CurrentEditor.Filename, scopeName);
-
-			if(tags.Count == 0)
-			{
-				MessageBox.Show("No tags!");
-				return;
-			}
-
-			StringBuilder sb = new StringBuilder();
-
-			foreach(Tag t in tags)
-			{
-				string line = string.Format("name: {0}, kind: {1}\n", t.name, t.kind);
-				sb.Append(line);
-			}
-
-			string message = sb.ToString();
-
-			MessageBox.Show(message);
-		}
-
-		private void localVariablesToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			LanguageWrapper lw = new LanguageWrapper();
-
-			string text = m_editors.CurrentEditor.Selection.Text;
-			int lineNum = m_editors.CurrentEditor.Lines.Current.Number;
-
-			Tag fn = cmw.FunctionFromFileLine(m_editors.CurrentEditor.Filename, lineNum, false);
-
-
-			List<Tag> tags = lw.GetLocalVariables(text, "", 0);
-
-			if(tags.Count == 0)
-			{
-				MessageBox.Show("No tags!");
-				return;
-			}
-			
-			StringBuilder sb = new StringBuilder();
-
-			
-			foreach(Tag t in tags)
-			{
-				string line = string.Format("name: {0}, kind: {1}\n", t.name, t.kind);
-				sb.Append(line);
-			}
-
-			string message = sb.ToString();
-
-			MessageBox.Show(message);
-			
-		}
-
-
-
-		private void parseExpressionToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ChameleonEditor ed = m_editors.CurrentEditor;
-
-			string lineText = ed.Lines.Current.Text;
-
-			Line currLine = ed.Lines.Current;
-
-			char chOpenBrace = '(';
-
-			int openPos = lineText.IndexOf(chOpenBrace);
-
-			int startPos = currLine.StartPosition + openPos;
-
-			int matchedPos = 0;
-			bool found = ed.MatchBraceForward(chOpenBrace, startPos, ref matchedPos);
-
-
-		}
-
+		
 		private void TestStringFunc(string text)
 		{
 			MessageBox.Show(text);

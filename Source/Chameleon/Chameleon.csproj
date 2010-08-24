@@ -199,6 +199,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Chameleon.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Graphics\refresh.png" />
     <None Include="Graphics\HomeHS.png" />
     <None Include="Graphics\upfolder.png" />
