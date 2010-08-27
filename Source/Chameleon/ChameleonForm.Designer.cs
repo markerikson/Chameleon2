@@ -363,6 +363,7 @@
 			this.menuFileExit.Name = "menuFileExit";
 			this.menuFileExit.Size = new System.Drawing.Size(230, 22);
 			this.menuFileExit.Text = "Exit";
+			this.menuFileExit.Click += new System.EventHandler(this.menuFileExit_Click);
 			// 
 			// menuEdit
 			// 

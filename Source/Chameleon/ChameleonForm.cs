@@ -339,6 +339,34 @@ namespace Chameleon
 		{
 			m_editors.CloseAllFiles();
 		}
+
+		private void menuFileExit_Click(object sender, EventArgs e)
+		{
+			this.Close();
+			/*
+			string message = "Save all files before exiting?";
+
+			DialogResult dr = MessageBox.Show(message, "Save?", MessageBoxButtons.YesNoCancel,
+												MessageBoxIcon.Question);
+
+			if(dr == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			bool exit = true;
+
+			if(dr == DialogResult.Yes)
+			{
+				exit = m_editors.CloseAllFiles();
+			}
+
+			if(exit)
+			{
+				this.Close();
+			}
+			*/
+		}
 		#endregion
 
 		#region Edit Menu handlers
@@ -575,6 +603,8 @@ namespace Chameleon
 			}
 		}
 		#endregion
+
+		
 
 		
 
