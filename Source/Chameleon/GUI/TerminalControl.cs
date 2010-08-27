@@ -3469,10 +3469,19 @@ namespace WalburySoftware
 				Actions       NextAction       = Actions.None;
 				Actions       StateExitAction  = Actions.None;
 				Actions       StateEntryAction = Actions.None;
+
+				// HACK Temporary hack to allow Backspace to work while doing console input
+				if(InString == "^H")
+				{
+					// backspace char, escape char, VT100 stuff
+					InString = "\b\x1B[K";
+				}
     
 				foreach (System.Char C in InString)
 				{
 					this.CurChar = C;
+
+					int ascii = (int)C;
    
 					// Get the next state and associated action based 
 					// on the current state and char event
