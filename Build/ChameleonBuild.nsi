@@ -37,8 +37,8 @@ Name Chameleon
 !define SHELLFOLDERS \
   "Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
   
-!define NETFXINSTALLERFOLDER "D:\Projects\Chameleon2\Build\"
-!define NETFXINSTALLERNAME "dotNetFx40_Full_setup.exe"
+!define NETFXINSTALLERFOLDER "S:\Dept\EG\Computer Science\CS1210\Chameleon 2\"
+!define NETFXINSTALLERNAME "dotNetFx40_Full_x86_x64.exe"
 !define NETFXINSTALLERPATH "${NETFXINSTALLERFOLDER}${NETFXINSTALLERNAME}"
 
 !define NETFXINSTALLERDOWNLOAD "http://www.microsoft.com/downloads/details.aspx?FamilyID=0a391abd-25c1-4fc0-919f-b21f31ab88b7&displaylang=en"
