@@ -1,0 +1,16 @@
+Prereqs
+-------
+1) .NET 4.0 is installed
+2) NSIS has been installed (run nsis-2.46-setup.exe)
+
+
+Build Steps
+-----------
+1) Compile Chameleon
+	- run "buildChameleon.bat".  This should pop up a command prompt, use subwcrev.exe to stamp the current Subversion repository version number into Chameleon's AssemblyInfo.cs file, and execute the MSBuild project/makefile "ChameleonBuild.proj".  All output files will be put in ".\Build\input".  
+
+2) Edit configuration file
+	- The configuration file ".\Build\input\Chameleon.xml" will be installed as the default settings.  Edit this file as necessary.
+	
+3) Build the installer
+	- With NSIS installed, right-click "ChameleonBuild.nsi" and select "Compile NSIS Script".  This should produce ".\Build\output\Chameleon[$VERSION]Setup.exe", where "[$VERSION]" is the current version major/minor together (such as "Chameleon20Setup.exe".

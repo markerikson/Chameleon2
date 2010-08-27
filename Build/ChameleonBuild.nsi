@@ -5,8 +5,8 @@ Name Chameleon
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSIONMAJOR 0
-!define VERSIONMINOR 5
+!define VERSIONMAJOR 2
+!define VERSIONMINOR 0
 !define VERSION "${VERSIONMAJOR}.${VERSIONMINOR}"
 !define SHORTVERSION "${VERSIONMAJOR}${VERSIONMINOR}"
 
@@ -33,6 +33,9 @@ Name Chameleon
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "ISquared Software\Chameleon"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-colorful.ico"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
+
+!define SHELLFOLDERS \
+  "Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
 
 # Included files
 !include MultiUser.nsh
@@ -74,6 +77,8 @@ ShowUninstDetails show
 
 RequestExecutionLevel user
 
+var ChameleonData
+
 # Installer sections
 Section -Main SEC0000
     SetOutPath $TEMP
@@ -110,7 +115,7 @@ Section -Main SEC0000
     File input\wxmsw290u_html.dll
     File input\wxmsw290u_xrc.dll
     
-    var ChameleonData
+    
      # Find the user's AppData directory
     ReadRegStr $0 HKCU "${SHELLFOLDERS}" AppData
     StrCmp $0 "" 0 +2
@@ -160,7 +165,6 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
-    var ChameleonData
      # Find the user's AppData directory
     ReadRegStr $0 HKCU "${SHELLFOLDERS}" AppData
     StrCmp $0 "" 0 +2
