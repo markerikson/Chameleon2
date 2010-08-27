@@ -36,11 +36,19 @@ Name Chameleon
 
 !define SHELLFOLDERS \
   "Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+  
+!define NETFXINSTALLERFOLDER "D:\Projects\Chameleon2\Build\"
+!define NETFXINSTALLERNAME "dotNetFx40_Full_setup.exe"
+!define NETFXINSTALLERPATH "${NETFXINSTALLERFOLDER}${NETFXINSTALLERNAME}"
+
+!define NETFXINSTALLERDOWNLOAD "http://www.microsoft.com/downloads/details.aspx?FamilyID=0a391abd-25c1-4fc0-919f-b21f31ab88b7&displaylang=en"
 
 # Included files
 !include MultiUser.nsh
 !include Sections.nsh
 !include MUI2.nsh
+!include LogicLib.nsh
+!include nsDialogs.nsh
 
 # Variables
 Var StartMenuGroup
@@ -51,6 +59,7 @@ Var StartMenuGroup
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
+Page custom noNetFxPage
 !insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
@@ -64,7 +73,7 @@ InstallDir Chameleon
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-VIProductVersion 0.5.0.0
+VIProductVersion 2.0.0.0
 VIAddVersionKey ProductName Chameleon
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
@@ -138,7 +147,10 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\ChameleonUninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     SetOutPath $SMPROGRAMS\$StartMenuGroup
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Chameleon.lnk" $INSTDIR\Chameleon.exe
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\ChameleonUninstall.exe
+    SetOutPath $DESKTOP
+    CreateShortcut "$DESKTOP\Chameleon.lnk" $INSTDIR\Chameleon.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
@@ -204,6 +216,8 @@ SectionEnd
 Section -un.post UNSEC0001
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall $(^Name).lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Chameleon.lnk"
+    Delete /REBOOTOK "$DESKTOP\Chameleon.lnk"
     Delete /REBOOTOK $INSTDIR\ChameleonUninstall.exe
     DeleteRegValue HKLM "${REGKEY}" StartMenuGroup
     DeleteRegValue HKLM "${REGKEY}" Path
@@ -226,3 +240,64 @@ Function un.onInit
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
 
+Var Dialog
+Var Label
+Var Link 
+
+Var LinkText
+
+Function noNetFxPage
+    Call IsNetFx40Installed
+    Pop $0
+    
+    ${If} $0 == "1"
+        Abort
+    ${EndIf}
+    
+    nsDialogs::Create 1018
+    Pop $Dialog
+    
+    ${If} ${FileExists} ${NETFXINSTALLERPATH}
+        StrCpy $LinkText ${NETFXINSTALLERPATH}
+    ${Else}
+        StrCpy $LinkText "${NETFXINSTALLERNAME}"
+    ${EndIf}
+    
+    ${NSD_CreateLabel} 0 0 100% 24u "Chameleon requires the .NET Framework 4.0, which is not currently installed.$\nPlease install it using this file:"
+    Pop $Label
+    
+    ${NSD_CreateLink} 0 40 100% 24u $LinkText
+    Pop $Link
+    
+    ${NSD_OnClick} $LINK onClickNetFxLink
+    
+    nsDialogs::Show
+FunctionEnd
+    
+    
+Function onClickNetFxLink
+    #IfFileExists ${NETFXINSTALLERPATH} +2
+    #    ExecShell open ${NETFXINSTALLERDOWNLOAD}
+    #ExecShell open ${NETFXINSTALLERPATH}
+    
+    ${If} ${FileExists} ${NETFXINSTALLERPATH}
+        ExecShell open ${NETFXINSTALLERPATH}
+    ${Else}
+        ExecShell open ${NETFXINSTALLERDOWNLOAD}
+    ${EndIf}
+
+    
+FunctionEnd
+
+
+Function IsNetFx40Installed
+#Check is Net 4.0 is install
+#Push 1 for true, Push 0 for false
+    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" Install
+    
+    ${If} $0 == ""
+        Push 0
+    ${Else}
+        Push 1
+    ${EndIf}
+FunctionEnd
