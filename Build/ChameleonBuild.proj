@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="build">
 <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-<Import Project="$(MSBuildExtensionsPath)\SvnTools.Targets\SvnTools.Tasks.VersionManagement.Tasks" />
 <Target Name="build">
-<CreateItem Include="..\Source\Chameleon\Properties\AssemblyInfo.cs">
-	<Output TaskParameter="Include" ItemName="AssemblyInfoFiles" />
-</CreateItem>
-<UpdateVersion AssemblyInfoFiles="@(AssemblyInfoFiles)" />
 <MSBuild Projects="..\Source\Chameleon\Chameleon.sln" Properties="Configuration=Release;OutputPath=$(MSBuildProjectDirectory)\input" />
-<RevertVersionChange AssemblyInfoFiles="@(AssemblyInfoFiles)" />
 </Target>
 </Project>
