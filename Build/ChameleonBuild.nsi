@@ -76,6 +76,14 @@ RequestExecutionLevel user
 
 # Installer sections
 Section -Main SEC0000
+    SetOutPath $TEMP
+    File vcredist_2010x86.exe
+    DetailPrint "Installing Visual C++ runtime"
+    ExecWait '"$TEMP\vcredist_2010x86.exe" /passive /norestart' $0
+    Delete "$TEMP\vcredist_2010x86.exe"
+
+
+
     SetOutPath $INSTDIR
     SetOverwrite on
     File input\ANTLRParser.dll
