@@ -36,7 +36,7 @@ namespace WalburySoftware
 		#region Public Methods
 		public void IndicateData (byte[] data)
 		{
-	            string sReceived = Encoding.Default.GetString(data, 0, data.Length);
+	            string sReceived = Encoding.UTF8.GetString(data, 0, data.Length);
 				this.Invoke(this.RxdTextEvent, new System.String[] {System.String.Copy (sReceived)});
 				this.Invoke(this.RefreshEvent);
 		}
