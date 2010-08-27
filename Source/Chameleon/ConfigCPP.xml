@@ -67,7 +67,7 @@
 				$end$$selected$
 				}
 			</Snippet>
-
+			<!--
 			<Snippet Shortcut="do" longName="Do-while loop" IsSurroundsWith="true" category="Control Flow">
 				do
 				{
@@ -103,8 +103,12 @@
 				$end$
 				}
 			</Snippet>
-
+			-->
+			
 			<Snippet Shortcut="simpleTemplate" longName="Simple C++ Template" category="Templates">
+			//  Author:
+			//    Date:
+			// Purpose:
 			#include &lt;iostream&gt;
 			#include &lt;string&gt;
 
