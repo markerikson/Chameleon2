@@ -5,10 +5,14 @@ Name Chameleon
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSIONMAJOR 2
-!define VERSIONMINOR 0
+!include "chameleonVersionDefinition.txt"
+#!define VERSIONMAJOR 2
+#!define VERSIONMINOR 0
 !define VERSION "${VERSIONMAJOR}.${VERSIONMINOR}"
-!define SHORTVERSION "${VERSIONMAJOR}${VERSIONMINOR}"
+!define SHORTVERSION "${VERSIONMAJOR}.${VERSIONMINOR}.${VERSIONBUG}"
+!define VERSIONFULL ${VERSIONMAJOR}.${VERSIONMINOR}.${VERSIONBUG}.${VERSIONSVN}
+
+!echo ${VERSIONFULL}
 
 !define COMPANY "ISquared Software"
 !define URL http://www.isquaredsoftware.com
@@ -38,7 +42,7 @@ Name Chameleon
   "Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
   
 !define NETFXINSTALLERFOLDER "S:\Dept\EG\Computer Science\CS1210\Chameleon 2\"
-!define NETFXINSTALLERNAME "dotNetFx40_Full_x86_x64.exe"
+!define NETFXINSTALLERNAME "dotNetFx40_Full_setup.exe" #"dotNetFx40_Full_x86_x64.exe"
 !define NETFXINSTALLERPATH "${NETFXINSTALLERFOLDER}${NETFXINSTALLERNAME}"
 
 !define NETFXINSTALLERDOWNLOAD "http://www.microsoft.com/downloads/details.aspx?FamilyID=0a391abd-25c1-4fc0-919f-b21f31ab88b7&displaylang=en"
@@ -68,17 +72,17 @@ Page custom noNetFxPage
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile "output\Chameleon${SHORTVERSION}Setup.exe"
+OutFile "output\ChameleonSetup${SHORTVERSION}.exe"
 InstallDir Chameleon
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-VIProductVersion 2.0.0.0
+VIProductVersion ${VERSIONFULL}
 VIAddVersionKey ProductName Chameleon
-VIAddVersionKey ProductVersion "${VERSION}"
+VIAddVersionKey ProductVersion "${VERSIONFULL}"
 VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
-VIAddVersionKey FileVersion "${VERSION}"
+VIAddVersionKey FileVersion "${VERSIONFULL}"
 VIAddVersionKey FileDescription ""
 VIAddVersionKey LegalCopyright ""
 InstallDirRegKey HKLM "${REGKEY}" Path
@@ -257,7 +261,8 @@ Function noNetFxPage
     nsDialogs::Create 1018
     Pop $Dialog
     
-    ${If} ${FileExists} ${NETFXINSTALLERPATH}
+    
+    ${If} ${FileExists} "'${NETFXINSTALLERPATH}'"
         StrCpy $LinkText ${NETFXINSTALLERPATH}
     ${Else}
         StrCpy $LinkText "${NETFXINSTALLERNAME}"
@@ -280,10 +285,10 @@ Function onClickNetFxLink
     #    ExecShell open ${NETFXINSTALLERDOWNLOAD}
     #ExecShell open ${NETFXINSTALLERPATH}
     
-    ${If} ${FileExists} ${NETFXINSTALLERPATH}
-        ExecShell open ${NETFXINSTALLERPATH}
+    ${If} ${FileExists} "'${NETFXINSTALLERPATH}'"
+        ExecShell open "'${NETFXINSTALLERPATH}'"
     ${Else}
-        ExecShell open ${NETFXINSTALLERDOWNLOAD}
+        ExecShell open "${NETFXINSTALLERDOWNLOAD}"
     ${EndIf}
 
     

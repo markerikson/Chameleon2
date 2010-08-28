@@ -5,3 +5,5 @@ subwcrev . %props%\AssemblyInfo_template.cs %props%\AssemblyInfo.cs
 %WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe ChameleonBuild.proj
 copy  %props%\AssemblyInfo.cs.bak %props%\AssemblyInfo.cs /Y
 del %props%\AssemblyInfo.cs.bak
+
+VersionExtractor.exe
