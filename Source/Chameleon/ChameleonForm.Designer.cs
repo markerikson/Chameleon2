@@ -37,7 +37,6 @@
 			this.naviBar1 = new Guifreaks.NavigationBar.NaviBar(this.components);
 			this.naviBand1 = new Guifreaks.NavigationBar.NaviBand(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +87,7 @@
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -217,21 +217,6 @@
 			this.splitEditorTerminal.Size = new System.Drawing.Size(648, 453);
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
-			// 
-			// terminalEmulator1
-			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 80;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
 			// menuStrip1
 			// 
@@ -504,6 +489,7 @@
 			this.btnNewFile.Size = new System.Drawing.Size(35, 35);
 			this.btnNewFile.Text = "New";
 			this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnNewFile.ToolTipText = "New blank text file";
 			this.btnNewFile.Click += new System.EventHandler(this.OnFileNewBlank);
 			// 
 			// btnOpenLocal
@@ -514,6 +500,7 @@
 			this.btnOpenLocal.Size = new System.Drawing.Size(57, 35);
 			this.btnOpenLocal.Text = "Open (L)";
 			this.btnOpenLocal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnOpenLocal.ToolTipText = "Open a file on this computer";
 			this.btnOpenLocal.Click += new System.EventHandler(this.OnFileOpenLocal);
 			// 
 			// btnOpenRemote
@@ -525,6 +512,7 @@
 			this.btnOpenRemote.Size = new System.Drawing.Size(58, 35);
 			this.btnOpenRemote.Text = "Open (R)";
 			this.btnOpenRemote.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnOpenRemote.ToolTipText = "Open a file on another computer";
 			this.btnOpenRemote.Click += new System.EventHandler(this.OnFileOpenRemote);
 			// 
 			// btnSave
@@ -539,27 +527,31 @@
 			this.btnSave.Size = new System.Drawing.Size(47, 35);
 			this.btnSave.Text = "Save";
 			this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnSave.ToolTipText = "Save this file";
 			this.btnSave.ButtonClick += new System.EventHandler(this.OnFileSave);
 			// 
 			// btnSaveNormal
 			// 
 			this.btnSaveNormal.Name = "btnSaveNormal";
-			this.btnSaveNormal.Size = new System.Drawing.Size(132, 22);
+			this.btnSaveNormal.Size = new System.Drawing.Size(166, 22);
 			this.btnSaveNormal.Text = "Save";
+			this.btnSaveNormal.ToolTipText = "Save this file";
 			this.btnSaveNormal.Click += new System.EventHandler(this.OnFileSave);
 			// 
 			// btnSaveAsL
 			// 
 			this.btnSaveAsL.Name = "btnSaveAsL";
-			this.btnSaveAsL.Size = new System.Drawing.Size(132, 22);
-			this.btnSaveAsL.Text = "Save As (L)";
+			this.btnSaveAsL.Size = new System.Drawing.Size(166, 22);
+			this.btnSaveAsL.Text = "Save As (Local)";
+			this.btnSaveAsL.ToolTipText = "Save this file with a different name on this computer";
 			this.btnSaveAsL.Click += new System.EventHandler(this.OnFileSaveAsLocal);
 			// 
 			// btnSaveAsR
 			// 
 			this.btnSaveAsR.Name = "btnSaveAsR";
-			this.btnSaveAsR.Size = new System.Drawing.Size(132, 22);
-			this.btnSaveAsR.Text = "Save As (R)";
+			this.btnSaveAsR.Size = new System.Drawing.Size(166, 22);
+			this.btnSaveAsR.Text = "Save As (Remote)";
+			this.btnSaveAsR.ToolTipText = "Save this file with a different name on another computer";
 			this.btnSaveAsR.Click += new System.EventHandler(this.OnFileSaveAsRemote);
 			// 
 			// toolStripSeparator1
@@ -596,6 +588,7 @@
 			this.toolTextHost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.toolTextHost.Name = "toolTextHost";
 			this.toolTextHost.Size = new System.Drawing.Size(140, 25);
+			this.toolTextHost.ToolTipText = "The server to connect to (such as someserver.myschool.edu)";
 			// 
 			// toolStripLabel3
 			// 
@@ -608,6 +601,7 @@
 			this.toolTextUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.toolTextUser.Name = "toolTextUser";
 			this.toolTextUser.Size = new System.Drawing.Size(100, 25);
+			this.toolTextUser.ToolTipText = "Your user account name on the server";
 			// 
 			// toolStripLabel2
 			// 
@@ -620,6 +614,7 @@
 			this.toolTextPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.toolTextPassword.Name = "toolTextPassword";
 			this.toolTextPassword.Size = new System.Drawing.Size(100, 25);
+			this.toolTextPassword.ToolTipText = "Your password for this server account";
 			this.toolTextPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolTextPassword_KeyPress);
 			// 
 			// toolHostConnect
@@ -630,6 +625,7 @@
 			this.toolHostConnect.Name = "toolHostConnect";
 			this.toolHostConnect.Size = new System.Drawing.Size(23, 22);
 			this.toolHostConnect.Text = "Connect";
+			this.toolHostConnect.ToolTipText = "Connect to this server with these settings";
 			this.toolHostConnect.Click += new System.EventHandler(this.OnHostConnect);
 			// 
 			// toolHostDisconnect
@@ -640,6 +636,7 @@
 			this.toolHostDisconnect.Name = "toolHostDisconnect";
 			this.toolHostDisconnect.Size = new System.Drawing.Size(23, 22);
 			this.toolHostDisconnect.Text = "Disconnect";
+			this.toolHostDisconnect.ToolTipText = "Disconnect from this server";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
 			// 
 			// imageList1
@@ -650,6 +647,21 @@
 			this.imageList1.Images.SetKeyName(1, "if.png");
 			this.imageList1.Images.SetKeyName(2, "while.png");
 			this.imageList1.Images.SetKeyName(3, "default.png");
+			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 80;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
 			// ChameleonForm
 			// 

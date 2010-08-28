@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ArtisticStyle;
 using Chameleon.Features;
@@ -55,6 +55,8 @@ namespace Chameleon
 			this.m_editors.Name = "m_editors";
 			this.m_editors.Size = new System.Drawing.Size(660, 261);
 			this.m_editors.TabIndex = 4;
+
+			addThrowExceptionMenuItem();
 
 			FormFontFixer.Fix(this);
 
@@ -601,6 +603,29 @@ namespace Chameleon
 				string lsCommand = "ls";
 				m_networking.ExecuteRemoteCommand(lsCommand, TestStringFunc);
 			}
+		}
+
+		[Conditional("DEBUG")]
+		private void addThrowExceptionMenuItem()
+		{
+			ToolStripMenuItem menuThrowException = new ToolStripMenuItem();
+			menuThrowException.Text = "Throw Exception";
+			menuThrowException.Click += ThrowException_Click;
+
+			menuHelp.DropDownItems.Add(menuThrowException);
+		}
+
+		
+		private void ThrowException_Click(object sender, EventArgs e)
+		{
+			DoThrowException();
+		}
+
+		[Conditional("DEBUG")]
+		private void DoThrowException()
+		{
+			Exception ex = new Exception("This is a test exception.  Pretend something bad happened.");
+			throw ex;
 		}
 		#endregion
 
