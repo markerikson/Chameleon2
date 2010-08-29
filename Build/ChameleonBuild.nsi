@@ -28,18 +28,19 @@ Name Chameleon
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUE "Path"
 
 # MUI Symbol Definitions
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install-colorful.ico"
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install-full.ico"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_NODISABLE
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "ISquared Software\Chameleon"
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-colorful.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-full.ico"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
-!define SHELLFOLDERS \
-  "Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "ChameleonWizard.bmp"
+
+!define SHELLFOLDERS "Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
   
 !define NETFXINSTALLERFOLDER "S:\Dept\EG\Computer Science\CS1210\Chameleon 2\"
 !define NETFXINSTALLERNAME "dotNetFx40_Full_setup.exe" #"dotNetFx40_Full_x86_x64.exe"
