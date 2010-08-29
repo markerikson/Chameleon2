@@ -8,6 +8,9 @@ using ExceptionReporting.Config;
 using ExceptionReporting.Core;
 using ExceptionReporting.Mail;
 using ExceptionReporting.SystemInfo;
+using Snowball.Common;
+using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace ExceptionReporting
 {
@@ -19,12 +22,15 @@ namespace ExceptionReporting
         private IClipboard _clipboard;
         private readonly IExceptionReportView _view;
         private readonly ExceptionReportGenerator _reportGenerator;
+		BackgroundWorker bw;
 
         public ExceptionReportPresenter(IExceptionReportView view, ExceptionReportInfo info)
         {
             _view = view;
             ReportInfo = info;
             _reportGenerator = new ExceptionReportGenerator(ReportInfo);
+
+			
         }
 
 		/// <summary>
@@ -82,6 +88,9 @@ namespace ExceptionReporting
 		/// <param name="handle">The handle of the window to use in sending the email</param>
         public void SendReportByEmail(IntPtr handle)
         {
+			SendReportUsingPost();
+			//SendReportUsingEmailClient();
+			/*
             if (ReportInfo.MailMethod == ExceptionReportInfo.EmailMethod.SimpleMAPI)
             {
                 SendMapiEmail(handle);
@@ -91,6 +100,7 @@ namespace ExceptionReporting
             {
                 SendSmtpMail();
             }
+			*/
         }
 
 		/// <summary>
@@ -183,6 +193,56 @@ namespace ExceptionReporting
         {
             return _reportGenerator.GetOrFetchSysInfoResults();
         }
+
+
+		public void SendReportUsingPost()
+		{
+			string subject = "Chameleon crash report - " + ReportInfo.MainException.GetType().FullName;
+			string to = ReportInfo.ContactEmail;
+			string from = ReportInfo.SmtpFromAddress;
+			
+			string body = BuildEmailText();
+
+			PostSubmitter post = new PostSubmitter();
+			post.Url = "http://www.isquaredsoftware.com/DUMMYPASSreport.php";
+			post.PostItems.Add("subject", subject);
+			post.PostItems.Add("to", to);
+			post.PostItems.Add("from", from);
+			post.PostItems.Add("body", body);
+			post.Type = PostSubmitter.PostTypeEnum.Post;
+
+			bw = new BackgroundWorker();
+			bw.DoWork += (sender, e) =>
+			{
+				string result = post.Post();
+				e.Result = result;
+			};
+
+			bw.RunWorkerCompleted += (sender, e) =>
+			{
+				string result = (string)e.Result;
+
+				bool successful = result.Contains("Message successfully sent");
+				_view.SetEmailCompletedState(successful);
+			};
+
+			bw.RunWorkerAsync();
+		}
+
+		/*
+		public void SendReportUsingEmailClient()
+		{
+			string subject = "Chameleon crash report - " + ReportInfo.MainException.GetType().FullName;
+			string to = ReportInfo.ContactEmail;
+			string from = ReportInfo.SmtpFromAddress;
+			string replyTo = ReportInfo.SmtpFromAddress;
+			string body = BuildEmailText();
+			
+			string mailtoString = MailUtilities.CreateMailTo(to, "", "", subject, body, "");
+
+			ShellExecute(mailtoString);
+		}
+		*/
 
 		/// <summary>
 		/// Send email (using ShellExecute) to the configured contact email address

@@ -19,6 +19,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,8 +69,10 @@
     <Compile Include="ExceptionReportPresenter.cs" />
     <Compile Include="IExceptionReportView.cs" />
     <Compile Include="IInternalExceptionView.cs" />
+    <None Include="Mail\MailUtilities.cs" />
     <Compile Include="Mail\EmailTextBuilder.cs" />
     <Compile Include="Mail\MailSender.cs" />
+    <Compile Include="Mail\Postsubmitter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,7 +121,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Win32Mapi\Win32Mapi.csproj">
+    <ProjectReference Include="Win32Mapi\Win32Mapi.csproj">
       <Project>{60A93330-81F1-46CC-87C6-F38C4B5DBC7B}</Project>
       <Name>Win32Mapi</Name>
     </ProjectReference>

@@ -61,9 +61,13 @@ namespace Chameleon
 			conf.ContactEmail = Options.ContactEmail;
 			conf.SmtpFromAddress = Options.ReportFromAddress;
 			conf.SmtpServer = Options.ReportSmtpServer;
+			/*
+			
+			
 			conf.SmtpUsername = Options.ReportSmtpUsername;
 			conf.SmtpPassword = Options.ReportSmtpPassword;
-			
+			*/
+
 			conf.ShowLessMoreDetailButton = true;
 			conf.ShowFullDetail = false;
 
