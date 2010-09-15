@@ -32,6 +32,25 @@ namespace WalburySoftware
 			{
 			}
 		}
+
+		public int FontSize
+		{
+			get
+			{
+				return TypeSize;
+			}
+			set
+			{
+				TypeSize = value;
+
+				// HACK Don't know why it's necessary right now, but calling OnResize twice
+				// makes the font resizing work properly.  Go figure.
+				OnResize(new EventArgs());
+				UpdateFontInfo();
+				OnResize(new EventArgs());
+			}
+		}
+
 		#endregion
 		#region Public Methods
 		public void IndicateData (byte[] data)
@@ -178,7 +197,7 @@ namespace WalburySoftware
 			this.CharAttribs.GR = G2;
 			this.CharAttribs.GS = null;
 
-			this.GetFontInfo ();
+			this.UpdateFontInfo ();
 
 			// Create and initialize contextmenu
 			this.contextMenu1 = new ContextMenu();
@@ -730,8 +749,12 @@ namespace WalburySoftware
 			if (this.ScrollbackBuffer.Count == 0)
 			{
 				this.VertScrollBar.Maximum = 0;
+				this.VertScrollBar.Enabled = false;
 				return;
 			}
+
+			this.VertScrollBar.Enabled = true;
+			ScrollBar vb = VertScrollBar as ScrollBar;
 
 			// If the offset does not make the Maximum less than zero, set its value.    
 			if ((this.ScrollbackBuffer.Count * this.CharSize.Height) - this.Height > 0)
@@ -2523,7 +2546,7 @@ namespace WalburySoftware
 			}
 		}
 
-		private void GetFontInfo ()
+		public void UpdateFontInfo ()
 		{
 			System.Drawing.Graphics tmpGraphics = this.CreateGraphics ();
 
@@ -2567,7 +2590,7 @@ namespace WalburySoftware
 				// Change the font
 				this.Font = fontDialog.Font;
 
-				this.GetFontInfo ();
+				this.UpdateFontInfo ();
 
 				this.ClientSize = new System.Drawing.Size (
 					System.Convert.ToInt32 (this.CharSize.Width  * this._cols + 2) + this.VertScrollBar.Width,
@@ -3224,6 +3247,12 @@ namespace WalburySoftware
 					// string sent by the keydown event
 					if (this.LastKeyDownSent == false)
 					{
+						// HACK Fixes the "backspace while doing console input" issue.  Probably still needs 
+						// another tweak, but better than the previous hack.
+						if(AnsiChar == '\b')
+						{
+							AnsiChar = 127;
+						}
 						// send the character straight to the host if we haven't already handled the actual key press
 						KeyboardEvent (this, System.Convert.ToChar (AnsiChar).ToString ()); 
 					}
@@ -3471,12 +3500,14 @@ namespace WalburySoftware
 				Actions       StateEntryAction = Actions.None;
 
 				// HACK Temporary hack to allow Backspace to work while doing console input
+				/*
 				if(InString == "^H")
 				{
 					// backspace char, escape char, VT100 stuff
 					InString = "\b\x1B[K";
 				}
-    
+				*/
+
 				foreach (System.Char C in InString)
 				{
 					this.CurChar = C;

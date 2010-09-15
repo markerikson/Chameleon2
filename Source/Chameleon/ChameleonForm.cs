@@ -634,21 +634,26 @@ namespace Chameleon
 		private void menuZoomNormal_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(0);
+			Font f = terminalEmulator1.Font;
+			terminalEmulator1.FontSize = 10;
 		}
 
 		private void menuZoomLarge_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(5);
+			terminalEmulator1.FontSize = 14;
 		}
 
 		private void menuZoomLarger_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(10);
+			terminalEmulator1.FontSize = 18;
 		}
 
 		private void menuZoomLargest_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(20);
+			terminalEmulator1.FontSize = 22;
 		}
 
 		#endregion
