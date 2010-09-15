@@ -138,8 +138,8 @@ namespace Chameleon.GUI
 				m_dragInitialized = false;
 
 				m_tooltip = new ToolTip();
-				m_tooltip.SetToolTip(m_tabStrip, "Testing");
-				m_tooltip.Popup += new PopupEventHandler(OnTooltipPopup);
+				m_tooltip.SetToolTip(m_tabStrip, "");
+				m_tabStrip.MouseHover += new EventHandler(OnTabStripMouseHover);
 
 				m_transPanel = new TransparentPanel();
 			
@@ -169,6 +169,8 @@ namespace Chameleon.GUI
 			NewFile();
 		}
 
+	
+
 		#endregion
 
 		#region Tab handlers
@@ -190,7 +192,7 @@ namespace Chameleon.GUI
 			m_closingTab = false;
 		}
 
-		void OnTooltipPopup(object sender, PopupEventArgs e)
+		void OnTabStripMouseHover(object sender, EventArgs e)
 		{
 			Point translated = m_tabStrip.PointToClient(Cursor.Position);
 			FATabStripItem tab = m_tabStrip.GetTabItemByPoint(translated);
@@ -199,6 +201,7 @@ namespace Chameleon.GUI
 			{
 				ChameleonEditor editor = m_tabsToEditors[tab];
 				m_tooltip.SetToolTip(m_tabStrip, editor.Filename);
+				m_tooltip.Show(editor.Filename, m_tabStrip);
 			}
 		}
 
