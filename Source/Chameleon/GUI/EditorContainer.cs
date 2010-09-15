@@ -86,6 +86,8 @@ namespace Chameleon.GUI
 		private CodeRuleManager m_ruleManager;
 		private CtagsManagerWrapper cmw;
 
+		private int m_currentZoom;
+
 		#endregion
 
 		#region Properties
@@ -118,8 +120,6 @@ namespace Chameleon.GUI
 
 			m_fileFilter = sb.ToString();
 		}
-
-		
 
 
 		public EditorContainer()
@@ -163,6 +163,9 @@ namespace Chameleon.GUI
 			m_tempFiles = new List<string>();
 
 			m_fileNum = 0;
+
+			m_currentZoom = 0;
+
 			NewFile();
 		}
 
@@ -796,6 +799,24 @@ namespace Chameleon.GUI
 			m_currentEditor = editor;
 		}
 
+		#endregion
+
+		#region Editor settings
+		public void SetZoomFactor(int zoom)
+		{
+			if(zoom < -10 || zoom > 20)
+			{
+				return;
+			}
+
+			m_currentZoom = zoom;
+
+			foreach(ChameleonEditor ed in m_editorsToTabs.Keys)
+			{
+				ed.Zoom = m_currentZoom;
+			}
+
+		}
 		#endregion
 
 		#region Drag and drop handlers

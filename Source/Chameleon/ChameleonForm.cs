@@ -629,15 +629,40 @@ namespace Chameleon
 		}
 		#endregion
 
-		
+		#region Settings menu handlers
+
+		private void menuZoomNormal_Click(object sender, EventArgs e)
+		{
+			m_editors.SetZoomFactor(0);
+		}
+
+		private void menuZoomLarge_Click(object sender, EventArgs e)
+		{
+			m_editors.SetZoomFactor(5);
+		}
+
+		private void menuZoomLarger_Click(object sender, EventArgs e)
+		{
+			m_editors.SetZoomFactor(10);
+		}
+
+		private void menuZoomLargest_Click(object sender, EventArgs e)
+		{
+			m_editors.SetZoomFactor(20);
+		}
+
+		#endregion
 
 		
 
-		
 
-		
 
-		
+
+
+
+
+
+
 
 	}
 }

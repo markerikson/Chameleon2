@@ -37,6 +37,7 @@
 			this.naviBar1 = new Guifreaks.NavigationBar.NaviBar(this.components);
 			this.naviBand1 = new Guifreaks.NavigationBar.NaviBand(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
+			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,12 @@
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
+			this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomNormal = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomLarge = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomLarger = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomLargest = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -218,12 +224,28 @@
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
 			// 
+			// terminalEmulator1
+			// 
+			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
+			this.terminalEmulator1.Columns = 80;
+			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.terminalEmulator1.Enabled = false;
+			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
+			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
+			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
+			this.terminalEmulator1.Name = "terminalEmulator1";
+			this.terminalEmulator1.Rows = 11;
+			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
+			this.terminalEmulator1.TabIndex = 0;
+			this.terminalEmulator1.Text = "terminalEmulator1";
+			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuEdit,
+            this.menuSettings,
             this.menuHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
@@ -460,7 +482,7 @@
 			// menuHelpAbout
 			// 
 			this.menuHelpAbout.Name = "menuHelpAbout";
-			this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
+			this.menuHelpAbout.Size = new System.Drawing.Size(152, 22);
 			this.menuHelpAbout.Text = "About";
 			this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
 			// 
@@ -648,20 +670,52 @@
 			this.imageList1.Images.SetKeyName(2, "while.png");
 			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
-			// terminalEmulator1
+			// menuSettings
 			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 80;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
+			this.menuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomToolStripMenuItem});
+			this.menuSettings.Name = "menuSettings";
+			this.menuSettings.Size = new System.Drawing.Size(61, 20);
+			this.menuSettings.Text = "Settings";
+			// 
+			// zoomToolStripMenuItem
+			// 
+			this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuZoomNormal,
+            this.menuZoomLarge,
+            this.menuZoomLarger,
+            this.menuZoomLargest});
+			this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+			this.zoomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.zoomToolStripMenuItem.Text = "Zoom";
+			// 
+			// menuZoomNormal
+			// 
+			this.menuZoomNormal.Name = "menuZoomNormal";
+			this.menuZoomNormal.Size = new System.Drawing.Size(152, 22);
+			this.menuZoomNormal.Text = "Normal";
+			this.menuZoomNormal.Click += new System.EventHandler(this.menuZoomNormal_Click);
+			// 
+			// menuZoomLarge
+			// 
+			this.menuZoomLarge.Name = "menuZoomLarge";
+			this.menuZoomLarge.Size = new System.Drawing.Size(152, 22);
+			this.menuZoomLarge.Text = "Large";
+			this.menuZoomLarge.Click += new System.EventHandler(this.menuZoomLarge_Click);
+			// 
+			// menuZoomLarger
+			// 
+			this.menuZoomLarger.Name = "menuZoomLarger";
+			this.menuZoomLarger.Size = new System.Drawing.Size(152, 22);
+			this.menuZoomLarger.Text = "Larger";
+			this.menuZoomLarger.Click += new System.EventHandler(this.menuZoomLarger_Click);
+			// 
+			// menuZoomLargest
+			// 
+			this.menuZoomLargest.Name = "menuZoomLargest";
+			this.menuZoomLargest.Size = new System.Drawing.Size(152, 22);
+			this.menuZoomLargest.Text = "Largest";
+			this.menuZoomLargest.Click += new System.EventHandler(this.menuZoomLargest_Click);
 			// 
 			// ChameleonForm
 			// 
@@ -764,6 +818,12 @@
 		private System.Windows.Forms.ToolStripMenuItem menuEditReformatSelectedCode;
 		private System.Windows.Forms.ToolStripMenuItem blankFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem simpleCTemplateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem menuSettings;
+		private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem menuZoomNormal;
+		private System.Windows.Forms.ToolStripMenuItem menuZoomLarge;
+		private System.Windows.Forms.ToolStripMenuItem menuZoomLarger;
+		private System.Windows.Forms.ToolStripMenuItem menuZoomLargest;
 	}
 }
 
