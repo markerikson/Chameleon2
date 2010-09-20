@@ -15,6 +15,7 @@ using DevInstinct.Patterns;
 using Guifreaks.NavigationBar;
 using ScintillaNet;
 using SSHClient;
+using de.mud.terminal;
 
 namespace Chameleon
 {
@@ -22,6 +23,8 @@ namespace Chameleon
 	{
 		#region Private fields
 		private static bool m_appClosing = false;
+
+		private SwingTerminal m_terminal;
 
 		private ChameleonNetworking m_networking;
 		private SSHProtocol m_sshProtocol;
@@ -31,6 +34,8 @@ namespace Chameleon
 
 		private bool parserInitialized;
 		private bool m_clickedSnippet;
+
+		private ZoomLevel m_zoom;
 		
 		#endregion
 
@@ -75,8 +80,30 @@ namespace Chameleon
 			toolStatusConnected.Text = "Disconnected";
 			toolHostDisconnect.Enabled = false;
 
-			m_sshProtocol = new SSHProtocol(terminalEmulator1);
+			SSHBuffer buffer = new SSHBuffer();
+			m_sshProtocol = new SSHProtocol(buffer);
 			m_sshProtocol.OnDisconnect += new Action(SetDisconnectedUI);
+
+			m_terminal = new SwingTerminal(buffer);
+			//m_terminal.VDUBuffer.Display = m_terminal;
+			m_terminal.Dock = DockStyle.Fill;
+			m_terminal.ForeColor = Color.White;
+			m_terminal.BackColor = Color.Black;
+			m_terminal.Parent = splitEditorTerminal.Panel2;
+
+			m_terminal.Resize += (sender, e) =>
+			{
+				m_terminal.ResizeBuffer();
+
+				if(m_networking.IsConnected)
+				{
+					int width = m_terminal.VDUBuffer.Columns;
+					int height = m_terminal.VDUBuffer.Rows;
+
+					m_sshProtocol._pf.ResizeTerminal(width, height, width, height);
+				}
+			};
+			
 
 			m_astyle = new AStyleInterface();
 			m_astyle.SetDefaultChameleonStyleOptions();
@@ -100,6 +127,10 @@ namespace Chameleon
 			toolTextUser.Text = App.Configuration.LastUsername;
 
 			m_clickedSnippet = false;
+
+			m_zoom = ZoomLevel.Normal;
+
+			UpdateZoomMenu();
 
 			
 			AddSnippetGroups();
@@ -475,6 +506,12 @@ namespace Chameleon
 
 			if(m_networking.Connect(host, user, password))
 			{
+				m_terminal.ResizeBuffer();
+
+				m_networking.Connection.Param.TerminalName = "xterm";
+				m_networking.Connection.Param.TerminalWidth = m_terminal.VDUBuffer.Columns;
+				m_networking.Connection.Param.TerminalHeight = m_terminal.VDUBuffer.Rows;
+
 				m_sshProtocol.Connect();
 
 				toolTextHost.Enabled = false;
@@ -496,9 +533,7 @@ namespace Chameleon
 			if(m_networking.IsConnected)
 			{
 				DoDisconnect();
-
-			}
-			
+			}			
 		}
 
 		private void DoDisconnect()
@@ -634,26 +669,59 @@ namespace Chameleon
 		private void menuZoomNormal_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(0);
-			Font f = terminalEmulator1.Font;
-			terminalEmulator1.FontSize = 10;
+			m_terminal.FontSize = 10;
+			m_zoom = ZoomLevel.Normal;
+			UpdateZoomMenu();
 		}
 
 		private void menuZoomLarge_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(5);
-			terminalEmulator1.FontSize = 14;
+			m_terminal.FontSize = 14;
+			m_zoom = ZoomLevel.Large;
+			UpdateZoomMenu();
 		}
 
 		private void menuZoomLarger_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(10);
-			terminalEmulator1.FontSize = 18;
+			m_terminal.FontSize = 18;
+			m_zoom = ZoomLevel.Larger;
+			UpdateZoomMenu();
 		}
 
 		private void menuZoomLargest_Click(object sender, EventArgs e)
 		{
 			m_editors.SetZoomFactor(20);
-			terminalEmulator1.FontSize = 22;
+			m_terminal.FontSize = 22;
+			m_zoom = ZoomLevel.Largest;
+			UpdateZoomMenu();
+		}
+
+		private void ResizeFonts(int editorZoom, int terminalFontSize)
+		{
+			m_editors.SetZoomFactor(editorZoom);
+			m_terminal.FontSize = terminalFontSize;
+
+			if(m_networking.IsConnected)
+			{
+				int width = m_terminal.VDUBuffer.Columns;
+				int height = m_terminal.VDUBuffer.Rows;
+
+				m_sshProtocol._pf.ResizeTerminal(width, height, width, height);
+			}			
+		}
+
+		private void UpdateZoomMenu()
+		{
+			ToolStripMenuItem[] items = { menuZoomNormal, menuZoomLarge, menuZoomLarger, menuZoomLargest};
+
+			foreach(ToolStripMenuItem item in items)
+			{
+				item.Checked = false;
+			}
+
+			items[(int)m_zoom].Checked = true;
 		}
 
 		#endregion

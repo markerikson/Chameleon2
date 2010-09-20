@@ -141,9 +141,14 @@
     <Compile Include="GUI\RemoteFileDialog.Designer.cs">
       <DependentUpon>RemoteFileDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\TerminalControl.cs">
+    <Compile Include="GUI\Terminal\TerminalAdapter.cs" />
+    <Compile Include="GUI\Terminal\SwingTerminal.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\Terminal\VDUBuffer.cs" />
+    <Compile Include="GUI\Terminal\VDUDisplay.cs" />
+    <Compile Include="GUI\Terminal\VDUInput.cs" />
+    <Compile Include="GUI\Terminal\vt320.cs" />
     <Compile Include="Network\ChameleonNetworking.cs" />
     <Compile Include="Network\NetworkExtensionMethods.cs" />
     <Compile Include="Network\Networking.cs" />

@@ -2,8 +2,9 @@ using System;
 using Routrek.SSHC;
 using System.Net.Sockets;
 using Chameleon.Network;
-using Chameleon.GUI;
-using WalburySoftware;
+using de.mud.terminal;
+//using Chameleon.GUI;
+//using WalburySoftware;
 
 namespace SSHClient
 {
@@ -88,15 +89,27 @@ namespace SSHClient
 		#endregion
 
 		#region private fields
-		TerminalEmulator m_term;
+		//TerminalEmulator m_term;
+		SSHBuffer m_sshTerminal;
+		ChameleonNetworking m_network;
 		private bool m_firstTime;
 
 		#endregion
 		#region Public Constructors
+		/*
 		public SSHProtocol(TerminalEmulator term)
 		{
 
 			m_term = term;
+			m_firstTime = true;
+		}
+		*/
+
+		public SSHProtocol(SSHBuffer adapter)
+		{
+			m_sshTerminal = adapter;
+			//m_term = term;
+			m_network = ChameleonNetworking.Instance;
 			m_firstTime = true;
 		}
 		#endregion
@@ -109,24 +122,26 @@ namespace SSHClient
 
 		public void Connect()
 		{
-			_conn = ChameleonNetworking.Instance.Connection;
+			//_conn = ChameleonNetworking.Instance.Connection;
+			_conn = m_network.Connection;
 
 			if(m_firstTime)
 			{
-				this.OnDataIndicated += m_term.IndicateData;
-				m_term.OnDataRequested += this.RequestData;
+				this.OnDataIndicated += m_sshTerminal.InputReceived;//m_term.IndicateData;
+				//m_term.OnDataRequested += this.RequestData;
+				m_sshTerminal.OnDataRequested += this.RequestData;
 
 				m_firstTime = false;
 			}
 			
 
-			m_term.Enabled = true;
+			//m_term.Enabled = true;
 			_pf = _conn.OpenShell(this);
 		}
 
 		public void Disconnect()
 		{
-			m_term.Enabled = false;
+			//m_term.Enabled = false;
 
 			_pf.Close();			
 		}

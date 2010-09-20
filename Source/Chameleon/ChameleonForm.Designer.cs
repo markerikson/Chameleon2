@@ -37,7 +37,6 @@
 			this.naviBar1 = new Guifreaks.NavigationBar.NaviBar(this.components);
 			this.naviBand1 = new Guifreaks.NavigationBar.NaviBand(this.components);
 			this.splitEditorTerminal = new System.Windows.Forms.SplitContainer();
-			this.terminalEmulator1 = new WalburySoftware.TerminalEmulator();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +66,12 @@
 			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuEditReformatFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuEditReformatSelectedCode = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomNormal = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomLarge = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomLarger = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuZoomLargest = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -88,12 +93,6 @@
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-			this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
-			this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuZoomNormal = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuZoomLarge = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuZoomLarger = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuZoomLargest = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -107,7 +106,6 @@
 			this.naviBar1.SuspendLayout();
 			this.naviBand1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).BeginInit();
-			this.splitEditorTerminal.Panel2.SuspendLayout();
 			this.splitEditorTerminal.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -216,28 +214,9 @@
 			this.splitEditorTerminal.Location = new System.Drawing.Point(0, 0);
 			this.splitEditorTerminal.Name = "splitEditorTerminal";
 			this.splitEditorTerminal.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitEditorTerminal.Panel2
-			// 
-			this.splitEditorTerminal.Panel2.Controls.Add(this.terminalEmulator1);
 			this.splitEditorTerminal.Size = new System.Drawing.Size(648, 453);
 			this.splitEditorTerminal.SplitterDistance = 261;
 			this.splitEditorTerminal.TabIndex = 5;
-			// 
-			// terminalEmulator1
-			// 
-			this.terminalEmulator1.BackColor = System.Drawing.Color.Black;
-			this.terminalEmulator1.Columns = 80;
-			this.terminalEmulator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.terminalEmulator1.Enabled = false;
-			this.terminalEmulator1.Font = new System.Drawing.Font("Courier New", 10F);
-			this.terminalEmulator1.ForeColor = System.Drawing.Color.White;
-			this.terminalEmulator1.Location = new System.Drawing.Point(0, 0);
-			this.terminalEmulator1.Name = "terminalEmulator1";
-			this.terminalEmulator1.Rows = 11;
-			this.terminalEmulator1.Size = new System.Drawing.Size(648, 188);
-			this.terminalEmulator1.TabIndex = 0;
-			this.terminalEmulator1.Text = "terminalEmulator1";
 			// 
 			// menuStrip1
 			// 
@@ -471,6 +450,53 @@
 			this.menuEditReformatSelectedCode.Text = "Reformat Selected Code";
 			this.menuEditReformatSelectedCode.Click += new System.EventHandler(this.menuEditReformatSelectedCode_Click);
 			// 
+			// menuSettings
+			// 
+			this.menuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomToolStripMenuItem});
+			this.menuSettings.Name = "menuSettings";
+			this.menuSettings.Size = new System.Drawing.Size(61, 20);
+			this.menuSettings.Text = "Settings";
+			// 
+			// zoomToolStripMenuItem
+			// 
+			this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuZoomNormal,
+            this.menuZoomLarge,
+            this.menuZoomLarger,
+            this.menuZoomLargest});
+			this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+			this.zoomToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+			this.zoomToolStripMenuItem.Text = "Zoom";
+			// 
+			// menuZoomNormal
+			// 
+			this.menuZoomNormal.Name = "menuZoomNormal";
+			this.menuZoomNormal.Size = new System.Drawing.Size(114, 22);
+			this.menuZoomNormal.Text = "Normal";
+			this.menuZoomNormal.Click += new System.EventHandler(this.menuZoomNormal_Click);
+			// 
+			// menuZoomLarge
+			// 
+			this.menuZoomLarge.Name = "menuZoomLarge";
+			this.menuZoomLarge.Size = new System.Drawing.Size(114, 22);
+			this.menuZoomLarge.Text = "Large";
+			this.menuZoomLarge.Click += new System.EventHandler(this.menuZoomLarge_Click);
+			// 
+			// menuZoomLarger
+			// 
+			this.menuZoomLarger.Name = "menuZoomLarger";
+			this.menuZoomLarger.Size = new System.Drawing.Size(114, 22);
+			this.menuZoomLarger.Text = "Larger";
+			this.menuZoomLarger.Click += new System.EventHandler(this.menuZoomLarger_Click);
+			// 
+			// menuZoomLargest
+			// 
+			this.menuZoomLargest.Name = "menuZoomLargest";
+			this.menuZoomLargest.Size = new System.Drawing.Size(114, 22);
+			this.menuZoomLargest.Text = "Largest";
+			this.menuZoomLargest.Click += new System.EventHandler(this.menuZoomLargest_Click);
+			// 
 			// menuHelp
 			// 
 			this.menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -482,7 +508,7 @@
 			// menuHelpAbout
 			// 
 			this.menuHelpAbout.Name = "menuHelpAbout";
-			this.menuHelpAbout.Size = new System.Drawing.Size(152, 22);
+			this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
 			this.menuHelpAbout.Text = "About";
 			this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
 			// 
@@ -670,53 +696,6 @@
 			this.imageList1.Images.SetKeyName(2, "while.png");
 			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
-			// menuSettings
-			// 
-			this.menuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zoomToolStripMenuItem});
-			this.menuSettings.Name = "menuSettings";
-			this.menuSettings.Size = new System.Drawing.Size(61, 20);
-			this.menuSettings.Text = "Settings";
-			// 
-			// zoomToolStripMenuItem
-			// 
-			this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuZoomNormal,
-            this.menuZoomLarge,
-            this.menuZoomLarger,
-            this.menuZoomLargest});
-			this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-			this.zoomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.zoomToolStripMenuItem.Text = "Zoom";
-			// 
-			// menuZoomNormal
-			// 
-			this.menuZoomNormal.Name = "menuZoomNormal";
-			this.menuZoomNormal.Size = new System.Drawing.Size(152, 22);
-			this.menuZoomNormal.Text = "Normal";
-			this.menuZoomNormal.Click += new System.EventHandler(this.menuZoomNormal_Click);
-			// 
-			// menuZoomLarge
-			// 
-			this.menuZoomLarge.Name = "menuZoomLarge";
-			this.menuZoomLarge.Size = new System.Drawing.Size(152, 22);
-			this.menuZoomLarge.Text = "Large";
-			this.menuZoomLarge.Click += new System.EventHandler(this.menuZoomLarge_Click);
-			// 
-			// menuZoomLarger
-			// 
-			this.menuZoomLarger.Name = "menuZoomLarger";
-			this.menuZoomLarger.Size = new System.Drawing.Size(152, 22);
-			this.menuZoomLarger.Text = "Larger";
-			this.menuZoomLarger.Click += new System.EventHandler(this.menuZoomLarger_Click);
-			// 
-			// menuZoomLargest
-			// 
-			this.menuZoomLargest.Name = "menuZoomLargest";
-			this.menuZoomLargest.Size = new System.Drawing.Size(152, 22);
-			this.menuZoomLargest.Text = "Largest";
-			this.menuZoomLargest.Click += new System.EventHandler(this.menuZoomLargest_Click);
-			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -744,7 +723,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.naviBar1)).EndInit();
 			this.naviBar1.ResumeLayout(false);
 			this.naviBand1.ResumeLayout(false);
-			this.splitEditorTerminal.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).EndInit();
 			this.splitEditorTerminal.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
@@ -804,7 +782,6 @@
 		private System.Windows.Forms.ToolStripLabel toolStripLabel3;
 		private System.Windows.Forms.ToolStripTextBox toolTextUser;
 		private System.Windows.Forms.SplitContainer splitEditorTerminal;
-		private WalburySoftware.TerminalEmulator terminalEmulator1;
 		private System.Windows.Forms.ToolStripSplitButton btnSave;
 		private System.Windows.Forms.ToolStripMenuItem btnSaveNormal;
 		private System.Windows.Forms.ToolStripMenuItem btnSaveAsL;

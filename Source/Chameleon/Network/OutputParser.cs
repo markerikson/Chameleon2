@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WalburySoftware;
+//using WalburySoftware;
 using libVT100;
 
 namespace Chameleon.Network

@@ -5,6 +5,14 @@ using System.Text;
 
 namespace Chameleon.Util
 {
+	public enum ZoomLevel
+	{
+		Normal,
+		Large,
+		Larger,
+		Largest
+	}
+
 	public enum FileLocation
 	{
 		Local,
