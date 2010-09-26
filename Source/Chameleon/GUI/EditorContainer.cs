@@ -541,8 +541,7 @@ namespace Chameleon.GUI
 
 			editor.SetFileSaved(filename, location);
 
-			// TODO Re-enable code rules
-			//RunCodeRules(editor);
+			RunCodeRules(editor);
 			
 			return true;
 		}
