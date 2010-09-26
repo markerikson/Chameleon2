@@ -141,6 +141,10 @@
     <Compile Include="GUI\RemoteFileDialog.Designer.cs">
       <DependentUpon>RemoteFileDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Splasher.cs" />
+    <Compile Include="GUI\SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GUI\Terminal\TerminalAdapter.cs" />
     <Compile Include="GUI\Terminal\SwingTerminal.cs">
       <SubType>Component</SubType>
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\RemoteFileDialog.resx">
       <DependentUpon>RemoteFileDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

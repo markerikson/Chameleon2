@@ -12,7 +12,8 @@ using ExceptionReporting.Core;
 using ExceptionReporting.Mail;
 using ExceptionReporting.WinForms;
 using System.Threading;
-
+using Chameleon.GUI;
+using System.Diagnostics;
 
 namespace Chameleon
 {
@@ -29,6 +30,46 @@ namespace Chameleon
 
 			Application.ThreadException += ApplicationThreadException;
 
+			//	show the splash form
+			Splasher.Show();
+
+			while(Splasher.MySplashForm == null)
+			{
+				Thread.Sleep(250);
+			}
+
+			Splasher.Status = "Starting up...";
+
+			if(File.Exists("wyUpdate.exe"))
+			{
+				Splasher.Status = "Checking for updates...";
+
+				ProcessStartInfo psi = new ProcessStartInfo();
+				psi.FileName = "wyupdate.exe";
+				psi.Arguments = "-quickcheck -justcheck -noerr";
+				psi.CreateNoWindow = true;
+				psi.UseShellExecute = true;
+
+				Process proc = Process.Start(psi);
+
+				proc.WaitForExit();
+
+				int code = proc.ExitCode;
+				proc.Close();
+
+				// updates are available
+				if(code == 2)
+				{
+					Splasher.Status = "Updates available.  Launching updater...";
+					Thread.Sleep(1000);
+					Splasher.Close();
+
+					psi.Arguments = "-filetoexecute=Chameleon.exe";
+					proc = Process.Start(psi);
+					Environment.Exit(1);
+				}
+			}
+
 
 			string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			Options.DataFolder = Path.Combine(appDataFolder, "Chameleon");
@@ -38,11 +79,28 @@ namespace Chameleon
 				Directory.CreateDirectory(Options.DataFolder);
 			}
 
-			//string featurePermission = Networking.Instance.GetFeaturePermissions();			
+			/*
+			if(checkForPermissions)
+			{
+				Splasher.Status = "Checking for new features...";
 
-			//ChameleonFeatures dummyFeatures = ChameleonFeatures.Feature1 | ChameleonFeatures.DragDropSnippets;
-			//App.Configuration.PermittedFeatures = dummyFeatures;
+				string featurePermission = Networking.Instance.GetFeaturePermissions();			
+
+				ChameleonFeatures dummyFeatures = ChameleonFeatures.Feature1 | ChameleonFeatures.DragDropSnippets;
+				App.Configuration.PermittedFeatures = dummyFeatures;
+			}
+			*/
+
+			
+			Splasher.Status = "Starting Chameleon...";
+
+			Thread.Sleep(1000);
+		
 			Form f = new ChameleonForm();
+
+			//	if the form is still shown...
+			Splasher.Close();
+
 			Application.Run(f);
 
 			Singleton<CtagsManagerWrapper>.Instance.CodeLiteParserEnd();
