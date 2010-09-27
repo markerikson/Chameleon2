@@ -539,9 +539,7 @@ namespace ProfManager
 					continue;
 				}
 
-				int permValue = Convert.ToInt32(fileContents, 16);
-				ChameleonFeatures cf = (ChameleonFeatures)permValue;
-				
+				ChameleonFeatures cf = Permissions.ParsePermissions(fileContents);
 				AddNewGroup(groupName, cf);
 			}
 
@@ -646,10 +644,7 @@ namespace ProfManager
 				case FileLocation.Local:
 				{
 					string fullFilename = fileInfo.Filename.GetFullPath();
-					if(File.Exists(fullFilename))
-					{
-						File.WriteAllText(fullFilename, fileContents);
-					}
+					File.WriteAllText(fullFilename, fileContents);
 					break;
 				}
 				case FileLocation.Remote:
@@ -773,8 +768,19 @@ namespace ProfManager
 				fi.Location = m_currentFolder.Location;
 
 				ChameleonFeatures cf = m_groups[group];
-				int cfValue = (int)cf;
-				string groupFileContents = String.Format("0x{0:X}", cfValue);
+				List<string> selectedFlags = new List<string>();
+
+				
+				foreach(ChameleonFeatures flag in Enum.GetValues(typeof(ChameleonFeatures)))
+				{
+					if(cf.HasFlag(flag))
+					{
+						string name = Enum.GetName(typeof(ChameleonFeatures), flag);
+						selectedFlags.Add(name);
+					}
+				}
+
+				string groupFileContents = string.Join("|", selectedFlags);
 
 				WriteFileContents(fi, groupFileContents);
 			}

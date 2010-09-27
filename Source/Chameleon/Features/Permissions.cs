@@ -9,14 +9,28 @@ namespace Chameleon.Features
 	[Flags]
 	public enum ChameleonFeatures
 	{
-		//NoFeature				= 0,
-		Feature1				= 1 << 0,
-		Feature2				= 1 << 1,
-		DragDropSnippets		= 1 << 2,
-		Feature3				= 1 << 3,
+		DragDropSnippets		= 1 << 1,
+		Compiler				= 1 << 2,
+		Debugger				= 1 << 3,
 	}
 
 	public class Permissions
 	{
+		public static ChameleonFeatures ParsePermissions(string text)
+		{
+			string[] items = text.Split('|');
+			ChameleonFeatures cf = (ChameleonFeatures)0;
+
+			foreach(string item in items)
+			{
+				ChameleonFeatures flag;
+				if(Enum.TryParse<ChameleonFeatures>(item, out flag))
+				{
+					cf |= flag;
+				}
+			}
+
+			return cf;
+		}
 	}
 }

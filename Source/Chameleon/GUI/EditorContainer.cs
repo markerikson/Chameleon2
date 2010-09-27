@@ -542,7 +542,7 @@ namespace Chameleon.GUI
 			editor.SetFileSaved(filename, location);
 
 			RunCodeRules(editor);
-			
+
 			return true;
 		}
 
