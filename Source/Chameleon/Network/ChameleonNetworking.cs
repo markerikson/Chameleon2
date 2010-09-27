@@ -49,18 +49,29 @@ namespace Chameleon.Network
 
 		public string GetFeaturePermissions()
 		{
-			string studentID = App.Configuration.StudentID;
+			string studentID = Environment.UserName;//App.Configuration.StudentID;
 			string baseURL = App.Configuration.FeaturePermissionsURL;
 
-			string permissionsURL = baseURL + "?student=" + studentID.ToLower();
+			studentID = System.Uri.EscapeDataString(studentID);
+			string permissionsURL = baseURL + "?student=" + studentID;
+
 
 			HttpHelper http = new HttpHelper();
-			string featureText = http.HttpStringGet(permissionsURL);
-
-			if(featureText.IndexOf("Error") != -1)
+			string featureText = "";
+			try
 			{
-				return null;
+				featureText = http.HttpStringGet(permissionsURL);
+
+				if(featureText.IndexOf("Error") != -1)
+				{
+					return null;
+				}
 			}
+			catch(Exception e)
+			{
+				// do nothing, just return an empty string
+			}
+			
 
 			return featureText;
 		}

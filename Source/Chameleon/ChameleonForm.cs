@@ -593,8 +593,7 @@ namespace Chameleon
 				toolStrip1.Items.RemoveAt(indexAfterSave);
 			}
 
-			// TODO We'll just assume this is permitted for now
-			//splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
+			splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
 		}
 
 		#endregion

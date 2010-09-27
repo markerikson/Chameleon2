@@ -70,6 +70,8 @@ namespace Chameleon
 				}
 			}
 
+			// initialize the singleton
+			Options options = App.Configuration;
 
 			string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			Options.DataFolder = Path.Combine(appDataFolder, "Chameleon");
@@ -79,18 +81,15 @@ namespace Chameleon
 				Directory.CreateDirectory(Options.DataFolder);
 			}
 
-			/*
-			if(checkForPermissions)
+
+			Splasher.Status = "Checking for new features...";
+
+			string permissionsText = ChameleonNetworking.Instance.GetFeaturePermissions();
+			if(!String.IsNullOrWhiteSpace(permissionsText))
 			{
-				Splasher.Status = "Checking for new features...";
-
-				string featurePermission = Networking.Instance.GetFeaturePermissions();			
-
-				ChameleonFeatures dummyFeatures = ChameleonFeatures.Feature1 | ChameleonFeatures.DragDropSnippets;
-				App.Configuration.PermittedFeatures = dummyFeatures;
+				ChameleonFeatures enabledFeatures = Permissions.ParsePermissions(permissionsText);
+				App.Configuration.PermittedFeatures = enabledFeatures;
 			}
-			*/
-
 			
 			Splasher.Status = "Starting Chameleon...";
 

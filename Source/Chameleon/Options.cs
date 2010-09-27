@@ -144,9 +144,9 @@ namespace Chameleon
 			WriteKeysToFile(OptionsPath);
 		}
 
-		public string FeaturePermissionsURL = "http://www.isquaredsoftware.com/iu/chameleonfeatures.php";
+		public string FeaturePermissionsURL = "http://www.isquaredsoftware.com/chameleon/chameleonfeatures.php";
 
-		public string StudentID = "s1278644";
+		//public string StudentID = "s1278644";
 
 		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.DragDropSnippets;
 

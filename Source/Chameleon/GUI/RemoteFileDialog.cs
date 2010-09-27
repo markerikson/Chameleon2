@@ -197,9 +197,13 @@ namespace Chameleon.GUI
 
 		private void OnButtonAcceptClick(object sender, EventArgs e)
 		{
-			if(AcceptSelectedFolder())
+			if(m_openMode && m_folderMode)
 			{
-				SaveSelectedFilename(txtFilename.Text);
+				if(!AcceptSelectedFolder())
+				{
+					ItemActivated();
+				}
+
 			}
 			else
 			{
@@ -463,19 +467,54 @@ namespace Chameleon.GUI
 		{
 			string filename = txtFilename.Text;
 
-			bool isFolder = (m_currentDirListing.dirNames.IndexOf(filename) > -1);
+			bool succeeded = true;
+
+			if(filename == "")
+			{
+				SaveSelectedFilename(txtCurrentPath.Text);
+			}
+			else
+			{
+				bool isFolder = (m_currentDirListing.dirNames.IndexOf(filename) > -1);
+
+				if(isFolder)
+				{
+					SaveSelectedFilename(filename);
+				}
+
+				else
+				{
+					succeeded = false;
+				}
+			}
+
+			return succeeded;
 
 			// If it's a folder, we're in open mode, and we're in select folders mode,
 			// then the user just selected this and we want to return it
-			return isFolder && m_openMode && m_folderMode;
+			//return isFolder && m_openMode && m_folderMode;
 		}
 
 		private void SaveSelectedFilename(string filename)
 		{
 			if(m_openMode && m_folderMode)
 			{
-				m_selectedFile.Assign(m_currentPath);
-				m_selectedFile.AppendDir(filename);
+				char pathSep = FilePath.GetPathSeparator(PathFormat.Unix);
+				if(filename[0] == pathSep)
+				{
+					if(!filename.EndsWith(pathSep.ToString()))
+					{
+						filename += pathSep;
+					}
+					m_selectedFile.Assign(filename, PathFormat.Unix);
+				}
+				else
+				{
+					m_selectedFile.Assign(m_currentPath);
+					m_selectedFile.AppendDir(filename);
+				}
+
+				m_currentPath.Assign(m_selectedFile);
 			}
 			else
 			{
