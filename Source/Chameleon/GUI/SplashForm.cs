@@ -38,7 +38,7 @@ namespace Chameleon.GUI
 			//
 			InitializeComponent();
 
-			//lblVersion.Text = "2.3.42.999";//AssemblyVersion;
+			lblVersion.Text = AssemblyVersion;
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
