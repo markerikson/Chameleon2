@@ -243,6 +243,8 @@ namespace Chameleon.GUI
 
 			editor.Filename = newFileTitle;
 
+			editor.Zoom = m_currentZoom;
+
 			m_tabStrip.AddTab(tabItem, true);
 
 			if(templateName != "")

@@ -622,7 +622,7 @@
             this.toolHostDisconnect});
 			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(554, 25);
 			this.toolStrip2.TabIndex = 4;
 			// 
 			// toolStripLabel1
@@ -637,6 +637,7 @@
 			this.toolTextHost.Name = "toolTextHost";
 			this.toolTextHost.Size = new System.Drawing.Size(140, 25);
 			this.toolTextHost.ToolTipText = "The server to connect to (such as someserver.myschool.edu)";
+			this.toolTextHost.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
 			// 
 			// toolStripLabel3
 			// 
@@ -650,6 +651,7 @@
 			this.toolTextUser.Name = "toolTextUser";
 			this.toolTextUser.Size = new System.Drawing.Size(100, 25);
 			this.toolTextUser.ToolTipText = "Your user account name on the server";
+			this.toolTextUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
 			// 
 			// toolStripLabel2
 			// 
@@ -663,7 +665,7 @@
 			this.toolTextPassword.Name = "toolTextPassword";
 			this.toolTextPassword.Size = new System.Drawing.Size(100, 25);
 			this.toolTextPassword.ToolTipText = "Your password for this server account";
-			this.toolTextPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolTextPassword_KeyPress);
+			this.toolTextPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
 			// 
 			// toolHostConnect
 			// 

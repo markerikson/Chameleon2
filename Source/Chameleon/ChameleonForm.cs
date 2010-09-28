@@ -472,9 +472,9 @@ namespace Chameleon
 
 		private void DoConnect()
 		{
-			string host = toolTextHost.Text;
-			string user = toolTextUser.Text;
-			string password = toolTextPassword.Text;
+			string host = toolTextHost.Text.Trim();
+			string user = toolTextUser.Text.Trim();
+			string password = toolTextPassword.Text.Trim();
 
 			string errorMessage = "";
 
@@ -565,7 +565,7 @@ namespace Chameleon
 			
 		}
 		
-		private void toolTextPassword_KeyPress(object sender, KeyPressEventArgs e)
+		private void ToolbarTextboxes_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if(e.KeyChar == '\r')
 			{

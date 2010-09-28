@@ -118,6 +118,7 @@
     <Compile Include="Features\CodeRules\NoAssignmentsInConditionsRule.cs" />
     <Compile Include="Features\CodeRules\NoGlobalVariablesRule.cs" />
     <Compile Include="Features\CodeRules\SingleCharVarsOnlyInLoopsRule.cs" />
+    <Compile Include="Features\Compiler.cs" />
     <Compile Include="Features\CppContext.cs" />
     <Compile Include="Features\Permissions.cs" />
     <Compile Include="GUI\AboutDialog.cs">
