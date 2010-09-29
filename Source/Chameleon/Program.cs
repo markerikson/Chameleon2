@@ -70,11 +70,13 @@ namespace Chameleon
 				}
 			}
 
+			string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			Options.DataFolder = Path.Combine(appDataFolder, "Chameleon");
+
 			// initialize the singleton
 			Options options = App.Configuration;
 
-			string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			Options.DataFolder = Path.Combine(appDataFolder, "Chameleon");
+			
 
 			if(!Directory.Exists(Options.DataFolder))
 			{
