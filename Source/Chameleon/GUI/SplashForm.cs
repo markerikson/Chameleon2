@@ -172,6 +172,8 @@ namespace Chameleon.GUI
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "SplashForm";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SplashForm";
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

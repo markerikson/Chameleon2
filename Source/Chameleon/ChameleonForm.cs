@@ -131,9 +131,16 @@ namespace Chameleon
 			m_zoom = ZoomLevel.Normal;
 
 			UpdateZoomMenu();
-
 			
 			AddSnippetGroups();
+		}
+
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			this.Activate();
+			m_editors.CurrentEditor.Focus();
 		}
 
 		void m_sshProtocol_OnDisconnect()
