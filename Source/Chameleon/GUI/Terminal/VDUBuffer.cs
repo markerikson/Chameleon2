@@ -75,9 +75,9 @@ namespace de.mud.terminal
 			
 			set
 			{
-				//if (value > screenBase)
-				//	value = screenBase;
-				//else 
+				if (value > screenBase)
+					value = screenBase;
+				else 
 				if (value < 0)
 					value = 0;
 				windowBase = value;

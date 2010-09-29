@@ -65,6 +65,7 @@ namespace de.mud.terminal
 		private System.String selection; /* contains the selected text */
 		
 		private System.Windows.Forms.ScrollBar scrollBar;
+		private bool m_updatingScrollbar;
 		
 		/// <summary>A list of colors used for representation of the display </summary>
 		private Color[] color = new Color[]{ Color.Black,
@@ -140,12 +141,6 @@ namespace de.mud.terminal
 				else if(e.Delta < 0)
 				{
 					wb += 3;
-
-					int height = buffer.BufferSize - buffer.BottomMargin - buffer.TopMargin - 4;
-					if(wb > height)
-					{
-						wb = height;
-					}
 				}
 
 				buffer.WindowBase = wb;
@@ -267,28 +262,12 @@ namespace de.mud.terminal
 
 				if(buffer != null)
 				{
-					/*
-					this.scrollBar.Maximum = buffer.bufSize - buffer.height;
-					this.scrollBar.Minimum = 0;
-					
-					this.scrollBar.LargeChange = buffer.height;
-					
-					temp_maxsize = this.scrollBar.Maximum - this.scrollBar.LargeChange;
-
-					int newValue = buffer.windowBase > temp_maxsize ? temp_maxsize : buffer.windowBase;
-					if(newValue < 0)
-					{
-						newValue = 0;
-					}
-					*/
-					
 					this.scrollBar.ValueChanged += (sender, e) =>
 					{
-						this.buffer.WindowBase = this.scrollBar.Value;// -buffer.Rows;
+						if(!m_updatingScrollbar) this.buffer.WindowBase = this.scrollBar.Value;
 					};
 
 					updateScrollBar();
-					//this.scrollBar.Value = newValue;
 				}
 				
 			}
@@ -409,20 +388,35 @@ namespace de.mud.terminal
 		
 		public virtual void  updateScrollBar()
 		{
+			updateScrollBar(0, 0);
+		}
+
+		public void updateScrollBar(int oldBottomMargin, int oldTopMargin)
+		{
 			if (scrollBar == null)
 				return ;
 			Action updateValues = () =>
 			{
-				int numActualRows = buffer.BufferSize - buffer.BottomMargin - buffer.TopMargin;
-				scrollBar.Maximum = numActualRows;// -buffer.Rows;
-				scrollBar.Minimum = 0;
-				scrollBar.LargeChange = buffer.height;
-
-				if(numActualRows > buffer.Rows)
+				if(buffer.BufferSize > buffer.Rows)
 				{
+					m_updatingScrollbar = true;
 					scrollBar.Enabled = true;
-					int newValue = buffer.WindowBase;
-					scrollBar.Value = newValue;
+					scrollBar.Minimum = 0;
+					int max = buffer.BufferSize - buffer.Rows - 3;
+					if(max < 0)
+					{
+						max = buffer.BufferSize - buffer.Rows;
+					}
+					scrollBar.Maximum = max;
+					int val = buffer.WindowBase;
+
+					if(val > max)
+					{
+						val = max;
+					}
+					scrollBar.Value = val;
+					scrollBar.LargeChange = 10;
+					m_updatingScrollbar = false;
 				}
 				else
 				{
@@ -669,10 +663,23 @@ namespace de.mud.terminal
 		// Resize VDU buffer to so that text fits control size
 		public virtual void ResizeBuffer()
 		{
-			buffer.setScreenSize((int)(Width / charWidth), buffer.height = (int) (Height / charHeight), true);
+			int oldColumns = buffer.Columns;
+			int oldRows = buffer.Rows;
+
+			int newColumns = (int)(Width / charWidth);
+			int newRows = (int) (Height / charHeight);
+
+			int rowsDiff = newRows - oldRows;
+
+			int oldTopMargin = buffer.TopMargin;
+			int oldBottomMargin = buffer.BottomMargin;
+
+			buffer.setScreenSize(newColumns, buffer.height = newRows, true);
 			buffer.markLine(0, buffer.height);
 
-			updateScrollBar();
+
+			buffer.WindowBase -= rowsDiff;
+			updateScrollBar(oldBottomMargin, oldTopMargin);
 		}
 		
 		public virtual void  clearSelection()
@@ -839,6 +846,11 @@ namespace de.mud.terminal
 		{
 			return true;
 		}
+
+		private void ScrollToBottom()
+		{
+			scrollBar.Value = scrollBar.Maximum;
+		}
 	
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
@@ -847,11 +859,13 @@ namespace de.mud.terminal
 			
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
+
 			keyReleased(this, e);
 		}
 			
 		protected override void OnKeyPress(KeyPressEventArgs e)
 		{
+			ScrollToBottom();
 			keyTyped(this, e);
 		}
 
