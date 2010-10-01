@@ -125,6 +125,10 @@ namespace Chameleon.Network
 			{
 				App.Configuration.CustomStudentID = studentID;
 			}
+			else
+			{
+				App.Configuration.CustomStudentID = "";
+			}
 
 			return featureText;
 		}
