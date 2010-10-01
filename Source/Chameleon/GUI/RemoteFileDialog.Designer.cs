@@ -79,9 +79,9 @@
             this.toolHomeFolder,
             this.toolRefresh});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-			this.toolStrip1.Location = new System.Drawing.Point(512, 9);
+			this.toolStrip1.Location = new System.Drawing.Point(543, 9);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(103, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(72, 25);
 			this.toolStrip1.TabIndex = 2;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -216,6 +216,7 @@
 			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.txtCurrentPath);
 			this.Controls.Add(this.label1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "RemoteFileDialog";
