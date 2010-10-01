@@ -74,6 +74,7 @@
     <Reference Include="libvt100">
       <HintPath>DLLs\libvt100.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PSTaskDialog">
       <HintPath>DLLs\PSTaskDialog.dll</HintPath>
     </Reference>

@@ -113,13 +113,15 @@ namespace Chameleon
 
 			ExceptionReporting.Core.ExceptionReportInfo conf = er.Config;
 
-			conf.AppName = Options.AppName;
-			conf.CompanyName = Options.CompanyName;
+			Dictionary<string, string> rs = Options.ReportSettings;
+
+			conf.AppName = rs["appName"];
+			conf.CompanyName = rs["companyName"];
 
 			conf.MailMethod = ExceptionReportInfo.EmailMethod.SMTP;
-			conf.ContactEmail = Options.ContactEmail;
-			conf.SmtpFromAddress = Options.ReportFromAddress;
-			conf.SmtpServer = Options.ReportSmtpServer;
+			conf.ContactEmail = rs["contactEmail"];
+			conf.SmtpFromAddress = rs["reportFromAddress"];
+			conf.SmtpServer = rs["reportSmtpServer"];
 			/*
 			
 			

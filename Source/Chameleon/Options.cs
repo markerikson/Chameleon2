@@ -42,59 +42,33 @@ namespace Chameleon
 		#region Private static fields
 		private static string m_dataFolder;
 
-		private static string m_appName = "Chameleon";
-		private static string m_companyName = "ISquared Software";
-		private static string m_contactEmail = "mark@isquaredsoftware.com";
-		private static string m_reportFromAddress = "crashreport@chameleon.isquaredsoftware.com";
-		private static string m_reportSmtpServer = "mail.chameleon.isquaredsoftware.com";
-		private static string m_reportSmtpUsername = "crashreport@chameleon.isquaredsoftware.com";
-		private static string m_reportSmtpPassword = "DUMMYPASS";
+		private static Dictionary<string, string> m_reportSettings;
+
+		static Options()
+		{
+			m_reportSettings = new Dictionary<string, string>();
+			m_reportSettings["appName"] = "Chameleon";
+			m_reportSettings["companyName"] = "ISquared Software";
+			m_reportSettings["contactEmail"] = "mark@isquaredsoftware.com";
+			m_reportSettings["reportFromAddress"] = "crashreport@chameleon.isquaredsoftware.com";
+			m_reportSettings["reportSmtpServer"] = "mail.chameleon.isquaredsoftware.com";
+			m_reportSettings["reportSmtpUsername"] = "crashreport@chameleon.isquaredsoftware.com";
+			m_reportSettings["reportSmtpPassword"] = "DUMMYPASS";
+		}
+
+		
 
 		private static bool m_closeOnException = true;
 		
 		#endregion
 
 		#region Properties
-		public static string AppName
+		public static Dictionary<string, string> ReportSettings
 		{
-			get { return m_appName; }
-			set { m_appName = value; }
-		}
-
-		public static string CompanyName
-		{
-			get { return m_companyName; }
-			set { m_companyName = value; }
-		}
-
-		public static string ContactEmail
-		{
-			get { return m_contactEmail; }
-			set { m_contactEmail = value; }
-		}
-
-		public static string ReportFromAddress
-		{
-			get { return m_reportFromAddress; }
-			set { m_reportFromAddress = value; }
-		}
-
-		public static string ReportSmtpServer
-		{
-			get { return m_reportSmtpServer; }
-			set { m_reportSmtpServer = value; }
-		}
-
-		public static string ReportSmtpUsername
-		{
-			get { return m_reportSmtpUsername; }
-			set { m_reportSmtpUsername = value; }
-		}
-
-		public static string ReportSmtpPassword
-		{
-			get { return m_reportSmtpPassword; }
-			set { m_reportSmtpPassword = value; }
+			get
+			{
+				return m_reportSettings;
+			}
 		}
 
 		public static bool CloseOnException
@@ -102,8 +76,6 @@ namespace Chameleon
 			get { return m_closeOnException; }
 			set { m_closeOnException = value; }
 		}
-
-		#endregion
 
 		public static string DataFolder
 		{
@@ -132,8 +104,11 @@ namespace Chameleon
 
 				return optionsPath;
 			}
-
 		}
+
+		#endregion
+
+		
 
 		public Options()
 		{
@@ -144,10 +119,13 @@ namespace Chameleon
 			WriteKeysToFile(OptionsPath);
 		}
 
+		// The URL that Chameleon tries to get permissions data from
 		public string FeaturePermissionsURL = "http://www.isquaredsoftware.com/chameleon/chameleonfeatures.php";
 
-		//public string StudentID = "s1278644";
+		// The alternate ID to use when checking permissions (if they're not on a campus box, for example)
+		public string CustomStudentID = "";
 
+		// Assume this is allowed by default
 		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.DragDropSnippets;
 
 		public string LastHostname = "";
