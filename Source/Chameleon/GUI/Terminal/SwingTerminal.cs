@@ -554,7 +554,7 @@ namespace de.mud.terminal
 					}
 					
 					if ((currAttr & VDUBuffer.UNDERLINE) != 0)
-						g.DrawLine(new Pen(fgBrush), c * charWidth, (l + 1) * charHeight / 2, c * charWidth + addr * charWidth, (l + 1) * charHeight / 2);
+						g.DrawLine(new Pen(fgBrush), c * charWidth, (l + 1) * charHeight , c * charWidth + addr * charWidth, (l + 1) * charHeight );
 					
 					c += addr - 1;
 				}
