@@ -55,11 +55,13 @@ namespace Chameleon.Network
 			// We start by assuming the current login name will be in the server,
 			// which it should be if this is a campus box.  
 			string studentID = Environment.UserName;
+			bool studentIsCustom = false;
 
 			// However, if we previously had a custom name entered, we use that instead
 			if(App.Configuration.CustomStudentID != "")
 			{
 				studentID = App.Configuration.CustomStudentID;
+				studentIsCustom = true;
 			}
 
 			string baseURL = App.Configuration.FeaturePermissionsURL;
@@ -68,7 +70,7 @@ namespace Chameleon.Network
 			HttpHelper http = new HttpHelper();
 
 			bool validStudentFound = false;
-			bool studentIsCustom = false;
+			
 
 			// retry three times
 			for(int i = 0; i < 3 && !validStudentFound; i++)
