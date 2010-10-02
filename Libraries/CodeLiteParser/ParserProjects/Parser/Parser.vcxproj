@@ -71,6 +71,7 @@
       <AdditionalDependencies>wxbase29ud.lib;wxmsw29ud_adv.lib;wxmsw29ud_core.lib;wxbase29ud_xml.lib;wxbase29ud_net.lib;wxmsw29ud_xrc.lib;wxcode_msw28ud_wxsqlite3.lib;sqlite3.lib;wxexpatd.lib;comctl32.lib;Rpcrt4.lib;wsock32.lib;wxregexud.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)_d$(TargetExt)</OutputFile>
       <ImportLibrary>$(OutDir)$(TargetName)_d.lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName)_d.pdb</ProgramDatabaseFile>
     </Link>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
