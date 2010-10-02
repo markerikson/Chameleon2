@@ -25,14 +25,14 @@ namespace Chameleon.Features.CodeRules
 
 			CtagsManagerWrapper cmw = Singleton<CtagsManagerWrapper>.Instance;
 
-			List<Tag> globals = cmw.TagsByScope("<global>", "variable", false, false);
+			List<Tag> allGlobals = cmw.TagsByScope("<global>");
+			List<Tag> globalVars = allGlobals.Where(t => t.kind == "variable").ToList();
 
-			if(globals.Count > 0)
+			if(globalVars.Count > 0)
 			{
-				foreach(Tag t in globals)
+				foreach(Tag t in globalVars)
 				{
 					int actualLine = t.lineNumber - 1;
-					//int actualLine = searchRange.StartingLine.Number + assignment.lineNumber - 1;
 					string errorText = "Global variables are not allowed";
 
 					AddError(ed, actualLine, errorText);

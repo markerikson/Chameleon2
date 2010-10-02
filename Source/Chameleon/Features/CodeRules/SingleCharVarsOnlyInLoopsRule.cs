@@ -56,29 +56,26 @@ namespace Chameleon.Features.CodeRules
 											where n.text == t.name && n.type == 10
 											select n).ToList();
 
-					if(usages.Count == 0)
+					if(usages.Count > 0)
 					{
-						continue;
+						ASTNode firstUsage = usages[0];
+
+						ASTNode ancestor = firstUsage.GetAncestor(4);
+						if(ancestor != null && ancestor.text == "for")
+						{
+							continue;
+						}
 					}
-
-					ASTNode firstUsage = usages[0];
-
-					ASTNode ancestor = firstUsage.GetAncestor(4);
-					if(ancestor != null && ancestor.text == "for")
-					{
-						continue;
-					}
-
 
 					int errorLine = -1;
-					
+
 					if(t.lineNumber < 0)
 					{
 						//string varDeclaration = t.scope + " " + t.name;
 
 						//int declarationPos = searchRange.Text.IndexOf(varDeclaration);
 						errorLine = searchRange.StartingLine.Number;
-						
+
 
 						/*
 						if(declarationPos != -1)

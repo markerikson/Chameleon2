@@ -36,7 +36,7 @@ namespace Chameleon.Features.CodeRules
 			m_blocks["for"] = new BlockInfo("for", true, "body", true);
 			m_blocks["while"] = new BlockInfo("while", true, "body", true);
 			m_blocks["switch"] = new BlockInfo("switch", true, "body", false);
-			m_blocks["right"] = new BlockInfo("right", false, "expression", true);
+			//m_blocks["right"] = new BlockInfo("right", false, "expression", true);
 		}
 
 		public override bool ExamineSource(ChameleonEditor ed, Range searchRange)
