@@ -12,6 +12,7 @@ namespace Chameleon.Features
 		DragDropSnippets		= 1 << 1,
 		Compiler				= 1 << 2,
 		Debugger				= 1 << 3,
+		CodeRules				= 1 << 4,
 	}
 
 	public class Permissions

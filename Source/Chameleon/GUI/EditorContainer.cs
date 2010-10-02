@@ -16,6 +16,7 @@ using PSTaskDialog;
 using ScintillaNet;
 using ScintillaNet.Configuration;
 using CU = Chameleon.Util;
+using Chameleon.Features;
 
 namespace Chameleon.GUI
 {
@@ -543,7 +544,11 @@ namespace Chameleon.GUI
 
 			editor.SetFileSaved(filename, location);
 
-			RunCodeRules(editor);
+			if(App.Configuration.PermittedFeatures.HasFlag(ChameleonFeatures.CodeRules))
+			{
+				RunCodeRules(editor);
+			}
+			
 
 			return true;
 		}
