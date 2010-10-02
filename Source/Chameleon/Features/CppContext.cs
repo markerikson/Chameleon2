@@ -116,6 +116,7 @@ namespace Chameleon.Features
 			{
 				// TODO wanted?  needed?
 				//AutoAddComment();
+				SimpleIndent(ch);
 				return;
 			}
 
