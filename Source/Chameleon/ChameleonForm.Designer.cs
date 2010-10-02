@@ -123,13 +123,13 @@
 			// 
 			this.toolStripContainer1.ContentPanel.AutoScroll = true;
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitSnippetsEditor);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 453);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(984, 563);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer1.Name = "toolStripContainer1";
 			this.toolStripContainer1.RightToolStripPanelVisible = false;
-			this.toolStripContainer1.Size = new System.Drawing.Size(784, 562);
+			this.toolStripContainer1.Size = new System.Drawing.Size(984, 672);
 			this.toolStripContainer1.TabIndex = 5;
 			this.toolStripContainer1.Text = "toolStripContainer1";
 			// 
@@ -147,7 +147,7 @@
             this.toolStatusConnected});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(784, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(984, 22);
 			this.statusStrip1.TabIndex = 1;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -169,8 +169,8 @@
 			// splitSnippetsEditor.Panel2
 			// 
 			this.splitSnippetsEditor.Panel2.Controls.Add(this.splitEditorTerminal);
-			this.splitSnippetsEditor.Size = new System.Drawing.Size(784, 453);
-			this.splitSnippetsEditor.SplitterDistance = 132;
+			this.splitSnippetsEditor.Size = new System.Drawing.Size(984, 563);
+			this.splitSnippetsEditor.SplitterDistance = 165;
 			this.splitSnippetsEditor.TabIndex = 5;
 			// 
 			// naviBar1
@@ -187,7 +187,7 @@
 			this.naviBar1.ShowCollapseButton = false;
 			this.naviBar1.ShowMinimizeButton = false;
 			this.naviBar1.ShowMoreOptionsButton = false;
-			this.naviBar1.Size = new System.Drawing.Size(130, 453);
+			this.naviBar1.Size = new System.Drawing.Size(163, 563);
 			this.naviBar1.TabIndex = 1;
 			this.naviBar1.Text = "naviBar1";
 			// 
@@ -199,12 +199,12 @@
 			this.naviBand1.ClientArea.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.naviBand1.ClientArea.Location = new System.Drawing.Point(0, 0);
 			this.naviBand1.ClientArea.Name = "ClientArea";
-			this.naviBand1.ClientArea.Size = new System.Drawing.Size(128, 393);
+			this.naviBand1.ClientArea.Size = new System.Drawing.Size(161, 503);
 			this.naviBand1.ClientArea.TabIndex = 0;
 			this.naviBand1.LayoutStyle = Guifreaks.NavigationBar.NaviLayoutStyle.Office2007Black;
 			this.naviBand1.Location = new System.Drawing.Point(1, 20);
 			this.naviBand1.Name = "naviBand1";
-			this.naviBand1.Size = new System.Drawing.Size(128, 393);
+			this.naviBand1.Size = new System.Drawing.Size(161, 503);
 			this.naviBand1.TabIndex = 0;
 			this.naviBand1.Text = "Code Snippets";
 			// 
@@ -214,8 +214,8 @@
 			this.splitEditorTerminal.Location = new System.Drawing.Point(0, 0);
 			this.splitEditorTerminal.Name = "splitEditorTerminal";
 			this.splitEditorTerminal.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			this.splitEditorTerminal.Size = new System.Drawing.Size(648, 453);
-			this.splitEditorTerminal.SplitterDistance = 261;
+			this.splitEditorTerminal.Size = new System.Drawing.Size(815, 563);
+			this.splitEditorTerminal.SplitterDistance = 324;
 			this.splitEditorTerminal.TabIndex = 5;
 			// 
 			// menuStrip1
@@ -228,7 +228,7 @@
             this.menuHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(784, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(984, 24);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -622,7 +622,7 @@
             this.toolHostDisconnect});
 			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(554, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
 			this.toolStrip2.TabIndex = 4;
 			// 
 			// toolStripLabel1
@@ -702,7 +702,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(784, 562);
+			this.ClientSize = new System.Drawing.Size(984, 672);
 			this.Controls.Add(this.toolStripContainer1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
