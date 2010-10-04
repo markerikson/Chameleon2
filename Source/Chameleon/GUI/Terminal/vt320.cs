@@ -882,7 +882,10 @@ namespace de.mud.terminal
 					break;
 				
 				case (int) System.Windows.Forms.Keys.Back: 
-					writeSpecial(BackSpace[xind]);
+					// ASCII DEL character
+					char c = (char)127;
+					write(c.ToString());
+					/*writeSpecial(BackSpace[xind]);
 					if (localecho)
 					{
 						if ((System.Object) BackSpace[xind] == (System.Object) "\b")
@@ -894,6 +897,7 @@ namespace de.mud.terminal
 							putString(BackSpace[xind]); // echo it
 						}
 					}
+					*/
 					break;
 				
 				case (int) System.Windows.Forms.Keys.Home: 
