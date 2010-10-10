@@ -12,7 +12,7 @@ Name Chameleon
 !define SHORTVERSION "${VERSIONMAJOR}.${VERSIONMINOR}.${VERSIONBUG}"
 !define VERSIONFULL ${VERSIONMAJOR}.${VERSIONMINOR}.${VERSIONBUG}.${VERSIONSVN}
 
-!echo ${VERSIONFULL}
+!define RELEASEFOLDER "..\Releases\${SHORTVERSION}"
 
 !define COMPANY "ISquared Software"
 !define URL http://www.isquaredsoftware.com
@@ -102,32 +102,33 @@ Section -Main SEC0000
     Delete "$TEMP\vcredist_2010x86.exe"
 
 
-
     SetOutPath $INSTDIR
     SetOverwrite on
-    File input\ANTLRParser.dll
-    File input\AStyle.dll
-    File input\Chameleon.exe
-    File input\codelite_indexer.exe
-    File input\CodeLiteParser.dll
-    File input\CodeLiteParserNative.dll
-    File input\ExceptionReporter.WinForms.dll
-    File input\Guifreaks.Common.dll
-    File input\Guifreaks.NavigationBar.dll
-    File input\libvt100.dll
-    File input\PSTaskDialog.dll
-    File input\Routrek.Granados.dll
-    File input\SciLexer.dll
-    File input\ScintillaNet.dll
-    File input\sqlite3.dll
-    File input\TabStrip.dll
-    File input\wwAppConfiguration.dll
-    File input\wxbase290u.dll
-    File input\wxbase290u_xml.dll
-    File input\wxmsw290u_adv.dll
-    File input\wxmsw290u_core.dll
-    File input\wxmsw290u_html.dll
-    File input\wxmsw290u_xrc.dll
+    File ${RELEASEFOLDER}\ANTLRParser.dll
+    File ${RELEASEFOLDER}\AStyle.dll
+    File ${RELEASEFOLDER}\Chameleon.exe
+    File ${RELEASEFOLDER}\codelite_indexer.exe
+    File ${RELEASEFOLDER}\CodeLiteParser.dll
+    File ${RELEASEFOLDER}\CodeLiteParserNative.dll
+    File ${RELEASEFOLDER}\ExceptionReporter.WinForms.dll
+    File ${RELEASEFOLDER}\Guifreaks.Common.dll
+    File ${RELEASEFOLDER}\Guifreaks.NavigationBar.dll
+    File ${RELEASEFOLDER}\libvt100.dll
+    File ${RELEASEFOLDER}\PSTaskDialog.dll
+    File ${RELEASEFOLDER}\Routrek.Granados.dll
+    File ${RELEASEFOLDER}\SciLexer.dll
+    File ${RELEASEFOLDER}\ScintillaNet.dll
+    File ${RELEASEFOLDER}\sqlite3.dll
+    File ${RELEASEFOLDER}\TabStrip.dll
+    File ${RELEASEFOLDER}\wwAppConfiguration.dll
+    File ${RELEASEFOLDER}\wxbase290u.dll
+    File ${RELEASEFOLDER}\wxbase290u_xml.dll
+    File ${RELEASEFOLDER}\wxmsw290u_adv.dll
+    File ${RELEASEFOLDER}\wxmsw290u_core.dll
+    File ${RELEASEFOLDER}\wxmsw290u_html.dll
+    File ${RELEASEFOLDER}\wxmsw290u_xrc.dll
+    File ${RELEASEFOLDER}\wyUpdate.exe
+    File ${RELEASEFOLDER}\client.wyc
     
     
      # Find the user's AppData directory

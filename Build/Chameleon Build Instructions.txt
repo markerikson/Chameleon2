@@ -2,15 +2,24 @@ Prereqs
 -------
 1) .NET 4.0 is installed
 2) NSIS has been installed (run nsis-2.46-setup.exe)
+3) wyBuild has been installed (run "Chameleon2\Releases\Updates\wyBuild.exe")
+
+4) In order to properly build updates, the binaries for each prior version should be unzipped to "Chameleon2\Releases\[$VERSION]", such as "Chameleon2\Releases\2.1.1".  The binaries are kept in zip format in "Chameleon2\Releases".  If the binaries are not in place when Chameleon is built, the updates will not be built properly.
 
 
 Build Steps
 -----------
-1) Compile Chameleon
-	- run "buildChameleon.bat".  This should pop up a command prompt, use subwcrev.exe to stamp the current Subversion repository version number into Chameleon's AssemblyInfo.cs file, and execute the MSBuild project/makefile "ChameleonBuild.proj".  All output files will be put in ".\Build\input".  
+1) If desired, edit "Chameleon2\Releases\Updates\ChangeDescription.txt" and enter a brief description of what's changed in this release (this text will be displayed in the auto-updater wizard).
 
-2) Edit configuration file
+2) Compile Chameleon
+	- run "buildChameleon.bat".  This should pop up a command prompt, use subwcrev.exe to stamp the current Subversion repository version number into Chameleon's AssemblyInfo.cs file, and execute the MSBuild project/makefile "ChameleonBuild.proj".  All output files will be put in ".\Build\input".  The batch file will also run "VersionExtractor.exe", which will create a version number-named folder under "Chameleon2\Releases".  The freshly-built binaries will be copied to this folder, along with the appropriate files needed to help with updates ("wyUpdate.exe" and "client.wyc").  
+
+3) Edit configuration file
 	- The configuration file ".\Build\input\Chameleon.xml" will be installed as the default settings.  Edit this file as necessary.
 	
-3) Build the installer
-	- With NSIS installed, right-click "ChameleonBuild.nsi" and select "Compile NSIS Script".  This should produce ".\Build\output\Chameleon[$VERSION]Setup.exe", where "[$VERSION]" is the current version major/minor together (such as "Chameleon20Setup.exe".
+4) Build the installer
+	- With NSIS installed, right-click "ChameleonBuild.nsi" and select "Compile NSIS Script".  This should produce ".\Build\output\ChameleonSetup.exe[$VERSION]", where "[$VERSION]" is the current version major/minor/build together (such as "ChameleonSetup.exe2.1.2".
+	
+5) Create a zip file named "Chameleon[$VERSION].zip", add the files under "Chameleon2\Releases\[$VERSION]$", and add it to the SVN repository under "Chameleon2\Releases".  Also add the freshly built installer, for archival.
+
+6) Open "Chameleon2\Releases\Updates\Chameleon.wyp" in wyBuild.  The update information for this new version was added during the build process, but the updates still need to be uploaded to the server.  Click the "Upload your Updates" button on the left panel, and click "Upload Files".
