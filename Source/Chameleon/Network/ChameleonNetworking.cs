@@ -65,6 +65,12 @@ namespace Chameleon.Network
 			}
 
 			string baseURL = App.Configuration.FeaturePermissionsURL;
+
+			if(baseURL == "")
+			{
+				return null;
+			}
+
 			string featureText = "";
 
 			HttpHelper http = new HttpHelper();

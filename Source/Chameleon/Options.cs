@@ -120,13 +120,13 @@ namespace Chameleon
 		}
 
 		// The URL that Chameleon tries to get permissions data from
-		public string FeaturePermissionsURL = "http://www.isquaredsoftware.com/chameleon/chameleonfeatures.php";
+		public string FeaturePermissionsURL = "";//"http://www.isquaredsoftware.com/chameleon/chameleonfeatures.php";
 
 		// The alternate ID to use when checking permissions (if they're not on a campus box, for example)
 		public string CustomStudentID = "";
 
 		// Assume this is allowed by default
-		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.DragDropSnippets;
+		public ChameleonFeatures PermittedFeatures = (ChameleonFeatures)0;//ChameleonFeatures.DragDropSnippets;
 
 		public string LastHostname = "";
 		public string LastUsername = "";

@@ -87,7 +87,12 @@ namespace Chameleon
 			Splasher.Status = "Checking for new features...";
 
 			string permissionsText = ChameleonNetworking.Instance.GetFeaturePermissions();
-			if(!String.IsNullOrWhiteSpace(permissionsText))
+
+			if(permissionsText == null)
+			{
+				// do nothing - leave PermittedFeatures at default/last saved
+			}
+			else if(!String.IsNullOrWhiteSpace(permissionsText))
 			{
 				ChameleonFeatures enabledFeatures = Permissions.ParsePermissions(permissionsText);
 				App.Configuration.PermittedFeatures = enabledFeatures;
