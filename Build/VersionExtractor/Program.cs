@@ -111,7 +111,7 @@ namespace VersionExtractor
 
 			ProcessStartInfo psi = new ProcessStartInfo();
 			psi.FileName = wybuildPath;
-			psi.Arguments = string.Format("{0} /bwu /bu -add=\"{1}\"", Path.Combine(updateFolder, "Chameleon.wyp"), 
+			psi.Arguments = string.Format("\"{0}\" /bwu /bu -add=\"{1}\"", Path.Combine(updateFolder, "Chameleon.wyp"), 
 											Path.Combine(updateFolder, "ChameleonUpdate.xml"));
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = true;
