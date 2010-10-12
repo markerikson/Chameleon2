@@ -592,7 +592,7 @@ namespace Chameleon
 			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
 
 			// clear out toolbar items after the basics
-			int indexAfterSave = toolStrip1.Items.IndexOf(btnSave) + 1;
+			int indexAfterSave = toolStrip1.Items.IndexOf(btnSave) + 2;
 			int remainingItems = toolStrip1.Items.Count - (indexAfterSave);
 
 			for(int i = 0; i < remainingItems; i++)
@@ -601,6 +601,23 @@ namespace Chameleon
 			}
 
 			splitSnippetsEditor.Panel1Collapsed = !perms.HasFlag(ChameleonFeatures.DragDropSnippets);
+			
+			if(perms.HasFlag(ChameleonFeatures.Compiler))
+			{
+				toolStrip1.Items.Add(btnCompile);
+				toolStrip1.Items.Add(new ToolStripSeparator());
+			}
+
+			if(perms.HasFlag(ChameleonFeatures.Debugger))
+			{
+				toolStrip1.Items.Add(btnDebugStart);
+				toolStrip1.Items.Add(btnDebugContinue);
+				toolStrip1.Items.Add(btnDebugStop);
+				toolStrip1.Items.Add(btnDebugStepNext);
+				toolStrip1.Items.Add(btnDebugStepOver);
+				toolStrip1.Items.Add(btnDebugStepOut);
+				toolStrip1.Items.Add(new ToolStripSeparator());
+			}
 		}
 
 		#endregion

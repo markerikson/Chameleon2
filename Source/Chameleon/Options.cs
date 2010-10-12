@@ -126,7 +126,7 @@ namespace Chameleon
 		public string CustomStudentID = "";
 
 		// Assume this is allowed by default
-		public ChameleonFeatures PermittedFeatures = (ChameleonFeatures)0;//ChameleonFeatures.DragDropSnippets;
+		public ChameleonFeatures PermittedFeatures = ChameleonFeatures.None;
 
 		public string LastHostname = "";
 		public string LastUsername = "";

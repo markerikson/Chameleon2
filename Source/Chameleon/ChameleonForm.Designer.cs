@@ -75,13 +75,6 @@
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
-			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
-			this.btnOpenRemote = new System.Windows.Forms.ToolStripButton();
-			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
-			this.btnSaveNormal = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -90,9 +83,25 @@
 			this.toolTextUser = new System.Windows.Forms.ToolStripTextBox();
 			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
+			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
+			this.btnOpenRemote = new System.Windows.Forms.ToolStripButton();
+			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
+			this.btnSaveNormal = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnSaveAsL = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnSaveAsR = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnCompile = new System.Windows.Forms.ToolStripButton();
+			this.btnDebugStart = new System.Windows.Forms.ToolStripButton();
+			this.btnDebugContinue = new System.Windows.Forms.ToolStripButton();
+			this.btnDebugStop = new System.Windows.Forms.ToolStripButton();
+			this.btnDebugStepNext = new System.Windows.Forms.ToolStripButton();
+			this.btnDebugStepOver = new System.Windows.Forms.ToolStripButton();
+			this.btnDebugStepOut = new System.Windows.Forms.ToolStripButton();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -138,6 +147,7 @@
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip1);
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
 			this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
+			this.toolStripContainer1.TopToolStripPanel.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			// 
 			// statusStrip1
 			// 
@@ -521,13 +531,107 @@
             this.btnOpenLocal,
             this.btnOpenRemote,
             this.btnSave,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.btnCompile,
+            this.toolStripSeparator2,
+            this.btnDebugStart,
+            this.btnDebugContinue,
+            this.btnDebugStop,
+            this.btnDebugStepNext,
+            this.btnDebugStepOver,
+            this.btnDebugStepOut,
+            this.toolStripSeparator3});
 			this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.toolStrip1.Location = new System.Drawing.Point(3, 24);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(206, 38);
+			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+			this.toolStrip1.Size = new System.Drawing.Size(615, 38);
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+			this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolTextHost,
+            this.toolStripLabel3,
+            this.toolTextUser,
+            this.toolStripLabel2,
+            this.toolTextPassword,
+            this.toolHostConnect,
+            this.toolHostDisconnect});
+			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
+			this.toolStrip2.TabIndex = 4;
+			// 
+			// toolStripLabel1
+			// 
+			this.toolStripLabel1.Name = "toolStripLabel1";
+			this.toolStripLabel1.Size = new System.Drawing.Size(35, 22);
+			this.toolStripLabel1.Text = "Host:";
+			// 
+			// toolTextHost
+			// 
+			this.toolTextHost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolTextHost.Name = "toolTextHost";
+			this.toolTextHost.Size = new System.Drawing.Size(140, 25);
+			this.toolTextHost.ToolTipText = "The server to connect to (such as someserver.myschool.edu)";
+			this.toolTextHost.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
+			// 
+			// toolStripLabel3
+			// 
+			this.toolStripLabel3.Name = "toolStripLabel3";
+			this.toolStripLabel3.Size = new System.Drawing.Size(33, 22);
+			this.toolStripLabel3.Text = "User:";
+			// 
+			// toolTextUser
+			// 
+			this.toolTextUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolTextUser.Name = "toolTextUser";
+			this.toolTextUser.Size = new System.Drawing.Size(100, 25);
+			this.toolTextUser.ToolTipText = "Your user account name on the server";
+			this.toolTextUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
+			// 
+			// toolStripLabel2
+			// 
+			this.toolStripLabel2.Name = "toolStripLabel2";
+			this.toolStripLabel2.Size = new System.Drawing.Size(60, 22);
+			this.toolStripLabel2.Text = "Password:";
+			// 
+			// toolTextPassword
+			// 
+			this.toolTextPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolTextPassword.Name = "toolTextPassword";
+			this.toolTextPassword.Size = new System.Drawing.Size(100, 25);
+			this.toolTextPassword.ToolTipText = "Your password for this server account";
+			this.toolTextPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
+			// 
+			// imageList1
+			// 
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "for.png");
+			this.imageList1.Images.SetKeyName(1, "if.png");
+			this.imageList1.Images.SetKeyName(2, "while.png");
+			this.imageList1.Images.SetKeyName(3, "default.png");
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 38);
 			// 
 			// btnNewFile
 			// 
@@ -602,70 +706,75 @@
 			this.btnSaveAsR.ToolTipText = "Save this file with a different name on another computer";
 			this.btnSaveAsR.Click += new System.EventHandler(this.OnFileSaveAsRemote);
 			// 
-			// toolStripSeparator1
+			// btnCompile
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+			this.btnCompile.Image = global::Chameleon.Properties.Resources.build;
+			this.btnCompile.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnCompile.Name = "btnCompile";
+			this.btnCompile.Size = new System.Drawing.Size(56, 35);
+			this.btnCompile.Text = "Compile";
+			this.btnCompile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnCompile.ToolTipText = "Compile the current file";
 			// 
-			// toolStrip2
+			// btnDebugStart
 			// 
-			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.toolTextHost,
-            this.toolStripLabel3,
-            this.toolTextUser,
-            this.toolStripLabel2,
-            this.toolTextPassword,
-            this.toolHostConnect,
-            this.toolHostDisconnect});
-			this.toolStrip2.Location = new System.Drawing.Point(3, 62);
-			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(523, 25);
-			this.toolStrip2.TabIndex = 4;
+			this.btnDebugStart.Image = global::Chameleon.Properties.Resources.Debugger_Start;
+			this.btnDebugStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDebugStart.Name = "btnDebugStart";
+			this.btnDebugStart.Size = new System.Drawing.Size(35, 35);
+			this.btnDebugStart.Text = "Start";
+			this.btnDebugStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnDebugStart.ToolTipText = "Start the compiled program";
 			// 
-			// toolStripLabel1
+			// btnDebugContinue
 			// 
-			this.toolStripLabel1.Name = "toolStripLabel1";
-			this.toolStripLabel1.Size = new System.Drawing.Size(35, 22);
-			this.toolStripLabel1.Text = "Host:";
+			this.btnDebugContinue.Image = global::Chameleon.Properties.Resources.Debugger_Continue;
+			this.btnDebugContinue.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDebugContinue.Name = "btnDebugContinue";
+			this.btnDebugContinue.Size = new System.Drawing.Size(60, 35);
+			this.btnDebugContinue.Text = "Continue";
+			this.btnDebugContinue.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnDebugContinue.ToolTipText = "Continue the paused program";
 			// 
-			// toolTextHost
+			// btnDebugStop
 			// 
-			this.toolTextHost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.toolTextHost.Name = "toolTextHost";
-			this.toolTextHost.Size = new System.Drawing.Size(140, 25);
-			this.toolTextHost.ToolTipText = "The server to connect to (such as someserver.myschool.edu)";
-			this.toolTextHost.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
+			this.btnDebugStop.Image = global::Chameleon.Properties.Resources.Debugger_Stop;
+			this.btnDebugStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDebugStop.Name = "btnDebugStop";
+			this.btnDebugStop.Size = new System.Drawing.Size(35, 35);
+			this.btnDebugStop.Text = "Stop";
+			this.btnDebugStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnDebugStop.ToolTipText = "Stop the running program";
 			// 
-			// toolStripLabel3
+			// btnDebugStepNext
 			// 
-			this.toolStripLabel3.Name = "toolStripLabel3";
-			this.toolStripLabel3.Size = new System.Drawing.Size(33, 22);
-			this.toolStripLabel3.Text = "User:";
+			this.btnDebugStepNext.Image = global::Chameleon.Properties.Resources.Debugger_Step_Next;
+			this.btnDebugStepNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDebugStepNext.Name = "btnDebugStepNext";
+			this.btnDebugStepNext.Size = new System.Drawing.Size(61, 35);
+			this.btnDebugStepNext.Text = "Step Next";
+			this.btnDebugStepNext.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnDebugStepNext.ToolTipText = "Executes the next line of code,\r\ngoing inside if it\'s a function";
 			// 
-			// toolTextUser
+			// btnDebugStepOver
 			// 
-			this.toolTextUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.toolTextUser.Name = "toolTextUser";
-			this.toolTextUser.Size = new System.Drawing.Size(100, 25);
-			this.toolTextUser.ToolTipText = "Your user account name on the server";
-			this.toolTextUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
+			this.btnDebugStepOver.Image = global::Chameleon.Properties.Resources.Debugger_Step_Over;
+			this.btnDebugStepOver.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDebugStepOver.Name = "btnDebugStepOver";
+			this.btnDebugStepOver.Size = new System.Drawing.Size(62, 35);
+			this.btnDebugStepOver.Text = "Step Over";
+			this.btnDebugStepOver.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnDebugStepOver.ToolTipText = "Executes the next line of code,\r\nalways staying in this function";
 			// 
-			// toolStripLabel2
+			// btnDebugStepOut
 			// 
-			this.toolStripLabel2.Name = "toolStripLabel2";
-			this.toolStripLabel2.Size = new System.Drawing.Size(60, 22);
-			this.toolStripLabel2.Text = "Password:";
-			// 
-			// toolTextPassword
-			// 
-			this.toolTextPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.toolTextPassword.Name = "toolTextPassword";
-			this.toolTextPassword.Size = new System.Drawing.Size(100, 25);
-			this.toolTextPassword.ToolTipText = "Your password for this server account";
-			this.toolTextPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToolbarTextboxes_KeyPress);
+			this.btnDebugStepOut.Image = global::Chameleon.Properties.Resources.Debugger_Step_Out;
+			this.btnDebugStepOut.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnDebugStepOut.Name = "btnDebugStepOut";
+			this.btnDebugStepOut.Size = new System.Drawing.Size(57, 35);
+			this.btnDebugStepOut.Text = "Step Out";
+			this.btnDebugStepOut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnDebugStepOut.ToolTipText = "Finishes executing this function and returns";
 			// 
 			// toolHostConnect
 			// 
@@ -688,15 +797,6 @@
 			this.toolHostDisconnect.Text = "Disconnect";
 			this.toolHostDisconnect.ToolTipText = "Disconnect from this server";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "for.png");
-			this.imageList1.Images.SetKeyName(1, "if.png");
-			this.imageList1.Images.SetKeyName(2, "while.png");
-			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
 			// ChameleonForm
 			// 
@@ -803,6 +903,15 @@
 		private System.Windows.Forms.ToolStripMenuItem menuZoomLarge;
 		private System.Windows.Forms.ToolStripMenuItem menuZoomLarger;
 		private System.Windows.Forms.ToolStripMenuItem menuZoomLargest;
+		private System.Windows.Forms.ToolStripButton btnCompile;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripButton btnDebugStart;
+		private System.Windows.Forms.ToolStripButton btnDebugContinue;
+		private System.Windows.Forms.ToolStripButton btnDebugStop;
+		private System.Windows.Forms.ToolStripButton btnDebugStepNext;
+		private System.Windows.Forms.ToolStripButton btnDebugStepOver;
+		private System.Windows.Forms.ToolStripButton btnDebugStepOut;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 	}
 }
 

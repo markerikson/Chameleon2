@@ -60,9 +60,65 @@ namespace Chameleon.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap build {
+            get {
+                object obj = ResourceManager.GetObject("build", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap connect16 {
             get {
                 object obj = ResourceManager.GetObject("connect16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Continue {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Continue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Start {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Start", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Step_Next {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Step Next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Step_Out {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Step Out", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Step_Over {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Step Over", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Stop {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Debugger_Stop1 {
+            get {
+                object obj = ResourceManager.GetObject("Debugger Stop1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

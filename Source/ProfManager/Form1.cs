@@ -73,7 +73,11 @@ namespace ProfManager
 
 			foreach(ChameleonFeatures feature in cf)
 			{
-				lbFeatures.Items.Add(feature);
+				if((int)feature == 0)
+				{
+					continue;
+				}
+				lbFeatures.Items.Add(feature.ToString());
 			}
 
 			lvGroups.DoubleClickActivation = true;
@@ -259,7 +263,14 @@ namespace ProfManager
 			{
 				bool flag = cf.HasFlag(cfValues[i]);
 
-				lbFeatures.SetItemChecked(i, flag);
+				string name = cfValues[i].ToString();
+				int index = lbFeatures.Items.IndexOf(name);
+
+				if(index > -1)
+				{
+					lbFeatures.SetItemChecked(index, flag);
+				}
+				
 			}
 		}
 

@@ -216,6 +216,13 @@
     <Content Include="Chameleon.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Graphics\Debugger Step Out.png" />
+    <None Include="Graphics\Debugger Step Over.png" />
+    <None Include="Graphics\Debugger Step Next.png" />
+    <None Include="Graphics\Debugger Stop.png" />
+    <None Include="Graphics\Debugger Continue.png" />
+    <None Include="Graphics\Debugger Start.png" />
+    <None Include="Graphics\build.png" />
     <None Include="Graphics\refresh.png" />
     <None Include="Graphics\HomeHS.png" />
     <None Include="Graphics\upfolder.png" />

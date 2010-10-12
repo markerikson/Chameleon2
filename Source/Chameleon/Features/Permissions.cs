@@ -9,6 +9,7 @@ namespace Chameleon.Features
 	[Flags]
 	public enum ChameleonFeatures
 	{
+		None					= 0,
 		DragDropSnippets		= 1 << 1,
 		Compiler				= 1 << 2,
 		Debugger				= 1 << 3,
