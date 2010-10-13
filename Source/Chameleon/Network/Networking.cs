@@ -12,7 +12,62 @@ using Routrek.SSHCV2;
 
 namespace Chameleon.Network
 {
-	
+	// courtesy of http://www.codeproject.com/KB/IP/SetKeepAliveValues.aspx
+	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit)]
+	unsafe struct TcpKeepAlive
+	{
+		[System.Runtime.InteropServices.FieldOffset(0)]
+		[
+			System.Runtime.InteropServices.MarshalAs
+			(
+				System.Runtime.InteropServices.UnmanagedType.ByValArray,
+				SizeConst = 12
+			)
+		]
+		public fixed byte Bytes[12];
+
+		// non-zero = on
+		[System.Runtime.InteropServices.FieldOffset(0)]
+		public uint On_Off;
+
+		// timeout, in milliseconds, with no activity until the first keep-alive packet is sent
+		[System.Runtime.InteropServices.FieldOffset(4)]
+		public uint KeepAliveTime;
+
+		// interval, in milliseconds, between when successive keep-alive packets are sent
+		// if no acknowledgment is received
+		[System.Runtime.InteropServices.FieldOffset(8)]
+		public uint KeepAliveInterval;
+	}
+
+	public static class SocketUtil
+	{
+		public static int SetKeepAliveValues(System.Net.Sockets.Socket Socket, bool On_Off, 
+												uint KeepAliveTime, uint KeepAliveInterval)
+		{
+			int Result = -1;
+
+			unsafe
+			{
+				TcpKeepAlive KeepAliveValues = new TcpKeepAlive();
+
+				KeepAliveValues.On_Off = Convert.ToUInt32(On_Off);
+				KeepAliveValues.KeepAliveTime = KeepAliveTime;
+				KeepAliveValues.KeepAliveInterval = KeepAliveInterval;
+
+				byte[] InValue = new byte[12];
+
+				for(int I = 0; I < 12; I++)
+					InValue[I] = KeepAliveValues.Bytes[I];
+
+				Result = Socket.IOControl(IOControlCode.KeepAliveValues, InValue, null);
+			}
+
+			return Result;
+		}
+
+	}
+
 
 	public class Networking
 	{
@@ -91,6 +146,10 @@ namespace Chameleon.Network
 			try
 			{
 				s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+				// send TCP keep-alive packets after 10 seconds of inactivity, then every 5 seconds
+				SocketUtil.SetKeepAliveValues(s, true, 10 * 1000, 5 * 1000);
+				
 				s.Connect(host, 22);
 
 				SSHConnectionParameter f = new SSHConnectionParameter();
@@ -104,6 +163,7 @@ namespace Chameleon.Network
 				NullReader r = new NullReader();
 
 				m_conn = (SSH2Connection)SSHConnection.Connect(f, r, s);
+
 	
 			}
 			catch(Exception e)
