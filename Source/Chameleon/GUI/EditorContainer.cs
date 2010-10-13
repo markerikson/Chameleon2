@@ -587,6 +587,7 @@ namespace Chameleon.GUI
 			if(isRemote)
 			{
 				cmw.RenameTaggedFile(tempFile, originalFilename);
+				File.Delete(tempFile);
 			}
 			
 
