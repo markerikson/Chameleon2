@@ -162,7 +162,7 @@ namespace Chameleon.GUI
 			}
 
 			m_tempFiles = new List<string>();
-
+			
 			m_fileNum = 0;
 
 			m_currentZoom = 0;
@@ -453,6 +453,11 @@ namespace Chameleon.GUI
 			if(location == FileLocation.Unknown)
 			{
 				return false;
+			}
+
+			if(App.Configuration.PermittedFeatures.HasFlag(ChameleonFeatures.AutoReformat))
+			{
+				m_currentEditor.ReformatBuffer();
 			}
 
 			string fileContents = m_currentEditor.Text;

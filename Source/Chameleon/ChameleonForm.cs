@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using ArtisticStyle;
 using Chameleon.Features;
 using Chameleon.GUI;
 using Chameleon.Network;
@@ -30,7 +29,6 @@ namespace Chameleon
 		private SSHProtocol m_sshProtocol;
 
 		private CtagsManagerWrapper cmw;
-		private AStyleInterface m_astyle;
 
 		private bool parserInitialized;
 		private bool m_clickedSnippet;
@@ -108,10 +106,6 @@ namespace Chameleon
 				}
 			};
 			
-
-			m_astyle = new AStyleInterface();
-			m_astyle.SetDefaultChameleonStyleOptions();
-
 			RemoteFileDialog rfd = Singleton<RemoteFileDialog>.Instance;
 			rfd.Networking = ChameleonNetworking.Instance;
 
@@ -358,8 +352,6 @@ namespace Chameleon
 		{
 			ChameleonEditor editor = m_editors.CurrentEditor;
 			m_editors.SaveFile(editor, editor.FileLocation, false, true);
-
-			
 		}
 
 		private void OnFileSaveAsLocal(object sender, EventArgs e)
@@ -451,16 +443,12 @@ namespace Chameleon
 
 		private void menuEditReformatFile_Click(object sender, EventArgs e)
 		{
-			ChameleonEditor ed = m_editors.CurrentEditor;
-
-			ed.Text = m_astyle.FormatSource(ed.Text);
+			m_editors.CurrentEditor.ReformatBuffer();
 		}
 
 		private void menuEditReformatSelectedCode_Click(object sender, EventArgs e)
 		{
-			ChameleonEditor ed = m_editors.CurrentEditor;
-
-			ed.Selection.Text = m_astyle.FormatSource(ed.Selection.Text);
+			m_editors.CurrentEditor.ReformatSelectedText();
 		}
 
 		#endregion

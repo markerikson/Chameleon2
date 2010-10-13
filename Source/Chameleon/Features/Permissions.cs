@@ -14,6 +14,7 @@ namespace Chameleon.Features
 		Compiler				= 1 << 2,
 		Debugger				= 1 << 3,
 		CodeRules				= 1 << 4,
+		AutoReformat			= 1 << 5,
 	}
 
 	public class Permissions

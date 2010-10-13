@@ -8,6 +8,7 @@ using Chameleon.Features.CodeRules;
 using Chameleon.Util;
 using FarsiLibrary.Win;
 using ScintillaNet;
+using ArtisticStyle;
 
 namespace Chameleon.GUI
 {
@@ -24,6 +25,7 @@ namespace Chameleon.GUI
 		private bool m_autoAddMatchedBrace;
 
 		private CppContext m_context;
+		private static AStyleInterface m_astyle;
 
 		private List<CodeRuleError> m_ruleErrors;
 
@@ -90,6 +92,9 @@ namespace Chameleon.GUI
 			m_titlePrefixes[FileLocation.Local] = "(L) ";
 			m_titlePrefixes[FileLocation.Remote] = "(R) ";
 			m_titlePrefixes[FileLocation.Unknown] = "(?) ";
+
+			m_astyle = new AStyleInterface();
+			m_astyle.SetDefaultChameleonStyleOptions();
 		}
 
 		public ChameleonEditor()
@@ -674,6 +679,17 @@ namespace Chameleon.GUI
 			NativeInterface.SetCurrentPos(pos);
 			NativeInterface.SetSelectionStart(pos);
 			NativeInterface.SetSelectionEnd(pos);
+		}
+
+
+		public void ReformatSelectedText()
+		{
+			this.Selection.Text = m_astyle.FormatSource(this.Selection.Text);
+		}
+
+		public void ReformatBuffer()
+		{
+			this.Text = m_astyle.FormatSource(this.Text);
 		}
 
 		#endregion
