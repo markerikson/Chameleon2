@@ -30,15 +30,15 @@ namespace Chameleon.Network
 
 		public void OnData(byte[] data, int offset, int length)
 		{
-			System.Console.Write(Encoding.ASCII.GetString(data, offset, length));
+			System.Console.Write(Encoding.UTF8.GetString(data, offset, length));
 		}
 		public void OnDebugMessage(bool always_display, byte[] data)
 		{
-			Debug.WriteLine("DEBUG: " + Encoding.ASCII.GetString(data));
+			Debug.WriteLine("DEBUG: " + Encoding.UTF8.GetString(data));
 		}
 		public void OnIgnoreMessage(byte[] data)
 		{
-			Debug.WriteLine("Ignore: " + Encoding.ASCII.GetString(data));
+			Debug.WriteLine("Ignore: " + Encoding.UTF8.GetString(data));
 		}
 		public void OnAuthenticationPrompt(string[] msg)
 		{

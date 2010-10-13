@@ -147,7 +147,7 @@ namespace Chameleon.Network
 
 			Sftp.get(filename, ms);
 
-			contents = Encoding.ASCII.GetString(ms.ToArray());
+			contents = Encoding.UTF8.GetString(ms.ToArray());
 		}
 
 		public void SendFileContents(FilePath destination, string contents)
@@ -157,7 +157,7 @@ namespace Chameleon.Network
 			string destString = destination.GetFullPath();
 
 			MemoryStream ms = new MemoryStream();
-			byte[] bytes = Encoding.ASCII.GetBytes(contents);
+			byte[] bytes = Encoding.UTF8.GetBytes(contents);
 			ms.Write(bytes, 0, bytes.Length);
 			ms.Position = 0;
 

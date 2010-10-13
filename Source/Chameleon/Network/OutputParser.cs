@@ -72,7 +72,7 @@ namespace Chameleon.Network
 					{
 						sb.Clear();
 
-						byte[] bytes = Encoding.ASCII.GetBytes(r.textReceived);
+						byte[] bytes = Encoding.UTF8.GetBytes(r.textReceived);
 						vt.Input(bytes);
 
 						r.finalOutput = sb.ToString();

@@ -34,7 +34,7 @@ namespace Chameleon.Network
 		{
 			byte[] bytes = new byte[length];
 			Buffer.BlockCopy(data, offset, bytes, 0, length);
-			string text = Encoding.ASCII.GetString(bytes);
+			string text = Encoding.UTF8.GetString(bytes);
 			textReceived += text;
 
 			if(state == OutputState.Ready)
