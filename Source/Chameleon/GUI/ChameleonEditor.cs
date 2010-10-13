@@ -15,6 +15,7 @@ namespace Chameleon.GUI
 	{
 		#region Private fields
 		private FileInformation m_fileInfo;
+		
 		private FATabStripItem m_parentTab;
 
 		private static Dictionary<FileLocation, string> m_titlePrefixes;
@@ -36,7 +37,13 @@ namespace Chameleon.GUI
 		{
 			get { return m_parentTab; }
 			set { m_parentTab = value; }
-		}		
+		}
+
+		public Chameleon.Util.FileInformation FileInfo
+		{
+			get { return m_fileInfo; }
+			set { m_fileInfo = value; }
+		}
 
 		public Chameleon.Util.FileLocation FileLocation
 		{

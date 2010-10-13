@@ -36,6 +36,8 @@ namespace Chameleon
 		private bool m_clickedSnippet;
 
 		private ZoomLevel m_zoom;
+
+		private Compiler m_compiler;
 		
 		#endregion
 
@@ -52,6 +54,8 @@ namespace Chameleon
 		public ChameleonForm()
 		{
 			InitializeComponent();
+
+			m_compiler = new Compiler();
 
 			this.m_editors = new Chameleon.GUI.EditorContainer();
 			this.splitEditorTerminal.Panel1.Controls.Add(this.m_editors);
@@ -748,6 +752,11 @@ namespace Chameleon
 		}
 
 		#endregion
+
+		private void btnCompile_Click(object sender, EventArgs e)
+		{
+			m_compiler.CompileFile(m_editors.CurrentEditor.FileInfo);
+		}
 
 		
 
