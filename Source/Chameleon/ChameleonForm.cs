@@ -15,6 +15,7 @@ using Guifreaks.NavigationBar;
 using ScintillaNet;
 using SSHClient;
 using de.mud.terminal;
+using Etier.IconHelper;
 
 namespace Chameleon
 {
@@ -91,7 +92,7 @@ namespace Chameleon
 			m_terminal.Dock = DockStyle.Fill;
 			m_terminal.ForeColor = Color.White;
 			m_terminal.BackColor = Color.Black;
-			m_terminal.Parent = splitEditorTerminal.Panel2;
+			m_terminal.Parent = m_tabTerminal;//splitEditorTerminal.Panel2;
 
 			m_terminal.Resize += (sender, e) =>
 			{
@@ -128,9 +129,74 @@ namespace Chameleon
 
 			m_zoom = ZoomLevel.Normal;
 
+			m_compiler.CompilerEvent += new EventHandler<CompilerEventArgs>(OnCompilerEvent);
+
+			ImageList compilerErrorIcons = new ImageList();
+			compilerErrorIcons.ColorDepth = ColorDepth.Depth32Bit;
+
+			Icon warning = Shell32.IconFromFile("user32.dll", IconSize.Small, 1);
+			Icon error = Shell32.IconFromFile("user32.dll", IconSize.Small, 3);
+			
+			compilerErrorIcons.ImageSize = new Size(16, 16);
+			compilerErrorIcons.Images.Add(warning);//new Icon(SystemIcons.Warning, 16, 16));
+			compilerErrorIcons.Images.Add(error);//new Icon(SystemIcons.Error, 16, 16));
+
+			m_lvCompilerErrors.SmallImageList = compilerErrorIcons;
+
 			UpdateZoomMenu();
 			
 			AddSnippetGroups();
+		}
+
+		void OnCompilerEvent(object sender, CompilerEventArgs e)
+		{
+			Action updateCompilerDetails = () =>
+			{
+				switch(e.Status)
+				{
+					case CompileStatus.Started:
+					{
+						m_lvCompilerErrors.Items.Clear();
+						break;
+					}
+					case CompileStatus.Finished:
+					{
+						var items = new ListView.ListViewItemCollection(m_lvCompilerErrors);
+						foreach(CompilerMessage cm in e.Messages)
+						{
+							ListViewItem lvi = new ListViewItem();
+							lvi.Text = "";
+							lvi.SubItems.Add(cm.Filename);
+							lvi.SubItems.Add(cm.Line.ToString());
+							lvi.SubItems.Add(cm.Column.ToString());
+							lvi.SubItems.Add(cm.Message);
+
+							if(cm.MessageType == CompilerMessageType.Warning)
+							{
+								lvi.ImageIndex = 0;
+							}
+							else if(cm.MessageType == CompilerMessageType.Error)
+							{
+								lvi.ImageIndex = 1;
+							}
+
+							m_lvCompilerErrors.Items.Add(lvi);
+						}
+
+						tabControl1.SelectedTab = m_tabCompilerErrors;
+						break;
+					}
+				}
+			};
+
+			if(this.InvokeRequired)
+			{
+				this.Invoke(updateCompilerDetails);
+			}
+			else
+			{
+				updateCompilerDetails();
+			}			
 		}
 
 		protected override void OnShown(EventArgs e)
@@ -743,7 +809,17 @@ namespace Chameleon
 
 		private void btnCompile_Click(object sender, EventArgs e)
 		{
-			m_compiler.CompileFile(m_editors.CurrentEditor.FileInfo);
+			ChameleonEditor ed = m_editors.CurrentEditor;
+
+			if(ed.Modified)
+			{
+				if(!m_editors.SaveFile(ed, ed.FileLocation, false, true))
+				{
+					return;
+				}
+			}
+
+			m_compiler.CompileFile(ed.FileInfo);
 		}
 
 		

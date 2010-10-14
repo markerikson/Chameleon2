@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -48,6 +49,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>chameleon.ico</ApplicationIcon>
@@ -265,12 +267,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>xcopy /d "$(ProjectDir)DLLs\sqlite3.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\SciLexer.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\codelite_indexer.exe" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\CodeLiteParserNative.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\wx*.dll" "$(TargetDir)"
-xcopy /d "$(ProjectDir)DLLs\AStyle.dll" "$(TargetDir)"</PreBuildEvent>
+    <PreBuildEvent>xcopy /y /d "$(ProjectDir)DLLs\sqlite3.dll" "$(TargetDir)"
+xcopy /y /d "$(ProjectDir)DLLs\SciLexer.dll" "$(TargetDir)"
+xcopy /y /d "$(ProjectDir)DLLs\codelite_indexer.exe" "$(TargetDir)"
+xcopy /y /d "$(ProjectDir)DLLs\CodeLiteParserNative.dll" "$(TargetDir)"
+xcopy /y /d "$(ProjectDir)DLLs\wx*.dll" "$(TargetDir)"
+xcopy /y /d "$(ProjectDir)DLLs\AStyle.dll" "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

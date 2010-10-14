@@ -2,6 +2,7 @@
 using System.Text;
 using Chameleon.Parsing;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Chameleon.Extensions.ANTLRParser
 {
@@ -121,7 +122,22 @@ namespace Chameleon.Extensions.Windows.Forms
 			control.Invoke((Delegate)action);
 		}
 
+		public static void Invoke(this Form form, Action action)
+		{
+			form.Invoke((Delegate)action);
+		}
 
 	}
 
+}
+
+namespace Chameleon.Extensions.System
+{
+	public static class StringExtensions
+	{
+		public static string ToTitleCase(this string text)
+		{
+			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text);
+		}
+	}
 }

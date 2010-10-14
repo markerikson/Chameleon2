@@ -111,7 +111,7 @@ namespace Chameleon.GUI
 			m_fileFilterDescriptions = new List<string>();
 			m_fileFilterExtensions	= new Dictionary<string, List<string>>();						
 
-			m_iconManager = new IconListManager(m_images, IconReader.IconSize.Small);
+			m_iconManager = new IconListManager(m_images, IconSize.Small);
 			listView1.SmallImageList = m_images;
 
 			m_folderMode = false;

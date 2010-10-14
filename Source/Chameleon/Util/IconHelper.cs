@@ -7,6 +7,22 @@ using System.Runtime.InteropServices;
 
 namespace Etier.IconHelper
 {
+
+	/// <summary>
+	/// Options to specify the size of icons to return.
+	/// </summary>
+	public enum IconSize
+	{
+		/// <summary>
+		/// Specify large icon - 32 pixels by 32 pixels.
+		/// </summary>
+		Large = 0,
+		/// <summary>
+		/// Specify small icon - 16 pixels by 16 pixels.
+		/// </summary>
+		Small = 1
+	}
+
 	/// <summary>
 	/// Provides static methods to read system icons for both folders and files.
 	/// </summary>
@@ -15,20 +31,7 @@ namespace Etier.IconHelper
 	/// </example>
 	public class IconReader
 	{
-		/// <summary>
-		/// Options to specify the size of icons to return.
-		/// </summary>
-		public enum IconSize
-		{
-			/// <summary>
-			/// Specify large icon - 32 pixels by 32 pixels.
-			/// </summary>
-			Large = 0,
-			/// <summary>
-			/// Specify small icon - 16 pixels by 16 pixels.
-			/// </summary>
-			Small = 1
-		}
+		
         
 		/// <summary>
 		/// Options to specify whether folders should be in the open or closed state.
@@ -222,6 +225,52 @@ namespace Etier.IconHelper
 			uint cbFileInfo,
 			uint uFlags
 			);
+
+		[DllImport("Shell32.dll", CharSet = CharSet.Auto)]
+		internal extern static int ExtractIconEx(
+			[MarshalAs(UnmanagedType.LPTStr)] 
+            string lpszFile,                //size of the icon
+			int nIconIndex, //index of the icon (in case we have more than 1 icon in the file
+			IntPtr[] phIconLarge,           //32x32 icon
+			IntPtr[] phIconSmall,           //16x16 icon
+			int nIcons);                    //how many to get
+
+		public static Icon IconFromFile(
+			string Filename, IconSize Size, int Index)
+		{
+			int IconCount = ExtractIconEx(Filename, -1, null, null, 0);
+			//checks how many icons.
+
+			if(IconCount <= 0 || Index >= IconCount) return null;
+			// no icons were found.
+
+
+			Icon TempIcon;
+			IntPtr[] IconPtr = new IntPtr[1];
+
+			//extracts the icon that we want in the selected size.
+
+			if(Size == IconSize.Small)
+				ExtractIconEx(Filename, Index, null, IconPtr, 1);
+			else
+				ExtractIconEx(Filename, Index, IconPtr, null, 1);
+
+			TempIcon = Icon.FromHandle(IconPtr[0]);
+
+			return GetManagedIcon(ref TempIcon);
+		}
+
+		public static Icon GetManagedIcon(ref Icon UnmanagedIcon)
+		{
+			Icon ManagedIcon = (Icon)UnmanagedIcon.Clone();
+
+			User32.DestroyIcon(UnmanagedIcon.Handle);
+
+			return ManagedIcon;
+		}
+
+
+
 	}
 
 	/// <summary>

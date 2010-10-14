@@ -11,7 +11,7 @@ namespace Etier.IconHelper
 	{
 		private Hashtable _extensionList = new Hashtable();
 		private System.Collections.ArrayList _imageLists = new ArrayList();			//will hold ImageList objects
-		private IconHelper.IconReader.IconSize _iconSize;
+		private IconSize _iconSize;
 		bool ManageBothSizes = false; //flag, used to determine whether to create two ImageLists.
 
 		/// <summary>
@@ -20,7 +20,7 @@ namespace Etier.IconHelper
 		/// </summary>
 		/// <param name="imageList"><c>ImageList</c> to add icons to.</param>
 		/// <param name="iconSize">Size to use (either 32 or 16 pixels).</param>
-		public IconListManager(System.Windows.Forms.ImageList imageList, IconReader.IconSize iconSize )
+		public IconListManager(System.Windows.Forms.ImageList imageList, IconSize iconSize )
 		{
 			// Initialise the members of the class that will hold the image list we're
 			// targeting, as well as the icon size (32 or 16)
@@ -83,8 +83,8 @@ namespace Etier.IconHelper
 				if (ManageBothSizes == true)
 				{
 					//managing two lists, so add it to small first, then large
-					((ImageList)_imageLists[0]).Images.Add( IconReader.GetFileIcon( filePath, IconReader.IconSize.Small, false ) );
-					((ImageList)_imageLists[1]).Images.Add( IconReader.GetFileIcon( filePath, IconReader.IconSize.Large, false ) );
+					((ImageList)_imageLists[0]).Images.Add( IconReader.GetFileIcon( filePath, IconSize.Small, false ) );
+					((ImageList)_imageLists[1]).Images.Add( IconReader.GetFileIcon( filePath, IconSize.Large, false ) );
 				} 
 				else
 				{

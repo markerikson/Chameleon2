@@ -57,7 +57,6 @@ namespace Chameleon.Features
 				case ']':
 				case ')':
 					return true;
-					break;
 				default:
 					return false;
 			}
@@ -71,7 +70,6 @@ namespace Chameleon.Features
 				case ']':
 				case ')':
 					return true;
-					break;
 				default:
 				return false;
 			}

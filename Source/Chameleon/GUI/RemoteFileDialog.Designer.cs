@@ -221,6 +221,7 @@
 			this.MinimizeBox = false;
 			this.Name = "RemoteFileDialog";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "RemoteFileDialog";
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();

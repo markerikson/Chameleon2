@@ -31,6 +31,8 @@ namespace Chameleon.GUI
 
 		private List<string> m_cppExtensions;
 
+		private bool m_isCompiled;
+		
 		#endregion
 
 
@@ -82,6 +84,12 @@ namespace Chameleon.GUI
 		{
 			get { return m_context; }
 			set { m_context = value; }
+		}
+
+		public bool IsCompiled
+		{
+			get { return m_isCompiled; }
+			set { m_isCompiled = value; }
 		}
 		#endregion
 
@@ -204,8 +212,8 @@ namespace Chameleon.GUI
 			// identifiers are yellow for now
 			//Styles[11].ForeColor = Color.FromArgb(255, 255, 0);
 
-			// secondary keywords are bright green for now
-			Styles[16].ForeColor = Color.FromArgb(0, 255, 0);
+			// secondary keywords are blue
+			Styles[16].ForeColor = Color.FromArgb(0, 0, 255);
 
 			Indicators[0].Style = IndicatorStyle.Squiggle;
 			Indicators[0].Color = Color.Red;

@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace Chameleon.Util
 {
@@ -52,4 +53,15 @@ namespace Chameleon.Util
 		}
 		*/
 	}
+
+	public static class FireAndForgetMethods
+	{
+		public static void FireAndForget<T>(this Action<T> act, T arg1)
+		{
+			var tsk = Task.Factory.StartNew(() => act(arg1),
+											 TaskCreationOptions.LongRunning);
+			tsk.ContinueWith(cnt => cnt.Dispose());
+		}
+	}
+
 }

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 //using WalburySoftware;
 using libVT100;
+using System.Threading.Tasks;
+using System.Threading;
+using Chameleon.Util;
 
 namespace Chameleon.Network
 {
@@ -80,7 +83,9 @@ namespace Chameleon.Network
 
 					if(r.callback != null)
 					{
-						r.callback(r.finalOutput);
+						FireAndForgetMethods.FireAndForget<string>(r.callback, r.finalOutput);
+
+						//r.callback(r.finalOutput);
 					}
 				}
 

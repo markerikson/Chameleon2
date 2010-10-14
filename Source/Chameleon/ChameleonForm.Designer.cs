@@ -102,6 +102,15 @@
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.m_tabTerminal = new System.Windows.Forms.TabPage();
+			this.m_tabCompilerErrors = new System.Windows.Forms.TabPage();
+			this.m_lvCompilerErrors = new System.Windows.Forms.ListView();
+			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -115,10 +124,13 @@
 			this.naviBar1.SuspendLayout();
 			this.naviBand1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).BeginInit();
+			this.splitEditorTerminal.Panel2.SuspendLayout();
 			this.splitEditorTerminal.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.m_tabCompilerErrors.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripContainer1
@@ -224,6 +236,10 @@
 			this.splitEditorTerminal.Location = new System.Drawing.Point(0, 0);
 			this.splitEditorTerminal.Name = "splitEditorTerminal";
 			this.splitEditorTerminal.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitEditorTerminal.Panel2
+			// 
+			this.splitEditorTerminal.Panel2.Controls.Add(this.tabControl1);
 			this.splitEditorTerminal.Size = new System.Drawing.Size(815, 563);
 			this.splitEditorTerminal.SplitterDistance = 324;
 			this.splitEditorTerminal.TabIndex = 5;
@@ -801,6 +817,80 @@
 			this.imageList1.Images.SetKeyName(2, "while.png");
 			this.imageList1.Images.SetKeyName(3, "default.png");
 			// 
+			// tabControl1
+			// 
+			this.tabControl1.Controls.Add(this.m_tabTerminal);
+			this.tabControl1.Controls.Add(this.m_tabCompilerErrors);
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(815, 235);
+			this.tabControl1.TabIndex = 0;
+			// 
+			// m_tabTerminal
+			// 
+			this.m_tabTerminal.Location = new System.Drawing.Point(4, 22);
+			this.m_tabTerminal.Name = "m_tabTerminal";
+			this.m_tabTerminal.Padding = new System.Windows.Forms.Padding(3);
+			this.m_tabTerminal.Size = new System.Drawing.Size(807, 209);
+			this.m_tabTerminal.TabIndex = 0;
+			this.m_tabTerminal.Text = "Terminal";
+			this.m_tabTerminal.UseVisualStyleBackColor = true;
+			// 
+			// m_tabCompilerErrors
+			// 
+			this.m_tabCompilerErrors.Controls.Add(this.m_lvCompilerErrors);
+			this.m_tabCompilerErrors.Location = new System.Drawing.Point(4, 22);
+			this.m_tabCompilerErrors.Name = "m_tabCompilerErrors";
+			this.m_tabCompilerErrors.Padding = new System.Windows.Forms.Padding(3);
+			this.m_tabCompilerErrors.Size = new System.Drawing.Size(807, 209);
+			this.m_tabCompilerErrors.TabIndex = 1;
+			this.m_tabCompilerErrors.Text = "Compiler Errors";
+			this.m_tabCompilerErrors.UseVisualStyleBackColor = true;
+			// 
+			// m_lvCompilerErrors
+			// 
+			this.m_lvCompilerErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.m_columnErrorType,
+            this.m_columnErrorFile,
+            this.m_columnErrorLine,
+            this.m_columnErrorColumn,
+            this.m_columnErrorDescription});
+			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
+			this.m_lvCompilerErrors.MultiSelect = false;
+			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
+			this.m_lvCompilerErrors.Size = new System.Drawing.Size(801, 203);
+			this.m_lvCompilerErrors.TabIndex = 0;
+			this.m_lvCompilerErrors.UseCompatibleStateImageBehavior = false;
+			this.m_lvCompilerErrors.View = System.Windows.Forms.View.Details;
+			// 
+			// m_columnErrorFile
+			// 
+			this.m_columnErrorFile.Text = "File";
+			this.m_columnErrorFile.Width = 120;
+			// 
+			// m_columnErrorLine
+			// 
+			this.m_columnErrorLine.Text = "Line";
+			this.m_columnErrorLine.Width = 50;
+			// 
+			// m_columnErrorColumn
+			// 
+			this.m_columnErrorColumn.Text = "Column";
+			this.m_columnErrorColumn.Width = 50;
+			// 
+			// m_columnErrorDescription
+			// 
+			this.m_columnErrorDescription.Text = "Description";
+			this.m_columnErrorDescription.Width = 550;
+			// 
+			// m_columnErrorType
+			// 
+			this.m_columnErrorType.Text = "Type";
+			this.m_columnErrorType.Width = 40;
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -828,6 +918,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.naviBar1)).EndInit();
 			this.naviBar1.ResumeLayout(false);
 			this.naviBand1.ResumeLayout(false);
+			this.splitEditorTerminal.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitEditorTerminal)).EndInit();
 			this.splitEditorTerminal.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
@@ -836,6 +927,8 @@
 			this.toolStrip1.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
+			this.m_tabCompilerErrors.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -915,6 +1008,15 @@
 		private System.Windows.Forms.ToolStripButton btnDebugStepOver;
 		private System.Windows.Forms.ToolStripButton btnDebugStepOut;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage m_tabTerminal;
+		private System.Windows.Forms.TabPage m_tabCompilerErrors;
+		private System.Windows.Forms.ListView m_lvCompilerErrors;
+		private System.Windows.Forms.ColumnHeader m_columnErrorFile;
+		private System.Windows.Forms.ColumnHeader m_columnErrorLine;
+		private System.Windows.Forms.ColumnHeader m_columnErrorColumn;
+		private System.Windows.Forms.ColumnHeader m_columnErrorDescription;
+		private System.Windows.Forms.ColumnHeader m_columnErrorType;
 	}
 }
 
