@@ -58,7 +58,6 @@ bool CLP_NativeInit(wxEvtHandler* handler, wxString& idxPath, wxString& database
 	//CtagsManagerWrapper::databasePath = databasePath;
 	//wxString dbPath = ConvertString(databasePath);
 	m_tags->OpenDatabase(databasePath);
-
 	//m_appLoopTimer->Enabled = true;
 	m_initialized = true;
 
@@ -115,6 +114,7 @@ void CLP_CTM_AddParserRequestSingleFile(ParseRequest* request)
 void CLP_CTM_RenameTaggedFile(const wxString& oldFile, const wxString& newFile)
 {
 	m_tags->RenameTaggedFile(oldFile, newFile);
+	
 }
 
 
@@ -123,6 +123,10 @@ void CLP_CTM_RenameTaggedFile(const wxString& oldFile, const wxString& newFile)
 bool CLP_CTM_AutoCompleteCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr> &candidates)
 {
 	return m_tags->AutoCompleteCandidates(fileName, lineno, expr, text, candidates);
+}
+void CLP_CTM_DeleteFilesTags(const std::vector<wxFileName> &projectFiles)
+{
+	m_tags->DeleteFilesTags(projectFiles);
 }
 void CLP_CTM_DeleteTagsByFilePrefix(const wxString &dbfileName, const wxString &filePrefix)
 {

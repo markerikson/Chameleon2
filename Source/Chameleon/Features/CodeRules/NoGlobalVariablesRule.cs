@@ -26,7 +26,9 @@ namespace Chameleon.Features.CodeRules
 			CtagsManagerWrapper cmw = Singleton<CtagsManagerWrapper>.Instance;
 
 			List<Tag> allGlobals = cmw.TagsByScope("<global>");
-			List<Tag> globalVars = allGlobals.Where(t => t.kind == "variable").ToList();
+			String filename = ed.Filename;
+			List<Tag> thisFileVars = allGlobals.Where(t => t.file == filename).ToList();
+			List<Tag> globalVars = thisFileVars.Where(t => t.kind == "variable").ToList();
 
 			if(globalVars.Count > 0)
 			{

@@ -19,6 +19,7 @@ extern "C"
 	WXDLLIMPEXP_CL void CLP_CTM_AddParserRequestSingleFile(ParseRequest* request);
 	WXDLLIMPEXP_CL void CLP_CTM_RenameTaggedFile(const wxString& oldFile, const wxString& newFile);
 	WXDLLIMPEXP_CL bool CLP_CTM_AutoCompleteCandidates(const wxString &fileName, int lineno, const wxString& expr, const wxString& text, std::vector<TagEntryPtr> &candidates);
+	WXDLLIMPEXP_CL void CLP_CTM_DeleteFilesTags(const std::vector<wxFileName> &projectFiles);
 	WXDLLIMPEXP_CL void CLP_CTM_DeleteTagsByFilePrefix(const wxString &dbfileName, const wxString &filePrefix);
 	WXDLLIMPEXP_CL void CLP_CTM_FindByPath(const wxString &path, std::vector<TagEntryPtr> &tags);
 	WXDLLIMPEXP_CL void CLP_CTM_FindImplDecl(const wxString &fileName, int lineno, const wxString & expr, const wxString &word,  const wxString &text, std::vector<TagEntryPtr> &tags, bool impl = true, bool workspaceOnly = false);

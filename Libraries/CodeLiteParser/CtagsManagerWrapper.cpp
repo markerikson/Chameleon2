@@ -22,6 +22,7 @@
 #using <mscorlib.dll>
 
 using namespace System;
+using namespace System::IO;
 using namespace System::Collections::Generic;
 using namespace msclr::interop;
 using namespace System::Runtime::InteropServices;
@@ -182,6 +183,11 @@ public:
 		
 		wxString dbPath = ConvertString(databasePath);
 		CtagsManagerWrapper::databasePath = databasePath;
+
+		if(File::Exists(databasePath))
+		{
+			File::Delete(databasePath);
+		}
 
 		CLP_NativeInit(pmr, indexerPath, dbPath);
 		
@@ -358,16 +364,27 @@ public:
 	}
 
 	void DeleteFilesTags(List<String^>^ files)
-	{
-		
+	{		
 		vector<wxFileName> fnames;
 
 		for(int i = 0; i < files->Count; i++)
 		{
-			wxFileName fname = ConvertString(files[i]);
+			String^ file = files[i];
+
+			wxPathFormat format = wxPATH_DOS;
+
+			if(file->StartsWith("/"))
+			{
+				format = wxPATH_UNIX;
+			}
+
+			wxFileName fname(ConvertString(file), format);
+
+			
 			fnames.push_back(fname);
 		}
 
+		CLP_CTM_DeleteFilesTags(fnames);
 	}
 
 	void DeleteTagsByFilePrefix(String^ dbPath, String^ filePrefix)
@@ -387,7 +404,19 @@ public:
 
 		for(int i = 0; i < files->Count; i++)
 		{
-			wxFileName fname = ConvertString(files[i]);
+			//wxFileName fname = ConvertString(files[i]);
+			//
+			String^ file = files[i];
+
+			wxPathFormat format = wxPATH_DOS;
+
+			if(file->StartsWith("/"))
+			{
+				format = wxPATH_UNIX;
+			}
+
+			wxFileName fname(ConvertString(file), format);
+
 			fnames.push_back(fname);
 		}
 

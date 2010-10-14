@@ -1111,8 +1111,18 @@ void TagsManager::DeleteFilesTags(const std::vector<wxFileName> &projectFiles)
 	m_workspaceDatabase->Begin();
 
 	for (size_t i=0; i<projectFiles.size(); i++) {
-		m_workspaceDatabase->DeleteByFileName(wxFileName(), projectFiles.at(i).GetFullPath(), false);
-		file_array.Add(projectFiles.at(i).GetFullPath());
+		wxPathFormat format = wxPATH_DOS;
+		wxFileName fn = projectFiles.at(i);
+
+		if(fn.GetExt() == "")
+		{
+			format = wxPATH_UNIX;
+		}
+
+		wxString filepath = fn.GetFullPath(format);
+		
+		m_workspaceDatabase->DeleteByFileName(wxFileName(), filepath, false);
+		file_array.Add(filepath);
 	}
 	m_workspaceDatabase->DeleteFromFiles(file_array);
 	m_workspaceDatabase->Commit();
@@ -1131,11 +1141,22 @@ void TagsManager::RetagFiles(const std::vector<wxFileName> &files, bool quickRet
 	wxArrayString strFiles;
 	// step 1: remove all non-tags files
 	for (size_t i=0; i<files.size(); i++) {
-		if (!IsValidCtagsFile(files.at(i).GetFullPath())) {
+
+		wxPathFormat format = wxPATH_DOS;
+		wxFileName fn = files.at(i);
+
+		if(fn.GetExt() == "")
+		{
+			format = wxPATH_UNIX;
+		}
+
+		wxString filepath = fn.GetFullPath(format);
+
+		if (!IsValidCtagsFile(filepath)) {
 			continue;
 		}
 
-		strFiles.Add(files.at(i).GetFullPath());
+		strFiles.Add(filepath);
 	}
 
 	// step 2: remove all files which do not need retag
