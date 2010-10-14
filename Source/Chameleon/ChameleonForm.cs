@@ -111,9 +111,7 @@ namespace Chameleon
 			rfd.Networking = ChameleonNetworking.Instance;
 
 			cmw = Singleton<CtagsManagerWrapper>.Instance;
-
-			cmw.FileParsed += new FileParsedDelegate(cmw_FileParsed);
-
+			
 			string indexerPath = Path.GetDirectoryName(Application.ExecutablePath);
 			string tagsDBPath = Path.Combine(Options.DataFolder, "ChameleonTags.db");
 
@@ -148,56 +146,7 @@ namespace Chameleon
 			AddSnippetGroups();
 		}
 
-		void OnCompilerEvent(object sender, CompilerEventArgs e)
-		{
-			Action updateCompilerDetails = () =>
-			{
-				switch(e.Status)
-				{
-					case CompileStatus.Started:
-					{
-						m_lvCompilerErrors.Items.Clear();
-						break;
-					}
-					case CompileStatus.Finished:
-					{
-						var items = new ListView.ListViewItemCollection(m_lvCompilerErrors);
-						foreach(CompilerMessage cm in e.Messages)
-						{
-							ListViewItem lvi = new ListViewItem();
-							lvi.Text = "";
-							lvi.SubItems.Add(cm.Filename);
-							lvi.SubItems.Add(cm.Line.ToString());
-							lvi.SubItems.Add(cm.Column.ToString());
-							lvi.SubItems.Add(cm.Message);
-
-							if(cm.MessageType == CompilerMessageType.Warning)
-							{
-								lvi.ImageIndex = 0;
-							}
-							else if(cm.MessageType == CompilerMessageType.Error)
-							{
-								lvi.ImageIndex = 1;
-							}
-
-							m_lvCompilerErrors.Items.Add(lvi);
-						}
-
-						tabControl1.SelectedTab = m_tabCompilerErrors;
-						break;
-					}
-				}
-			};
-
-			if(this.InvokeRequired)
-			{
-				this.Invoke(updateCompilerDetails);
-			}
-			else
-			{
-				updateCompilerDetails();
-			}			
-		}
+		
 
 		protected override void OnShown(EventArgs e)
 		{
@@ -347,12 +296,84 @@ namespace Chameleon
 				m_editors.EndDrag();
 			}
 		}
-		
-		void cmw_FileParsed(string filename)
-		{
-			//MessageBox.Show("File parsed: " + filename);
-		}
 
+		void OnCompilerEvent(object sender, CompilerEventArgs e)
+		{
+			Action updateCompilerDetails = () =>
+			{
+				switch(e.Status)
+				{
+					case CompileStatus.Started:
+					{
+						m_lvCompilerErrors.Items.Clear();
+						break;
+					}
+					case CompileStatus.Finished:
+					{
+						var items = new ListView.ListViewItemCollection(m_lvCompilerErrors);
+						foreach(CompilerMessage cm in e.Messages)
+						{
+							ListViewItem lvi = new ListViewItem();
+							lvi.SubItems.Add(cm.Filename);
+							lvi.SubItems.Add(cm.Line.ToString());
+							lvi.SubItems.Add(cm.Column.ToString());
+							lvi.SubItems.Add(cm.Message);
+
+							if(cm.MessageType == CompilerMessageType.Warning)
+							{
+								lvi.ImageIndex = 0;
+
+							}
+							else if(cm.MessageType == CompilerMessageType.Error)
+							{
+								lvi.ImageIndex = 1;
+							}
+
+							m_lvCompilerErrors.Items.Add(lvi);
+						}
+
+						tabControl1.SelectedTab = m_tabCompilerErrors;
+						break;
+					}
+				}
+			};
+
+			if(this.InvokeRequired)
+			{
+				this.Invoke(updateCompilerDetails);
+			}
+			else
+			{
+				updateCompilerDetails();
+			}
+		}		
+		
+		private void OnCompilerItemActivated(object sender, EventArgs e)
+		{
+			ListViewItem lvi = m_lvCompilerErrors.SelectedItems[0];
+
+			string filename = lvi.SubItems[1].Text;
+	
+			int row = 0;
+			int column = 0;
+
+			int.TryParse(lvi.SubItems[2].Text, out row);
+			int.TryParse(lvi.SubItems[3].Text, out column);
+
+			ChameleonEditor ed = m_editors.GetEditorByFilename(filename);
+
+			if(ed != null)
+			{
+				m_editors.CurrentEditor = ed;
+
+				int pos = ed.NativeInterface.FindColumn(row - 1, column);
+				ed.Selection.Start = pos;
+				ed.Selection.End = pos;
+				ed.Selection.Length = 0;
+
+				ed.Focus();
+			}
+		}
 		#endregion
 
 		#region Closing handler
@@ -642,6 +663,21 @@ namespace Chameleon
 				
 		}
 
+		private void DoCompile(object sender, EventArgs e)
+		{
+			ChameleonEditor ed = m_editors.CurrentEditor;
+
+			if(ed.Modified)
+			{
+				if(!m_editors.SaveFile(ed, ed.FileLocation, false, true))
+				{
+					return;
+				}
+			}
+
+			m_compiler.CompileFile(ed.FileInfo);
+		}
+
 		#endregion
 
 		#region Permissions/UI functions
@@ -812,32 +848,6 @@ namespace Chameleon
 		}
 
 		#endregion
-
-		private void btnCompile_Click(object sender, EventArgs e)
-		{
-			ChameleonEditor ed = m_editors.CurrentEditor;
-
-			if(ed.Modified)
-			{
-				if(!m_editors.SaveFile(ed, ed.FileLocation, false, true))
-				{
-					return;
-				}
-			}
-
-			m_compiler.CompileFile(ed.FileInfo);
-		}
-
-		
-
-
-
-
-
-
-
-
-
 
 	}
 }

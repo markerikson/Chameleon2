@@ -98,6 +98,7 @@ namespace Chameleon.GUI
 		public ChameleonEditor CurrentEditor
 		{
 			get { return m_currentEditor; }
+			set { SelectEditor(value);  }
 		}
 
 		#endregion
@@ -801,15 +802,29 @@ namespace Chameleon.GUI
 
 		public ChameleonEditor GetEditorByFilename(string filename)
 		{
+			ChameleonEditor ed = null;
 			foreach(ChameleonEditor editor in m_editorsToTabs.Keys)
 			{
+				// match  the whole path
 				if(editor.Filename == filename)
 				{
-					return editor;
+					ed = editor;
 				}
 			}
 
-			return null;
+			if(ed == null)
+			{
+				foreach(ChameleonEditor editor in m_editorsToTabs.Keys)
+				{
+					// match just the filename portion
+					if(editor.FileInfo.Filename.FullName == filename)
+					{
+						ed = editor;
+					}
+				}
+			}
+
+			return ed;
 		}
 
 		private void SelectEditor(ChameleonEditor editor)
