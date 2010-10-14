@@ -87,6 +87,8 @@ namespace Chameleon.GUI
 		private CodeRuleManager m_ruleManager;
 		private CtagsManagerWrapper cmw;
 
+		private static Configuration m_cppConfig;
+
 		private int m_currentZoom;
 
 		#endregion
@@ -120,6 +122,12 @@ namespace Chameleon.GUI
 			sb.Append(filterAllFiles);
 
 			m_fileFilter = sb.ToString();
+
+			// load up our saved CPP config from the embedded resource and
+			// tell the editor to use those settings
+			string cppConfigXML = CU.Utilities.GetResource("Chameleon.ConfigCPP.xml");
+			TextReader tr = new StringReader(cppConfigXML);
+			m_cppConfig = new Configuration(tr, "cpp");
 		}
 
 
@@ -227,12 +235,8 @@ namespace Chameleon.GUI
 
 			ChameleonEditor editor = new ChameleonEditor();
 
-			// load up our saved CPP config from the embedded resource and
-			// tell the editor to use those settings
-			string cppConfigXML = CU.Utilities.GetResource("Chameleon.ConfigCPP.xml");
-			TextReader tr = new StringReader(cppConfigXML);
-			Configuration config = new Configuration(tr, "cpp");
-			editor.ConfigurationManager.Configure(config);
+			
+			editor.ConfigurationManager.Configure(m_cppConfig);
 
 			editor.SetCPPEditorStyles();
 			editor.Dock = DockStyle.Fill;
@@ -580,7 +584,9 @@ namespace Chameleon.GUI
 			List<string> files = new List<string>();
 			files.Add(originalFilename);
 
+			
 			cmw.DeleteFilesTags(files);
+			
 			cmw.AddParserRequestSingleFile(filename);
 
 			while(cmw.Parsing)
