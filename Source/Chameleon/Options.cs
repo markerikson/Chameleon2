@@ -14,12 +14,21 @@ namespace Chameleon
 	public class App
 	{
 		private static Options m_config;
+		private static PerUserSettings m_userSettings;
 
-		public static Options Configuration
+		public static Options GlobalSettings
 		{
 			get
 			{
 				return m_config;
+			}
+		}
+
+		public static PerUserSettings UserSettings
+		{
+			get
+			{
+				return m_userSettings;
 			}
 		}
 
@@ -34,6 +43,7 @@ namespace Chameleon
 		static App()
 		{
 			m_config = (Options)Options.ReadKeysFromFile(Options.OptionsPath, typeof(Options));
+			m_userSettings = (PerUserSettings)PerUserSettings.ReadKeysFromFile(PerUserSettings.UserSettingsPath, typeof(PerUserSettings));
 		}
 	}
 
@@ -70,7 +80,7 @@ namespace Chameleon
 				return m_reportSettings;
 			}
 		}
-
+		
 		public static bool CloseOnException
 		{
 			get { return m_closeOnException; }
@@ -122,6 +132,45 @@ namespace Chameleon
 		// The URL that Chameleon tries to get permissions data from
 		public string FeaturePermissionsURL = "";//"http://www.isquaredsoftware.com/chameleon/chameleonfeatures.php";
 
+	}
+
+	public class PerUserSettings : wwAppConfiguration
+	{
+		#region Private static fields
+		
+		static PerUserSettings()
+		{
+		}
+
+
+		#endregion
+
+		#region Properties
+		
+		public static string UserSettingsPath
+		{
+			get
+			{
+				string optionsFile = "ChameleonUserSettings.xml";
+				string optionsPath = Path.Combine(Options.DataFolder, optionsFile);
+
+				return optionsPath;
+			}
+		}
+
+		#endregion
+
+
+
+		public PerUserSettings()
+		{
+		}
+
+		public void SaveSettings()
+		{
+			WriteKeysToFile(UserSettingsPath);
+		}
+
 		// The alternate ID to use when checking permissions (if they're not on a campus box, for example)
 		public string CustomStudentID = "";
 
@@ -130,6 +179,6 @@ namespace Chameleon
 
 		public string LastHostname = "";
 		public string LastUsername = "";
-		
+
 	}
 }

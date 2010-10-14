@@ -459,7 +459,7 @@ namespace Chameleon.GUI
 				return false;
 			}
 
-			if(App.Configuration.PermittedFeatures.HasFlag(ChameleonFeatures.AutoReformat))
+			if(App.UserSettings.PermittedFeatures.HasFlag(ChameleonFeatures.AutoReformat))
 			{
 				m_currentEditor.ReformatBuffer();
 			}
@@ -553,7 +553,7 @@ namespace Chameleon.GUI
 
 			editor.SetFileSaved(filename, location);
 
-			if(App.Configuration.PermittedFeatures.HasFlag(ChameleonFeatures.CodeRules))
+			if(App.UserSettings.PermittedFeatures.HasFlag(ChameleonFeatures.CodeRules))
 			{
 				RunCodeRules(editor);
 			}

@@ -68,7 +68,7 @@ namespace Chameleon
 
 			FormFontFixer.Fix(this);
 
-			Options options = App.Configuration;
+			Options options = App.GlobalSettings;
 
 			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
 			menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
@@ -122,8 +122,8 @@ namespace Chameleon
 
 			ShowPermittedUI();
 
-			toolTextHost.Text = App.Configuration.LastHostname;
-			toolTextUser.Text = App.Configuration.LastUsername;
+			toolTextHost.Text = App.UserSettings.LastHostname;
+			toolTextUser.Text = App.UserSettings.LastUsername;
 
 			m_clickedSnippet = false;
 
@@ -372,10 +372,11 @@ namespace Chameleon
 
 			m_appClosing = false;
 
-			App.Configuration.LastHostname = toolTextHost.Text;
-			App.Configuration.LastUsername = toolTextUser.Text;
+			App.UserSettings.LastHostname = toolTextHost.Text;
+			App.UserSettings.LastUsername = toolTextUser.Text;
 
-			App.Configuration.SaveSettings();
+			App.GlobalSettings.SaveSettings();
+			App.UserSettings.SaveSettings();
 		}
 		#endregion
 
@@ -647,7 +648,7 @@ namespace Chameleon
 
 		private void ShowPermittedUI()
 		{
-			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
+			ChameleonFeatures perms = App.UserSettings.PermittedFeatures;
 
 			// clear out toolbar items after the basics
 			int indexAfterSave = toolStrip1.Items.IndexOf(btnSave) + 2;
@@ -664,6 +665,10 @@ namespace Chameleon
 			{
 				toolStrip1.Items.Add(btnCompile);
 				toolStrip1.Items.Add(new ToolStripSeparator());
+			}
+			else
+			{
+				tabControl1.TabPages.Remove(m_tabCompilerErrors);
 			}
 
 			if(perms.HasFlag(ChameleonFeatures.Debugger))
@@ -688,7 +693,7 @@ namespace Chameleon
 			ChameleonFeatures feature;
 			Enum.TryParse<ChameleonFeatures>(item.Text, out feature);
 
-			ChameleonFeatures perms = App.Configuration.PermittedFeatures;
+			ChameleonFeatures perms = App.UserSettings.PermittedFeatures;
 
 			if(item.Checked)
 			{
@@ -699,8 +704,9 @@ namespace Chameleon
 				perms &= ~feature;
 			}
 
-			App.Configuration.PermittedFeatures = perms;
-			App.Configuration.SaveSettings();
+			App.UserSettings.PermittedFeatures = perms;
+			App.GlobalSettings.SaveSettings();
+			App.UserSettings.SaveSettings();
 
 			ShowPermittedUI();
 		}

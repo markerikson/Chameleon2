@@ -57,14 +57,16 @@ namespace Chameleon.Network
 			string studentID = Environment.UserName;
 			bool studentIsCustom = false;
 
+			Options options = App.GlobalSettings;
+
 			// However, if we previously had a custom name entered, we use that instead
-			if(App.Configuration.CustomStudentID != "")
+			if(App.UserSettings.CustomStudentID != "")
 			{
-				studentID = App.Configuration.CustomStudentID;
+				studentID = App.UserSettings.CustomStudentID;
 				studentIsCustom = true;
 			}
 
-			string baseURL = App.Configuration.FeaturePermissionsURL;
+			string baseURL = App.GlobalSettings.FeaturePermissionsURL;
 
 			if(baseURL == "")
 			{
@@ -131,11 +133,11 @@ namespace Chameleon.Network
 
 			if(validStudentFound && studentIsCustom)
 			{
-				App.Configuration.CustomStudentID = studentID;
+				App.UserSettings.CustomStudentID = studentID;
 			}
 			else
 			{
-				App.Configuration.CustomStudentID = "";
+				App.UserSettings.CustomStudentID = "";
 			}
 
 			return featureText;

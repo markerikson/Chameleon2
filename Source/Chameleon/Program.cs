@@ -74,7 +74,7 @@ namespace Chameleon
 			Options.DataFolder = Path.Combine(appDataFolder, "Chameleon");
 
 			// initialize the singleton
-			Options options = App.Configuration;
+			Options options = App.GlobalSettings;
 
 			
 
@@ -95,7 +95,7 @@ namespace Chameleon
 			else if(!String.IsNullOrWhiteSpace(permissionsText))
 			{
 				ChameleonFeatures enabledFeatures = Permissions.ParsePermissions(permissionsText);
-				App.Configuration.PermittedFeatures = enabledFeatures;
+				App.UserSettings.PermittedFeatures = enabledFeatures;
 			}
 			
 			Splasher.Status = "Starting Chameleon...";
