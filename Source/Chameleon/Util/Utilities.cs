@@ -6,12 +6,13 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Chameleon.Util
 {
 	public static class Utilities
 	{
-		public static string GetResource(string resourceName)
+		public static string GetTextResource(string resourceName)
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			TextReader textReader = new StreamReader(assembly.GetManifestResourceStream(resourceName));
@@ -19,6 +20,16 @@ namespace Chameleon.Util
 			textReader.Close();
 
 			return result;
+		}
+
+		public static Bitmap GetImageResource(string resourceName)
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			//TextReader textReader = new StreamReader(assembly.GetManifestResourceStream(resourceName));
+
+			Bitmap image = new Bitmap(assembly.GetManifestResourceStream(resourceName));
+
+			return image;
 		}
 
 		public static bool IsDesignmode

@@ -16,6 +16,7 @@ using ScintillaNet;
 using SSHClient;
 using de.mud.terminal;
 using Etier.IconHelper;
+using System.Reflection;
 
 namespace Chameleon
 {
@@ -142,6 +143,8 @@ namespace Chameleon
 			m_lvCompilerErrors.SmallImageList = compilerErrorIcons;
 
 			UpdateZoomMenu();
+
+			LoadSnippetImages();
 			
 			AddSnippetGroups();
 		}
@@ -170,6 +173,30 @@ namespace Chameleon
 									   select sn.Category).Distinct().ToList();
 
 			return categories;
+		}
+
+		private void LoadSnippetImages()
+		{
+			Assembly assem = this.GetType().Assembly;
+
+			// Enumerate the assembly's manifest resources
+			string[] embeddedResources = assem.GetManifestResourceNames();
+
+			string prefix = "Chameleon.Graphics.Snippets.";
+			int prefixLength = prefix.Length;
+
+			List<string> snippetImages = embeddedResources.Where(s => s.StartsWith(prefix)).ToList();
+
+			foreach(string fullImageName in snippetImages)
+			{
+				string imageName = fullImageName.Substring(prefixLength);
+				Bitmap b = Util.Utilities.GetImageResource(fullImageName);
+				m_snippetImages.Images.Add(imageName, b);
+
+			}
+
+
+			int z = 42;
 		}
 
 		private Dictionary<string, List<Snippet>> GetSnippets()
@@ -235,15 +262,15 @@ namespace Chameleon
 					group.Controls.Add(l1);
 					l1.Dock = DockStyle.Top;
 
-					l1.ImageList = imageList1;
+					l1.ImageList = m_snippetImages;
 
 					if(sn.IconName == "")
 					{
-						l1.ImageIndex = imageList1.Images.IndexOfKey("default.png");
+						l1.ImageIndex = m_snippetImages.Images.IndexOfKey("default.png");
 					}
 					else
 					{
-						l1.ImageIndex = imageList1.Images.IndexOfKey(sn.IconName);
+						l1.ImageIndex = m_snippetImages.Images.IndexOfKey(sn.IconName);
 					}
 					
 					l1.ImageAlign = ContentAlignment.TopCenter;

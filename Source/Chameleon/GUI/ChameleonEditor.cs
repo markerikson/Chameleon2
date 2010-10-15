@@ -212,8 +212,8 @@ namespace Chameleon.GUI
 			// identifiers are yellow for now
 			//Styles[11].ForeColor = Color.FromArgb(255, 255, 0);
 
-			// secondary keywords are blue
-			Styles[16].ForeColor = Color.FromArgb(0, 0, 255);
+			// secondary keywords are also purple, per Dr. Shomper's request
+			Styles[16].ForeColor = Color.FromArgb(128, 0, 128);
 
 			Indicators[0].Style = IndicatorStyle.Squiggle;
 			Indicators[0].Color = Color.Red;

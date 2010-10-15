@@ -218,23 +218,10 @@
     <Content Include="Chameleon.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Graphics\Debugger Step Out.png" />
-    <None Include="Graphics\Debugger Step Over.png" />
-    <None Include="Graphics\Debugger Step Next.png" />
-    <None Include="Graphics\Debugger Stop.png" />
-    <None Include="Graphics\Debugger Continue.png" />
-    <None Include="Graphics\Debugger Start.png" />
-    <None Include="Graphics\build.png" />
-    <None Include="Graphics\refresh.png" />
-    <None Include="Graphics\HomeHS.png" />
-    <None Include="Graphics\upfolder.png" />
-    <EmbeddedResource Include="Graphics\connect16.png" />
-    <EmbeddedResource Include="Graphics\disconnect16.png" />
-    <EmbeddedResource Include="Graphics\moz.png" />
-    <EmbeddedResource Include="Graphics\newfile.png" />
-    <EmbeddedResource Include="Graphics\openlocal.png" />
-    <EmbeddedResource Include="Graphics\openremote.png" />
-    <EmbeddedResource Include="Graphics\savefile.png" />
+    <EmbeddedResource Include="Graphics\Snippets\default.png" />
+    <EmbeddedResource Include="Graphics\Snippets\for.png" />
+    <EmbeddedResource Include="Graphics\Snippets\if.png" />
+    <EmbeddedResource Include="Graphics\Snippets\while.png" />
     <EmbeddedResource Include="ConfigCPP.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -110,7 +110,7 @@
 			this.toolTextPassword = new System.Windows.Forms.ToolStripTextBox();
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			this.m_snippetImages = new System.Windows.Forms.ImageList(this.components);
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -883,14 +883,11 @@
 			this.toolHostDisconnect.ToolTipText = "Disconnect from this server";
 			this.toolHostDisconnect.Click += new System.EventHandler(this.OnHostDisconnect);
 			// 
-			// imageList1
+			// m_snippetImages
 			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "for.png");
-			this.imageList1.Images.SetKeyName(1, "if.png");
-			this.imageList1.Images.SetKeyName(2, "while.png");
-			this.imageList1.Images.SetKeyName(3, "default.png");
+			this.m_snippetImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			this.m_snippetImages.ImageSize = new System.Drawing.Size(64, 32);
+			this.m_snippetImages.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// ChameleonForm
 			// 
@@ -986,7 +983,7 @@
 		private System.Windows.Forms.ToolStripMenuItem btnSaveAsL;
 		private System.Windows.Forms.ToolStripMenuItem btnSaveAsR;
 		private System.Windows.Forms.SplitContainer splitSnippetsEditor;
-		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.ImageList m_snippetImages;
 		private Guifreaks.NavigationBar.NaviBar naviBar1;
 		private Guifreaks.NavigationBar.NaviBand naviBand1;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;

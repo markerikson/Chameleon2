@@ -126,7 +126,7 @@ namespace Chameleon.GUI
 
 			// load up our saved CPP config from the embedded resource and
 			// tell the editor to use those settings
-			string cppConfigXML = CU.Utilities.GetResource("Chameleon.ConfigCPP.xml");
+			string cppConfigXML = CU.Utilities.GetTextResource("Chameleon.ConfigCPP.xml");
 			TextReader tr = new StringReader(cppConfigXML);
 			m_cppConfig = new Configuration(tr, "cpp");
 		}

@@ -24,10 +24,11 @@
 				register reinterpret_cast return short signed sizeof static static_cast struct switch
 				template this throw true try typedef typeid typename union unsigned using
 				virtual void volatile wchar_t while xor xor_eq
+				bool byte char class const  double enum float int long
+				short static struct uint ulong ushort void
 			</Keywords>
 			<Keywords List="1" Inherit="False">
-				bool byte char class const  double enum float int long 
-				short static string struct uint ulong ushort void
+				string cout cin endl
 			</Keywords>
 		</Lexer>
 
