@@ -133,6 +133,9 @@
     <Compile Include="GUI\ChameleonEditor.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CompileMessageListview.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\EditorContainer.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -333,10 +333,29 @@ namespace Chameleon
 					case CompileStatus.Started:
 					{
 						m_lvCompilerErrors.Items.Clear();
+						m_lvCompilerErrors.CompileResultMessage = "";
 						break;
 					}
 					case CompileStatus.Finished:
 					{
+						int numErrors = e.Messages.Where(m => m.MessageType == CompilerMessageType.Error).Count();
+
+						ListViewItem resultLVI = new ListViewItem();
+						resultLVI.Text = "";
+
+						if(numErrors == 0)
+						{
+							//resultLVI.Text = "Compile successful";
+							m_lvCompilerErrors.CompileResultMessage = "Compile successful";
+						}
+						else
+						{
+							m_lvCompilerErrors.CompileResultMessage = string.Format("Compile failed: {0} errors", numErrors);
+						}
+
+						resultLVI.Group = m_lvCompilerErrors.Groups["groupCompileResult"];
+						m_lvCompilerErrors.Items.Add(resultLVI);
+
 						var items = new ListView.ListViewItemCollection(m_lvCompilerErrors);
 						foreach(CompilerMessage cm in e.Messages)
 						{
@@ -345,6 +364,8 @@ namespace Chameleon
 							lvi.SubItems.Add(cm.Line.ToString());
 							lvi.SubItems.Add(cm.Column.ToString());
 							lvi.SubItems.Add(cm.Message);
+
+							lvi.Group = m_lvCompilerErrors.Groups["groupErrors"];
 
 							if(cm.MessageType == CompilerMessageType.Warning)
 							{
@@ -358,7 +379,7 @@ namespace Chameleon
 
 							m_lvCompilerErrors.Items.Add(lvi);
 						}
-
+						
 						tabControl1.SelectedTab = m_tabCompilerErrors;
 						break;
 					}

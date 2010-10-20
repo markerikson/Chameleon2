@@ -1,4 +1,5 @@
-﻿namespace Chameleon
+﻿using Chameleon.GUI;
+namespace Chameleon
 {
 	partial class ChameleonForm
 	{
@@ -29,6 +30,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Compilation Result", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Warnings/Errors", System.Windows.Forms.HorizontalAlignment.Left);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -40,7 +43,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.m_tabTerminal = new System.Windows.Forms.TabPage();
 			this.m_tabCompilerErrors = new System.Windows.Forms.TabPage();
-			this.m_lvCompilerErrors = new System.Windows.Forms.ListView();
+			this.m_lvCompilerErrors = new CompileMessageListView();
 			this.m_columnErrorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -287,6 +290,13 @@
             this.m_columnErrorDescription});
 			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_lvCompilerErrors.FullRowSelect = true;
+			listViewGroup1.Header = "Compilation Result";
+			listViewGroup1.Name = "groupCompileResult";
+			listViewGroup2.Header = "Warnings/Errors";
+			listViewGroup2.Name = "groupErrors";
+			this.m_lvCompilerErrors.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
 			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
 			this.m_lvCompilerErrors.MultiSelect = false;
 			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
@@ -1009,7 +1019,7 @@
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage m_tabTerminal;
 		private System.Windows.Forms.TabPage m_tabCompilerErrors;
-		private System.Windows.Forms.ListView m_lvCompilerErrors;
+		private CompileMessageListView m_lvCompilerErrors;
 		private System.Windows.Forms.ColumnHeader m_columnErrorFile;
 		private System.Windows.Forms.ColumnHeader m_columnErrorLine;
 		private System.Windows.Forms.ColumnHeader m_columnErrorColumn;
