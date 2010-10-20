@@ -43,8 +43,7 @@ namespace Chameleon
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.m_tabTerminal = new System.Windows.Forms.TabPage();
 			this.m_tabCompilerErrors = new System.Windows.Forms.TabPage();
-			this.m_lvCompilerErrors = new CompileMessageListView();
-			this.m_columnErrorType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_lvCompilerErrors = new Chameleon.GUI.CompileMessageListView();
 			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -283,11 +282,11 @@ namespace Chameleon
 			// 
 			this.m_lvCompilerErrors.Activation = System.Windows.Forms.ItemActivation.TwoClick;
 			this.m_lvCompilerErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.m_columnErrorType,
             this.m_columnErrorFile,
             this.m_columnErrorLine,
             this.m_columnErrorColumn,
             this.m_columnErrorDescription});
+			this.m_lvCompilerErrors.CompileResultMessage = "";
 			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_lvCompilerErrors.FullRowSelect = true;
 			listViewGroup1.Header = "Compilation Result";
@@ -306,11 +305,6 @@ namespace Chameleon
 			this.m_lvCompilerErrors.View = System.Windows.Forms.View.Details;
 			this.m_lvCompilerErrors.ItemActivate += new System.EventHandler(this.OnCompilerItemActivated);
 			// 
-			// m_columnErrorType
-			// 
-			this.m_columnErrorType.Text = "Type";
-			this.m_columnErrorType.Width = 40;
-			// 
 			// m_columnErrorFile
 			// 
 			this.m_columnErrorFile.Text = "File";
@@ -327,7 +321,7 @@ namespace Chameleon
 			// m_columnErrorDescription
 			// 
 			this.m_columnErrorDescription.Text = "Description";
-			this.m_columnErrorDescription.Width = 500;
+			this.m_columnErrorDescription.Width = 25;
 			// 
 			// menuStrip1
 			// 
@@ -1024,7 +1018,6 @@ namespace Chameleon
 		private System.Windows.Forms.ColumnHeader m_columnErrorLine;
 		private System.Windows.Forms.ColumnHeader m_columnErrorColumn;
 		private System.Windows.Forms.ColumnHeader m_columnErrorDescription;
-		private System.Windows.Forms.ColumnHeader m_columnErrorType;
 	}
 }
 

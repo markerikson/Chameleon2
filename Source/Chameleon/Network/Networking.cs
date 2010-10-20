@@ -66,6 +66,16 @@ namespace Chameleon.Network
 			return Result;
 		}
 
+		public static bool IsConnected(Socket socket)
+		{
+			try
+			{
+				return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
+			}
+			catch(SocketException) { return false; }
+		}
+
+
 	}
 
 
@@ -81,6 +91,9 @@ namespace Chameleon.Network
 		private static List<string> m_dirsToSkip;
 
 		private Dictionary<string, SSHChannel> m_shells;
+
+		private Socket m_socket;
+		private Timer m_timer;
 
 		#endregion
 
@@ -128,10 +141,12 @@ namespace Chameleon.Network
 		protected Networking()
 		{
 			m_shells = new Dictionary<string, SSHChannel>();
+			
 		}
 
 		#endregion
 
+		public event EventHandler SocketClosed;
 
 		public bool Connect(string host, string username, string password)
 		{
@@ -140,17 +155,14 @@ namespace Chameleon.Network
 				return false;
 			}
 
-			Socket s;
-
-
 			try
 			{
-				s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+				m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 				// send TCP keep-alive packets after 10 seconds of inactivity, then every 5 seconds
-				SocketUtil.SetKeepAliveValues(s, true, 10 * 1000, 5 * 1000);
-				
-				s.Connect(host, 22);
+				SocketUtil.SetKeepAliveValues(m_socket, true, 10 * 1000, 5 * 1000);
+
+				m_socket.Connect(host, 22);
 
 				SSHConnectionParameter f = new SSHConnectionParameter();
 
@@ -162,17 +174,49 @@ namespace Chameleon.Network
 
 				NullReader r = new NullReader();
 
-				m_conn = (SSH2Connection)SSHConnection.Connect(f, r, s);
+				if(m_timer != null)
+				{
+					m_timer.Stop();
+					m_timer.Dispose();
+				}
 
+				m_conn = (SSH2Connection)SSHConnection.Connect(f, r, m_socket);
+
+				m_timer = new Timer();
+				// check connection every 10 milliseconds
+				m_timer.Interval = 10;
+
+				m_timer.Tick += new EventHandler(OnTimerTick);
+				
 	
 			}
 			catch(Exception e)
 			{
-				MessageBox.Show("SSH connection exception: " + e.Message);
+				if(e.Message == "User authentication failed")
+				{
+					MessageBox.Show("This username and/or password were not accepted.  Check them and try again",
+									"Login Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else
+				{
+					MessageBox.Show("SSH connection exception: " + e.Message);
+				}
+				
 				return false;
 			}			
 
 			return true;
+		}
+
+		void OnTimerTick(object sender, EventArgs e)
+		{
+			if(!SocketUtil.IsConnected(m_socket))
+			{
+				if(SocketClosed != null)
+				{
+					SocketClosed(this, new EventArgs());
+				}
+			}
 		}
 
 		public void Disconnect()

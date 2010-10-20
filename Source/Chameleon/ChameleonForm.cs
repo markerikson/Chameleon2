@@ -94,6 +94,7 @@ namespace Chameleon
 			m_terminal.ForeColor = Color.White;
 			m_terminal.BackColor = Color.Black;
 			m_terminal.Parent = m_tabTerminal;//splitEditorTerminal.Panel2;
+			m_terminal.Enabled = false;
 
 			m_terminal.Resize += (sender, e) =>
 			{
@@ -360,7 +361,8 @@ namespace Chameleon
 						foreach(CompilerMessage cm in e.Messages)
 						{
 							ListViewItem lvi = new ListViewItem();
-							lvi.SubItems.Add(cm.Filename);
+							lvi.Text = cm.Filename;
+							//lvi.SubItems.Add(cm.Filename);
 							lvi.SubItems.Add(cm.Line.ToString());
 							lvi.SubItems.Add(cm.Column.ToString());
 							lvi.SubItems.Add(cm.Message);
@@ -379,7 +381,8 @@ namespace Chameleon
 
 							m_lvCompilerErrors.Items.Add(lvi);
 						}
-						
+
+						m_lvCompilerErrors.Columns[0].Width = -1;
 						tabControl1.SelectedTab = m_tabCompilerErrors;
 						break;
 					}
@@ -649,11 +652,15 @@ namespace Chameleon
 
 				m_sshProtocol.Connect();
 
+				m_networking.SocketClosed += OnSocketClosed;
+
 				toolTextHost.Enabled = false;
 				toolTextUser.Enabled = false;
 				toolTextPassword.Enabled = false;
 				toolHostConnect.Enabled = false;
 				toolHostDisconnect.Enabled = true;
+
+				m_terminal.Enabled = true;
 
 				btnOpenRemote.Enabled = true;
 				menuFileOpenRemote.Enabled = true;
@@ -679,6 +686,11 @@ namespace Chameleon
 			SetDisconnectedUI();
 		}
 
+		private void OnSocketClosed(object sender, EventArgs e)
+		{
+			SetDisconnectedUI();
+		}
+
 		private void SetDisconnectedUI()
 		{
 			Action updateUI = () =>
@@ -689,6 +701,8 @@ namespace Chameleon
 				toolHostConnect.Enabled = true;
 				toolHostDisconnect.Enabled = false;
 
+				m_terminal.Enabled = false;
+
 				btnOpenRemote.Enabled = false;
 				menuFileOpenRemote.Enabled = false;
 				menuFileSaveAsRemote.Enabled = false;
@@ -697,7 +711,8 @@ namespace Chameleon
 			};
 
 			this.Invoke(updateUI);
-			
+
+			m_networking.SocketClosed -= OnSocketClosed;
 		}
 		
 		private void ToolbarTextboxes_KeyPress(object sender, KeyPressEventArgs e)

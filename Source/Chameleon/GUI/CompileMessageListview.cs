@@ -39,7 +39,7 @@ namespace Chameleon.GUI
 					if(compileResult.Items.Count > 0)
 					{
 						Rectangle lvArea = compileResult.Items[0].GetBounds(ItemBoundsPortion.Entire);
-						lvArea.Offset(15, 0);
+						lvArea.Offset(20, 0);
 						StringFormat sf = new StringFormat();
 						sf.Alignment = StringAlignment.Near;
 
@@ -48,11 +48,8 @@ namespace Chameleon.GUI
 							g.FillRectangle(SystemBrushes.Window, lvArea);
 							g.DrawString(CompileResultMessage, this.Font, SystemBrushes.ControlText, lvArea, sf);
 						}
-					}
-					
-				}
-
-				
+					}					
+				}				
 			}
 			else if(m.Msg == WM_ERASEBKGND)
 			{
