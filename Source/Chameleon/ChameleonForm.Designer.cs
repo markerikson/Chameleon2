@@ -30,9 +30,9 @@ namespace Chameleon
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Compilation Result", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Warnings/Errors", System.Windows.Forms.HorizontalAlignment.Left);
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -43,16 +43,10 @@ namespace Chameleon
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.m_tabTerminal = new System.Windows.Forms.TabPage();
 			this.m_tabCompilerErrors = new System.Windows.Forms.TabPage();
-			this.m_lvCompilerErrors = new Chameleon.GUI.CompileMessageListView();
-			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.m_columnErrorDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.blankFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.simpleCTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuFileOpenLocal = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuFileOpenRemote = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -86,7 +80,7 @@ namespace Chameleon
 			this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.btnNewFile = new System.Windows.Forms.ToolStripButton();
+			this.btnNewSplit = new System.Windows.Forms.ToolStripSplitButton();
 			this.btnOpenLocal = new System.Windows.Forms.ToolStripButton();
 			this.btnOpenRemote = new System.Windows.Forms.ToolStripButton();
 			this.btnSave = new System.Windows.Forms.ToolStripSplitButton();
@@ -113,6 +107,11 @@ namespace Chameleon
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.m_snippetImages = new System.Windows.Forms.ImageList(this.components);
+			this.m_lvCompilerErrors = new Chameleon.GUI.CompileMessageListView();
+			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -278,51 +277,6 @@ namespace Chameleon
 			this.m_tabCompilerErrors.Text = "Compiler Errors";
 			this.m_tabCompilerErrors.UseVisualStyleBackColor = true;
 			// 
-			// m_lvCompilerErrors
-			// 
-			this.m_lvCompilerErrors.Activation = System.Windows.Forms.ItemActivation.TwoClick;
-			this.m_lvCompilerErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.m_columnErrorFile,
-            this.m_columnErrorLine,
-            this.m_columnErrorColumn,
-            this.m_columnErrorDescription});
-			this.m_lvCompilerErrors.CompileResultMessage = "";
-			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_lvCompilerErrors.FullRowSelect = true;
-			listViewGroup1.Header = "Compilation Result";
-			listViewGroup1.Name = "groupCompileResult";
-			listViewGroup2.Header = "Warnings/Errors";
-			listViewGroup2.Name = "groupErrors";
-			this.m_lvCompilerErrors.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
-			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
-			this.m_lvCompilerErrors.MultiSelect = false;
-			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
-			this.m_lvCompilerErrors.Size = new System.Drawing.Size(801, 203);
-			this.m_lvCompilerErrors.TabIndex = 0;
-			this.m_lvCompilerErrors.UseCompatibleStateImageBehavior = false;
-			this.m_lvCompilerErrors.View = System.Windows.Forms.View.Details;
-			this.m_lvCompilerErrors.ItemActivate += new System.EventHandler(this.OnCompilerItemActivated);
-			// 
-			// m_columnErrorFile
-			// 
-			this.m_columnErrorFile.Text = "File";
-			this.m_columnErrorFile.Width = 120;
-			// 
-			// m_columnErrorLine
-			// 
-			this.m_columnErrorLine.Text = "Line";
-			// 
-			// m_columnErrorColumn
-			// 
-			this.m_columnErrorColumn.Text = "Column";
-			// 
-			// m_columnErrorDescription
-			// 
-			this.m_columnErrorDescription.Text = "Description";
-			this.m_columnErrorDescription.Width = 25;
-			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
@@ -359,25 +313,19 @@ namespace Chameleon
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.blankFileToolStripMenuItem,
-            this.simpleCTemplateToolStripMenuItem});
+            this.blankFileToolStripMenuItem});
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
 			this.newToolStripMenuItem.Text = "New";
+			this.newToolStripMenuItem.DropDownClosed += new System.EventHandler(this.OnFileNewDropDownClosed);
+			this.newToolStripMenuItem.DropDownOpening += new System.EventHandler(this.OnFileNewDropDownOpening);
 			// 
 			// blankFileToolStripMenuItem
 			// 
 			this.blankFileToolStripMenuItem.Name = "blankFileToolStripMenuItem";
-			this.blankFileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.blankFileToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.blankFileToolStripMenuItem.Text = "Blank File";
 			this.blankFileToolStripMenuItem.Click += new System.EventHandler(this.OnFileNewBlank);
-			// 
-			// simpleCTemplateToolStripMenuItem
-			// 
-			this.simpleCTemplateToolStripMenuItem.Name = "simpleCTemplateToolStripMenuItem";
-			this.simpleCTemplateToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.simpleCTemplateToolStripMenuItem.Text = "Simple C++ Template";
-			this.simpleCTemplateToolStripMenuItem.Click += new System.EventHandler(this.OnFileNewSimpleTemplate);
 			// 
 			// menuFileOpenLocal
 			// 
@@ -433,6 +381,8 @@ namespace Chameleon
 			// menuFileClose
 			// 
 			this.menuFileClose.Name = "menuFileClose";
+			this.menuFileClose.ShortcutKeyDisplayString = "";
+			this.menuFileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
 			this.menuFileClose.Size = new System.Drawing.Size(230, 22);
 			this.menuFileClose.Text = "Close";
 			this.menuFileClose.Click += new System.EventHandler(this.OnFileClose);
@@ -622,7 +572,7 @@ namespace Chameleon
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNewFile,
+            this.btnNewSplit,
             this.btnOpenLocal,
             this.btnOpenRemote,
             this.btnSave,
@@ -645,16 +595,18 @@ namespace Chameleon
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// btnNewFile
+			// btnNewSplit
 			// 
-			this.btnNewFile.Image = global::Chameleon.Properties.Resources.newfile;
-			this.btnNewFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnNewFile.Name = "btnNewFile";
-			this.btnNewFile.Size = new System.Drawing.Size(35, 35);
-			this.btnNewFile.Text = "New";
-			this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnNewFile.ToolTipText = "New blank text file";
-			this.btnNewFile.Click += new System.EventHandler(this.OnFileNewBlank);
+			this.btnNewSplit.Image = global::Chameleon.Properties.Resources.newfile;
+			this.btnNewSplit.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnNewSplit.Name = "btnNewSplit";
+			this.btnNewSplit.Size = new System.Drawing.Size(47, 35);
+			this.btnNewSplit.Text = "New";
+			this.btnNewSplit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnNewSplit.ToolTipText = "New blank text file";
+			this.btnNewSplit.ButtonClick += new System.EventHandler(this.OnFileNewBlank);
+			this.btnNewSplit.DropDownClosed += new System.EventHandler(this.OnFileNewDropDownClosed);
+			this.btnNewSplit.DropDownOpening += new System.EventHandler(this.OnFileNewDropDownOpening);
 			// 
 			// btnOpenLocal
 			// 
@@ -893,6 +845,51 @@ namespace Chameleon
 			this.m_snippetImages.ImageSize = new System.Drawing.Size(64, 32);
 			this.m_snippetImages.TransparentColor = System.Drawing.Color.Transparent;
 			// 
+			// m_lvCompilerErrors
+			// 
+			this.m_lvCompilerErrors.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+			this.m_lvCompilerErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.m_columnErrorFile,
+            this.m_columnErrorLine,
+            this.m_columnErrorColumn,
+            this.m_columnErrorDescription});
+			this.m_lvCompilerErrors.CompileResultMessage = "";
+			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_lvCompilerErrors.FullRowSelect = true;
+			listViewGroup1.Header = "Compilation Result";
+			listViewGroup1.Name = "groupCompileResult";
+			listViewGroup2.Header = "Warnings/Errors";
+			listViewGroup2.Name = "groupErrors";
+			this.m_lvCompilerErrors.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
+			this.m_lvCompilerErrors.MultiSelect = false;
+			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
+			this.m_lvCompilerErrors.Size = new System.Drawing.Size(801, 203);
+			this.m_lvCompilerErrors.TabIndex = 0;
+			this.m_lvCompilerErrors.UseCompatibleStateImageBehavior = false;
+			this.m_lvCompilerErrors.View = System.Windows.Forms.View.Details;
+			this.m_lvCompilerErrors.ItemActivate += new System.EventHandler(this.OnCompilerItemActivated);
+			// 
+			// m_columnErrorFile
+			// 
+			this.m_columnErrorFile.Text = "File";
+			this.m_columnErrorFile.Width = 120;
+			// 
+			// m_columnErrorLine
+			// 
+			this.m_columnErrorLine.Text = "Line";
+			// 
+			// m_columnErrorColumn
+			// 
+			this.m_columnErrorColumn.Text = "Column";
+			// 
+			// m_columnErrorDescription
+			// 
+			this.m_columnErrorDescription.Text = "Description";
+			this.m_columnErrorDescription.Width = 25;
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -944,7 +941,6 @@ namespace Chameleon
 		private System.Windows.Forms.ToolStripMenuItem menuHelp;
 		private System.Windows.Forms.ToolStripMenuItem menuHelpAbout;
 		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton btnNewFile;
 		private GUI.EditorContainer m_editors;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem menuFileOpenLocal;
@@ -994,7 +990,6 @@ namespace Chameleon
 		private System.Windows.Forms.ToolStripMenuItem menuEditReformatFile;
 		private System.Windows.Forms.ToolStripMenuItem menuEditReformatSelectedCode;
 		private System.Windows.Forms.ToolStripMenuItem blankFileToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem simpleCTemplateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem menuSettings;
 		private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem menuZoomNormal;
@@ -1018,6 +1013,7 @@ namespace Chameleon
 		private System.Windows.Forms.ColumnHeader m_columnErrorLine;
 		private System.Windows.Forms.ColumnHeader m_columnErrorColumn;
 		private System.Windows.Forms.ColumnHeader m_columnErrorDescription;
+		private System.Windows.Forms.ToolStripSplitButton btnNewSplit;
 	}
 }
 

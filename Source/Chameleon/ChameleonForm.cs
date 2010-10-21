@@ -27,6 +27,8 @@ namespace Chameleon
 
 		private SwingTerminal m_terminal;
 
+		private List<ToolStripMenuItem> m_templateMenuItems;
+
 		private ChameleonNetworking m_networking;
 		private SSHProtocol m_sshProtocol;
 
@@ -55,6 +57,8 @@ namespace Chameleon
 		{
 			InitializeComponent();
 
+			m_templateMenuItems = new List<ToolStripMenuItem>();
+
 			m_compiler = new Compiler();
 
 			this.m_editors = new Chameleon.GUI.EditorContainer();
@@ -71,6 +75,7 @@ namespace Chameleon
 
 			Options options = App.GlobalSettings;
 
+			// Scintilla provides these already, so we don't need to actually set the keys
 			menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
 			menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
 			menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
@@ -89,11 +94,10 @@ namespace Chameleon
 			m_sshProtocol.OnDisconnect += new Action(SetDisconnectedUI);
 
 			m_terminal = new SwingTerminal(buffer);
-			//m_terminal.VDUBuffer.Display = m_terminal;
 			m_terminal.Dock = DockStyle.Fill;
 			m_terminal.ForeColor = Color.White;
 			m_terminal.BackColor = Color.Black;
-			m_terminal.Parent = m_tabTerminal;//splitEditorTerminal.Panel2;
+			m_terminal.Parent = m_tabTerminal;
 			m_terminal.Enabled = false;
 
 			m_terminal.Resize += (sender, e) =>
@@ -138,8 +142,8 @@ namespace Chameleon
 			Icon error = Shell32.IconFromFile("user32.dll", IconSize.Small, 3);
 			
 			compilerErrorIcons.ImageSize = new Size(16, 16);
-			compilerErrorIcons.Images.Add(warning);//new Icon(SystemIcons.Warning, 16, 16));
-			compilerErrorIcons.Images.Add(error);//new Icon(SystemIcons.Error, 16, 16));
+			compilerErrorIcons.Images.Add(warning);
+			compilerErrorIcons.Images.Add(error);
 
 			m_lvCompilerErrors.SmallImageList = compilerErrorIcons;
 
@@ -149,9 +153,7 @@ namespace Chameleon
 			
 			AddSnippetGroups();
 		}
-
 		
-
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
@@ -163,8 +165,7 @@ namespace Chameleon
 		void m_sshProtocol_OnDisconnect()
 		{
 			DoDisconnect();
-		}
-		
+		}		
 
 		private List<string> GetSnippetCategories()
 		{
@@ -193,19 +194,13 @@ namespace Chameleon
 				string imageName = fullImageName.Substring(prefixLength);
 				Bitmap b = Util.Utilities.GetImageResource(fullImageName);
 				m_snippetImages.Images.Add(imageName, b);
-
 			}
-
-
-			int z = 42;
 		}
 
 		private Dictionary<string, List<Snippet>> GetSnippets()
 		{
 			Dictionary<string, List<Snippet>> snippets = new Dictionary<string, List<Snippet>>();
-
 			SnippetList sl = m_editors.CurrentEditor.Snippets.List;
-
 			List<string> categories = GetSnippetCategories();
 
 			foreach(string s in categories)
@@ -229,12 +224,13 @@ namespace Chameleon
 
 			foreach(String category in categories)
 			{
+				List<Snippet> snippets = categorizedSnippets[category];
+
 				if(category == "Templates")
 				{
+					LoadTemplates(snippets);
 					continue;
 				}
-
-				List<Snippet> snippets = categorizedSnippets[category];
 
 				NaviGroup group = new NaviGroup(this.components);
 				group.Caption = category;				
@@ -290,6 +286,29 @@ namespace Chameleon
 				int height = snippets.Count * 60;
 				group.ExpandedHeight = height;
 				group.Expand();
+			}
+		}
+
+		private void LoadTemplates(List<Snippet> templates)
+		{
+			foreach(Snippet sn in templates)
+			{
+				ToolStripMenuItem item = new ToolStripMenuItem();
+
+				if(sn.LongName == "")
+				{
+					item.Text = sn.Shortcut;
+				}
+				else
+				{
+					item.Text = sn.LongName;
+				}
+
+				item.Tag = sn.Shortcut;
+
+				item.Click += OnFileNewTemplate;
+
+				m_templateMenuItems.Add(item);
 			}
 		}
 
@@ -458,9 +477,41 @@ namespace Chameleon
 			m_editors.NewFile();
 		}
 
-		private void OnFileNewSimpleTemplate(object sender, EventArgs e)
+		private void OnFileNewTemplate(object sender, EventArgs e)
 		{
-			m_editors.NewFile("simpleTemplate");
+			ToolStripMenuItem item = (ToolStripMenuItem)sender;
+			string templateShortcut = (string)item.Tag;
+			m_editors.NewFile(templateShortcut);
+		}
+
+		private void OnFileNewDropDownOpening(object sender, EventArgs e)
+		{
+			if(App.UserSettings.PermittedFeatures.HasFlag(ChameleonFeatures.FileTemplates))
+			{
+				ToolStripDropDownItem parent = (ToolStripDropDownItem)sender;
+				foreach(ToolStripMenuItem item in m_templateMenuItems)
+				{
+					if(!parent.DropDownItems.Contains(item))
+					{
+						parent.DropDownItems.Add(item);
+					}
+				}
+			}			
+		}
+
+		private void OnFileNewDropDownClosed(object sender, EventArgs e)
+		{
+			if(App.UserSettings.PermittedFeatures.HasFlag(ChameleonFeatures.FileTemplates))
+			{
+				ToolStripDropDownItem parent = (ToolStripDropDownItem)sender;
+				foreach(ToolStripMenuItem item in m_templateMenuItems)
+				{
+					if(parent.DropDownItems.Contains(item))
+					{
+						parent.DropDownItems.Remove(item);
+					}
+				}
+			}
 		}
 
 		private void OnFileOpenLocal(object sender, EventArgs e)
@@ -518,29 +569,6 @@ namespace Chameleon
 		private void menuFileExit_Click(object sender, EventArgs e)
 		{
 			this.Close();
-			/*
-			string message = "Save all files before exiting?";
-
-			DialogResult dr = MessageBox.Show(message, "Save?", MessageBoxButtons.YesNoCancel,
-												MessageBoxIcon.Question);
-
-			if(dr == DialogResult.Cancel)
-			{
-				return;
-			}
-
-			bool exit = true;
-
-			if(dr == DialogResult.Yes)
-			{
-				exit = m_editors.CloseAllFiles();
-			}
-
-			if(exit)
-			{
-				this.Close();
-			}
-			*/
 		}
 		#endregion
 
@@ -779,6 +807,11 @@ namespace Chameleon
 				toolStrip1.Items.Add(btnDebugStepOver);
 				toolStrip1.Items.Add(btnDebugStepOut);
 				toolStrip1.Items.Add(new ToolStripSeparator());
+			}
+
+			if(!App.UserSettings.PermittedFeatures.HasFlag(ChameleonFeatures.FileTemplates))
+			{
+				btnNewSplit.DropDownButtonWidth = 0;
 			}
 		}
 
