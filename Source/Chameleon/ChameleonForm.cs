@@ -422,13 +422,13 @@ namespace Chameleon
 		{
 			ListViewItem lvi = m_lvCompilerErrors.SelectedItems[0];
 
-			string filename = lvi.SubItems[1].Text;
+			string filename = lvi.Text;
 	
 			int row = 0;
 			int column = 0;
 
-			int.TryParse(lvi.SubItems[2].Text, out row);
-			int.TryParse(lvi.SubItems[3].Text, out column);
+			int.TryParse(lvi.SubItems[1].Text, out row);
+			int.TryParse(lvi.SubItems[2].Text, out column);
 
 			ChameleonEditor ed = m_editors.GetEditorByFilename(filename);
 
