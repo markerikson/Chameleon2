@@ -45,7 +45,7 @@ namespace Chameleon.Network
 			// if the parser says we've received everything, close this channel
 			if(Singleton<OutputParser>.Instance.CheckOutput(this))
 			{
-				//chan.Close();
+				chan.Close();
 			}
 		}
 		public void OnDebugMessage(bool always_display, byte[] data)
