@@ -38,6 +38,7 @@ namespace VersionExtractor
 
 			List<FileInfo> files = dir.GetFiles("*.exe").ToList();
 			files.AddRange(dir.GetFiles("*.dll"));
+			files.AddRange(dir.GetFiles("Chameleon.xml"));
 
 			string releaseFolder = "Releases\\" + versionString;
 			string relativeReleaseFolder = "..\\Releases\\" + versionString;

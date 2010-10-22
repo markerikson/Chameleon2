@@ -8,6 +8,7 @@ using Chameleon.Features;
 using System.Reflection;
 using Chameleon.Network;
 using DevInstinct.Patterns;
+using System.Windows.Forms;
 
 namespace Chameleon
 {
@@ -104,13 +105,20 @@ namespace Chameleon
 			}
 		}
 
+		public static string InstallationFolder
+		{
+			get
+			{
+				return Path.GetDirectoryName(Application.ExecutablePath);
+			}
+		}
+
 		public static string OptionsPath
 		{
 			get
 			{
-				//string appDataFolder = ChameleonForm.DataFolder;
 				string optionsFile = "Chameleon.xml";
-				string optionsPath = Path.Combine(DataFolder, optionsFile);
+				string optionsPath = Path.Combine(InstallationFolder, optionsFile);
 
 				return optionsPath;
 			}
@@ -130,7 +138,7 @@ namespace Chameleon
 		}
 
 		// The URL that Chameleon tries to get permissions data from
-		public string FeaturePermissionsURL = "";//"http://www.isquaredsoftware.com/chameleon/chameleonfeatures.php";
+		public string FeaturePermissionsURL = "";
 
 	}
 

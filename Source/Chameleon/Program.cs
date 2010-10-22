@@ -83,6 +83,8 @@ namespace Chameleon
 				Directory.CreateDirectory(Options.DataFolder);
 			}
 
+			// debug helper - only called if in debug mode
+			Program.SetDebugPermissionsLocation();
 
 			Splasher.Status = "Checking for new features...";
 
@@ -110,6 +112,15 @@ namespace Chameleon
 			Application.Run(f);
 
 			Singleton<CtagsManagerWrapper>.Instance.CodeLiteParserEnd();
+		}
+
+		[Conditional("DEBUG")]
+		public static void SetDebugPermissionsLocation()
+		{
+			if(Environment.UserName == "Mark Erikson")
+			{
+				App.GlobalSettings.FeaturePermissionsURL = "http://localhost/chameleon/chameleonfeatures.php";
+			}
 		}
 
 		public static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)

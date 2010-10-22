@@ -466,7 +466,6 @@ namespace Chameleon
 			App.UserSettings.LastHostname = toolTextHost.Text;
 			App.UserSettings.LastUsername = toolTextUser.Text;
 
-			App.GlobalSettings.SaveSettings();
 			App.UserSettings.SaveSettings();
 		}
 		#endregion
@@ -853,7 +852,6 @@ namespace Chameleon
 		{
 			if(m_networking.IsConnected)
 			{
-				string command = "g++ fizzBuzzTest.cpp -o fizzBuzzTest.exe && echo C_O_M_P_I_L_E_SUCCESS || echo C_O_M_P_I_L_E_FAILED";
 				string lsCommand = "ls";
 				m_networking.ExecuteRemoteCommand(lsCommand, TestStringFunc);
 			}

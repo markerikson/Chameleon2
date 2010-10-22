@@ -129,7 +129,7 @@ Section -Main SEC0000
     File ${RELEASEFOLDER}\wxmsw290u_xrc.dll
     File ${RELEASEFOLDER}\wyUpdate.exe
     File ${RELEASEFOLDER}\client.wyc
-    
+    File ${RELEASEFOLDER}\Chameleon.xml
     
      # Find the user's AppData directory
     ReadRegStr $0 HKCU "${SHELLFOLDERS}" AppData
@@ -142,8 +142,6 @@ Section -Main SEC0000
     
     CreateDirectory $ChameleonData
     
-    SetOutPath $ChameleonData
-    File input\Chameleon.xml
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
@@ -192,7 +190,7 @@ Section /o -un.Main UNSEC0000
     
     StrCpy $ChameleonData "$0\Chameleon"
 
-    Delete /REBOOTOK $ChameleonData\Chameleon.xml
+    Delete /REBOOTOK $INSTDIR\Chameleon.xml
     Delete /REBOOTOK $INSTDIR\wxmsw290u_xrc.dll
     Delete /REBOOTOK $INSTDIR\wxmsw290u_html.dll
     Delete /REBOOTOK $INSTDIR\wxmsw290u_core.dll
