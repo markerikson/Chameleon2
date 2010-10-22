@@ -101,6 +101,8 @@ namespace Chameleon.GUI
 			set { SelectEditor(value);  }
 		}
 
+		public event EventHandler EditorStatusChanged;
+
 		#endregion
 
 		#region Constructors
@@ -218,6 +220,11 @@ namespace Chameleon.GUI
 		private void OnSelectedTabChanged(TabStripItemChangedEventArgs e)
 		{
 			m_currentEditor = m_tabsToEditors[e.Item];
+
+			if(EditorStatusChanged != null)
+			{
+				EditorStatusChanged(this, null);
+			}
 		}
 		#endregion
 		
@@ -554,6 +561,11 @@ namespace Chameleon.GUI
 
 			editor.SetFileSaved(filename, location);
 
+			if(EditorStatusChanged != null)
+			{
+				EditorStatusChanged(this, null);
+			}
+
 			if(App.UserSettings.PermittedFeatures.HasFlag(ChameleonFeatures.CodeRules))
 			{
 				RunCodeRules(editor);
@@ -765,6 +777,11 @@ namespace Chameleon.GUI
 			destinationEditor.LoadFileText(fileInfo, fileContents);
 			SelectEditor(destinationEditor);
 			destinationEditor.Modified = false;
+
+			if(EditorStatusChanged != null)
+			{
+				EditorStatusChanged(this, null);
+			}
 
 			return true;
 		}

@@ -68,6 +68,7 @@ namespace Chameleon
 			this.m_editors.Name = "m_editors";
 			this.m_editors.Size = new System.Drawing.Size(660, 261);
 			this.m_editors.TabIndex = 4;
+			this.m_editors.EditorStatusChanged += new EventHandler(OnEditorStatusChanged);
 
 			addThrowExceptionMenuItem();
 
@@ -147,12 +148,15 @@ namespace Chameleon
 
 			m_lvCompilerErrors.SmallImageList = compilerErrorIcons;
 
+			UpdateCompileButton();
+
 			UpdateZoomMenu();
 
 			LoadSnippetImages();
 			
 			AddSnippetGroups();
 		}
+
 		
 		protected override void OnShown(EventArgs e)
 		{
@@ -443,6 +447,18 @@ namespace Chameleon
 
 				ed.Focus();
 			}
+		}
+
+		void OnEditorStatusChanged(object sender, EventArgs e)
+		{
+			UpdateCompileButton();
+
+		}
+
+		private void UpdateCompileButton()
+		{
+			bool allowCompiling = m_networking.IsConnected && m_editors.CurrentEditor.FileLocation == FileLocation.Remote;
+			btnCompile.Enabled = allowCompiling;
 		}
 		#endregion
 
