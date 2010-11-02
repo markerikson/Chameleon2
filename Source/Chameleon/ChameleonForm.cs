@@ -358,6 +358,7 @@ namespace Chameleon
 					{
 						m_lvCompilerErrors.Items.Clear();
 						m_lvCompilerErrors.CompileResultMessage = "";
+						toolStatusCompile.Text = "Compile started";
 						break;
 					}
 					case CompileStatus.Finished:
@@ -406,7 +407,17 @@ namespace Chameleon
 						}
 
 						m_lvCompilerErrors.Columns[0].Width = -1;
-						tabControl1.SelectedTab = m_tabCompilerErrors;
+
+						if(numErrors > 0)
+						{
+							tabControl1.SelectedTab = m_tabCompilerErrors;
+							toolStatusCompile.Text = "Compile failed";
+						}
+						else
+						{
+							toolStatusCompile.Text = "Compile succeeded";
+						}
+						
 						break;
 					}
 				}

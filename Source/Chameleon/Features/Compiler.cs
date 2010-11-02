@@ -66,8 +66,8 @@ namespace Chameleon.Features
 		public Compiler()
 		{
 			m_compiling = false;
-			m_reOutput = new Regex(@"(?<filename>.+?):(?<line>\d+)(?::(?<column>\d+))?: (?<type>warning|error): (?<message>.+)", 
-									RegexOptions.Compiled);
+			m_reOutput = new Regex(@"(?<filename>.+?):(?<line>\d+)(?::(?<column>\d+))?: ((?<type>warning|error):)?(?<message>.+)$", 
+									RegexOptions.Compiled | RegexOptions.Multiline);
 		}
 
 

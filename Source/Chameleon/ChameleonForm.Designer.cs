@@ -30,9 +30,9 @@ namespace Chameleon
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Compilation Result", System.Windows.Forms.HorizontalAlignment.Left);
 			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Warnings/Errors", System.Windows.Forms.HorizontalAlignment.Left);
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -43,11 +43,6 @@ namespace Chameleon
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.m_tabTerminal = new System.Windows.Forms.TabPage();
 			this.m_tabCompilerErrors = new System.Windows.Forms.TabPage();
-			this.m_lvCompilerErrors = new Chameleon.GUI.CompileMessageListView();
-			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.m_columnErrorDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,6 +107,12 @@ namespace Chameleon
 			this.toolHostConnect = new System.Windows.Forms.ToolStripButton();
 			this.toolHostDisconnect = new System.Windows.Forms.ToolStripButton();
 			this.m_snippetImages = new System.Windows.Forms.ImageList(this.components);
+			this.toolStatusCompile = new System.Windows.Forms.ToolStripStatusLabel();
+			this.m_lvCompilerErrors = new Chameleon.GUI.CompileMessageListView();
+			this.m_columnErrorFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.m_columnErrorDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -167,7 +168,8 @@ namespace Chameleon
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStatusConnected});
+            this.toolStatusConnected,
+            this.toolStatusCompile});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(984, 22);
@@ -176,8 +178,16 @@ namespace Chameleon
 			// 
 			// toolStatusConnected
 			// 
+			this.toolStatusConnected.AutoSize = false;
+			this.toolStatusConnected.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+						| System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+						| System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.toolStatusConnected.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+			this.toolStatusConnected.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.toolStatusConnected.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
 			this.toolStatusConnected.Name = "toolStatusConnected";
-			this.toolStatusConnected.Size = new System.Drawing.Size(0, 17);
+			this.toolStatusConnected.Size = new System.Drawing.Size(80, 20);
+			this.toolStatusConnected.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// splitSnippetsEditor
 			// 
@@ -279,51 +289,6 @@ namespace Chameleon
 			this.m_tabCompilerErrors.TabIndex = 1;
 			this.m_tabCompilerErrors.Text = "Compiler Errors";
 			this.m_tabCompilerErrors.UseVisualStyleBackColor = true;
-			// 
-			// m_lvCompilerErrors
-			// 
-			this.m_lvCompilerErrors.Activation = System.Windows.Forms.ItemActivation.TwoClick;
-			this.m_lvCompilerErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.m_columnErrorFile,
-            this.m_columnErrorLine,
-            this.m_columnErrorColumn,
-            this.m_columnErrorDescription});
-			this.m_lvCompilerErrors.CompileResultMessage = "";
-			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_lvCompilerErrors.FullRowSelect = true;
-			listViewGroup1.Header = "Compilation Result";
-			listViewGroup1.Name = "groupCompileResult";
-			listViewGroup2.Header = "Warnings/Errors";
-			listViewGroup2.Name = "groupErrors";
-			this.m_lvCompilerErrors.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
-			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
-			this.m_lvCompilerErrors.MultiSelect = false;
-			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
-			this.m_lvCompilerErrors.Size = new System.Drawing.Size(801, 203);
-			this.m_lvCompilerErrors.TabIndex = 0;
-			this.m_lvCompilerErrors.UseCompatibleStateImageBehavior = false;
-			this.m_lvCompilerErrors.View = System.Windows.Forms.View.Details;
-			this.m_lvCompilerErrors.ItemActivate += new System.EventHandler(this.OnCompilerItemActivated);
-			// 
-			// m_columnErrorFile
-			// 
-			this.m_columnErrorFile.Text = "File";
-			this.m_columnErrorFile.Width = 120;
-			// 
-			// m_columnErrorLine
-			// 
-			this.m_columnErrorLine.Text = "Line";
-			// 
-			// m_columnErrorColumn
-			// 
-			this.m_columnErrorColumn.Text = "Column";
-			// 
-			// m_columnErrorDescription
-			// 
-			this.m_columnErrorDescription.Text = "Description";
-			this.m_columnErrorDescription.Width = 25;
 			// 
 			// menuStrip1
 			// 
@@ -893,6 +858,64 @@ namespace Chameleon
 			this.m_snippetImages.ImageSize = new System.Drawing.Size(64, 32);
 			this.m_snippetImages.TransparentColor = System.Drawing.Color.Transparent;
 			// 
+			// toolStatusCompile
+			// 
+			this.toolStatusCompile.AutoSize = false;
+			this.toolStatusCompile.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+						| System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+						| System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+			this.toolStatusCompile.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+			this.toolStatusCompile.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.toolStatusCompile.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+			this.toolStatusCompile.Name = "toolStatusCompile";
+			this.toolStatusCompile.Size = new System.Drawing.Size(120, 20);
+			this.toolStatusCompile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// m_lvCompilerErrors
+			// 
+			this.m_lvCompilerErrors.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+			this.m_lvCompilerErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.m_columnErrorFile,
+            this.m_columnErrorLine,
+            this.m_columnErrorColumn,
+            this.m_columnErrorDescription});
+			this.m_lvCompilerErrors.CompileResultMessage = "";
+			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_lvCompilerErrors.FullRowSelect = true;
+			listViewGroup1.Header = "Compilation Result";
+			listViewGroup1.Name = "groupCompileResult";
+			listViewGroup2.Header = "Warnings/Errors";
+			listViewGroup2.Name = "groupErrors";
+			this.m_lvCompilerErrors.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
+			this.m_lvCompilerErrors.MultiSelect = false;
+			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
+			this.m_lvCompilerErrors.Size = new System.Drawing.Size(801, 203);
+			this.m_lvCompilerErrors.TabIndex = 0;
+			this.m_lvCompilerErrors.UseCompatibleStateImageBehavior = false;
+			this.m_lvCompilerErrors.View = System.Windows.Forms.View.Details;
+			this.m_lvCompilerErrors.ItemActivate += new System.EventHandler(this.OnCompilerItemActivated);
+			// 
+			// m_columnErrorFile
+			// 
+			this.m_columnErrorFile.Text = "File";
+			this.m_columnErrorFile.Width = 120;
+			// 
+			// m_columnErrorLine
+			// 
+			this.m_columnErrorLine.Text = "Line";
+			// 
+			// m_columnErrorColumn
+			// 
+			this.m_columnErrorColumn.Text = "Column";
+			// 
+			// m_columnErrorDescription
+			// 
+			this.m_columnErrorDescription.Text = "Description";
+			this.m_columnErrorDescription.Width = 25;
+			// 
 			// ChameleonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1017,6 +1040,7 @@ namespace Chameleon
 		private System.Windows.Forms.ColumnHeader m_columnErrorColumn;
 		private System.Windows.Forms.ColumnHeader m_columnErrorDescription;
 		private System.Windows.Forms.ToolStripSplitButton btnNewSplit;
+		private System.Windows.Forms.ToolStripStatusLabel toolStatusCompile;
 	}
 }
 

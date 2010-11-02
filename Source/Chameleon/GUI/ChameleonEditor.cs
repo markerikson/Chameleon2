@@ -271,6 +271,7 @@ namespace Chameleon.GUI
 		private void UpdateSyntaxHighlighting()
 		{
 			string ext = m_fileInfo.Filename.Extension;
+			ext = ext.ToLower();
 
 			if(m_cppExtensions.Contains(ext))
 			{
