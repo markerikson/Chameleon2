@@ -37,6 +37,8 @@ namespace Chameleon.Features
 
 		public List<CompilerMessage> Messages { get; set; }
 
+		public string Filename { get; set; }
+
 		public CompilerEventArgs()
 		{
 			Messages = new List<CompilerMessage>();
@@ -180,6 +182,8 @@ namespace Chameleon.Features
 
 				cea.Messages.Add(message);
 			}
+
+			cea.Filename = m_currentFile.Filename.GetFullPath();
 
 			if(this.CompilerEvent != null)
 			{

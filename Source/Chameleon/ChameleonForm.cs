@@ -155,6 +155,16 @@ namespace Chameleon
 			LoadSnippetImages();
 			
 			AddSnippetGroups();
+
+			Application.Idle += new EventHandler(OnApplicationIdle);
+		}
+
+		void OnApplicationIdle(object sender, EventArgs e)
+		{		
+			bool allowCompiling = m_networking.IsConnected && m_editors.CurrentEditor.FileLocation == FileLocation.Remote;
+			btnCompile.Enabled = allowCompiling;
+
+			btnRun.Enabled = m_editors.CurrentEditor.IsCompiled;
 		}
 
 		
@@ -386,7 +396,6 @@ namespace Chameleon
 						{
 							ListViewItem lvi = new ListViewItem();
 							lvi.Text = cm.Filename;
-							//lvi.SubItems.Add(cm.Filename);
 							lvi.SubItems.Add(cm.Line.ToString());
 							lvi.SubItems.Add(cm.Column.ToString());
 							lvi.SubItems.Add(cm.Message);
@@ -416,6 +425,13 @@ namespace Chameleon
 						else
 						{
 							toolStatusCompile.Text = "Compile succeeded";
+
+							ChameleonEditor editor = m_editors.GetEditorByFilename(e.Filename);
+
+							if(editor != null)
+							{
+								editor.IsCompiled = true;
+							}
 						}
 						
 						break;
@@ -468,8 +484,8 @@ namespace Chameleon
 
 		private void UpdateCompileButton()
 		{
-			bool allowCompiling = m_networking.IsConnected && m_editors.CurrentEditor.FileLocation == FileLocation.Remote;
-			btnCompile.Enabled = allowCompiling;
+			//bool allowCompiling = m_networking.IsConnected && m_editors.CurrentEditor.FileLocation == FileLocation.Remote;
+			//btnCompile.Enabled = allowCompiling;
 		}
 		#endregion
 
@@ -776,8 +792,6 @@ namespace Chameleon
 				e.Handled = true;
 				DoConnect();
 			}
-
-				
 		}
 
 		private void DoCompile(object sender, EventArgs e)
@@ -793,6 +807,23 @@ namespace Chameleon
 			}
 
 			m_compiler.CompileFile(ed.FileInfo);
+		}
+
+		private void RunCompiledProgram(object sender, EventArgs e)
+		{
+			if(m_editors.CurrentEditor.IsCompiled)
+			{
+				string filename = m_editors.CurrentEditor.FileInfo.Filename.Name;
+
+				string command = string.Format("./{0}.out\r", filename);
+
+				KeyPressEventArgs kpea = new KeyPressEventArgs(' ');
+				foreach(char c in command)
+				{
+					kpea.KeyChar = c;
+					m_terminal.keyTyped(m_terminal, kpea);
+				}
+			}
 		}
 
 		#endregion
@@ -822,6 +853,12 @@ namespace Chameleon
 			else
 			{
 				tabControl1.TabPages.Remove(m_tabCompilerErrors);
+			}
+
+			if(perms.HasFlag(ChameleonFeatures.SimpleRunProgram))
+			{
+				toolStrip1.Items.Add(btnRun);
+				toolStrip1.Items.Add(new ToolStripSeparator());
 			}
 
 			if(perms.HasFlag(ChameleonFeatures.Debugger))
@@ -969,6 +1006,8 @@ namespace Chameleon
 		}
 
 		#endregion
+
+		
 
 	}
 }

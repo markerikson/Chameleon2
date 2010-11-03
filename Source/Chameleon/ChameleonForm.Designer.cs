@@ -31,8 +31,8 @@ namespace Chameleon
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChameleonForm));
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Compilation Result", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Warnings/Errors", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Compilation Result", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Warnings/Errors", System.Windows.Forms.HorizontalAlignment.Left);
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStatusConnected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -113,6 +113,8 @@ namespace Chameleon
 			this.m_columnErrorLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.m_columnErrorColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.m_columnErrorDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.btnRun = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -592,6 +594,8 @@ namespace Chameleon
             this.toolStripSeparator1,
             this.btnCompile,
             this.toolStripSeparator2,
+            this.btnRun,
+            this.toolStripSeparator4,
             this.btnDebugStart,
             this.btnDebugContinue,
             this.btnDebugStop,
@@ -709,10 +713,10 @@ namespace Chameleon
 			this.btnDebugStart.Image = global::Chameleon.Properties.Resources.Debugger_Start;
 			this.btnDebugStart.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnDebugStart.Name = "btnDebugStart";
-			this.btnDebugStart.Size = new System.Drawing.Size(35, 35);
-			this.btnDebugStart.Text = "Start";
+			this.btnDebugStart.Size = new System.Drawing.Size(46, 35);
+			this.btnDebugStart.Text = "Debug";
 			this.btnDebugStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnDebugStart.ToolTipText = "Start the compiled program";
+			this.btnDebugStart.ToolTipText = "Start debugging the compiled program";
 			// 
 			// btnDebugContinue
 			// 
@@ -722,7 +726,7 @@ namespace Chameleon
 			this.btnDebugContinue.Size = new System.Drawing.Size(60, 35);
 			this.btnDebugContinue.Text = "Continue";
 			this.btnDebugContinue.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.btnDebugContinue.ToolTipText = "Continue the paused program";
+			this.btnDebugContinue.ToolTipText = "Continue running the paused program";
 			// 
 			// btnDebugStop
 			// 
@@ -882,13 +886,13 @@ namespace Chameleon
 			this.m_lvCompilerErrors.CompileResultMessage = "";
 			this.m_lvCompilerErrors.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_lvCompilerErrors.FullRowSelect = true;
-			listViewGroup1.Header = "Compilation Result";
-			listViewGroup1.Name = "groupCompileResult";
-			listViewGroup2.Header = "Warnings/Errors";
-			listViewGroup2.Name = "groupErrors";
+			listViewGroup5.Header = "Compilation Result";
+			listViewGroup5.Name = "groupCompileResult";
+			listViewGroup6.Header = "Warnings/Errors";
+			listViewGroup6.Name = "groupErrors";
 			this.m_lvCompilerErrors.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup5,
+            listViewGroup6});
 			this.m_lvCompilerErrors.Location = new System.Drawing.Point(3, 3);
 			this.m_lvCompilerErrors.MultiSelect = false;
 			this.m_lvCompilerErrors.Name = "m_lvCompilerErrors";
@@ -915,6 +919,22 @@ namespace Chameleon
 			// 
 			this.m_columnErrorDescription.Text = "Description";
 			this.m_columnErrorDescription.Width = 25;
+			// 
+			// btnRun
+			// 
+			this.btnRun.Image = ((System.Drawing.Image)(resources.GetObject("btnRun.Image")));
+			this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnRun.Name = "btnRun";
+			this.btnRun.Size = new System.Drawing.Size(32, 35);
+			this.btnRun.Text = "Run";
+			this.btnRun.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.btnRun.ToolTipText = "Run the compiled program in the terminal";
+			this.btnRun.Click += new System.EventHandler(this.RunCompiledProgram);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 38);
 			// 
 			// ChameleonForm
 			// 
@@ -1041,6 +1061,8 @@ namespace Chameleon
 		private System.Windows.Forms.ColumnHeader m_columnErrorDescription;
 		private System.Windows.Forms.ToolStripSplitButton btnNewSplit;
 		private System.Windows.Forms.ToolStripStatusLabel toolStatusCompile;
+		private System.Windows.Forms.ToolStripButton btnRun;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 	}
 }
 

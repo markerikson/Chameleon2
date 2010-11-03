@@ -162,6 +162,8 @@ namespace Chameleon.GUI
 
 				tab.Title = tabText;
 			}
+
+			IsCompiled = false;
 		}
 
 		public void SetCPPEditorStyles()
@@ -244,6 +246,7 @@ namespace Chameleon.GUI
 			this.IsReadOnly = false;
 			this.UndoRedo.EmptyUndoBuffer();
 			Modified = false;
+			IsCompiled = false;
 		}
 
 		public void LoadFileText(FileInformation fileInfo, string text)
