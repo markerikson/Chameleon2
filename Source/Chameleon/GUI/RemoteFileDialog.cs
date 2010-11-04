@@ -13,7 +13,7 @@ using Chameleon.Util;
 using Chameleon.Network;
 using Etier.IconHelper;
 using DevInstinct.Patterns;
-
+using Granados;
 
 
 namespace Chameleon.GUI
@@ -296,8 +296,9 @@ namespace Chameleon.GUI
 				if(!ShowDirectory(tempDirName.GetPath(PathReturnType.NoSeparator, PathFormat.Unix), false, false))
 				{
 					// TODO update error message
-					string errorMessage = "The directory listing failed.  Please run in circles, scream and shout.";
-					MessageBox.Show(errorMessage);
+					// at the moment, this will only fail if we get an exception, which is handled internally
+					//string errorMessage = "The directory listing failed.  Please run in circles, scream and shout.";
+					//MessageBox.Show(errorMessage);
 				}
 			}
 
@@ -394,7 +395,21 @@ namespace Chameleon.GUI
 		{
 			FilePath fp = new FilePath(path, PathFormat.Unix);
 
-			DirectoryListing dl = m_networking.GetDirectoryListing(fp, showHidden);
+			DirectoryListing dl = new DirectoryListing();
+			
+			try
+			{
+				dl = m_networking.GetDirectoryListing(fp, showHidden);
+			}
+			catch(Exception e)
+			{
+				// for simplicity, assume it's an SftpException and we don't have
+				// permission to this directory
+				MessageBox.Show("You don't have permission to read this directory", "Permissions Error",
+								MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			
 
 			listView1.Items.Clear();
 			txtCurrentPath.Text = path;
